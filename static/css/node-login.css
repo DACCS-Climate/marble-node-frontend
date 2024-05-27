@@ -1,0 +1,259 @@
+:root {
+
+    /*Fonts*/
+    --main-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --secondary-font-family: Helvetica, Arial, sans-serif;
+    --light-font-weight: 300;
+    --h3-reg-font-weight: 300;
+    --reg-font-weight: 400;
+    --h4-bold-font-weight: 500;
+    --med-font-weight: 500;
+    --h6-bold-font-weight: 700;
+    --line-height-normal: normal;
+    --line-height-body1: 25px;
+
+    /*Borders*/
+    --elevation-1: 0px 4px 4px 0px rgba(0, 0, 0, 0.25), 0px 1px 2px 0px rgba(0, 0, 0, 0.30), 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
+    --elevation-2: 0px 4px 4px 0px rgba(0, 0, 0, 0.25), 0px 1px 2px 0px rgba(0, 0, 0, 0.30), 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
+    --elevation-3: 0px 4px 8px 3px rgba(0, 0, 0, 0.15), 0px 1px 3px 0px rgba(0, 0, 0, 0.30);
+    --elevation-4: 0px 6px 10px 4px rgba(0, 0, 0, 0.15), 0px 2px 3px 0px rgba(0, 0, 0, 0.30);
+
+    --border-black: 1px solid #000000;
+    --textbox-border-radius: 5px;
+
+    /*Shadows*/
+    --text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    /*Colours*/
+
+    /*General Use*/
+    --alert-background: #F6DC3D;
+    --background: #FFFFFF;
+    --background-black: #000000;
+    --background-transparent: transparent;
+    --background-blur: blur(15px);
+    --background-blur-mobile: blur(15px);
+    --black: #000000;
+    --black-opacity-light: rgba(0,0,0,0.25);
+    --black-opacity-midlight: rgba(0,0,0,0.30);
+    --black-opacity-mid: rgba(0,0,0,0.5);
+    --opaque-light-grey: rgba(255,255,255, 0.3);
+    --linear-gradient-black: linear-gradient(90deg,transparent, #000000, transparent);
+    --linear-gradient-marble: linear-gradient(90deg, #3F6BAE 3%, #6DA39F 33.33%, #D89E37 66.67%, #823628 100%);
+    --white: #FFFFFF;
+
+    /*Colours for Elements*/
+    --surface: #FFFFFF;
+    --error: #B20002;
+    --text-on-primary: #FFFFFF;
+    --text-on-primary-alt: #536DFE;
+    --text-on-secondary: #000000;
+    --text-on-background: #000000;
+    --text-on-surface: #000000;
+    --text-on-error: #FFFFFF;
+    --text-on-dark: #FFFFFF;
+    --primary: #304FFE;
+    --primary-alt: #C5CAE9;
+    --primary-variant: #283593;
+    --secondary: #03DAC6;
+    --secondary-variant: #018786;
+
+    /*Colour Swatches*/
+    --indigo-50: #E8EAF6;
+    --indigo-100: #C5CAE9;
+    --indigo-200: #9FA8DA;
+    --indigo-300: #7886CB;
+    --indigo-400: #5C6BC0;
+    --indigo-500: #4050B5;
+    --indigo-600: #3949AB;
+    --indigo-700: #303F9F;
+    --indigo-800: #283593;
+    --indigo-900: #1A237E;
+    --indigo-A100: #8C9EFF;
+    --indigo-A200: #536DFE;
+    --indigo-A400: #3D5AFE;
+    --indigo-A700: #304FFE;
+
+    --teal-50: #E0F2F1;
+    --teal-100: #B2DFDB;
+    --teal-200: #80CBC4;
+    --teal-300: #4DB6AC;
+    --teal-400: #26A69A;
+    --teal-500: #009688;
+    --teal-600: #00897B;
+    --teal-700: #00796B;
+    --teal-800: #00695C;
+    --teal-900: #004D3F;
+    --teal-A100: #A7FFEB;
+    --teal-A200: #64FFDA;
+    --teal-A400: #1DE9B6;
+    --teal-A700: #00BFA5;
+
+    --deep-orange-50: #FBE9E6;
+    --deep-orange-100: #FFCCBC;
+    --deep-orange-200: #FFAB91;
+    --deep-orange-300: #FF8A65;
+    --deep-orange-400: #FF7043;
+    --deep-orange-500:  #FF5722;
+    --deep-orange-600: #F4511E;
+    --deep-orange-700: #E64A19;
+    --deep-orange-800: #D94214;
+    --deep-orange-900: #BF360D;
+    --deep-orange-A100: #FF9E80;
+    --deep-orange-A200: #FF6E40;
+    --deep-orange-A400: #FF3D00;
+    --deep-orange-A700: #DD2C00;
+
+    --gray-50: #FAFAFA;
+    --gray-100: #F5F5F5;
+    --gray-200: #EEEEEE;
+    --gray-300: #E0E0E0;
+    --gray-400: #BDBDBD;
+    --gray-500: #9E9E9E;
+    --gray-600: #757575;
+    --gray-700: #757575;
+    --gray-800: #424242;
+    --gray-900: #212121;
+
+}
+
+
+p{
+    font-family: var(--main-font-family);
+    font-weight: var(--reg-font-weight);
+    font-size: 16px;
+    letter-spacing: 0.024px;
+    line-height: var(--line-height-body1);
+}
+
+.body-1{
+    font-family: var(--main-font-family);
+    font-weight: var(--reg-font-weight);
+    font-size: 16px;
+    letter-spacing: 0.024px;
+    line-height: var(--line-height-body1);
+}
+
+.body-2{
+    font-family: var(--main-font-family);
+    font-weight: var(--reg-font-weight);
+    font-size: 14px;
+    letter-spacing: 0.014px;
+    line-height: var(--line-height-normal);
+}
+
+h1{
+    font-family: var(--secondary-font-family);
+    font-weight: var(--light-font-weight);
+    font-size: 96px;
+    letter-spacing: -1.44px;
+    line-height: var(--line-height-normal);
+}
+
+h2{
+    font-family: var(--main-font-family);
+    font-weight: var(--light-font-weight);
+    font-size: 60px;
+    letter-spacing: -0.3px;
+    line-height: var(--line-height-normal);
+}
+
+h3{
+    font-family: var(--main-font-family);
+    font-weight: var(--h3-reg-font-weight);
+    font-size: 48px;
+    line-height: var(--line-height-normal);
+}
+
+h4{
+    font-family: var(--main-font-family);
+    font-weight: var(--h4-bold-font-weight);
+    font-size: 34px;
+    letter-spacing: 0.085px;
+    line-height: var(--line-height-normal);
+}
+
+h5{
+    font-family: var(--main-font-family);
+    font-weight: var(--reg-font-weight);
+    font-size: 24px;
+    line-height: var(--line-height-normal);
+}
+
+h6{
+    font-family: var(--secondary-font-family);
+    font-weight: var(--reg-font-weight);
+    font-size: 20px;
+    letter-spacing: 0.03px;
+    line-height: var(--line-height-normal);
+}
+
+.subtitle-1, .leading-text-1{
+    font-family: var(--main-font-family);
+    font-weight: var(--med-font-weight);
+    font-size: 16px;
+    letter-spacing: 0.03px;
+    line-height: var(--line-height-normal);
+}
+
+.subtitle-2, .leading-text-2{
+    font-family: var(--main-font-family);
+    font-weight: var(--reg-font-weight);
+    font-size: 14px;
+    letter-spacing: 0.014px;
+    line-height: var(--line-height-normal);
+}
+
+
+
+/* Custom default button */
+.btn-light,
+.btn-light:hover,
+.btn-light:focus {
+  color: #333;
+  text-shadow: none; /* Prevent inheritance from `body` */
+}
+
+/*Override Bootstrap*/
+
+.fa-solid, .fa-regular{
+    line-height: var(--line-height-normal);
+}
+
+/*Input Components*/
+
+.textbox-container{
+    width: 300px;
+    height: auto;
+    margin-bottom: 30px;
+}
+
+.margin-textbox-label{
+    margin-bottom: 25px;
+}
+
+.textbox-input{
+    width: 300px;
+    height: 60px;
+    border: var(--border-black);
+    border-radius: var(--textbox-border-radius);
+}
+
+.icon-more-information{
+    color: var(--primary);
+}
+
+.margin-icon-more-information{
+    margin-left: 15px;
+}
+
+.icon-password-eye{
+    position: relative;
+    top: 21px;
+    right: 25px;
+    z-index: 25;
+}
+
+.visibility-none-password-eye{
+    visibility: hidden;
+}
