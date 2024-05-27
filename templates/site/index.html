@@ -1,0 +1,39 @@
+{% extends "layouts/main.html" %}
+{% set node_name = "UofT" %}
+{% set page_title = "UofT" %}
+{% set node_login_url = "https://daccs.cs.toronto.edu/jupyter" %}
+{% set register_url = "" %}
+
+{% block content %}
+<div class="container ">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4  ">
+      <div class="col-12 text-end">
+        <a class="text-dark btn btn-lg btn-light fw-bold me-1 " href="{{ node_login_url }}">Login</a>
+
+      </div>
+    </header>
+
+    <div class="d-flex w-100 h-100 mx-auto flex-column ">
+        <h1>Marble @ {{ node_name }}</h1>
+        <h3>Welcome, User</h3>
+        <h5>Please enter your login details!</h5>
+        {% with %}
+            {% set input_id = "testuser" %}
+            {% set input_name = "testusername" %}
+            {% set input_type = "reg_input_text" %}
+            {% include "partials/textbox.html" %}
+        {% endwith %}
+
+        {% with %}
+            {% set input_id = "testpassword" %}
+            {% set input_name = "testname" %}
+            {% set input_type = "password_input_text" %}
+            {% include "partials/textbox.html" %}
+        {% endwith %}
+      <main class="px-3 my-auto rounded container-background">
+
+      </main>
+    </div>
+  </div>
+
+{% endblock content %}
