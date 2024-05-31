@@ -239,6 +239,13 @@ h6{
     border-radius: var(--textbox-border-radius);
 }
 
+.button-more-information{
+    width: 40px;
+    height: 15px;
+    background-color: var(--background-transparent);
+    border: none;
+}
+
 .icon-more-information{
     color: var(--primary);
 }
