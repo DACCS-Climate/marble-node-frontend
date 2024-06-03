@@ -18,18 +18,26 @@
         <h3>Welcome, User</h3>
         <h5>Please enter your login details!</h5>
         {% with %}
-            {% set input_id = "testuser" %}
-            {% set input_name = "testusername" %}
-            {% set input_type = "reg_input_text" %}
+            {% set textbox_id = "testuser" %}
+            {% set textbox_name = "testusername" %}
+            {% set textbox_type = "reg_input_text" %}
             {% include "partials/textbox.html" %}
         {% endwith %}
 
         {% with %}
-            {% set input_id = "testpassword" %}
-            {% set input_name = "testname" %}
-            {% set input_type = "password_input_text" %}
+            {% set textbox_id = "testpassword" %}
+            {% set textbox_name = "testname" %}
+            {% set textbox_type = "password_input_text" %}
             {% include "partials/textbox.html" %}
         {% endwith %}
+
+        {% with %}
+            {% set checkbox_id = "testcheckbox" %}
+            {% set checkbox_name = "testcheck" %}
+            {% set checkbox_type = "reg_checkbox" %}
+            {% include "partials/checkbox.html" %}
+        {% endwith %}
+
       <main class="px-3 my-auto rounded container-background">
 
       </main>
