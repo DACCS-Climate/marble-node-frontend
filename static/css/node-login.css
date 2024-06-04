@@ -18,6 +18,9 @@
     --elevation-3: 0px 4px 8px 3px rgba(0, 0, 0, 0.15), 0px 1px 3px 0px rgba(0, 0, 0, 0.30);
     --elevation-4: 0px 6px 10px 4px rgba(0, 0, 0, 0.15), 0px 2px 3px 0px rgba(0, 0, 0, 0.30);
 
+    --d-elevation-1: 0px 3px 4px 0px rgba(136, 144, 194, 0.25), 0px 5px 15px 0px rgba(37, 44, 97, 0.25);
+    --d-elevation-2: 0px 3px 8px 0px rgba(136, 144, 194, 0.25), 0px 7px 21px 0px rgba(37, 44, 97, 0.20);
+
     --border-black: 1px solid #000000;
     --textbox-border-radius: 5px;
 
@@ -204,7 +207,21 @@ h6{
     line-height: var(--line-height-normal);
 }
 
+.d-button{
+    font-family: var(--main-font-family);
+    font-weight: var(--med-font-weight);
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 0%;
+}
 
+.d-button-alt{
+    font-family: var(--main-font-family);
+    font-weight: var(--h6-bold-font-weight);
+    font-size: 11px;
+    line-height: 100%;
+    letter-spacing: 1.1px;
+}
 
 /* Custom default button */
 .btn-light,
@@ -222,6 +239,7 @@ h6{
 
 /*Input Components*/
 
+/*Textbox and password textbox*/
 .textbox-container{
     width: 300px;
     height: auto;
@@ -239,6 +257,36 @@ h6{
     border-radius: var(--textbox-border-radius);
 }
 
+/*Textbox More Information button*/
+.button-more-information{
+    width: 40px;
+    height: 15px;
+    background-color: var(--background-transparent);
+    border: none;
+}
+
+.icon-more-information{
+    color: var(--primary);
+}
+
+.margin-icon-more-information{
+    margin-left: 15px;
+}
+
+/*Password visibility icon comes from fontawesome*/
+.icon-password-eye{
+    position: relative;
+    top: 20px;
+    right: 25px;
+    z-index: 25;
+    cursor: pointer;
+}
+
+.visibility-none-password-eye{
+    visibility: hidden;
+}
+
+/*Checkbox*/
 /* The container */
 .checkbox-container {
     display: block;
@@ -273,11 +321,13 @@ h6{
     border-style: solid;
     border-width: 3px;
     border-color: var(--primary);
+    box-shadow: var(--d-elevation-1);
 }
 
 /* On mouse-over, add a grey background color */
 .checkbox-container:hover input ~ .checkmark {
     background-color: inherit;
+    box-shadow: var(--d-elevation-2);
 }
 
 /* When the checkbox is checked, add a blue background */
@@ -308,39 +358,4 @@ h6{
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
-}
-
-
-
-
-
-
-
-
-
-
-.button-more-information{
-    width: 40px;
-    height: 15px;
-    background-color: var(--background-transparent);
-    border: none;
-}
-
-.icon-more-information{
-    color: var(--primary);
-}
-
-.margin-icon-more-information{
-    margin-left: 15px;
-}
-
-.icon-password-eye{
-    position: relative;
-    top: 7px;
-    right: 25px;
-    z-index: 25;
-}
-
-.visibility-none-password-eye{
-    visibility: hidden;
 }
