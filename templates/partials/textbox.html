@@ -1,19 +1,25 @@
-{% set input_textbox_id = textbox_id %}
 {% set input_textbox_name = textbox_name %}
 {% set input_textbox_type = textbox_type %}
+
+{% if textbox_type == "password_input_text" %}
+    {% set input_textbox_id = "userPassword" %}
+{% else %}
+    {% set input_textbox_id = textbox_id %}
+{% endif %}
+
 {% set textbox = {
         "reg_input_text": {
             "textbox_label": "Email or Username",
-            "class": "textbox-input",
-            "input_type": "text",
+            "class": "input-textbox",
+            "input_type": "type = text",
             "eye_icon_visible": "visibility-none-password-eye",
             "more_info_title": "",
             "more_info_text": "Enter Username or Email registered with the node you wish to access."
         },
         "password_input_text": {
             "textbox_label": "Password",
-            "class": "textbox-input",
-            "input_type": "password",
+            "class": "input-textbox",
+            "input_type": "type = password",
             "input_required": "required ",
             "eye_icon_visible": "",
             "more_info_title": "",
@@ -35,8 +41,10 @@
         </a>
     </div>
     <div class="d-flex flex-row">
-        <input type="{{ textbox[input_textbox_type]["input_type"] }}" id="{{ input_textbox_id }}" name="{{ input_textbox_name }}" class="{{ textbox[input_textbox_type]["class"] }}"/>
-        <i class="fa-regular fa-eye-slash {{ textbox[input_textbox_type]["eye_icon_visible"] }} icon-password-eye"></i>
+        <input {{ textbox[input_textbox_type]["input_type"] }} id="{{ input_textbox_id }}" name="{{ input_textbox_name }}" class="{{ textbox[input_textbox_type]["class"] }}"/>
+        <div id="eyeIconContainer" class="icon-password-eye">
+            <i id="passwordVisibilityIcon" class="fa-regular fa-eye-slash {{ textbox[input_textbox_type]["eye_icon_visible"] }}"></i>
+        </div>
     </div>
 </div>
 
