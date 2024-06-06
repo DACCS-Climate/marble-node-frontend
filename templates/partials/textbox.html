@@ -1,15 +1,15 @@
-{% set input_textbox_name = textbox_name %}
 {% set input_textbox_type = textbox_type %}
 
 {% if textbox_type == "password_input_text" %}
     {% set input_textbox_id = "userPassword" %}
 {% else %}
-    {% set input_textbox_id = textbox_id %}
+    {% set input_textbox_id = "userName" %}
 {% endif %}
 
 {% set textbox = {
         "reg_input_text": {
             "textbox_label": "Email or Username",
+            "textbox_name": "username",
             "class": "input-textbox",
             "input_type": "type = text",
             "eye_icon_visible": "visibility-none-password-eye",
@@ -18,6 +18,7 @@
         },
         "password_input_text": {
             "textbox_label": "Password",
+            "textbox_name": "userpassword",
             "class": "input-textbox",
             "input_type": "type = password",
             "input_required": "required ",
@@ -30,7 +31,7 @@
 
 <div class="d-flex flex-column textbox-container">
     <div class="d-flex flex-row">
-        <label class="d-flex justify-content-start subtitle-1 margin-textbox-label" for="{{ input_textbox_name }}">
+        <label class="d-flex justify-content-start subtitle-1 margin-textbox-label" for="{{ textbox[input_textbox_type]["textbox_name"] }}">
             {{ textbox[input_textbox_type]["textbox_label"] }}
         </label>
 
@@ -41,9 +42,9 @@
         </a>
     </div>
     <div class="d-flex flex-row">
-        <input {{ textbox[input_textbox_type]["input_type"] }} id="{{ input_textbox_id }}" name="{{ input_textbox_name }}" class="{{ textbox[input_textbox_type]["class"] }}"/>
-        <div id="eyeIconContainer" class="icon-password-eye">
-            <i id="passwordVisibilityIcon" class="fa-regular fa-eye-slash {{ textbox[input_textbox_type]["eye_icon_visible"] }}"></i>
+        <input {{ textbox[input_textbox_type]["input_type"] }} id="{{ input_textbox_id }}" name="{{ textbox[input_textbox_type]["textbox_name"] }}" class="{{ textbox[input_textbox_type]["class"] }}"/>
+        <div id="eyeIconContainer" class="icon-password-eye {{ textbox[input_textbox_type]["eye_icon_visible"] }}">
+            <i id="passwordVisibilityIcon" class="fa-regular fa-eye-slash"></i>
         </div>
     </div>
 </div>
