@@ -20,9 +20,12 @@
 
     --d-elevation-1: 0px 3px 4px 0px rgba(136, 144, 194, 0.25), 0px 5px 15px 0px rgba(37, 44, 97, 0.25);
     --d-elevation-2: 0px 3px 8px 0px rgba(136, 144, 194, 0.25), 0px 7px 21px 0px rgba(37, 44, 97, 0.20);
+    --d-elevation-3: 0px 3px 8px 0px rgba(178, 0, 2, 0.12), 0px 7px 21px 0px rgba(178, 0, 2, 0.12);
 
     --border-black: 1px solid #000000;
     --textbox-border-radius: 5px;
+
+    --corner: 1em;
 
     /*Shadows*/
     --text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -207,20 +210,21 @@ h6{
     line-height: var(--line-height-normal);
 }
 
-.d-button{
+.d-button-text{
     font-family: var(--main-font-family);
     font-weight: var(--med-font-weight);
     font-size: 16px;
     line-height: 100%;
-    letter-spacing: 0%;
+    letter-spacing: 0px;
 }
 
-.d-button-alt{
+.d-button-alt-text{
     font-family: var(--main-font-family);
     font-weight: var(--h6-bold-font-weight);
     font-size: 11px;
     line-height: 100%;
     letter-spacing: 1.1px;
+    text-transform: uppercase;
 }
 
 /* Custom default button */
@@ -269,6 +273,14 @@ h6{
     color: var(--primary);
 }
 
+.icon-more-information:hover{
+    color: var(--indigo-800);
+}
+
+.icon-more-information:focus{
+    color: var(--indigo-800);
+}
+
 .margin-icon-more-information{
     margin-left: 15px;
 }
@@ -287,6 +299,13 @@ h6{
 }
 
 /*Checkbox*/
+
+.checkbox-buffer{
+    width: 22px;
+    height: 22px;
+    margin: 2px;
+}
+
 /* The container */
 .checkbox-container {
     display: block;
@@ -358,4 +377,258 @@ h6{
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+}
+
+/*Buttons*/
+
+.button-anchor-tag{
+    align-self: flex-start;
+}
+
+.undecorated-link{
+    text-decoration: none
+}
+
+.button-reg{
+    width: 158px;
+    height: 60px;
+    color: var(--primary);
+    background-color: var(--white);
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--primary);
+    box-shadow: var(--d-elevation-1);
+}
+
+.button-reg-alt:hover{
+    color: var(--white);
+    background-color: var(--primary);
+    box-shadow: var(--d-elevation-1);
+}
+
+.button-lg{
+    width: 201px;
+    height: 62px;
+    color: var(--text-on-surface);
+    background-color: var(--white);
+    border: none;
+    box-shadow: var(--d-elevation-1);
+}
+
+.button-lg:hover{
+    color: var(--text-on-dark);
+    background-color: var(--primary);
+    box-shadow: var(--d-elevation-2);
+}
+
+.button-lg-delete{
+    width: 201px;
+    height: 62px;
+    color: var(--text-on-surface);
+    background-color: var(--white);
+    border: none;
+    box-shadow: var(--d-elevation-1);
+}
+
+.button-delete-triangle{
+    color: var(--error);
+}
+
+.button-lg-delete:hover{
+    color: var(--white);
+    background-color: var(--error);
+    box-shadow: var(--d-elevation-2);
+}
+
+.button-lg-delete:hover .button-delete-triangle{
+    color: var(--text-on-dark);
+}
+
+.button-med{
+    width: 150px;
+    height: 62px;
+    color: var(--primary);
+    background-color: var(--white);
+    border-style: solid;
+    border-width: 2px;
+    border-color: var(--primary);
+    box-shadow: var(--d-elevation-1);
+}
+
+.button-reg:hover, .button-med:hover{
+    color: var(--white);
+    background-color: var(--primary);
+    box-shadow: var(--d-elevation-2);
+}
+
+.button-reg:focus, .button-med:focus{
+    color: var(--white);
+    background-color: var(--primary);
+    box-shadow: var(--d-elevation-2);
+}
+
+.button-med-delete{
+    width: 150px;
+    height: 60px;
+    color: var(--text-on-surface);
+    background-color: var(--white);
+    border: none;
+    box-shadow: var(--d-elevation-1);
+}
+
+.button-med-delete-triangle{
+    color: var(--error);
+}
+
+.button-med-delete:hover{
+    color: var(--text-on-dark);
+    background-color: var(--error);
+    box-shadow: var(--d-elevation-3);
+}
+
+.button-med-delete:hover .button-med-delete-triangle{
+    color: var(--text-on-dark);
+}
+
+.button-med-delete-red{
+    width: 150px;
+    height: 60px;
+    color: var(--text-on-surface);
+    background-color: var(--error);
+    border: none;
+    box-shadow: var(--d-elevation-1);
+}
+
+.button-med-delete-triangle-red{
+    color: var(--text-on-dark);
+}
+
+.button-med-delete-red:hover{
+    color: var(--text-on-dark);
+}
+
+.button-med-delete-red:hover .button-med-delete-triangle-red{
+    color: var(--text-on-dark);
+}
+
+.button-med-round{
+    width: 79px;
+    height: 79px;
+    background-color: var(--indigo-50);
+    border: none;
+    border-radius: 50%;
+}
+
+.button-med-round-icon{
+    width: 46px;
+    height: 49px;
+    color: var(--primary);
+}
+
+.button-med-alt{
+    width: 140px;
+    height: 50px;
+    color: var(--black);
+    background-color: var(--white);
+    border: none;
+    padding: unset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    clip-path: polygon(
+		/* top edge */
+		0             0%, /* left top */
+		0 0%, /* right top */
+
+		/* right edge */
+		100% 0,              /* right top */
+		101% calc(101% - var(--corner)), /* right bottom */
+
+		/* bottom edge*/
+		calc(101% - var(--corner)) 100%, /* right bottom */
+		0              100%, /* left bottom*/
+
+		/* left edge */
+		0% 0, /* left bottom */
+		0% 0               /* left top */
+	);
+
+    -webkit-clip-path: polygon(
+		/* top edge */
+		0             0%, /* left top */
+		0 0%, /* right top */
+
+		/* right edge */
+		100% 0,              /* right top */
+		101% calc(101% - var(--corner)), /* right bottom */
+
+		/* bottom edge*/
+		calc(101% - var(--corner)) 100%, /* right bottom */
+		0              100%, /* left bottom*/
+
+		/* left edge */
+		0% 0, /* left bottom */
+		0% 0               /* left top */
+	);
+}
+
+.button-med-action-alt-backdrop{
+    width: 146px;
+    height: 56px;
+    background-color: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    clip-path: polygon(
+		/* top edge */
+		0             0%, /* left top */
+		0 0%, /* right top */
+		/* right edge */
+		100% 0,              /* right top */
+		100% calc(100% - var(--corner)), /* right bottom */
+		/* bottom edge*/
+		calc(100% - var(--corner)) 100%, /* right bottom */
+		0              100%, /* left bottom*/
+		/* left edge */
+		0% 0, /* left bottom */
+		0% 0               /* left top */
+	);
+
+    -webkit-clip-path: polygon(
+		/* top edge */
+		0             0%, /* left top */
+		0 0%, /* right top */
+		/* right edge */
+		100% 0,              /* right top */
+		100% calc(100% - var(--corner)), /* right bottom */
+		/* bottom edge*/
+		calc(100% - var(--corner)) 100%, /* right bottom */
+		0              100%, /* left bottom*/
+		/* left edge */
+		0% 0, /* left bottom */
+		0% 0               /* left top */
+	);
+}
+
+.button-med-action-alt-image{
+    width: 25px;
+    height: 12px;
+    margin-right: 12px;
+}
+
+.button-med-alt:hover{
+    color: var(--text-on-dark);
+    background-color: var(--black);
+}
+
+.disabled{
+    color: var(--gray-600);
+    background-color: var(--gray-500);
+    pointer-events: none;
+}
+
+.visibility-spinner{
+    visibility: hidden;
 }
