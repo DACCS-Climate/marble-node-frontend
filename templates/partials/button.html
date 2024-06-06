@@ -1,0 +1,87 @@
+{% set disabled = disabled_status|default('') %}
+
+{% set button_library = {
+        "reg_action_button": {
+            "class": "button-reg d-button-text"
+        },
+        "reg_action_button_alt": {
+            "class": "button-reg d-button-text"
+        },
+        "reg_saving_button": {
+            "class": "button-reg d-button-text",
+            "animated_spinner": '<i id="spinnerAnimated" class="fa-thin fa-circle-notch fa-spin visibility-spinner"></i>',
+            "show_spinner_function": "showSpinner()",
+        },
+        "reg_saved_button": {
+            "class": "button-reg d-button-text",
+            "checkmark": '<i class="fa-solid fa-check"></i>'
+        },
+        "lg_action_button": {
+            "class": "button-lg d-button-text",
+            "arrow-right": '<i class="fa-solid fa-arrow-right"></i>'
+        },
+        "lg_delete_button": {
+            "class": "button-lg-delete d-button-text",
+            "triangle-exclamation": '<i class="fa-solid fa-triangle-exclamation button-delete-triangle"></i>'
+        },
+        "med_action_button": {
+            "class": "button-med d-button-text"
+        },
+        "med_delete_button": {
+            "class": "button-med-delete d-button-text",
+            "triangle-exclamation": '<i class="fa-solid fa-triangle-exclamation button-med-delete-triangle"></i>'
+        },
+        "med_delete_button_red": {
+            "class": "button-med-delete-red d-button-text",
+            "triangle-exclamation": '<i class="fa-solid fa-triangle-exclamation button-med-delete-triangle-red"></i>'
+        },
+        "med_action_alt_button": {
+            "class": "button-med-alt d-button-text",
+            "button_backdrop_class": "button-med-action-alt-backdrop"
+        },
+        "med_round_button": {
+            "class": "button-med-round d-button-text",
+            "user": '<i class="fa-solid fa-user button-med-round-icon"></i>'
+        }
+    }
+%}
+
+    <a href="" class="undecorated-link button-anchor-tag {{ button_library[button_type]['button_backdrop_class'] }} {{ 'disabled' if disabled else '' }}">
+        <button class="{{ button_library[button_type]['class'] }} {{ 'disabled' if disabled else '' }}"
+                type="button" onclick="{{ button_library[button_type]['show_spinner_function'] }}" >
+
+            <!-- Used for Saving button, Saved button -->
+            {% if button_library[button_type]['animated_spinner'] is defined %}
+                {{ button_library[button_type]['animated_spinner']|safe }}
+            {% endif %}
+
+            {% if button_library[button_type]['checkmark'] is defined %}
+                {{ button_library[button_type]['checkmark']|safe }}
+            {% endif %}
+
+            <!--Used for Delete button-->
+            {% if button_library[button_type]['triangle-exclamation'] is defined %}
+                {{ button_library[button_type]['triangle-exclamation']|safe }}
+            {% endif %}
+
+            <!--Used for round button-->
+            {% if button_library[button_type]['user'] is defined %}
+                {{ button_library[button_type]['user']|safe }}
+            {% endif %}
+
+            <!--Used for Alternative button with corner cut off -->
+            {% if button_image is defined %}
+              <img class="button-med-action-alt-image" src="{{ button_image|safe }}"/>
+            {% endif %}
+
+            <!--Button label -->
+            {% if button_label is defined %}
+                {{ button_label|safe }}
+            {% endif %}
+
+            <!--Used for large button -->
+            {% if button_library[button_type]['arrow-right'] is defined %}
+                {{ button_library[button_type]['arrow-right']|safe }}
+            {% endif %}
+        </button>
+    </a>
