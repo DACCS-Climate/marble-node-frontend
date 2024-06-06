@@ -44,6 +44,7 @@
     --black-opacity-midlight: rgba(0,0,0,0.30);
     --black-opacity-mid: rgba(0,0,0,0.5);
     --opaque-light-grey: rgba(255,255,255, 0.3);
+    --red-opacity-light: rgba(178, 0, 2, 0.50);
     --linear-gradient-black: linear-gradient(90deg,transparent, #000000, transparent);
     --linear-gradient-marble: linear-gradient(90deg, #3F6BAE 3%, #6DA39F 33.33%, #D89E37 66.67%, #823628 100%);
     --white: #FFFFFF;
@@ -239,6 +240,13 @@ h6{
 
 .fa-solid, .fa-regular{
     line-height: var(--line-height-normal);
+}
+
+
+/*Body*/
+
+.margin-unset-default{
+    margin: unset;
 }
 
 /*Input Components*/
@@ -631,4 +639,47 @@ h6{
 
 .visibility-spinner{
     visibility: hidden;
+}
+
+/*Popups*/
+
+.popup-attention-container{
+    width: 506px;
+    height: auto;
+    padding: 30px;
+    background-color: var(--red-opacity-light);
+    backdrop-filter: blur(2px);
+}
+
+.popup-attention-content-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/*Takes into account default margin on p tag*/
+.margin-popup-button{
+    margin-top: 36px;
+}
+
+.margin-popup-content{
+    margin-top: 50px;
+}
+
+.popup-attention-logo{
+    width: 123px;
+    height: 110px;
+    background-image: url("../images/popups/exclamation-triangle.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.popup-attention-message{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
