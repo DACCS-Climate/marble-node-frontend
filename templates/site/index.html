@@ -123,6 +123,19 @@
 
         <br/>
 
+        {% with %}
+            {% set popup_attention_title = "Your Attention is Required" %}
+            {% set popup_attention_message = "
+                <p>This operation will delete your account and its associated permissions
+            as well as log you out of your account. All data linked to your account will also be
+            lost.</p>
+            <p>This is irreversible!</p>
+            " %}
+            {% include "partials/popup-attention.html" %}
+        {% endwith %}
+
+        <br/>
+
 
       <main class="px-3 my-auto rounded container-background">
 
