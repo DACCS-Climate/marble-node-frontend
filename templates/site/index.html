@@ -5,7 +5,7 @@
 {% set register_url = "" %}
 
 {% block content %}
-<div class="container ">
+<div class="container">
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4  ">
       <div class="col-12 text-end">
         <a class="text-dark btn btn-lg btn-light fw-bold me-1 " href="{{ node_login_url }}">Login</a>
@@ -13,19 +13,16 @@
       </div>
     </header>
 
-    <div class="d-flex w-100 h-100 mx-auto flex-column ">
+    <div class="d-flex flex-column justify-content-evenly">
         <h1>Marble @ {{ node_name }}</h1>
         <h3>Welcome, User</h3>
         <h5>Please enter your login details!</h5>
         {% with %}
-            {% set textbox_id = "testuser" %}
-            {% set textbox_name = "testusername" %}
             {% set textbox_type = "reg_input_text" %}
             {% include "partials/textbox.html" %}
         {% endwith %}
 
         {% with %}
-            {% set textbox_name = "testname" %}
             {% set textbox_type = "password_input_text" %}
             {% include "partials/textbox.html" %}
         {% endwith %}
@@ -36,6 +33,96 @@
             {% set checkbox_type = "reg_checkbox" %}
             {% include "partials/checkbox.html" %}
         {% endwith %}
+
+        <br/>
+        <br/>
+
+        {% with button_type = "reg_action_button"%}
+            {% set button_label = "Regular" %}
+            {% set button_href = "javascript:void(0)" %}
+            {% include "partials/button.html" %}
+        {% endwith %}
+
+        <br/>
+
+        {% with button_type = "reg_saving_button"%}
+            {% set button_label = "Save Changes" %}
+            {% set button_href = "javascript:void(0)" %}
+            {% include "partials/button.html" %}
+        {% endwith %}
+
+        <br/>
+
+        {% with button_type = "reg_saved_button"%}
+            {% set button_label = "Saved" %}
+            {% set button_href = "javascript:void(0)" %}
+            {% include "partials/button.html" %}
+        {% endwith %}
+
+        <br/>
+
+        {% with button_type = "lg_action_button"%}
+            {% set button_label = "Large" %}
+            {% set button_href = "javascript:void(0)" %}
+            {% include "partials/button.html" %}
+        {% endwith %}
+
+        <br/>
+
+        {% with button_type = "lg_delete_button"%}
+            {% set button_label = "Delete" %}
+            {% set button_href = "javascript:void(0)" %}
+            {% include "partials/button.html" %}
+        {% endwith %}
+
+        <br/>
+
+        {% with button_type = "med_action_button"%}
+            {% set button_label = "Medium" %}
+            {% set button_href = "javascript:void(0)" %}
+            {% include "partials/button.html" %}
+        {% endwith %}
+
+        <br/>
+
+        {% with button_type = "med_action_alt_button"%}
+            {% set button_image = "images/buttons/img_swapcard_1.png" %}
+            {% set button_label = "DKRZ" %}
+            {% set button_href = "javascript:void(0)" %}
+            {% include "partials/button.html" %}
+        {% endwith %}
+
+        {% with button_type = "med_action_alt_button"%}
+            {% set disabled_status = true %}
+            {% set button_image = "images/buttons/img_swapcard_1.png" %}
+            {% set button_label = "DKRZ" %}
+            {% set button_href = "javascript:void(0)" %}
+            {% include "partials/button.html" %}
+        {% endwith %}
+
+        {% with button_type = "med_delete_button"%}
+            {% set button_label = "Medium" %}
+            {% set button_href = "javascript:void(0)" %}
+            {% include "partials/button.html" %}
+        {% endwith %}
+
+        <br/>
+
+        {% with button_type = "med_delete_button_red"%}
+            {% set button_label = "Medium" %}
+            {% set button_href = "javascript:void(0)" %}
+            {% include "partials/button.html" %}
+        {% endwith %}
+
+        <br/>
+
+        {% with button_type = "med_round_button"%}
+            {% set button_href = "javascript:void(0)" %}
+            {% include "partials/button.html" %}
+        {% endwith %}
+
+        <br/>
+
 
       <main class="px-3 my-auto rounded container-background">
 
