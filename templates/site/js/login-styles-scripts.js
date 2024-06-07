@@ -19,8 +19,8 @@ function togglePassword() {
 function toggleEyeIcon(element) {
     var eyeIcon = element.firstElementChild;
 
-    eyeIcon.classList.toggle("fa-eye");
-    eyeIcon.classList.toggle("fa-eye-slash");
+    eyeIcon.classList.toggle("icon-eye");
+    eyeIcon.classList.toggle("icon-eye-slash");
 }
 
 
