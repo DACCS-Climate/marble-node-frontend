@@ -294,7 +294,29 @@ h6{
 }
 
 /*Password visibility icon comes from fontawesome*/
-.icon-password-eye{
+.icon-eye{
+    width: 20px;
+    height: 20px;
+    mask-image:  url("../images/textbox/eye.svg");
+    -webkit-mask-image:  url("../images/textbox/eye.svg");
+    mask-size: 20px 20px;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    background-color: var(--gray-600);
+}
+
+.icon-eye-slash{
+    width: 20px;
+    height: 20px;
+    mask-image:  url("../images/textbox/eye-slash.svg");
+    -webkit-mask-image:  url("../images/textbox/eye-slash.svg");
+    mask-size: 20px 20px;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    background-color: var(--gray-600);
+}
+
+.icon-eye-position{
     position: relative;
     top: 20px;
     right: 25px;
@@ -389,7 +411,7 @@ h6{
 
 /*Buttons*/
 
-.icon-button-position{
+.button-icon-position{
     overflow: visible;
     box-sizing: content-box;
     display: inline-block;
@@ -400,8 +422,8 @@ h6{
 .image-delete-icon-red{
     width: 16px;
     height: 15px;
-    mask-image:  url("../images/buttons/exclamation_triangle_red.svg");
-    -webkit-mask-image:  url("../images/buttons/exclamation_triangle_red.svg");
+    mask-image:  url("../images/button/exclamation_triangle_red.svg");
+    -webkit-mask-image:  url("../images/button/exclamation_triangle_red.svg");
     mask-size: 16px 15px;
     mask-repeat: no-repeat;
     mask-position: center;
@@ -412,8 +434,8 @@ h6{
 .image-delete-icon-white{
     width: 16px;
     height: 15px;
-    mask-image:  url("../images/buttons/exclamation_triangle_white.svg");
-    -webkit-mask-image:  url("../images/buttons/exclamation_triangle_white.svg");
+    mask-image:  url("../images/button/exclamation_triangle_white.svg");
+    -webkit-mask-image:  url("../images/button/exclamation_triangle_white.svg");
     mask-size: 16px 15px;
     mask-repeat: no-repeat;
     mask-position: center;
@@ -706,7 +728,7 @@ h6{
 .popup-attention-logo{
     width: 123px;
     height: 110px;
-    background-image: url("../images/popups/exclamation-triangle.png");
+    background-image: url("../images/popup/exclamation-triangle.png");
     background-repeat: no-repeat;
     background-size: 123px 110px;
     background-position: center;
