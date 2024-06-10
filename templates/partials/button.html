@@ -1,6 +1,10 @@
 {% set disabled = disabled_status|default('') %}
 
 {% set button_library = {
+        "close_button_x": {
+            "class":"button-close-x" ,
+            "close_button": '<div class="image-close-icon"></div>'
+        },
         "reg_action_button": {
             "class": "button-reg d-button-text"
         },
@@ -22,18 +26,18 @@
         },
         "lg_delete_button": {
             "class": "button-lg-delete d-button-text",
-            "triangle-exclamation": '<div class="image-delete-icon-red button-icon-position"></div>'
+            "icon-triangle-exclamation": '<div class="image-delete-icon-red button-icon-position"></div>'
         },
         "med_action_button": {
             "class": "button-med d-button-text"
         },
         "med_delete_button": {
             "class": "button-med-delete d-button-text",
-            "triangle-exclamation": '<div class="image-delete-icon-red button-icon-position"></div>'
+            "icon-triangle-exclamation": '<div class="image-delete-icon-red button-icon-position"></div>'
         },
         "med_delete_button_red": {
             "class": "button-med-delete-red d-button-text",
-            "triangle-exclamation": '<div class="image-delete-icon-white button-icon-position"></div>'
+            "icon-triangle-exclamation": '<div class="image-delete-icon-white button-icon-position"></div>'
         },
         "med_delete_button_red_no_icon": {
             "class": "button-med-delete-no-icon d-button-text",
@@ -53,6 +57,10 @@
         <button class="{{ button_library[button_type]['class'] }} {{ 'disabled' if disabled else '' }}"
                 type="button" onclick="{{ button_library[button_type]['show_spinner_function'] }}" >
 
+            {% if button_library[button_type]['close_button'] is defined %}
+                {{ button_library[button_type]['close_button']|safe }}
+            {% endif %}
+
             <!-- Used for Saving button, Saved button -->
             {% if button_library[button_type]['animated_spinner'] is defined %}
                 {{ button_library[button_type]['animated_spinner']|safe }}
@@ -63,8 +71,8 @@
             {% endif %}
 
             <!--Used for Delete button-->
-            {% if button_library[button_type]['triangle-exclamation'] is defined %}
-                {{ button_library[button_type]['triangle-exclamation']|safe }}
+            {% if button_library[button_type]['icon-triangle-exclamation'] is defined %}
+                {{ button_library[button_type]['icon-triangle-exclamation']|safe }}
             {% endif %}
 
             <!--Used for round button-->
