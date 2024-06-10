@@ -1,8 +1,15 @@
 <div class="popup-attention-container">
+
     <div class="popup-attention-content-container">
-        <h4>{{ popup_attention_title }}</h4>
+        <div class="popup-button-close">
+            {% with button_type = "close_button_x"%}
+                {% set button_href = "javascript:void(0)" %}
+                {% include "partials/button.html" %}
+            {% endwith %}
+        </div>
+        <h4 class="header-margin-bottom margin-unset-default">{{ popup_attention_title }}</h4>
         <div class="popup-attention-logo margin-popup-content"></div>
-        <div class="popup-attention-message margin-popup-content">{{ popup_attention_message|safe }}</div>
+        <div class="popup-attention-message">{{ popup_attention_message|safe }}</div>
         <div class="margin-popup-button">
             {% with button_type = "med_delete_button_red_no_icon"%}
                 {% set button_label = "DELETE" %}
