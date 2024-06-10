@@ -86,7 +86,7 @@
         <br/>
 
         {% with button_type = "med_action_alt_button"%}
-            {% set button_image = "images/buttons/img_swapcard_1.png" %}
+            {% set button_image = "images/button/img_swapcard_1.png" %}
             {% set button_label = "DKRZ" %}
             {% set button_href = "javascript:void(0)" %}
             {% include "partials/button.html" %}
@@ -94,7 +94,7 @@
 
         {% with button_type = "med_action_alt_button"%}
             {% set disabled_status = true %}
-            {% set button_image = "images/buttons/img_swapcard_1.png" %}
+            {% set button_image = "images/button/img_swapcard_1.png" %}
             {% set button_label = "DKRZ" %}
             {% set button_href = "javascript:void(0)" %}
             {% include "partials/button.html" %}
@@ -126,10 +126,10 @@
         {% with %}
             {% set popup_attention_title = "Your Attention is Required" %}
             {% set popup_attention_message = "
-                <p>This operation will delete your account and its associated permissions
+                <h6>This operation will delete your account and its associated permissions
             as well as log you out of your account. All data linked to your account will also be
-            lost.</p>
-            <p>This is irreversible!</p>
+            lost.</h6>
+            <h6>This is irreversible!</h6>
             " %}
             {% include "partials/popup-attention.html" %}
         {% endwith %}
