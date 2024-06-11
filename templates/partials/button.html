@@ -1,4 +1,4 @@
-{% set disabled = disabled_status|default('') %}
+{% set disabled = disabled|default('') %}
 
 {% set button_library = {
         "close_button_x": {
@@ -35,15 +35,11 @@
             "class": "button-med-delete d-button-text",
             "icon-triangle-exclamation": '<div class="image-delete-icon-red button-icon-position"></div>'
         },
-        "med_delete_button_red": {
-            "class": "button-med-delete-red d-button-text",
-            "icon-triangle-exclamation": '<div class="image-delete-icon-white button-icon-position"></div>'
-        },
         "med_delete_button_red_no_icon": {
             "class": "button-med-delete-no-icon d-button-text",
         },
         "med_action_alt_button": {
-            "class": "button-med-alt d-button-text",
+            "class": "button-med-alt d-button-alt-text",
             "button_backdrop_class": "button-med-action-alt-backdrop"
         },
         "med_round_button": {
