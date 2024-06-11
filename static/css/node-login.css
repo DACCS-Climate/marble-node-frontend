@@ -253,6 +253,10 @@ h6{
     margin-bottom: 50px;
 }
 
+.header-text-white{
+    color: var(--text-on-dark);
+}
+
 /*Input Components*/
 
 /*Textbox and password textbox*/
@@ -335,19 +339,19 @@ h6{
 /*Checkbox*/
 
 .checkbox-buffer{
-    width: 22px;
-    height: 22px;
-    margin: 2px;
+    width: 25px;
+    height: 25px;
 }
 
 /* The container */
 .checkbox-container {
     display: block;
     position: relative;
+    width: 25px;
+    height: 25px;
     padding-left: 35px;
     margin-bottom: 12px;
     cursor: pointer;
-    font-size: 22px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -402,12 +406,12 @@ h6{
 
 /* Style the checkmark/indicator */
 .checkbox-container .checkmark:after {
-    left: 5px;
-    top: 3px;
-    width: 5px;
-    height: 10px;
+    left: 3px;
+    bottom: 3px;
+    width: 8px;
+    height: 13px;
     border: solid white;
-    border-width: 0 3px 3px 0;
+    border-width: 0 0.15em 0.15em 0;
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
@@ -504,7 +508,7 @@ h6{
     color: var(--text-on-surface);
     background-color: var(--white);
     border: none;
-    box-shadow: var(--d-elevation-1);
+    box-shadow: var(--d-elevation-3);
 }
 
 .button-lg:hover{
@@ -578,19 +582,6 @@ h6{
     background-color: var(--white);
 }
 
-.button-med-delete-red{
-    width: 150px;
-    height: 60px;
-    color: var(--text-on-surface);
-    background-color: var(--error);
-    border: none;
-    box-shadow: var(--d-elevation-1);
-}
-
-.button-med-delete-red:hover{
-    color: var(--text-on-dark);
-}
-
 .button-med-delete:hover .image-delete-icon-white{
     background-color: var(--error);
 }
@@ -601,7 +592,7 @@ h6{
     color: var(--text-on-dark);
     background-color: var(--error);
     border: none;
-    box-shadow: var(--d-elevation-1);
+    box-shadow: var(--d-elevation-3);
 }
 
 .button-med-round{
@@ -637,10 +628,10 @@ h6{
 
 		/* right edge */
 		100% 0,              /* right top */
-		101% calc(101% - var(--corner)), /* right bottom */
+		100% calc(100% - var(--corner)), /* right bottom */
 
 		/* bottom edge*/
-		calc(101% - var(--corner)) 100%, /* right bottom */
+		calc(100% - var(--corner)) 100%, /* right bottom */
 		0              100%, /* left bottom*/
 
 		/* left edge */
@@ -655,10 +646,10 @@ h6{
 
 		/* right edge */
 		100% 0,              /* right top */
-		101% calc(101% - var(--corner)), /* right bottom */
+		100% calc(100% - var(--corner)), /* right bottom */
 
 		/* bottom edge*/
-		calc(101% - var(--corner)) 100%, /* right bottom */
+		calc(100% - var(--corner)) 100%, /* right bottom */
 		0              100%, /* left bottom*/
 
 		/* left edge */
@@ -679,12 +670,15 @@ h6{
 		/* top edge */
 		0             0%, /* left top */
 		0 0%, /* right top */
+
 		/* right edge */
 		100% 0,              /* right top */
-		100% calc(100% - var(--corner)), /* right bottom */
+		101% calc(101% - var(--corner)), /* right bottom */
+
 		/* bottom edge*/
-		calc(100% - var(--corner)) 100%, /* right bottom */
+		calc(101% - var(--corner)) 101%, /* right bottom */
 		0              100%, /* left bottom*/
+
 		/* left edge */
 		0% 0, /* left bottom */
 		0% 0               /* left top */
@@ -694,12 +688,15 @@ h6{
 		/* top edge */
 		0             0%, /* left top */
 		0 0%, /* right top */
+
 		/* right edge */
 		100% 0,              /* right top */
-		100% calc(100% - var(--corner)), /* right bottom */
+		101% calc(101% - var(--corner)), /* right bottom */
+
 		/* bottom edge*/
-		calc(100% - var(--corner)) 100%, /* right bottom */
+		calc(101% - var(--corner)) 101%, /* right bottom */
 		0              100%, /* left bottom*/
+
 		/* left edge */
 		0% 0, /* left bottom */
 		0% 0               /* left top */
@@ -729,6 +726,7 @@ h6{
 
 /*Popups*/
 
+/*Attention popup*/
 .popup-attention-container{
     width: 566px;
     height: 524px;
@@ -768,5 +766,75 @@ h6{
     display: flex;
     flex-direction: column;
     align-items: center;
+    color: var(--text-on-dark);
+}
+
+/*Feedback popup*/
+.popup-feedback-container{
+    width: 676px;
+    height: 404px;
+    background-color: var(--gray-700);
+    padding-left: 26px;
+    padding-top: 33px;
+    padding-right: 39px;
+    padding-bottom: 65px;
+}
+
+.popup-feedback-button-close-container{
+    width: 611px;
+}
+
+
+.popup-feedback-content-container{
+    width: 100%;
+    height:303px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--gray-700);
+}
+
+.feedback-entry-container{
+    width: 654px;
+    display: flex;
+    flex-direction: row;
+    margin-left: 11px;
+    margin-top: 38px;
+}
+
+.feedback-entry-container:hover{
+    background-color: var(--gray-500);
+}
+
+.feedback-logo{
+    width: 76px;
+    height: 76px;
+    background-color: var(--white);
+    border-radius: 50%;
+    border-color: var(--white);
+    border-style: solid;
+    border-width: thick;
+    margin-left: 15px;
+}
+
+.feedback-logo-image-round{
+    width: 50px;
+    height: 50px;
+    margin-left: 8px;
+    margin-top: 8px;
+}
+
+.feedback-logo-image-triangle{
+    width: 48px;
+    height: 48px;
+    margin-left: 10px;
+    margin-top: 6px;
+}
+
+.feedback-text-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    margin-left: 29px;
     color: var(--text-on-dark);
 }
