@@ -510,7 +510,7 @@ h6{
     color: var(--text-on-surface);
     background-color: var(--white);
     border: none;
-    box-shadow: var(--d-elevation-3);
+    box-shadow: var(--d-elevation-1);
 }
 
 .button-lg:hover{
@@ -525,7 +525,7 @@ h6{
     color: var(--text-on-surface);
     background-color: var(--white);
     border: none;
-    box-shadow: var(--d-elevation-1);
+    box-shadow: var(--d-elevation-3);
 }
 
 .button-delete-triangle{
@@ -535,7 +535,7 @@ h6{
 .button-lg-delete:hover{
     color: var(--white);
     background-color: var(--error);
-    box-shadow: var(--d-elevation-2);
+    box-shadow: var(--d-elevation-3);
 }
 
 .button-lg-delete:hover .image-delete-icon-red{
@@ -571,7 +571,7 @@ h6{
     color: var(--text-on-surface);
     background-color: var(--white);
     border: none;
-    box-shadow: var(--d-elevation-1);
+    box-shadow: var(--d-elevation-3);
 }
 
 .button-med-delete:hover{
