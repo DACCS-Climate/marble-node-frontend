@@ -3,7 +3,7 @@
 {% set button_library = {
         "close_button_x": {
             "class":"button-close-x" ,
-            "close_button": '<div class="image-close-icon"></div>'
+            "content": '<div class="image-close-icon"></div>'
         },
         "reg_action_button": {
             "class": "button-reg d-button-text"
@@ -13,27 +13,27 @@
         },
         "reg_saving_button": {
             "class": "button-reg d-button-text",
-            "animated_spinner": '<i id="spinnerAnimated" class="fa-thin fa-circle-notch fa-spin visibility-spinner"></i>',
+            "content": '<i id="spinnerAnimated" class="fa-solid fa-circle-notch fa-spin visibility-spinner"></i>',
             "show_spinner_function": "showSpinner()",
         },
         "reg_saved_button": {
             "class": "button-reg d-button-text",
-            "checkmark": '<i class="fa-solid fa-check"></i>'
+            "content": '<i class="fa-solid fa-check"></i>'
         },
         "lg_action_button": {
             "class": "button-lg d-button-text",
-            "arrow-right": '<i class="fa-solid fa-arrow-right"></i>'
+            "content": '<i class="fa-solid fa-arrow-right"></i>'
         },
         "lg_delete_button": {
             "class": "button-lg-delete d-button-text",
-            "icon-triangle-exclamation": '<div class="image-delete-icon-red button-icon-position"></div>'
+            "content": '<div class="image-delete-icon-red button-icon-position"></div>'
         },
         "med_action_button": {
             "class": "button-med d-button-text"
         },
         "med_delete_button": {
             "class": "button-med-delete d-button-text",
-            "icon-triangle-exclamation": '<div class="image-delete-icon-red button-icon-position"></div>'
+            "content": '<div class="image-delete-icon-red button-icon-position"></div>'
         },
         "med_delete_button_red_no_icon": {
             "class": "button-med-delete-no-icon d-button-text",
@@ -44,7 +44,7 @@
         },
         "med_round_button": {
             "class": "button-med-round",
-            "user": '<i class="fa-solid fa-user button-med-round-icon"></i>'
+            "content": '<i class="fa-solid fa-user button-med-round-icon"></i>'
         }
     }
 %}
@@ -53,42 +53,25 @@
         <button class="{{ button_library[button_type]['class'] }} {{ 'disabled' if disabled else '' }}"
                 type="button" onclick="{{ button_library[button_type]['show_spinner_function'] }}" >
 
-            {% if button_library[button_type]['close_button'] is defined %}
-                {{ button_library[button_type]['close_button']|safe }}
-            {% endif %}
-
-            <!-- Used for Saving button, Saved button -->
-            {% if button_library[button_type]['animated_spinner'] is defined %}
-                {{ button_library[button_type]['animated_spinner']|safe }}
-            {% endif %}
-
-            {% if button_library[button_type]['checkmark'] is defined %}
-                {{ button_library[button_type]['checkmark']|safe }}
-            {% endif %}
-
-            <!--Used for Delete button-->
-            {% if button_library[button_type]['icon-triangle-exclamation'] is defined %}
-                {{ button_library[button_type]['icon-triangle-exclamation']|safe }}
-            {% endif %}
-
-            <!--Used for round button-->
-            {% if button_library[button_type]['user'] is defined %}
-                {{ button_library[button_type]['user']|safe }}
+            {% if button_library[button_type]['content'] and button_type != "lg_action_button" %}
+                {{ button_library[button_type]['content']|safe }}
             {% endif %}
 
             <!--Used for Alternative button with corner cut off -->
-            {% if button_image is defined %}
+            {% if button_image %}
               <img class="button-med-action-alt-image" src="{{ button_image|safe }}"/>
             {% endif %}
 
             <!--Button label -->
-            {% if button_label is defined %}
+            {% if button_label %}
                 {{ button_label|safe }}
             {% endif %}
 
-            <!--Used for large button -->
-            {% if button_library[button_type]['arrow-right'] is defined %}
-                {{ button_library[button_type]['arrow-right']|safe }}
+            {% if button_type == "lg_action_button" %}
+                {{ button_library[button_type]['content']|safe }}
             {% endif %}
+
+
+
         </button>
     </a>
