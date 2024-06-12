@@ -275,6 +275,7 @@ h6{
     height: 60px;
     border: var(--border-black);
     border-radius: var(--textbox-border-radius);
+    flex-shrink: 0;
 }
 
 /*Textbox More Information button*/
@@ -356,6 +357,7 @@ h6{
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    white-space: nowrap;
 }
 
 /* Hide the browser's default checkbox */
