@@ -1,7 +1,16 @@
-/*Initialize Popper.js and Tooltips.js*/
 $(document).ready(function() {
-  $('[data-toggle="tooltip"]').tooltip();
-  $('[data-toggle="popover"]').popover();
+    /*Initialize Popper.js and Tooltips.js*/
+    $('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="popover"]').popover();
+
+    /*Toggle password field eye icon*/
+    var userPassword = document.getElementById("userPassword");
+    var eyeIconContainer = userPassword.nextElementSibling;
+
+    eyeIconContainer.addEventListener("click", (event) =>{
+      toggleEyeIcon(eyeIconContainer);
+      togglePassword();
+    })
 
 })
 
@@ -21,17 +30,6 @@ function toggleEyeIcon(element) {
 
     eyeIcon.classList.toggle("icon-eye");
     eyeIcon.classList.toggle("icon-eye-slash");
-}
-
-
-window.onload = () => {
-    var userPassword = document.getElementById("userPassword");
-    var eyeIconContainer = userPassword.nextElementSibling;
-
-    eyeIconContainer.addEventListener("click", (event) =>{
-      toggleEyeIcon(eyeIconContainer);
-      togglePassword();
-    })
 }
 
 /*Show spinner on button on click*/
