@@ -1,0 +1,29 @@
+<div class="popup-network-container">
+    <div class="network-close-button-container">
+        <div class="popup-button-close">
+            {% with button_type = "close_button_x"%}
+                {% set button_href = "javascript:void(0)" %}
+                {% include "partials/button.html" %}
+            {% endwith %}
+        </div>
+    </div>
+    <div class="popup-network-header">
+        <div>
+            <p class="subtitle-1">Network Name</p>
+        </div>
+        <div>
+            <p class="subtitle-1">User Name</p>
+        </div>
+        <div>
+            <p class="subtitle-1">Action</p>
+        </div>
+    </div>
+    <div class="network-entry-container">
+        <!--When hooking up to Magpie make these rows dependent on number of nodes the user has an account to-->
+        {% with %}
+            {% set node_name = "UofT" %}
+            {% set user_name = "User 1" %}
+            {% include "partials/popup-network-entry.html" %}
+        {% endwith %}
+    </div>
+</div>
