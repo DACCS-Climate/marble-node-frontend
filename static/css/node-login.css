@@ -944,12 +944,13 @@ h6{
     width: 100%;
     display: flex;
     color: var(--text-on-dark);
+    padding: 18px;
     border-bottom: solid;
     border-bottom-color: var(--white);
     border-bottom-width: 1px;
 }
 
-.popup-network-header p:not(:last-child){
+.popup-network-header div:not(:last-child){
     margin-right: 100px;
 }
 
@@ -966,5 +967,7 @@ h6{
 }
 
 .network-entry div:not(:last-child){
+    display: flex;
+    align-items: center;
     margin-right: 131px;
 }
