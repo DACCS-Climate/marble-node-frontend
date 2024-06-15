@@ -45,6 +45,7 @@
     --black-opacity-mid: rgba(0,0,0,0.5);
     --opaque-light-grey: rgba(255,255,255, 0.3);
     --red-opacity-light: rgba(178, 0, 2, 0.50);
+    --primary-opacity-midlight: rgba(48, 79,245, 0.35);
     --linear-gradient-black: linear-gradient(90deg,transparent, #000000, transparent);
     --linear-gradient-marble: linear-gradient(90deg, #3F6BAE 3%, #6DA39F 33.33%, #D89E37 66.67%, #823628 100%);
     --white: #FFFFFF;
@@ -228,6 +229,35 @@ h6{
     text-transform: uppercase;
 }
 
+.button{
+    font-family: var(--main-font-family);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: var(--med-font-weight);
+    line-height: var(--line-height-normal);
+    letter-spacing: 0.15px;
+    text-transform: uppercase;
+}
+
+.caption{
+    font-family: var(--main-font-family);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: var(--reg-font-weight);
+    line-height: var(--line-height-normal);
+    letter-spacing: 0.048px;
+    text-transform: capitalize;
+}
+
+.overline{
+    font-family: var(--main-font-family);
+    font-size: 10px;
+    font-style: normal;
+    font-weight: var(--reg-font-weight);
+    line-height: var(--line-height-normal);
+    letter-spacing: 0.15px;
+}
+
 /* Custom default button */
 .btn-light,
 .btn-light:hover,
@@ -300,6 +330,18 @@ h6{
 
 .margin-icon-more-information{
     margin-left: 15px;
+}
+
+.popover-body{
+    background-color: var(--primary-opacity-midlight);
+    color: var(--text-on-dark);
+    /*Overline font style class*/
+    font-family: var(--main-font-family);
+    font-size: 10px;
+    font-style: normal;
+    font-weight: var(--reg-font-weight);
+    line-height: var(--line-height-normal);
+    letter-spacing: 0.15px;
 }
 
 /*Password visibility icon*/
@@ -728,6 +770,10 @@ h6{
 
 /*Popups*/
 
+.margin-popup-header{
+    margin-top: 18px;
+}
+
 /*Attention popup*/
 .popup-attention-container{
     width: 566px;
@@ -786,7 +832,6 @@ h6{
     width: 611px;
 }
 
-
 .popup-feedback-content-container{
     width: 100%;
     height:303px;
@@ -839,4 +884,87 @@ h6{
     justify-content: end;
     margin-left: 29px;
     color: var(--text-on-dark);
+}
+
+/*Password change popup*/
+.popup-password-container{
+    width: 557px;
+    height: 363px;
+    padding: 33px;
+    background-color: var(--gray-800);
+    border: solid;
+    border-radius: 5px;
+    border-width: 1px;
+    border-color: var(--gray-800);
+    backdrop-filter: blur(12.5px);
+}
+
+.password-close-button-container{
+    width: 494px;
+}
+
+.popup-password-content{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--text-on-dark);
+}
+
+.margin-password-message{
+    margin-top: 20px
+}
+
+.margin-password-email{
+    margin-top: 49px;
+    color: var(--indigo-A100);
+}
+
+
+/*Network Node popup*/
+.popup-network-container{
+    width: 780px;
+    height: 466px;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--gray-400);
+    border: solid;
+    border-color: var(--gray-400);
+    border-radius: 10px;
+    padding-left: 24px;
+    padding-top: 21px;
+    padding-right: 24px;
+    padding-bottom: 21px;
+}
+
+.network-close-button-container{
+    width: 732px;
+}
+
+.popup-network-header{
+    width: 100%;
+    display: flex;
+    color: var(--text-on-dark);
+    border-bottom: solid;
+    border-bottom-color: var(--white);
+    border-bottom-width: 1px;
+}
+
+.popup-network-header p:not(:last-child){
+    margin-right: 100px;
+}
+
+.network-entry-container{
+    display: flex;
+    padding: 50px;
+    color: var(--text-on-dark);
+}
+
+.network-entry{
+    display: flex;
+    color: var(--text-on-dark);
+    margin-bottom: 20px;
+}
+
+.network-entry div:not(:last-child){
+    margin-right: 131px;
 }
