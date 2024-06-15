@@ -1,0 +1,16 @@
+
+<div class="network-entry">
+    <div>
+        <p>{{ node_name }}</p>
+    </div>
+    <div>
+        <p>{{ user_name }}</p>
+    </div>
+    <div>
+        {% with button_type = "med_delete_button"%}
+            {% set button_label = "Delete" %}
+            {% set button_href = "javascript:void(0)" %}
+            {% include "partials/button.html" %}
+        {% endwith %}
+    </div>
+</div>
