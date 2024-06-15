@@ -1,5 +1,4 @@
 {% extends "layouts/main.html" %}
-{% set node_name = "UofT" %}
 {% set page_title = "UofT" %}
 {% set node_login_url = "https://daccs.cs.toronto.edu/jupyter" %}
 {% set register_url = "" %}
@@ -121,6 +120,8 @@
             {% include "partials/popup-attention.html" %}
         {% endwith %}
 
+        <br/>
+
         {% with %}
             {% set popup_feedback_title = "Give Feedback to Marble" %}
             {% include "partials/popup-feedback.html" %}
@@ -128,6 +129,21 @@
 
         <br/>
 
+        {% with %}
+            {% set popup_password_title = "Reset Password" %}
+            {% set popup_password_message = "Please write us an email to reset your password."  %}
+            {% set popup_password_email = "redoak-info@cs.toronto.edu" %}
+            {% include "partials/popup-password-change.html" %}
+        {% endwith %}
+
+        <br/>
+
+        {% with %}
+            {% set popup_network_title = "Reset Password" %}
+            {% set popup_network_message = "Please write us an email to reset your password."  %}
+            {% set popup_network_email = "redoak-info@cs.toronto.edu" %}
+            {% include "partials/popup-network-node.html" %}
+        {% endwith %}
 
       <main class="px-3 my-auto rounded container-background">
 
