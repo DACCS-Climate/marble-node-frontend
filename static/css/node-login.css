@@ -839,6 +839,7 @@ h6{
     flex-direction: column;
     align-items: center;
     background-color: var(--gray-700);
+    backdrop-filter: blur(2px);
 }
 
 .feedback-entry-container{
@@ -886,7 +887,7 @@ h6{
     color: var(--text-on-dark);
 }
 
-/*Password change popup*/
+/*Password reset popup*/
 .popup-password-container{
     width: 557px;
     height: 363px;
@@ -911,11 +912,11 @@ h6{
 }
 
 .margin-password-message{
-    margin-top: 20px
+    margin-top: 24px
 }
 
 .margin-password-email{
-    margin-top: 49px;
+    margin-top: 24px;
     color: var(--indigo-A100);
 }
 
@@ -927,22 +928,25 @@ h6{
     display: flex;
     flex-direction: column;
     background-color: var(--gray-400);
+    backdrop-filter: blur(7.5px);
     border: solid;
     border-color: var(--gray-400);
     border-radius: 10px;
-    padding-left: 24px;
-    padding-top: 21px;
-    padding-right: 24px;
-    padding-bottom: 21px;
+    padding: 24px;
 }
 
 .network-close-button-container{
     width: 732px;
 }
 
+.popup-network-content{
+    color: var(--text-on-dark);
+}
+
 .popup-network-header{
-    width: 100%;
+    width: 659px;
     display: flex;
+    flex-direction: row;
     color: var(--text-on-dark);
     padding: 18px;
     border-bottom: solid;
@@ -950,23 +954,31 @@ h6{
     border-bottom-width: 1px;
 }
 
-.popup-network-header div:not(:last-child){
-    margin-right: 100px;
+.padding-network-header{
+    padding-bottom: 10px;
+}
+
+.popup-network-header div:first-child{
+    margin-right: 70px;
+}
+
+.popup-network-header div:last-child{
+    margin-left: 140px;
 }
 
 .network-entry-container{
-    display: flex;
     padding: 50px;
     color: var(--text-on-dark);
 }
 
-.network-entry{
+.network-entry-row{
     display: flex;
+    flex-direction: row;
     color: var(--text-on-dark);
     margin-bottom: 20px;
 }
 
-.network-entry div:not(:last-child){
+.network-entry-row div:not(:last-child){
     display: flex;
     align-items: center;
     margin-right: 131px;
