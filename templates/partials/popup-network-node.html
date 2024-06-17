@@ -8,34 +8,51 @@
             {% endwith %}
         </div>
     </div>
+    <div>
+        <table class="popup-network-content">
+            <!--Used to set different widths for columns in different rows-->
+            <colgroup class="popup-network-colgroup">
+                <col><col>
+                <col><col>
+                <col><col>
+                <col><col>
+                <col><col>
+                <col><col>
+                <col><col>
+                <col><col>
+                <col><col>
+                <col><col>
+            </colgroup>
+            <thead class="popup-network-header ">
+                <tr class="padding-header-row">
+                    <th class="subtitle-1" colspan=7>Network Name</th>
+                    <th class="subtitle-1" colspan=7>User Name</th>
+                    <th class="subtitle-1" colspan=6>Action</th>
+                </tr>
+            </thead>
+            <tbody class="popup-network-body">
+                {% with %}
+                    {% set node_name = "UofT" %}
+                    {% set user_name = "User 1" %}
+                    {% set button_type = "med_delete_button" %}
+                    {% include "partials/popup-network-entry.html" %}
+                {% endwith %}
 
-    <div class="popup-network-header">
-        <div>
-            <p class="subtitle-1">Network Name</p>
-        </div>
-        <div>
-            <p class="subtitle-1">User Name</p>
-        </div>
-        <div>
-            <p class="subtitle-1">Action</p>
-        </div>
-    </div>
-    <div class="network-entry-container">
-        <!--When hooking up to Magpie make these rows dependent on number of nodes the user has an account to-->
-        {% with %}
-            {% set node_name = "UofT" %}
-            {% set user_name = "User 1" %}
-            {% set button_type = "med_delete_button" %}
-            {% set button_label = "Delete" %}
-            {% include "partials/popup-network-entry.html" %}
-        {% endwith %}
+                {% with %}
+                    {% set node_name = "Hirondelle" %}
+                    {% set user_name = "User 2" %}
+                    {% set button_type = "med_delete_button" %}
+                    {% include "partials/popup-network-entry.html" %}
+                {% endwith %}
 
-        {% with %}
-            {% set node_name = "UofT" %}
-            {% set user_name = "User 2" %}
-            {% set button_type = "med_action_button" %}
-            {% set button_label = "Create" %}
-            {% include "partials/popup-network-entry.html" %}
-        {% endwith %}
+                {% with %}
+                    {% set node_name = "PAVICS" %}
+                    {% set user_name = "User 2" %}
+                    {% set button_type =  "med_action_button" %}
+                    {% set button_label = "Create" %}
+                    {% include "partials/popup-network-entry.html" %}
+                {% endwith %}
+            </tbody>
+        </table>
     </div>
 </div>
