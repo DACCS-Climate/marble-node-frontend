@@ -1,3 +1,4 @@
+
 <div class="popup-network-container">
     <div class="network-close-button-container">
         <div class="popup-button-close">
@@ -7,6 +8,7 @@
             {% endwith %}
         </div>
     </div>
+
     <div class="popup-network-header">
         <div>
             <p class="subtitle-1">Network Name</p>
@@ -23,6 +25,16 @@
         {% with %}
             {% set node_name = "UofT" %}
             {% set user_name = "User 1" %}
+            {% set button_type = "med_delete_button" %}
+            {% set button_label = "Delete" %}
+            {% include "partials/popup-network-entry.html" %}
+        {% endwith %}
+
+        {% with %}
+            {% set node_name = "UofT" %}
+            {% set user_name = "User 2" %}
+            {% set button_type = "med_action_button" %}
+            {% set button_label = "Create" %}
             {% include "partials/popup-network-entry.html" %}
         {% endwith %}
     </div>
