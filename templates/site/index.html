@@ -143,6 +143,13 @@
             {% include "partials/popup-network-node.html" %}
         {% endwith %}
 
+        <br/>
+
+        {% with %}
+            {% set popup_provider_subtitle = "Already have an account with these providers?  Select a provider to log in." %}
+            {% include "partials/popup-provider.html" %}
+        {% endwith %}
+
       <main class="px-3 my-auto rounded container-background">
 
       </main>
