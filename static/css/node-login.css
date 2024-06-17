@@ -940,13 +940,16 @@ h6{
 }
 
 .popup-network-content{
+    width: 100%;
     color: var(--text-on-dark);
+}
+
+.popup-network-colgroup col{
+    width: 5%;
 }
 
 .popup-network-header{
     width: 659px;
-    display: flex;
-    flex-direction: row;
     color: var(--text-on-dark);
     padding: 18px;
     border-bottom: solid;
@@ -954,16 +957,37 @@ h6{
     border-bottom-width: 1px;
 }
 
-.padding-network-header{
+.padding-header-row th{
+    padding-top: 18px;
     padding-bottom: 10px;
 }
 
-.popup-network-header div:first-child{
-    margin-right: 70px;
+.padding-header-row th:first-child{
+    padding-left: 18px;
 }
 
-.popup-network-header div:last-child{
-    margin-left: 140px;
+.padding-header-row th:last-child{
+    padding-right: 18px;
+}
+
+.popup-network-body tr td:first-child{
+   padding-left: 50px;
+}
+
+.popup-network-body tr:first-child td{
+   padding-top: 50px;
+}
+
+.popup-network-body tr td:last-child{
+   padding-right: 50px;
+}
+
+.popup-network-body tr:last-child td{
+   padding-bottom: 50px;
+}
+
+.popup-network-body tr:not(:last-child) td{
+    padding-bottom: 20px;
 }
 
 .network-entry-container{
@@ -972,14 +996,10 @@ h6{
 }
 
 .network-entry-row{
-    display: flex;
-    flex-direction: row;
     color: var(--text-on-dark);
     margin-bottom: 20px;
 }
 
-.network-entry-row div:not(:last-child){
-    display: flex;
-    align-items: center;
-    margin-right: 131px;
+.network-entry-row td:nth-child(2){
+  padding-left: 20px;
 }
