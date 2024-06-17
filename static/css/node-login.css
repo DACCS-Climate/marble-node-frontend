@@ -481,6 +481,17 @@ h6{
     background-color: var(--white);
 }
 
+.image-close-icon-dark{
+    width: 15px;
+    height: 15px;
+    mask-image:  url("../images/button/close_x.svg");
+    -webkit-mask-image:  url("../images/button/close_x.svg");
+    mask-size: 15px 15px;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    background-color: var(--black);
+}
+
 .popup-button-close{
     width: 100%;
     height: 30px;
@@ -748,8 +759,6 @@ h6{
 }
 
 .button-med-action-alt-image{
-    width: 25px;
-    height: 12px;
     margin-right: 12px;
 }
 
@@ -1002,4 +1011,35 @@ h6{
 
 .network-entry-row td:nth-child(2){
   padding-left: 20px;
+}
+
+/*Providers Popup*/
+.provider-container{
+    width: 780px;
+    height: 552px;
+    padding: 33px;
+}
+
+.provider-close-button-container{
+    width: 709px;
+}
+
+.provider-button-container{
+    width: 630px;
+    height: auto;
+}
+
+.popup-provider-title{
+    margin-bottom: 36px;
+}
+
+.provider-button-row{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.provider-button-row .provider-button:not(:nth-child(3n)){
+    margin-right: 93px;
+    margin-bottom: 67px;
 }
