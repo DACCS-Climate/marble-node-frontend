@@ -26,17 +26,21 @@
         },
         "lg_delete_button": {
             "class": "button-lg-delete d-button-text",
-            "content": '<div class="image-delete-icon-red button-icon-position"></div>'
+            "content": '<div class="image-delete-icon-red button-icon-position"></div>',
+            "button_label": "Delete"
         },
         "med_action_button": {
             "class": "button-med d-button-text"
         },
         "med_delete_button": {
             "class": "button-med-delete d-button-text",
-            "content": '<div class="image-delete-icon-red button-icon-position"></div>'
+            "content": '<div class="image-delete-icon-red button-icon-position"></div>',
+            "button_label": "Delete"
+
         },
         "med_delete_button_red_no_icon": {
             "class": "button-med-delete-no-icon d-button-text",
+            "button_label": "Delete"
         },
         "med_action_alt_button": {
             "class": "button-med-alt d-button-alt-text",
@@ -65,6 +69,8 @@
             <!--Button label -->
             {% if button_label %}
                 {{ button_label|safe }}
+            {% else %}
+                {{ button_library[button_type]['button_label'] }}
             {% endif %}
 
             {% if button_type == "lg_action_button" %}
