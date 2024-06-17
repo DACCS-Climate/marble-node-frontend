@@ -1018,6 +1018,7 @@ h6{
     width: 780px;
     height: 552px;
     padding: 33px;
+    background-color: var(--white);
 }
 
 .provider-close-button-container{
