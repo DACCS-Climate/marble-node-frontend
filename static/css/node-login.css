@@ -40,11 +40,14 @@
     --background-blur: blur(15px);
     --background-blur-mobile: blur(15px);
     --black: #000000;
+    --black-opacity-lighter: rgba(0, 0, 0, 0.18);
     --black-opacity-light: rgba(0,0,0,0.25);
     --black-opacity-midlight: rgba(0,0,0,0.30);
     --black-opacity-mid: rgba(0,0,0,0.5);
+    --black-opacity-mid-dark: rgba(0, 0, 0, 0.55);
     --opaque-light-grey: rgba(255,255,255, 0.3);
-    --red-opacity-light: rgba(178, 0, 2, 0.50);
+    --white-opacity-light: rgba(255, 255, 255, 0.18);
+    --red-opacity-mid: rgba(178, 0, 2, 0.50);
     --primary-opacity-midlight: rgba(48, 79,245, 0.35);
     --linear-gradient-black: linear-gradient(90deg,transparent, #000000, transparent);
     --linear-gradient-marble: linear-gradient(90deg, #3F6BAE 3%, #6DA39F 33.33%, #D89E37 66.67%, #823628 100%);
@@ -788,7 +791,7 @@ h6{
     width: 566px;
     height: 524px;
     padding: 30px;
-    background-color: var(--red-opacity-light);
+    background-color: var(--red-opacity-mid);
     backdrop-filter: blur(2px);
 }
 
@@ -830,7 +833,7 @@ h6{
 .popup-feedback-container{
     width: 676px;
     height: 404px;
-    background: rgba(0, 0, 0, 0.55);
+    background-color: var(--black-opacity-mid-dark);
     backdrop-filter: blur(2px);
     padding-left: 26px;
     padding-top: 33px;
@@ -902,7 +905,7 @@ h6{
     width: 557px;
     height: 363px;
     padding: 33px;
-    background: rgba(255, 255, 255, 0.18);
+    background-color: var(--white-opacity-light);
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     border-radius: 5px;
     backdrop-filter: blur(12.5px);
@@ -928,7 +931,6 @@ h6{
     color: var(--indigo-A100);
 }
 
-
 /*Network Node popup*/
 .popup-network-container{
     width: 780px;
@@ -936,23 +938,11 @@ h6{
     display: flex;
     flex-direction: column;
     border-radius: 10px;
-    background-color: rgba(0, 0, 0, 0.18);
+    background-color: var(--black-opacity-lighter);
     backdrop-filter: blur(7.5px);
     border-radius: 10px;
     padding: 24px;
 }
-
-/*
-.popup-network-container-alt{
-    width: 780px;
-    height: 466px;
-    display: flex;
-    flex-direction: column;
-    background-color: rgba(0, 0, 0, 0.18);
-    backdrop-filter: blur(7.5px);
-    border-radius: 10px;
-    padding: 24px;
-}*/
 
 .network-close-button-container{
     width: 732px;
