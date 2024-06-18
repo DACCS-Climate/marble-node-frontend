@@ -830,7 +830,8 @@ h6{
 .popup-feedback-container{
     width: 676px;
     height: 404px;
-    background-color: var(--gray-700);
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(2px);
     padding-left: 26px;
     padding-top: 33px;
     padding-right: 39px;
@@ -901,7 +902,8 @@ h6{
     width: 557px;
     height: 363px;
     padding: 33px;
-    background-color: var(--gray-800);
+    background: rgba(255, 255, 255, 0.18);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     border: solid;
     border-radius: 5px;
     border-width: 1px;
@@ -936,13 +938,24 @@ h6{
     height: 466px;
     display: flex;
     flex-direction: column;
-    background-color: var(--gray-400);
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.18);
     backdrop-filter: blur(7.5px);
-    border: solid;
-    border-color: var(--gray-400);
     border-radius: 10px;
     padding: 24px;
 }
+
+/*
+.popup-network-container-alt{
+    width: 780px;
+    height: 466px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.18);
+    backdrop-filter: blur(7.5px);
+    border-radius: 10px;
+    padding: 24px;
+}*/
 
 .network-close-button-container{
     width: 732px;
