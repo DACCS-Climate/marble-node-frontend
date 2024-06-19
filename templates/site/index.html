@@ -139,10 +139,12 @@
             {% include "partials/popup-provider.html" %}
         {% endwith %}
 
-      <main class="px-3 my-auto rounded container-background">
+      <br/>
 
-      </main>
+        {% with %}
+            {% include "partials/menu.html" %}
+        {% endwith %}
     </div>
   </div>
-
 {% endblock content %}
+
