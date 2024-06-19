@@ -370,6 +370,7 @@ h6{
 .input-textbox{
     width: 300px;
     height: 60px;
+    text-indent: 50px;
     border: var(--border-black);
     border-radius: var(--textbox-border-radius);
     flex-shrink: 0;
@@ -437,7 +438,7 @@ h6{
 .icon-eye-position{
     position: relative;
     top: 20px;
-    right: 25px;
+    right: 40px;
     z-index: 25;
     cursor: pointer;
 }
