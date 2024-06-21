@@ -15,9 +15,11 @@
         "reg_action_button_alt": {
             "class": "button-reg d-button-text"
         },
-        "reg_saving_button": {
-            "class": "button-reg d-button-text",
-            "content": '<i id="spinnerAnimated" class="fa-solid fa-circle-notch fa-spin visibility-spinner"></i>',
+        "reg_save_button": {
+            "id": "buttonSave",
+            "label_id": "buttonLabel",
+            "class": "button-reg d-button-text button-spinner-alignment",
+            "content": '<i id="spinnerAnimated" class="fa-solid fa-circle-notch fa-spin spinner-not-visible" data-fa-transform="left-10"></i>',
             "show_spinner_function": "showSpinner()",
         },
         "reg_saved_button": {
@@ -74,7 +76,7 @@
 
         </button>
 {% else %}
-    <a  class="undecorated-link button-anchor-tag {{ button_library[button_type]['button_backdrop_class'] }} {{ 'disabled' if disabled else '' }}">
+    <a  class="undecorated-link button-anchor-tag {{ button_library[button_type]['button_backdrop_class'] }} {{ 'disabled' if disabled else '' }}" >
         <button id="{{ button_library[button_type]['id'] }}" class="{{ button_library[button_type]['class'] }} {{ 'disabled' if disabled else '' }}"
                 type="button" onclick="{{ button_library[button_type]['show_spinner_function'] }}">
 
@@ -88,11 +90,13 @@
             {% endif %}
 
             <!--Button label -->
-            {% if button_label %}
-                {{ button_label|safe }}
-            {% else %}
-                {{ button_library[button_type]['button_label'] }}
-            {% endif %}
+            <span id="{{ button_library[button_type]['label_id'] }}">
+                {% if button_label %}
+                    {{ button_label|safe }}
+                {% else %}
+                    {{ button_library[button_type]['button_label'] }}
+                {% endif %}
+            </span>
 
             {% if button_type == "lg_action_button" %}
                 {{ button_library[button_type]['content']|safe }}
