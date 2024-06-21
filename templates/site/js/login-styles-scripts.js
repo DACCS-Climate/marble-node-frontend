@@ -34,6 +34,28 @@ function toggleEyeIcon(element) {
 
 /*Show spinner on button on click*/
 function showSpinner(){
+    var buttonLabel = document.getElementById("buttonLabel");
     var animatedSpinner = document.getElementById("spinnerAnimated");
-    animatedSpinner.classList.toggle("visible")
+
+    if(buttonLabel.innerText === "Save Changes"){
+        buttonLabel.innerText = "Saving";
+    }
+    else if (buttonLabel.innerText === "Saving" ){
+        buttonLabel.innerText = "Save Changes";
+    }
+    else
+    {
+        null
+    }
+
+    animatedSpinner.classList.toggle("spinner-visible");
 }
+
+//TODO
+//Make function for mouseover and mouseout event on the provider buttons
+//The ID for the button will be set using jinja in the existing button template file
+//It will set  the mouseover to look for the given id and swap the button icon logo to the white version
+//It will set the mouseout to look for the given id and swap the button icon logo back to the original coloured version
+
+//TODO
+//Hide spinner logo or make invisible so the text will be centered in the button
