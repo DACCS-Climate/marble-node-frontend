@@ -617,6 +617,7 @@ h6{
     border-width: 1px;
     border-color: var(--primary);
     box-shadow: var(--d-elevation-1);
+    flex-shrink: 0;
 }
 
 .button-reg-alt:hover{
@@ -841,8 +842,18 @@ h6{
     pointer-events: none;
 }
 
-.visibility-spinner{
-    visibility: hidden;
+.button-spinner-alignment{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner-not-visible{
+    display:none;
+}
+
+.spinner-visible{
+    display:flex;
 }
 
 /*Popups*/
