@@ -1,7 +1,7 @@
 <tr class="network-entry-row">
-    <td colspan=7>{{ node_name }}</td>
-    <td colspan=6>{{ user_name }}</td>
-    <td colspan=5>
+    <td class="column-network-name network-name-entry">{{ node_name }}</td>
+    <td class="column-user-name">{{ user_name }}</td>
+    <td class="column-button">
         {% with button_type = button_type %}
             {% set button_label = button_label %}
             {% set button_href = "javascript:void(0)" %}
