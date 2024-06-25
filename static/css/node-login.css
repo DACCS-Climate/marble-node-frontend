@@ -1113,7 +1113,7 @@ h6{
 /*Providers Popup*/
 .provider-container{
     width: 780px;
-    height: 552px;
+    height: auto;
     padding: 33px;
     background-color: var(--white);
 }
