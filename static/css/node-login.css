@@ -1010,7 +1010,7 @@ h6{
 /*Network Node popup*/
 .popup-network-container{
     width: 780px;
-    height: 466px;
+    height: auto;
     display: flex;
     flex-direction: column;
     border-radius: 10px;
@@ -1033,10 +1033,31 @@ h6{
     width: 5%;
 }
 
+.column-network-name{
+    column-width: 104px;
+    text-align: center;
+    /*background-color: red;*/
+}
+
+.network-name-entry{
+    text-align: center;
+}
+
+.column-user-name{
+    column-width: 213px;
+    text-align: center;
+    /*background-color: blue;*/
+}
+
+.column-button{
+    column-width: 218px;
+    text-align: center;
+    /*background-color: green;*/
+}
+
 .popup-network-header{
     width: 659px;
     color: var(--text-on-dark);
-    padding: 18px;
     border-bottom: solid;
     border-bottom-color: var(--white);
     border-bottom-width: 1px;
@@ -1048,7 +1069,7 @@ h6{
 }
 
 .padding-header-row th:first-child{
-    padding-left: 18px;
+    /*padding-left: 27px;*/
 }
 
 .padding-header-row th:last-child{
@@ -1056,7 +1077,7 @@ h6{
 }
 
 .popup-network-body tr td:first-child{
-   padding-left: 50px;
+   /*padding-left: 50px;*/
 }
 
 .popup-network-body tr:first-child td{
@@ -1064,7 +1085,7 @@ h6{
 }
 
 .popup-network-body tr td:last-child{
-   padding-right: 50px;
+   /*padding-right: 50px;*/
 }
 
 .popup-network-body tr:last-child td{
@@ -1086,7 +1107,7 @@ h6{
 }
 
 .network-entry-row td:nth-child(2){
-  padding-left: 20px;
+  /*padding-left: 20px;*/
 }
 
 /*Providers Popup*/
