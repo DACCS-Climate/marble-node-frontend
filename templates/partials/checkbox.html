@@ -1,7 +1,6 @@
 {% set checkbox = {
         "reg_checkbox": {
             "checkbox_id": "attributeCheckbox",
-            "checkbox_label": "Test label",
             "input_checkbox_state": ""
         }
     }
@@ -9,7 +8,7 @@
 
 <div class="checkbox-buffer">
     <label class="checkbox-container" for="{{ checkbox["reg_checkbox"]["checkbox_id"] }}" >
-        <p>{{ checkbox["reg_checkbox"]["checkbox_label"] }}</p>
+        <p>{{ checkbox_label }}</p>
         <input id="{{ checkbox["reg_checkbox"]["checkbox_id"] }}" type="checkbox"  checked=""  >
         <span class="checkmark"></span>
     </label>
