@@ -23,7 +23,7 @@
             "show_spinner_function": "showSpinner()",
         },
         "reg_saved_button": {
-            "class": "button-reg d-button-text",
+            "class": "button-reg-reverse d-button-text",
             "content": '<i class="fa-solid fa-check"></i>'
         },
         "lg_action_button": {
@@ -77,7 +77,7 @@
         </button>
 {% else %}
     <a  class="undecorated-link button-anchor-tag {{ button_library[button_type]['button_backdrop_class'] }} {{ 'disabled' if disabled else '' }}" >
-        <button id="{{ button_library[button_type]['id'] }}" class="{{ button_library[button_type]['class'] }} {{ 'disabled' if disabled else '' }}"
+        <button id="{{ button_library[button_type]['id'] }}" class="{{ button_library[button_type]['class'] }} {{ github_icon_class }} {{ 'disabled' if disabled else '' }}"
                 type="button" onclick="{{ button_library[button_type]['show_spinner_function'] }}">
 
             {% if button_library[button_type]['content'] and button_type != "lg_action_button" %}
