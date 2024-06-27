@@ -600,6 +600,10 @@ h6{
     margin-right: 12px;
 }
 
+.image-github-icon-swap:hover img{
+    content: url("../images/button/logo_github_light.svg")
+}
+
 .button-anchor-tag{
     align-self: flex-start;
 }
@@ -617,6 +621,18 @@ h6{
     border-width: 1px;
     border-color: var(--primary);
     box-shadow: var(--d-elevation-1);
+    flex-shrink: 0;
+}
+
+.button-reg-reverse{
+    width: 158px;
+    height: 60px;
+    color: var(--white);
+    background-color: var(--primary);
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--primary);
+    box-shadow: var(--d-elevation-2);
     flex-shrink: 0;
 }
 
@@ -1029,30 +1045,21 @@ h6{
     color: var(--text-on-dark);
 }
 
-.popup-network-colgroup col{
-    width: 5%;
-}
-
 .column-network-name{
-    column-width: 104px;
+    width: 164px;
     text-align: center;
-    /*background-color: red;*/
-}
-
-.network-name-entry{
-    text-align: center;
+    text-wrap: wrap;
 }
 
 .column-user-name{
-    column-width: 213px;
+    width: 213px;
     text-align: center;
-    /*background-color: blue;*/
+    text-wrap: wrap;
 }
 
 .column-button{
-    column-width: 218px;
+    width: 218px;
     text-align: center;
-    /*background-color: green;*/
 }
 
 .popup-network-header{
