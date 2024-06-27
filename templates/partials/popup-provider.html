@@ -13,7 +13,8 @@
         },
     "Github":{
         "label": "Github",
-        "icon": "images/button/logo_github_dark.svg"
+        "icon": "images/button/logo_github_dark.svg",
+        "github_icon_class": "image-github-icon-swap"
         },
     "OpenID":{
         "label": "OpenID",
@@ -54,6 +55,7 @@
             {% for provider in providers %}
                     <div class="provider-button">
                         {% with button_type = "med_action_alt_button"%}
+                            {% set github_icon_class = providers[provider]["github_icon_class"] %}
                             {% set button_image = providers[provider]["icon"] %}
                             {% set button_label = providers[provider]["label"] %}
                             {% set button_href = "javascript:void(0)" %}
