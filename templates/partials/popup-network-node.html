@@ -38,6 +38,13 @@
                     {% include "partials/popup-network-entry.html" %}
                 {% endwith %}
 
+                {% with %}
+                    {% set node_name = "Test wrapping text in column name entry for this particular node" %}
+                    {% set user_name = "Test wrapping text in user name entry for this particular node" %}
+                    {% set button_type =  "med_action_button" %}
+                    {% set button_label = "Create" %}
+                    {% include "partials/popup-network-entry.html" %}
+                {% endwith %}
 
                 {% with %}
                     {% set node_name = "UofT" %}
@@ -60,6 +67,8 @@
                     {% set button_label = "Create" %}
                     {% include "partials/popup-network-entry.html" %}
                 {% endwith %}
+
+
             </tbody>
         </table>
     </div>
