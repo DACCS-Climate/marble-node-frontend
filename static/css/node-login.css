@@ -370,10 +370,17 @@ h6{
 .input-textbox{
     width: 300px;
     height: 60px;
-    text-indent: 50px;
     border: var(--border-black);
     border-radius: var(--textbox-border-radius);
     flex-shrink: 0;
+}
+
+.textbox-padding{
+    padding: 20px;
+}
+
+.textbox-password-padding{
+    padding: 20px 50px 20px 20px;
 }
 
 /*Textbox More Information button*/
