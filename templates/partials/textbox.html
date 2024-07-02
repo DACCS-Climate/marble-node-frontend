@@ -37,7 +37,13 @@
         </a>
     </div>
     <div class="d-flex flex-row">
-        <input type='{{ textbox[textbox_type]["input_type"] }}' id="{{ input_textbox_id }}" name="{{ textbox[textbox_type]["textbox_name"] }}" class="input-textbox"/>
+        <input type='{{ textbox[textbox_type]["input_type"] }}' id="{{ input_textbox_id }}" name="{{ textbox[textbox_type]["textbox_name"] }}"
+            {% if textbox[textbox_type]["input_type"] == "password" %}
+               class="input-textbox textbox-password-padding"
+            {% else %}
+                class="input-textbox textbox-padding"
+            {% endif %}
+        />
         {% if textbox[textbox_type]["input_type"] == "password" %}
             <div id="eyeIconContainer" class="icon-eye-position {{ textbox[textbox_type]["eye_icon_visible"] }}">
                 <div id="passwordVisibilityIcon" class="icon-eye-slash"></div>
