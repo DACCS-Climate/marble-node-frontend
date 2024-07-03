@@ -1,0 +1,31 @@
+<div class="popup-feedback-container">
+    <div class="popup-feedback-content-container">
+        <div class="popup-feedback-button-close-container">
+            <div class="popup-button-close">
+                {% with button_type = "close_button_x"%}
+                    {% set button_href = "javascript:void(0)" %}
+                    {% include "partials/button.html" %}
+                {% endwith %}
+            </div>
+        </div>
+
+        <h4 id="feedbackTitle" class="header-text-white margin-popup-header">{{ popup_feedback_title }}</h4>
+
+        {% with %}
+            {% set feedback_entry_image = "images/logo/logo.png" %}
+            {% set logo_image_class = "feedback-logo-image-round" %}
+            {% set feedback_entry_title = "Help us improve Marble" %}
+            {% set feedback_entry_message = "Give feedback about your Marble experience" %}
+            {% include "partials/popup-feedback-entry.html" %}
+        {% endwith %}
+
+        {% with %}
+            {% set feedback_entry_image = "images/logo/exclamation-triangle-grey.png" %}
+            {% set logo_image_class = "feedback-logo-image-triangle" %}
+            {% set feedback_entry_title = "Something went wrong?" %}
+            {% set feedback_entry_message = "Let us know about a broken feature." %}
+            {% include "partials/popup-feedback-entry.html" %}
+        {% endwith %}
+
+    </div>
+</div>

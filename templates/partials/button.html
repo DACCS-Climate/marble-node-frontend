@@ -1,0 +1,106 @@
+{% set disabled = disabled|default('') %}
+
+{% set button_library = {
+        "close_button_x": {
+            "class":"button-close-x" ,
+            "content": '<div class="image-close-icon"></div>'
+        },
+        "close_button_x_dark": {
+            "class":"button-close-x" ,
+            "content": '<div class="image-close-icon-dark"></div>'
+        },
+        "reg_action_button": {
+            "class": "button-reg d-button-text"
+        },
+        "reg_action_button_alt": {
+            "class": "button-reg d-button-text"
+        },
+        "reg_save_button": {
+            "id": "buttonSave",
+            "label_id": "buttonLabel",
+            "class": "button-reg d-button-text button-spinner-alignment",
+            "content": '<i id="spinnerAnimated" class="fa-solid fa-circle-notch fa-spin spinner-not-visible" data-fa-transform="left-10"></i>',
+            "show_spinner_function": "showSpinner()",
+        },
+        "reg_saved_button": {
+            "class": "button-reg-reverse d-button-text",
+            "content": '<i class="fa-solid fa-check"></i>'
+        },
+        "lg_action_button": {
+            "class": "button-lg d-button-text",
+            "content": '<i class="fa-solid fa-arrow-right"></i>'
+        },
+        "lg_delete_button": {
+            "class": "button-lg-delete d-button-text",
+            "content": '<div class="image-delete-icon-red button-icon-position"></div>',
+            "button_label": "Delete"
+        },
+        "med_action_button": {
+            "class": "button-med d-button-text"
+        },
+        "med_delete_button": {
+            "class": "button-med-delete d-button-text",
+            "content": '<div class="image-delete-icon-red button-icon-position"></div>',
+            "button_label": "Delete"
+
+        },
+        "med_delete_button_red_no_icon": {
+            "class": "button-med-delete-no-icon d-button-text",
+            "button_label": "Delete"
+        },
+        "med_action_alt_button": {
+            "class": "button-med-alt d-button-alt-text",
+            "button_backdrop_class": "button-med-action-alt-backdrop"
+        },
+        "med_round_button": {
+            "class": "button-med-round",
+            "content": '<i class="fa-solid fa-user button-med-round-icon"></i>'
+        },
+        "dropdown":{
+        "id": "loginDropdown",
+        "class": "button-med-round",
+        "href_class": "nav-link",
+        "toggle": 'data-bs-toggle=dropdown aria-expanded=false',
+        "content": '<i class="fa-solid fa-user button-med-round-icon"></i>'
+        }
+    }
+%}
+
+{% if button_type == "dropdown" %}
+    <button id="{{ button_library[button_type]['id'] }}" class="{{ button_library[button_type]['class'] }} {{ button_library[button_type]['href_class'] }} {{ 'disabled' if disabled else '' }}"
+                type="button" onclick="{{ button_library[button_type]['show_spinner_function'] }}" {{ button_library[button_type]['toggle'] }}>
+
+            {% if button_library[button_type]['content'] and button_type != "lg_action_button" %}
+                {{ button_library[button_type]['content']|safe }}
+            {% endif %}
+
+        </button>
+{% else %}
+    <a  class="undecorated-link button-anchor-tag {{ button_library[button_type]['button_backdrop_class'] }} {{ 'disabled' if disabled else '' }}" >
+        <button id="{{ button_library[button_type]['id'] }}" class="{{ button_library[button_type]['class'] }} {{ github_icon_class }} {{ 'disabled' if disabled else '' }}"
+                type="button" onclick="{{ button_library[button_type]['show_spinner_function'] }}">
+
+            {% if button_library[button_type]['content'] and button_type != "lg_action_button" %}
+                {{ button_library[button_type]['content']|safe }}
+            {% endif %}
+
+            <!--Used for Alternative button with corner cut off -->
+            {% if button_image %}
+              <img class="button-med-action-alt-image" src="{{ button_image|safe }}"/>
+            {% endif %}
+
+            <!--Button label -->
+            <span id="{{ button_library[button_type]['label_id'] }}">
+                {% if button_label %}
+                    {{ button_label|safe }}
+                {% else %}
+                    {{ button_library[button_type]['button_label'] }}
+                {% endif %}
+            </span>
+
+            {% if button_type == "lg_action_button" %}
+                {{ button_library[button_type]['content']|safe }}
+            {% endif %}
+        </button>
+    </a>
+{% endif %}
