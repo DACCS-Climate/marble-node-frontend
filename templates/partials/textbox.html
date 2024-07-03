@@ -1,0 +1,57 @@
+{% set textbox_type = textbox_type %}
+
+{% if textbox_type == "password_input_text" %}
+    {% set input_textbox_id = "userPassword" %}
+{% else %}
+    {% set input_textbox_id = "userName" %}
+{% endif %}
+
+{% set textbox = {
+        "reg_input_text": {
+            "textbox_label": "Email or Username",
+            "textbox_name": "username",
+            "input_type": "text",
+            "eye_icon_visible": "visibility-none-password-eye",
+            "more_info_text": "Enter Username or Email registered with the node you wish to access."
+        },
+        "password_input_text": {
+            "textbox_label": "Password",
+            "textbox_name": "userpassword",
+            "input_type": "password",
+            "input_required": "required ",
+            "eye_icon_visible": "",
+            "more_info_text": "Test text"
+        }
+    }
+%}
+
+<div class="d-flex flex-column textbox-container">
+    <div class="d-flex flex-row">
+        <label class="d-flex justify-content-start subtitle-1 margin-textbox-label" for="{{ textbox[textbox_type]["textbox_name"] }}">
+            {{ textbox[textbox_type]["textbox_label"] }}
+        </label>
+
+        <a tabindex="0" class="button-more-information" role="button" data-toggle="popover" data-bs-trigger="focus"
+                data-bs-placement="right" data-bs-content="{{ textbox[textbox_type]["more_info_text"] }}">
+            <i class="fa-solid fa-circle-info icon-more-information margin-icon-more-information" ></i>
+        </a>
+    </div>
+    <div class="d-flex flex-row">
+        <input type='{{ textbox[textbox_type]["input_type"] }}' id="{{ input_textbox_id }}" name="{{ textbox[textbox_type]["textbox_name"] }}"
+            {% if textbox[textbox_type]["input_type"] == "password" %}
+               class="input-textbox textbox-password-padding"
+            {% else %}
+                class="input-textbox textbox-padding"
+            {% endif %}
+        />
+        {% if textbox[textbox_type]["input_type"] == "password" %}
+            <div id="eyeIconContainer" class="icon-eye-position {{ textbox[textbox_type]["eye_icon_visible"] }}">
+                <div id="passwordVisibilityIcon" class="icon-eye-slash"></div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+
+
+

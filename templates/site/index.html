@@ -1,0 +1,151 @@
+{% extends "layouts/main.html" %}
+{% set page_title = "UofT" %}
+
+{% block content %}
+<div class="container">
+
+    <div class="d-flex flex-column justify-content-evenly">
+
+        {% with %}
+            {% set textbox_type = "reg_input_text" %}
+            {% include "partials/textbox.html" %}
+        {% endwith %}
+
+        {% with %}
+            {% set textbox_type = "password_input_text" %}
+            {% include "partials/textbox.html" %}
+        {% endwith %}
+
+        {% with %}
+            {% set checkbox_label = "Test label" %}
+            {% include "partials/checkbox.html" %}
+        {% endwith %}
+
+        <br/>
+        <br/>
+
+        {% with button_type = "reg_action_button"%}
+            {% set button_label = "Regular" %}
+            {% set button_href = "javascript:void(0)" %}
+            {% include "partials/button.html" %}
+        {% endwith %}
+
+        <br/>
+
+        {% with button_type = "reg_save_button"%}
+            {% set button_label = "Save Changes" %}
+            {% set button_href = "javascript:void(0)" %}
+            {% include "partials/button.html" %}
+        {% endwith %}
+
+        <br/>
+
+        {% with button_type = "reg_saved_button"%}
+            {% set button_label = "Saved" %}
+            {% set button_href = "javascript:void(0)" %}
+            {% include "partials/button.html" %}
+        {% endwith %}
+
+        <br/>
+
+        {% with button_type = "lg_action_button"%}
+            {% set button_label = "Large" %}
+            {% set button_href = "javascript:void(0)" %}
+            {% include "partials/button.html" %}
+        {% endwith %}
+
+        <br/>
+
+        {% with button_type = "lg_delete_button"%}
+            {% set button_href = "javascript:void(0)" %}
+            {% include "partials/button.html" %}
+        {% endwith %}
+
+        <br/>
+
+        {% with button_type = "med_action_button"%}
+            {% set button_label = "Medium" %}
+            {% set button_href = "javascript:void(0)" %}
+            {% include "partials/button.html" %}
+        {% endwith %}
+
+        <br/>
+
+        {% with button_type = "med_action_alt_button"%}
+            {% set button_image = "images/button/logo_dkrz.svg" %}
+            {% set button_label = "DKRZ" %}
+            {% set button_href = "javascript:void(0)" %}
+            {% include "partials/button.html" %}
+        {% endwith %}
+
+        {% with button_type = "med_action_alt_button"%}
+            {% set disabled = true %}
+            {% set button_image = "images/button/logo_dkrz.svg" %}
+            {% set button_label = "DKRZ" %}
+            {% set button_href = "javascript:void(0)" %}
+            {% include "partials/button.html" %}
+        {% endwith %}
+
+        {% with button_type = "med_delete_button"%}
+            {% set button_href = "javascript:void(0)" %}
+            {% include "partials/button.html" %}
+        {% endwith %}
+
+        <br/>
+
+        {% with button_type = "med_round_button"%}
+            {% set button_href = "javascript:void(0)" %}
+            {% include "partials/button.html" %}
+        {% endwith %}
+
+        <br/>
+
+        {% with %}
+            {% set popup_attention_title = "Your Attention is Required" %}
+            {% set popup_attention_message = "
+                <h6>This operation will delete your account and its associated permissions
+            as well as log you out of your account. All data linked to your account will also be
+            lost.</h6>
+            <h6>This is irreversible!</h6>
+            " %}
+            {% include "partials/popup-attention.html" %}
+        {% endwith %}
+
+        <br/>
+
+        {% with %}
+            {% set popup_feedback_title = "Give Feedback to Marble" %}
+            {% include "partials/popup-feedback.html" %}
+        {% endwith %}
+
+        <br/>
+
+        {% with %}
+            {% set popup_password_title = "Reset Password" %}
+            {% set popup_password_message = "Please write us an email to reset your password."  %}
+            {% set popup_password_email = "redoak-info@cs.toronto.edu" %}
+            {% include "partials/popup-password-reset.html" %}
+        {% endwith %}
+
+        <br/>
+
+        {% with %}
+            {% include "partials/popup-network-node.html" %}
+        {% endwith %}
+
+        <br/>
+
+        {% with %}
+            {% set popup_provider_subtitle = "Already have an account with these providers?  Select a provider to log in." %}
+            {% include "partials/popup-provider.html" %}
+        {% endwith %}
+
+      <br/>
+
+        {% with %}
+            {% include "partials/menu.html" %}
+        {% endwith %}
+    </div>
+  </div>
+{% endblock content %}
+

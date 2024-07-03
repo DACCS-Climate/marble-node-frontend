@@ -1,0 +1,68 @@
+{% set providers = {
+    "CEDA":{
+        "label": "CEDA",
+        "icon": "images/button/logo_ceda.svg"
+        },
+    "DKRZ":{
+        "label": "DKRZ",
+        "icon": "images/button/logo_dkrz.svg"
+        },
+    "SMHI":{
+        "label": "SMHI",
+        "icon": "images/button/logo_smhi.svg"
+        },
+    "Github":{
+        "label": "Github",
+        "icon": "images/button/logo_github_dark.svg",
+        "github_icon_class": "image-github-icon-swap"
+        },
+    "OpenID":{
+        "label": "OpenID",
+        "icon": "images/button/logo_openid.svg"
+        },
+    "WSO2":{
+        "label": "WSO2",
+        "icon": "images/button/logo_wso2.svg"
+        },
+    "IPSL":{
+        "label": "IPSL",
+        "icon": "images/button/logo_ipsl.svg"
+        },
+    "LLNL":{
+        "label": "LLNL",
+        "icon": "images/button/logo_LLNL.svg"
+        }
+    }
+%}
+
+
+<div class="provider-container">
+    <div class="provider-close-button-container">
+        <div class="popup-button-close">
+            {% with button_type = "close_button_x_dark"%}
+                {% set button_href = "javascript:void(0)" %}
+                {% include "partials/button.html" %}
+            {% endwith %}
+        </div>
+    </div>
+
+    <div class="popup-provider-title">
+        <p class="subtitle-1">{{ popup_provider_subtitle }}</p>
+    </div>
+
+    <div class="provider-button-container">
+        <div class="provider-button-row">
+            {% for provider in providers %}
+                    <div class="provider-button">
+                        {% with button_type = "med_action_alt_button"%}
+                            {% set github_icon_class = providers[provider]["github_icon_class"] %}
+                            {% set button_image = providers[provider]["icon"] %}
+                            {% set button_label = providers[provider]["label"] %}
+                            {% set button_href = "javascript:void(0)" %}
+                            {% include "partials/button.html" %}
+                        {% endwith %}
+                    </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>
