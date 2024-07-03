@@ -50,6 +50,9 @@
             </div>
         {% endif %}
     </div>
+    {% if textbox[textbox_type]["input_type"] == "password" %}
+        <p class="overline login-password-error">Incorrect password!</p>
+    {% endif %}
 </div>
 
 
