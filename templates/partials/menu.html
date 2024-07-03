@@ -1,0 +1,32 @@
+<div class="menu-container">
+    <nav class="navbar navbar-expand-lg rounded">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse justify-content-md-center">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><h6>Account</h6></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><h6>Settings</h6></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><h6>Help & Support</h6></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        {% with button_type = "dropdown"%}
+                            {% set button_href = "javascript:void(0)" %}
+                            {% include "partials/button.html" %}
+                        {% endwith %}
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li class="border-dropdown-title"><p class="subtitle-1 margin-dropdown-title">TestUser</p></li>
+                            <li><a class="dropdown-item subtitle-2 margin-dropdown-item" href="#">Edit Profile</a></li>
+                            <li><a class="dropdown-item subtitle-2" href="#">Network Nodes</a></li>
+                            <li><a class="dropdown-item subtitle-2" href="#">Give Feedback</a></li>
+                            <li><a class="dropdown-item subtitle-2" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
