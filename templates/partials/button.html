@@ -20,7 +20,7 @@
             "label_id": "buttonLabel",
             "class": "button-reg d-button-text button-spinner-alignment",
             "content": '<i id="spinnerAnimated" class="fa-solid fa-circle-notch fa-spin spinner-not-visible" data-fa-transform="left-10"></i>',
-            "show_spinner_function": "showSpinner()",
+
         },
         "reg_saved_button": {
             "class": "button-reg-reverse d-button-text",
@@ -68,7 +68,7 @@
 
 {% if button_type == "dropdown" %}
     <button id="{{ button_library[button_type]['id'] }}" class="{{ button_library[button_type]['class'] }} {{ button_library[button_type]['href_class'] }} {{ 'disabled' if disabled else '' }}"
-                type="button" onclick="{{ button_library[button_type]['show_spinner_function'] }}" {{ button_library[button_type]['toggle'] }}>
+                type="button" {{ button_library[button_type]['toggle'] }}>
 
             {% if button_library[button_type]['content'] and button_type != "lg_action_button" %}
                 {{ button_library[button_type]['content']|safe }}
@@ -77,8 +77,8 @@
         </button>
 {% else %}
     <a  class="undecorated-link button-anchor-tag {{ button_library[button_type]['button_backdrop_class'] }} {{ 'disabled' if disabled else '' }}" >
-        <button id="{{ button_library[button_type]['id'] }}" class="{{ button_library[button_type]['class'] }} {{ github_icon_class }} {{ 'disabled' if disabled else '' }}"
-                type="button" onclick="{{ button_library[button_type]['show_spinner_function'] }}">
+        <button id="{{ button_library[button_type]['id'] | default(button_id) }}" class="{{ button_library[button_type]['class'] }} {{ github_icon_class }} {{ 'disabled' if disabled else '' }}"
+                type="button">
 
             {% if button_library[button_type]['content'] and button_type != "lg_action_button" %}
                 {{ button_library[button_type]['content']|safe }}
