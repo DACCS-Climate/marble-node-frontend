@@ -76,8 +76,9 @@
 
         </button>
 {% else %}
-    <a  class="undecorated-link button-anchor-tag {{ button_library[button_type]['button_backdrop_class'] }} {{ 'disabled' if disabled else '' }}" >
+    <a class="undecorated-link button-anchor-tag {{ button_library[button_type]['button_backdrop_class'] }} {{ 'disabled' if disabled else '' }}">
         <button id="{{ button_library[button_type]['id'] | default(button_id) }}" class="{{ button_library[button_type]['class'] }} {{ github_icon_class }} {{ 'disabled' if disabled else '' }}"
+                {{ button_additional_attributes }}
                 type="button">
 
             {% if button_library[button_type]['content'] and button_type != "lg_action_button" %}
