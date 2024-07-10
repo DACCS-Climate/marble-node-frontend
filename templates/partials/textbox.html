@@ -1,5 +1,3 @@
-{% set textbox_type = textbox_type %}
-
 {% if textbox_type == "password_input_text" %}
     {% set input_textbox_id = "userPassword" %}
 {% else %}
@@ -25,9 +23,9 @@
     }
 %}
 
-<div class="d-flex flex-column textbox-container">
-    <div class="d-flex flex-row">
-        <label class="d-flex justify-content-start subtitle-1 margin-textbox-label" for="{{ textbox[textbox_type]["textbox_name"] }}">
+<div class="textbox-container">
+    <div class="textbox-label-icon">
+        <label class="textbox-label margin-textbox-label subtitle-1" for="{{ textbox[textbox_type]["textbox_name"] }}">
             {{ textbox[textbox_type]["textbox_label"] }}
         </label>
 
@@ -36,7 +34,7 @@
             <i class="fa-solid fa-circle-info icon-more-information margin-icon-more-information" ></i>
         </a>
     </div>
-    <div class="d-flex flex-row">
+    <div class="textbox-field-container">
         <input type='{{ textbox[textbox_type]["input_type"] }}' id="{{ input_textbox_id }}" name="{{ textbox[textbox_type]["textbox_name"] }}"
             {% if textbox[textbox_type]["input_type"] == "password" %}
                class="input-textbox textbox-password-padding"
@@ -51,7 +49,8 @@
         {% endif %}
     </div>
     {% if textbox[textbox_type]["input_type"] == "password" %}
-        <p class="overline login-password-error">Incorrect password!</p>
+        <p id="loginError" class="overline login-error login-error-not-visible">Username or password incorrect.
+        Try again or <a id="nodeAdminEmail" href="">email the admin to create an account</a>.</p>
     {% endif %}
 </div>
 
