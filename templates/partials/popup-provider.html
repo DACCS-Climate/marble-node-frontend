@@ -1,81 +1,97 @@
+{% set popup_provider_subtitle = "Already have an account with these providers?  Select a provider to log in." %}
+
 {% set providers = {
     "CEDA":{
+        "button_id": "providerCEDA",
         "label": "CEDA",
-        "icon": "images/button/logo_ceda.svg"
+        "icon": "images/button/logo_ceda.svg",
+        "provider_signin_name": "ceda"
         },
     "DKRZ":{
+        "button_id": "providerDKRZ",
         "label": "DKRZ",
-        "icon": "images/button/logo_dkrz.svg"
+        "icon": "images/button/logo_dkrz.svg",
+        "provider_signin_name": "dkrz"
         },
     "SMHI":{
+        "button_id": "providerSMHI",
         "label": "SMHI",
-        "icon": "images/button/logo_smhi.svg"
+        "icon": "images/button/logo_smhi.svg",
+        "provider_signin_name": "smhi"
         },
     "Github":{
+        "button_id": "providerGithub",
         "label": "Github",
         "icon": "images/button/logo_github_dark.svg",
-        "github_icon_class": "image-github-icon-swap"
+        "github_icon_class": "image-github-icon-swap",
+        "provider_signin_name": "github"
         },
     "OpenID":{
+        "button_id": "providerOpenID",
         "label": "OpenID",
-        "icon": "images/button/logo_openid.svg"
+        "icon": "images/button/logo_openid.svg",
+        "provider_signin_name": "openid"
         },
     "WSO2":{
+        "button_id": "providerWSO2",
         "label": "WSO2",
-        "icon": "images/button/logo_wso2.svg"
+        "icon": "images/button/logo_wso2.svg",
+        "provider_signin_name": "wso2"
         },
     "IPSL":{
+        "button_id": "providerPSL",
         "label": "IPSL",
-        "icon": "images/button/logo_ipsl.svg"
+        "icon": "images/button/logo_ipsl.svg",
+        "provider_signin_name": "ipsl"
         },
     "LLNL":{
+        "button_id": "providerLLNL",
         "label": "LLNL",
-        "icon": "images/button/logo_LLNL.svg"
+        "icon": "images/button/logo_LLNL.svg",
+        "provider_signin_name": "llnl"
         }
     }
 %}
 
+<!--Use dialog tag to take advantage of showModal() function for this particular tag-->
+<dialog id="modalDisplay">
 
-<div id="myModalCustom" class="modal-custom">
-
-  <!-- Modal content -->
-  <div class="modal-content-custom">
-    <span class="close">&times;</span>
-    <p>Some text in the Modal..</p>
-
-      <div class="provider-container">
-    <div class="provider-close-button-container">
-        <div class="popup-button-close">
-            {% with button_type = "close_button_x_dark"%}
-                {% set button_href = "javascript:void(0)" %}
-                {% include "partials/button.html" %}
-            {% endwith %}
+    <!--Modal content-->
+    <div class="provider-container">
+        <div class="provider-close-button-container">
+            <div class="popup-button-close">
+                {% with button_type = "close_button_x_dark"%}
+                    {% set button_id = "closeModal" %}
+                    {% include "partials/button.html" %}
+                {% endwith %}
+            </div>
         </div>
-    </div>
 
-    <div class="popup-provider-title">
-        <p class="subtitle-1">{{ popup_provider_subtitle }}</p>
-    </div>
+        <div class="popup-provider-title">
+            <p class="subtitle-1">{{ popup_provider_subtitle }}</p>
+        </div>
 
-    <div class="provider-button-container">
-        <div class="provider-button-row">
+        <div class="provider-button-container">
+            <div class="provider-button-row">
             {% for provider in providers %}
-                    <div class="provider-button">
-                        {% with button_type = "med_action_alt_button"%}
-                            {% set github_icon_class = providers[provider]["github_icon_class"] %}
-                            {% set button_image = providers[provider]["icon"] %}
-                            {% set button_label = providers[provider]["label"] %}
-                            {% set button_href = "javascript:void(0)" %}
-                            {% include "partials/button.html" %}
-                        {% endwith %}
-                    </div>
-        {% endfor %}
+                <div class="provider-button">
+                    {% with button_type = "med_action_alt_button"%}
+                        {% set github_icon_class = providers[provider]["github_icon_class"] %}
+                        {% set button_id = providers[provider]["button_id"] %}
+                        {% set provider_signin_value = providers[provider]["provider_signin_name"] %}
+                        {% set button_image = providers[provider]["icon"] %}
+                        {% set button_label = providers[provider]["label"] %}
+                        {% include "partials/button.html" %}
+                    {% endwith %}
+                </div>
+            {% endfor %}
+            </div>
         </div>
     </div>
-</div>
-  </div>
 
-</div>
+    <script src="js/modal.js"></script>
+    <script src="js/modal-provider.js"></script>
+</dialog>
 
 
 
