@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
           modal.close();
       }
     }
-    customModalFunctions();
+
+    customizeModalElements();
 })
 
