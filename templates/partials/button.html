@@ -78,6 +78,7 @@
 {% else %}
     <a class="undecorated-link button-anchor-tag {{ button_library[button_type]['button_backdrop_class'] }} {{ 'disabled' if disabled else '' }}">
         <button id="{{ button_library[button_type]['id'] | default(button_id) }}" class="{{ button_library[button_type]['class'] }} {{ github_icon_class }} {{ 'disabled' if disabled else '' }}"
+                value="{{ provider_signin_value }}"
                 {{ button_additional_attributes }}
                 type="button">
 
