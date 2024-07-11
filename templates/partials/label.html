@@ -1,0 +1,13 @@
+{% set label = {
+        "label_text": "Provider Name",
+        "more_info_text": "Enter Username registered with the provider."
+    }
+%}
+
+<div class="label-container">
+    <p class="subtitle-1">{{ label["label_text"] }}</p>
+    <a tabindex="0" class="button-more-information" role="button" data-toggle="popover" data-bs-trigger="focus"
+            data-bs-placement="right" data-bs-content="{{ label["more_info_text"] }}">
+        <i class="fa-solid fa-circle-info icon-more-information margin-icon-more-information" ></i>
+    </a>
+</div>
