@@ -22,6 +22,8 @@
     --d-elevation-2: 0px 3px 8px 0px rgba(136, 144, 194, 0.25), 0px 7px 21px 0px rgba(37, 44, 97, 0.20);
     --d-elevation-3: 0px 3px 8px 0px rgba(178, 0, 2, 0.12), 0px 7px 21px 0px rgba(178, 0, 2, 0.12);
 
+    --login-elevation-1: 0px 1px 2px 0px rgba(0, 0, 0, 0.30), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+
     --border-black: 1px solid #000000;
     --textbox-border-radius: 5px;
 
@@ -367,11 +369,28 @@ h6{
 .textbox-container{
     width: 300px;
     height: auto;
+    display: flex;
+    flex-direction: column;
     margin-bottom: 30px;
+}
+
+.textbox-label-icon{
+    display: flex;
+    flex-direction: row;
+}
+
+.textbox-label{
+    display: flex;
+    justify-content: start;
 }
 
 .margin-textbox-label{
     margin-bottom: 10px;
+}
+
+.textbox-field-container{
+    display: flex;
+    flex-direction: row;
 }
 
 .input-textbox{
@@ -1175,14 +1194,29 @@ h6{
 .login-content{
     display: flex;
     flex-direction: row;
+    box-shadow: var(--login-elevation-1);
 }
 
 .login-content-left{
     display: flex;
     flex-direction: column;
+    justify-content: center;
     padding-left: 192px;
     padding-right: 192px;
-    box-shadow: var(--elevation-1);
+    /*box-shadow: var(--elevation-1);*/
+}
+
+.label-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.div-login-username-input-invisible{
+    display: none;
+}
+
+.div-login-password-input-invisible{
+    display: none;
 }
 
 .login-error{
@@ -1217,29 +1251,53 @@ h6{
 }
 
 .div-provider-title{
+    display: none;
+    flex-direction: column;
+}
+
+.div-provider-title-visible{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 }
 
 .div-provider-image-name{
     display: flex;
     flex-direction: row;
+    align-items: center;
+    margin-bottom: 30px;
+}
 
+.div-provider-image-name p{
+    margin: unset;
+}
+
+.login-provider-logo{
+    margin-right: 30px;
+}
+
+.provider-name-hidden{
+    visibility: hidden;
 }
 
 .login-content-right{
     width: 589px;
     height: 618px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    box-shadow: var(--elevation-1);
+    /*box-shadow: var(--elevation-1);*/
+}
+
+.div-provider-content-position{
+    position: relative;
+    top: 35%;
+    height: 100%;
 }
 
 .div-provider-content{
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
     color: var(--text-on-dark);
 }
 
@@ -1247,6 +1305,28 @@ h6{
     width: 100%;
     display: flex;
     justify-content: center;
+    margin-top: 33px;
+}
+
+.div-provider-button-invisible{
+    display: none;
+}
+
+.div-email-button{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 33px;
+}
+
+.div-email-button-invisible{
+    display: none;
+}
+
+.login-provider-background{
+    background-image: url("../images/background/background-login-provider.png");
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .login-email-background{
@@ -1254,6 +1334,8 @@ h6{
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+
 
 /*Modal*/
 dialog{
