@@ -4,46 +4,99 @@
 
 {% block content %}
     <div class="container">
-            <div class="login-container">
-                <div class="header-login">
-                    <h3>{{ h3_header_title }}</h3>
-                    <h5>{{ h5_header_title }}</h5>
-                </div>
-                <div class="login-content">
-                    <div class="login-content-left">
+        <div class="login-container">
+            <div class="header-login">
+                <h3>{{ h3_header_title }}</h3>
+                <h5>{{ h5_header_title }}</h5>
+            </div>
+            <div class="login-content">
+                <div class="login-content-left">
+                    <div id="divProviderTitle" class="div-provider-title">
+                        {% include "partials/label.html" %}
+
+                        <div id="divProviderInput" class="div-provider-image-name">
+                            <img id="loginProviderLogo" class="login-provider-logo">
+                            <label id="loginProviderName" class="subtitle-1" for="hiddenprovidername">
+
+                            </label>
+                            <input id="hiddenProviderName" name="hiddenprovidername"  class="provider-name-hidden" type="text" />
+
+                        </div>
+                    </div>
+
+                    <div id="divUsernameInput" class="div-login-username-input">
                         {% with %}
                             {% set textbox_type = "reg_input_text" %}
                             {% include "partials/textbox.html" %}
                         {% endwith %}
+                    </div>
 
+                    <div id="chooseDifferentProvider">
+
+                    </div>
+
+
+                    <div id="divPasswordInput" class="div-login-password-input">
+                    {% with %}
+                        {% set textbox_type = "password_input_text" %}
+                        {% include "partials/textbox.html" %}
+                    {% endwith %}
+                    </div>
+
+                    <!--TODO-->
+                    <!--For the 'email the admin to create an account' portion, detect which node is the current node
+                     (either by checking the url for the node's url or some other way), then get the contact email for the node's admin
+                      and create the email href for the user to click-->
+                    <p class="margin-forgot-password">Forgot password?</p>
+
+                    <div>
                         {% with %}
-                            {% set textbox_type = "password_input_text" %}
-                            {% include "partials/textbox.html" %}
+                            {% set checkbox_label = "I have read all terms and conditions." %}
+                            {% include "partials/checkbox.html" %}
                         {% endwith %}
-
-                        <p class="margin-forgot-password">Forgot password?</p>
-
-                        <div>
-                            {% with %}
-                                {% set checkbox_label = "I have read all terms and conditions." %}
-                                {% include "partials/checkbox.html" %}
-                            {% endwith %}
-                        </div>
-
-                        <div class="margin-signin-button">
-                            {% with button_type = "med_action_button"%}
-                                {% set button_label = "Sign In" %}
-                                {% set button_href = "javascript:void(0)" %}
-                                {% include "partials/button.html" %}
-                            {% endwith %}
-                        </div>
-                    </div>
-                    <div class="login-content-right login-email-background">
-
                     </div>
 
+                    <div class="margin-signin-button">
+                        {% with button_type = "med_action_button"%}
+                            {% set button_id = "buttonSignIn" %}
+                            {% set button_label = "Sign In" %}
+                            {% include "partials/button.html" %}
+                        {% endwith %}
+                    </div>
+                </div>
+                <div id="loginContentRight" class="login-content-right login-provider-background">
+
+                    <div class="div-provider-content-position">
+                        <div class="div-provider-content">
+                            <p id="providerContentTitle">Already have an account with a provider?</p>
+
+                            <div id="divProviderButton" class="div-provider-button">
+                                {% with button_type = "lg_action_button"%}
+                                    {% set button_id = "openModal" %}
+                                    {% set button_additional_attributes= ""%}
+                                    {% set button_label = "Select Provider" %}
+                                    {% include "partials/button.html" %}
+                                {% endwith %}
+                            </div>
+
+                            <div id="divEmailButton" class="div-email-button-invisible">
+                                {% with button_type = "lg_action_button"%}
+                                    {% set button_id = "buttonSelectEmail" %}
+                                    {% set button_additional_attributes= ""%}
+                                    {% set button_label = "Sign In With Email" %}
+                                    {% include "partials/button.html" %}
+                                {% endwith %}
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
 
             </div>
+
+        </div>
     </div>
+    {% include "partials/popup-provider.html" %}
+    <script src="js/login.js"></script>
+
 {% endblock %}
