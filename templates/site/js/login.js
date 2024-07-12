@@ -29,7 +29,7 @@ function swapEmailProviderPanel(){
     var divLoginContentRight = document.getElementById("loginContentRight");
     var emailButton = document.getElementById("divEmailButton");
     var providerButton = document.getElementById("divProviderButton");
-
+    var loginTypeTitle = document.getElementById("loginTypeTitle");
 
     divPasswordInput.classList.toggle("div-login-password-input-invisible");
     divProviderTitle.classList.toggle("div-provider-title-visible");
@@ -37,6 +37,7 @@ function swapEmailProviderPanel(){
     providerButton.classList.replace("div-provider-button-invisible", "div-provider-button");
     emailButton.classList.replace("div-email-button", "div-email-button-invisible");
     divLoginContentRight.classList.replace("login-email-background", "login-provider-background");
+    loginTypeTitle.innerText = "Already have an account with a provider?";
 }
 
 
@@ -66,10 +67,12 @@ function login(){
                     //window.location.href = accountHome;
                     console.log(json);
                 }
+                else{
+                    loginErrorMessage.classList.toggle("login-error-visible");
+                }
 
             }catch (error){
-                 throw new Error(error)
-                loginErrorMessage.classList.toggle("login-error-visible");
+                console.log(error);
             }
 
         }))
@@ -90,12 +93,17 @@ function login(){
             try{
                 if(json.code == 200){
                     //Replace magpieHome with /magpie when done
-                    window.location.href = magpieHome;
+                    //window.location.href = accountHome;
+                    console.log(json);
+                }
+                else{
+                    loginErrorMessage.classList.toggle("login-error-visible");
                 }
 
             }catch (error){
-                 throw new Error(error)
-                loginErrorMessage.classList.toggle("login-error-visible");
+                 //throw new Error(error)
+                console.log(error);
+
             }
         })
     }
