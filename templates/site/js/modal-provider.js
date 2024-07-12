@@ -9,9 +9,11 @@ function customizeModalElements(){
 
 function swapProviderEmailPanel(){
     var divLoginContentRight = document.getElementById("loginContentRight");
+    var loginTypeTitle = document.getElementById("loginTypeTitle");
     var emailButton = document.getElementById("divEmailButton");
     var providerButton = document.getElementById("divProviderButton");
 
+    loginTypeTitle.innerText = "Already have an account?";
     providerButton.classList.replace("div-provider-button", "div-provider-button-invisible");
     emailButton.classList.replace("div-email-button-invisible", "div-email-button");
     divLoginContentRight.classList.replace("login-provider-background", "login-email-background");
