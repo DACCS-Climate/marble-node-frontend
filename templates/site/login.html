@@ -29,7 +29,7 @@
                     </div>
 
                     <div id="chooseDifferentProvider" class="display-none div-choose-different-provider" >
-                        <a id="openModalLink" class="choose-different-provider">Choose a different provider <i class="fa-solid fa-arrow-right arrow-choose-different-provider"></i></a>
+                        <a id="openProviderModalLink" class="choose-different-provider">Choose a different provider <i class="fa-solid fa-arrow-right arrow-choose-different-provider"></i></a>
                     </div>
 
                     <div id="divPasswordInput" class="display-flex div-login-password-input">
@@ -44,7 +44,7 @@
                      (either by checking the url for the node's url or some other way), then get the contact email for the node's admin
                       and create the email href for the user to click-->
                     <div id="divForgotPassword">
-                        <p class="margin-forgot-password">Forgot password?</p>
+                        <a id="openPasswordResetModalLink" class="link-forgot-password margin-forgot-password">Forgot password?</a>
                     </div>
                     <div>
                         {% with %}
@@ -68,7 +68,7 @@
 
                             <div id="divProviderButton" class="display-flex div-provider-button">
                                 {% with button_type = "lg_action_button"%}
-                                    {% set button_id = "openModal" %}
+                                    {% set button_id = "openProviderModal" %}
                                     {% set button_additional_attributes= ""%}
                                     {% set button_label = "Select Provider" %}
                                     {% include "partials/button.html" %}
@@ -90,6 +90,7 @@
         </div>
     </div>
     {% include "partials/popup-provider.html" %}
+    {% include "partials/popup-password-reset.html" %}
     <script src="js/login.js"></script>
 
 {% endblock %}
