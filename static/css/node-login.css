@@ -351,6 +351,14 @@ h6{
 
 /*Body*/
 
+.display-flex{
+    display: flex;
+}
+
+.display-none{
+    display: none;
+}
+
 .margin-unset-default{
     margin: unset;
 }
@@ -1211,30 +1219,30 @@ h6{
     flex-direction: row;
 }
 
-.div-login-username-input-invisible{
-    display: none;
-}
-
-.div-login-password-input-invisible{
-    display: none;
-}
-
 .login-error{
     color: var(--error);
     margin-top:10px;
 }
 
-.login-error-not-visible{
-    display:none;
-}
-
-.login-error-visible{
-    display:flex;
-}
-
 .margin-forgot-password{
     margin-bottom: 30px;
 }
+
+.choose-different-provider{
+    color: var(--primary);
+}
+
+.arrow-choose-different-provider{
+    color: var(--primary);
+    margin-left: 10px;
+}
+
+.div-choose-different-provider{
+    flex-direction: row;
+    align-items: center;
+    cursor: default;
+}
+
 
 .margin-signin-button{
     margin-top: 30px;
@@ -1251,12 +1259,6 @@ h6{
 }
 
 .div-provider-title{
-    display: none;
-    flex-direction: column;
-}
-
-.div-provider-title-visible{
-    display: flex;
     flex-direction: column;
 }
 
@@ -1302,24 +1304,14 @@ h6{
 
 .div-provider-button{
     width: 100%;
-    display: flex;
     justify-content: center;
     margin-top: 33px;
-}
-
-.div-provider-button-invisible{
-    display: none;
 }
 
 .div-email-button{
     width: 100%;
-    display: flex;
     justify-content: center;
     margin-top: 33px;
-}
-
-.div-email-button-invisible{
-    display: none;
 }
 
 .login-provider-background{
