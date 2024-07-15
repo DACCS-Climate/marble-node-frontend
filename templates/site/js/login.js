@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     })
 
     emailButton.addEventListener('click', (event) => {
-        swapEmailProviderPanel();
+        loginModeEmail();
     })
 
     //Set contact email for node admin on the error message when login is incorrect.  Allows user to contact node
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
 //Swap background images for right side for Provider and Email
 //Swap Provider image and name area
 //Make password input field visible again
-function swapEmailProviderPanel(){
+function loginModeEmail(){
     var divProviderTitle = document.getElementById("divProviderTitle");
     var divPasswordInput = document.getElementById("divPasswordInput");
     var hiddenProviderName = document.getElementById("hiddenProviderName");
@@ -30,14 +30,35 @@ function swapEmailProviderPanel(){
     var emailButton = document.getElementById("divEmailButton");
     var providerButton = document.getElementById("divProviderButton");
     var loginTypeTitle = document.getElementById("loginTypeTitle");
+    var chooseDifferentProvider = document.getElementById("chooseDifferentProvider");
+    var divForgotPassword = document.getElementById("divForgotPassword");
 
-    divPasswordInput.classList.toggle("div-login-password-input-invisible");
-    divProviderTitle.classList.toggle("div-provider-title-visible");
     hiddenProviderName.value = ""; //Erase provider name stored in the hidden text field
-    providerButton.classList.replace("div-provider-button-invisible", "div-provider-button");
-    emailButton.classList.replace("div-email-button", "div-email-button-invisible");
     divLoginContentRight.classList.replace("login-email-background", "login-provider-background");
     loginTypeTitle.innerText = "Already have an account with a provider?";
+
+    if(chooseDifferentProvider.classList.contains("display-flex")){
+        chooseDifferentProvider.classList.replace("display-flex", "display-none");
+    }
+
+    if(divProviderTitle.classList.contains("display-flex")){
+        divProviderTitle.classList.replace("display-flex", "display-none");
+    }
+
+    if(emailButton.classList.contains("display-flex")){
+        emailButton.classList.replace("display-flex", "display-none");
+    }
+
+    if(providerButton.classList.contains("display-none")){
+        providerButton.classList.replace("display-none", "display-flex");
+    }
+
+    if(divPasswordInput.classList.contains("display-none")){
+        divPasswordInput.classList.replace("display-none", "display-flex");
+    }
+
+    divForgotPassword.classList.remove(...divForgotPassword.classList);
+    divForgotPassword.classList.add("display-flex");
 }
 
 
@@ -68,7 +89,9 @@ function login(){
                     console.log(json);
                 }
                 else{
-                    loginErrorMessage.classList.toggle("login-error-visible");
+                    if(loginErrorMessage.classList.contains("display-none")){
+                        loginErrorMessage.classList.toggle("display-flex");
+                    }
                 }
 
             }catch (error){
@@ -97,7 +120,9 @@ function login(){
                     console.log(json);
                 }
                 else{
-                    loginErrorMessage.classList.toggle("login-error-visible");
+                    if(loginErrorMessage.classList.contains("display-none")){
+                        loginErrorMessage.classList.toggle("display-flex");
+                    }
                 }
 
             }catch (error){
