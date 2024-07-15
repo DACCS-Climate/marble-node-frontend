@@ -11,16 +11,13 @@
             </div>
             <div class="login-content">
                 <div class="login-content-left">
-                    <div id="divProviderTitle" class="div-provider-title">
+                    <div id="divProviderTitle" class="display-none div-provider-title">
                         {% include "partials/label.html" %}
 
                         <div id="divProviderInput" class="div-provider-image-name">
                             <img id="loginProviderLogo" class="login-provider-logo">
-                            <label id="loginProviderName" class="subtitle-1" for="hiddenprovidername">
-
-                            </label>
+                            <label id="loginProviderName" class="subtitle-1" for="hiddenprovidername"></label>
                             <input id="hiddenProviderName" name="hiddenprovidername"  class="provider-name-hidden" type="text" />
-
                         </div>
                     </div>
 
@@ -31,12 +28,11 @@
                         {% endwith %}
                     </div>
 
-                    <div id="chooseDifferentProvider">
-
+                    <div id="chooseDifferentProvider" class="display-none div-choose-different-provider" >
+                        <a id="openModalLink" class="choose-different-provider">Choose a different provider <i class="fa-solid fa-arrow-right arrow-choose-different-provider"></i></a>
                     </div>
 
-
-                    <div id="divPasswordInput" class="div-login-password-input">
+                    <div id="divPasswordInput" class="display-flex div-login-password-input">
                     {% with %}
                         {% set textbox_type = "password_input_text" %}
                         {% include "partials/textbox.html" %}
@@ -47,8 +43,9 @@
                     <!--For the 'email the admin to create an account' portion, detect which node is the current node
                      (either by checking the url for the node's url or some other way), then get the contact email for the node's admin
                       and create the email href for the user to click-->
-                    <p class="margin-forgot-password">Forgot password?</p>
-
+                    <div id="divForgotPassword">
+                        <p class="margin-forgot-password">Forgot password?</p>
+                    </div>
                     <div>
                         {% with %}
                             {% set checkbox_label = "I have read all terms and conditions." %}
@@ -69,7 +66,7 @@
                         <div class="div-login-type-content">
                             <p id="loginTypeTitle">Already have an account with a provider?</p>
 
-                            <div id="divProviderButton" class="div-provider-button">
+                            <div id="divProviderButton" class="display-flex div-provider-button">
                                 {% with button_type = "lg_action_button"%}
                                     {% set button_id = "openModal" %}
                                     {% set button_additional_attributes= ""%}
@@ -78,7 +75,7 @@
                                 {% endwith %}
                             </div>
 
-                            <div id="divEmailButton" class="div-email-button-invisible">
+                            <div id="divEmailButton" class="display-none div-email-button">
                                 {% with button_type = "lg_action_button"%}
                                     {% set button_id = "buttonSelectEmail" %}
                                     {% set button_additional_attributes= ""%}
@@ -89,9 +86,7 @@
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
     </div>
     {% include "partials/popup-provider.html" %}
