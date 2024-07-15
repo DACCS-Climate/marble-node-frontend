@@ -1224,6 +1224,12 @@ h6{
     margin-top:10px;
 }
 
+.link-forgot-password{
+    color: var(--primary);
+    text-decoration: none;
+    cursor: pointer;
+}
+
 .margin-forgot-password{
     margin-bottom: 30px;
 }
