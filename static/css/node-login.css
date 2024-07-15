@@ -1230,6 +1230,8 @@ h6{
 
 .choose-different-provider{
     color: var(--primary);
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .arrow-choose-different-provider{
@@ -1240,9 +1242,11 @@ h6{
 .div-choose-different-provider{
     flex-direction: row;
     align-items: center;
-    cursor: default;
 }
 
+.margin-choose-different-provider{
+    margin-bottom: 30px;
+}
 
 .margin-signin-button{
     margin-top: 30px;
@@ -1327,6 +1331,26 @@ h6{
 
 
 /*Modal*/
+/*Use Bootstrap modal-open class to prevent body from scrolling underneath the modal*/
+body.modal-open {
+    overflow: hidden;
+    position: fixed;
+}
+
+.stop-scroll{
+    overflow: hidden;
+}
+
+.start-scroll{
+    overflow: auto;
+}
+body.viewport-lg {
+    /* block scroll for desktop; */
+    /* will not jump to top; */
+    /* will not prevent scroll on mobile */
+    position: absolute;
+}
+
 dialog{
     border: none;
 }
