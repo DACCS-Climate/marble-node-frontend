@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    setModal("providerModal", "openModal", "openModalLink", "closeModal");
+    setModal("providerModal", "openProviderModal", "openProviderModalLink", "closeProviderModal");
     setProviderButtonActions();
 })
 
