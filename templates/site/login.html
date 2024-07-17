@@ -15,7 +15,7 @@
                         {% include "partials/label.html" %}
 
                         <div id="divProviderInput" class="div-provider-image-name">
-                            <img id="loginProviderLogo" class="login-provider-logo">
+                            <img id="loginProviderLogo" class="login-provider-logo margin-login-provider-logo">
                             <label id="loginProviderName" class="subtitle-1" for="hiddenprovidername"></label>
                             <input id="hiddenProviderName" name="hiddenprovidername"  class="provider-name-hidden" type="text" />
                         </div>
@@ -28,8 +28,8 @@
                         {% endwith %}
                     </div>
 
-                    <div id="chooseDifferentProvider" class="display-none div-choose-different-provider" >
-                        <a id="openProviderModalLink" class="choose-different-provider">Choose a different provider <i class="fa-solid fa-arrow-right arrow-choose-different-provider"></i></a>
+                    <div id="chooseDifferentProvider" class="display-none div-choose-different-provider margin-choose-different-provider" >
+                        <a id="openProviderModalLink" class="choose-different-provider subtitle-1">Choose a different provider</a>
                     </div>
 
                     <div id="divPasswordInput" class="display-flex div-login-password-input">
@@ -44,7 +44,7 @@
                      (either by checking the url for the node's url or some other way), then get the contact email for the node's admin
                       and create the email href for the user to click-->
                     <div id="divForgotPassword">
-                        <a id="openPasswordResetModalLink" class="link-forgot-password margin-forgot-password">Forgot password?</a>
+                        <a id="openPasswordResetModalLink" class="link-forgot-password margin-forgot-password subtitle-1">Forgot password?</a>
                     </div>
                     <div>
                         {% with %}
