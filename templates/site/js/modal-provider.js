@@ -31,7 +31,7 @@ function swapProviderEmailPanel(){
 * Closes the providers modal panel
 * */
 function setProviderButtonActions(){
-    var modal = document.getElementById("modalDisplay");
+    var providerModal = document.getElementById("providerModal");
     var bodyHTMLCollection = document.getElementsByTagName("body");
     var bodyTags = Array.from(bodyHTMLCollection);
     var buttonTags = document.getElementsByTagName("button");
@@ -49,11 +49,12 @@ function setProviderButtonActions(){
             button.addEventListener("click", function() {
                 var buttonLogo = document.getElementById(button.id).getElementsByTagName("img");
                 var logos = Array.from(buttonLogo);
+                var divLoginProviderLogo = document.getElementById("loginProviderLogo");
 
                 logos.forEach(logo => {
-                    var largerLogoSrc = logo.src.replace(".svg", "2.svg") ;
-                    loginProviderLogo.src = largerLogoSrc;
+                    divLoginProviderLogo.src = logo.src;
                 })
+
                 loginProviderName.innerText = button.value.toUpperCase();
                 loginHiddenProviderName.value = button.value;
 
@@ -74,8 +75,8 @@ function setProviderButtonActions(){
 
                 chooseDifferentProvider.classList.replace("display-none", "display-flex");
                 swapProviderEmailPanel();
-                modal.close();
-        })
+                providerModal.close();
+            })
         }
     })
 }
