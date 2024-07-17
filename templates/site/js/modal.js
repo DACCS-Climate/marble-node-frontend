@@ -1,9 +1,8 @@
-function setModal(modalDialogID, openModalButtonElementID, openModalLinkElementID, closeModalElementID){
+function setModal(modalElementID, openModalButtonElementID, openModalLinkElementID, closeModalElementID){
     // Get the modal
-    var modal = document.getElementById(modalDialogID);
+    var modalElement = document.getElementById(modalElementID);
     var bodyHTMLCollection = document.getElementsByTagName("body");
     var bodyTags = Array.from(bodyHTMLCollection);
-
 
     if(openModalButtonElementID != ""){
         var openModalButton = document.getElementById(openModalButtonElementID);
@@ -15,7 +14,7 @@ function setModal(modalDialogID, openModalButtonElementID, openModalLinkElementI
                 body.classList.add("stop-scroll");
             })
 
-            modal.showModal();
+            modalElement.showModal();
         });
     }
 
@@ -26,7 +25,7 @@ function setModal(modalDialogID, openModalButtonElementID, openModalLinkElementI
             bodyTags.forEach(body => {
                 body.classList.remove(...body.classList);
             })
-            modal.close();
+            modalElement.close();
         });
     }
     
@@ -38,17 +37,17 @@ function setModal(modalDialogID, openModalButtonElementID, openModalLinkElementI
                 body.classList.remove(...body.classList);
                 body.classList.add("stop-scroll");
             })
-            modal.showModal();
+            modalElement.showModal();
         })
     }
 
     // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-      if (event.target == modal) {
-          bodyTags.forEach(body => {
-            body.classList.remove(...body.classList);
-        })
-          modal.close();
-      }
-    }
+    modalElement.addEventListener("click", () => {
+        if(event.target.id !== modalElement){
+            bodyTags.forEach(body => {
+                body.classList.remove(...body.classList);
+            })
+            modalElement.close();
+        }
+    } )
 }
