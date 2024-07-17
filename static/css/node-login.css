@@ -22,7 +22,7 @@
     --d-elevation-2: 0px 3px 8px 0px rgba(136, 144, 194, 0.25), 0px 7px 21px 0px rgba(37, 44, 97, 0.20);
     --d-elevation-3: 0px 3px 8px 0px rgba(178, 0, 2, 0.12), 0px 7px 21px 0px rgba(178, 0, 2, 0.12);
 
-    --login-elevation-1: 0px 3px 2px 0px rgba(0, 0, 0, 0.30), 0px 3px 3px 1px rgba(0, 0, 0, 0.15);
+    --login-elevation-1: 0px 3px 1px 1px rgba(0, 0, 0, 0.30), 0px 2px 1px 0px rgba(0, 0, 0, 0.15);
 
     --border-black: 1px solid #000000;
     --textbox-border-radius: 5px;
@@ -51,9 +51,10 @@
     --black: #000000;
     --black-opacity-lighter: rgba(0, 0, 0, 0.18);
     --black-opacity-light: rgba(0,0,0,0.25);
-    --black-opacity-midlight: rgba(0,0,0,0.30);
-    --black-opacity-mid: rgba(0,0,0,0.5);
-    --black-opacity-mid-dark: rgba(0, 0, 0, 0.55);
+    --black-opacity-mid-light: rgba(0,0,0,0.30);
+    --black-opacity-mid: rgba(0, 0, 0, 0.50);
+    --black-opacity-mid-dark: rgba(0, 0, 0, 0.75);
+    --black-opacity-darker: rgba(0, 0, 0, 0.8);
     --opaque-light-grey: rgba(255,255,255, 0.3);
     --white-opacity-light: rgba(255, 255, 255, 0.18);
     --red-opacity-mid: rgba(178, 0, 2, 0.50);
@@ -277,6 +278,10 @@ h6{
 .btn-light:focus {
   color: #333;
   text-shadow: none; /* Prevent inheritance from `body` */
+}
+
+.margin-button-arrow{
+    margin-left: 12px;
 }
 
 /*Override Bootstrap*/
@@ -966,7 +971,7 @@ h6{
 .popup-feedback-container{
     width: 676px;
     height: 404px;
-    background-color: var(--black-opacity-mid-dark);
+    background-color: var(--black-opacity-mid);
     backdrop-filter: var(--backdrop-filter-feedback);
     padding-left: 26px;
     padding-top: 33px;
@@ -1182,7 +1187,6 @@ h6{
 }
 
 /*Login page*/
-
 .login-container{
     display: flex;
     flex-direction: column;
@@ -1225,9 +1229,15 @@ h6{
 }
 
 .link-forgot-password{
+    display: flex;
     color: var(--primary);
     text-decoration: none;
     cursor: pointer;
+}
+
+.link-forgot-password:hover{
+    color: var(--primary);
+    text-decoration: underline;
 }
 
 .margin-forgot-password{
@@ -1238,6 +1248,11 @@ h6{
     color: var(--primary);
     text-decoration: none;
     cursor: pointer;
+}
+
+.choose-different-provider:hover{
+    color: var(--primary);
+    text-decoration: underline;
 }
 
 .arrow-choose-different-provider{
@@ -1284,6 +1299,11 @@ h6{
 }
 
 .login-provider-logo{
+    width: 36px;
+    height: 36px;
+}
+
+.margin-login-provider-logo{
     margin-right: 30px;
 }
 
@@ -1359,6 +1379,7 @@ body.viewport-lg {
 
 dialog{
     border: none;
+    padding: unset;
 }
 
 /*modal background*/
@@ -1383,4 +1404,18 @@ dialog{
 .modal-content-position{
     display: flex;
     justify-content: center;
+}
+
+/*Provider Modal*/
+.dialog-provider::backdrop{
+    backdrop-color: var(--black-opacity-mid-light);
+}
+
+/*Password Reset Modal*/
+.dialog-password-reset{
+    background-color: var(--background-transparent);
+}
+
+.dialog-password-reset::backdrop{
+    background-color: var(--black-opacity-darker);
 }
