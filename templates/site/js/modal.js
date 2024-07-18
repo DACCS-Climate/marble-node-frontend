@@ -43,7 +43,7 @@ function setModal(modalElementID, openModalButtonElementID, openModalLinkElement
 
     // When the user clicks anywhere outside of the modal, close it
     modalElement.addEventListener("click", () => {
-        if(event.target.id !== modalElement){
+        if(event.target.id == modalElementID){
             bodyTags.forEach(body => {
                 body.classList.remove(...body.classList);
             })
