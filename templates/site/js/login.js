@@ -115,9 +115,9 @@ function login(){
 
             try{
                 if(json.code == 200){
-                    //Replace magpieHome with /magpie when done
-                    //window.location.href = accountHome;
-                    console.log(json);
+
+                    window.location.href = accountHome;
+                    //console.log(json);
                 }
                 else{
                     if(loginErrorMessage.classList.contains("display-none")){
