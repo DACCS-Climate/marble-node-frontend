@@ -49,10 +49,9 @@ function setProviderButtonActions(){
             button.addEventListener("click", function() {
                 var buttonLogo = document.getElementById(button.id).getElementsByTagName("img");
                 var logos = Array.from(buttonLogo);
-                var divLoginProviderLogo = document.getElementById("loginProviderLogo");
 
                 logos.forEach(logo => {
-                    divLoginProviderLogo.src = logo.src;
+                    loginProviderLogo.src = logo.src;
                 })
 
                 loginProviderName.innerText = button.value.toUpperCase();
