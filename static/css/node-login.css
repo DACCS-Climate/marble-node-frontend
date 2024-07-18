@@ -23,6 +23,7 @@
     --d-elevation-3: 0px 3px 8px 0px rgba(178, 0, 2, 0.12), 0px 7px 21px 0px rgba(178, 0, 2, 0.12);
 
     --login-elevation-1: 0px 3px 1px 1px rgba(0, 0, 0, 0.30), 0px 2px 1px 0px rgba(0, 0, 0, 0.15);
+    --password-elevation: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 
     --border-black: 1px solid #000000;
     --textbox-border-radius: 5px;
@@ -1044,9 +1045,10 @@ h6{
     height: 363px;
     padding: 33px;
     background-color: var(--white-opacity-light);
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: var(--password-elevation);
     border-radius: 5px;
     backdrop-filter: var(--backdrop-filter-password);
+    -webkit-backdrop-filter: var(--backdrop-filter-password);
 }
 
 .password-close-button-container{
@@ -1354,15 +1356,7 @@ h6{
     background-repeat: no-repeat;
 }
 
-
-
 /*Modal*/
-/*Use Bootstrap modal-open class to prevent body from scrolling underneath the modal*/
-body.modal-open {
-    overflow: hidden;
-    position: fixed;
-}
-
 .stop-scroll{
     overflow: hidden;
 }
@@ -1370,45 +1364,19 @@ body.modal-open {
 .start-scroll{
     overflow: auto;
 }
-body.viewport-lg {
-    /* block scroll for desktop; */
-    /* will not jump to top; */
-    /* will not prevent scroll on mobile */
-    position: absolute;
-}
 
 dialog{
     border: none;
     padding: unset;
 }
 
-/*modal background*/
-.modal-opacity {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 30; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: var(--black-opacity-light); /* Black w/ opacity */
-}
-
-/* Modal Content/Box */
-.modal-content{
-    width: 100%;
-    height: 100%
-}
-
-.modal-content-position{
-    display: flex;
-    justify-content: center;
-}
-
 /*Provider Modal*/
+.dialog-provider{
+    background-color: var(--background-transparent);
+}
+
 .dialog-provider::backdrop{
-    backdrop-color: var(--black-opacity-mid-light);
+    background-color: var(--black-opacity-mid-light);
 }
 
 /*Password Reset Modal*/
