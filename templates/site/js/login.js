@@ -13,8 +13,6 @@ document.addEventListener("DOMContentLoaded", function () {
         loginModeEmail();
     })
 
-    //Set contact email for node admin on the error message when login is incorrect.  Allows user to contact node
-    //admin to create account
     setNodeAdminEmail();
 })
 
@@ -134,29 +132,40 @@ function login(){
     }
 }
 
-//Sets the email contact on the error message for the particular node's admin/contact
+//Gets session details and returns the base url of the current node
+async function getSessionDetails(){
+    const sessionURLFragment = "magpie/session"
+    const nodeSessionURL = nodeURL + sessionURLFragment;
+
+    return fetch(nodeSessionURL).then(response => response.json()).then(json =>{
+        return json.url.replace(sessionURLFragment, "");
+    })
+}
+
+//Matches base url of the current node with the node registry and sets the email for the reset password modal and
+//the error message for a login error
 function setNodeAdminEmail(){
     const githubURL = "{{ node_registry_url }}";
-    let currentURL = window.location.href;
-    let contactEmail = document.getElementById("nodeAdminEmail");
+    let nodeAdminEmail = document.getElementById("nodeAdminEmail");
+    let passwordResetEmail = document.getElementById("passwordResetEmail");
 
+    getSessionDetails().then(currentNodeURL =>
 
-    fetch(githubURL).then(resp => resp.json()).then(json => {
-        var node_keys = Object.keys(json);
-
-        node_keys.forEach((key, index) => {
-            if(key.links){
-                key.links.forEach((link) =>{
-                    if(link.rel && link.rel === "service"){
-                        if(link.href in currentURL){
-                            console.log(link.href);
-                            contactEmail.setAttribute("href", "mailto:" + link.href);
+        fetch(githubURL).then(resp => resp.json()).then(json => {
+            var node_keys = Object.keys(json);
+            node_keys.forEach((key, index) => {
+                if(json[key].links){
+                    json[key].links.forEach((link) =>{
+                        if(link.rel && link.rel === "service"){
+                            if(currentNodeURL.includes(link.href)){
+                                nodeAdminEmail.setAttribute("href", "mailto:" + json[key].contact);
+                                passwordResetEmail.setAttribute("href", "mailto:" + json[key].contact);
+                                passwordResetEmail.innerText = json[key].contact;
+                            }
                         }
-
-                    }
-                })
-            }
+                    })
+                }
+            })
         })
-
-    })
+    )
 }
