@@ -65,13 +65,15 @@ function login(){
     const passwordInput = document.getElementById("userPassword").value;
     const providerInput = document.getElementById("hiddenProviderName").value
 
+    const nodeSignInURLFragment = "magpie/signin";
     const nodeSignIn = nodeURL + "magpie/signin";
     const accountHome = "account.html";
     let loginErrorMessage = document.getElementById("loginError");
 
-    //Replace nodeSignIn in fetch with endpoint when done
-    //"/magpie/signin"
+    //TODO Replace nodeSignIn in fetch with nodeSignInURLFragment variable when done
+    //TODO Replace providersSignIn in fetch with providerSignInURLFragment variable when done
     if(providerInput){
+        const providerSignInURLFragment = "magpie/providers/" + providerInput + "/signin";
         const providerSignIn = nodeURL + "magpie/providers/" + providerInput + "/signin";
 
         fetch(providerSignIn, {
@@ -134,16 +136,26 @@ function login(){
 
 //Gets session details and returns the base url of the current node
 async function getSessionDetails(){
+    //TODO
+    //Replace nodeSessionURL with the sessionURLFragment variable in the fetch
+    //Remove nodeSessionURL variable assignment
     const sessionURLFragment = "magpie/session"
     const nodeSessionURL = nodeURL + sessionURLFragment;
 
-    return fetch(nodeSessionURL).then(response => response.json()).then(json =>{
+    return fetch(nodeSessionURL,{
+        method: "GET",
+        headers: {
+            Accept: "application/json, text/plain",
+            "Content-Type": "application/json"
+            }
+        }).then(response => response.json()).then(json =>{
         return json.url.replace(sessionURLFragment, "");
     })
 }
 
 //Matches base url of the current node with the node registry and sets the email for the reset password modal and
 //the error message for a login error
+
 function setNodeAdminEmail(){
     const githubURL = "{{ node_registry_url }}";
     let nodeAdminEmail = document.getElementById("nodeAdminEmail");
