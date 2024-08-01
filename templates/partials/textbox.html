@@ -6,14 +6,12 @@
 
 {% set textbox = {
         "reg_input_text": {
-            "textbox_label": "Email or Username",
             "textbox_name": "username",
             "input_type": "text",
             "eye_icon_visible": "visibility-none-password-eye",
             "more_info_text": "Enter Username or Email registered with the node you wish to access."
         },
         "password_input_text": {
-            "textbox_label": "Password",
             "textbox_name": "userpassword",
             "input_type": "password",
             "input_required": "required ",
@@ -26,7 +24,7 @@
 <div class="textbox-container">
     <div class="textbox-label-icon">
         <label class="textbox-label margin-textbox-label subtitle-1" for="{{ textbox[textbox_type]["textbox_name"] }}">
-            {{ textbox[textbox_type]["textbox_label"] }}
+            {{ textbox_label }}
         </label>
 
         <a tabindex="0" class="button-more-information" role="button" data-toggle="popover" data-bs-trigger="focus"
