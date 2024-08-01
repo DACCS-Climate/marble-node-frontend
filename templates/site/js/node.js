@@ -38,7 +38,6 @@ const converters = {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    const githubURL = "{{ node_registry_url }}";
     var sessionDetailsJSON = getSessionDetails();
     var baseURL;
     var currentNode;
@@ -84,8 +83,4 @@ function getServices(node_url){
             })
         })
     })
-}
-
-function capitalize(word){
-    return word.charAt(0).toUpperCase() + word.slice(1);
 }
