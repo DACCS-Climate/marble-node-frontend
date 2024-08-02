@@ -1,0 +1,22 @@
+{% set overview_title = "My Account" %}
+{% set subtitle = "Overview" %}
+
+<div class="account-overview-container">
+    <div class="account-overview-content">
+        <div class="account-overview-top">
+            <h4 class="margin-overview-title">{{ overview_title }}</h4>
+            <p class="subtitle-1 margin-overview-title">{{ subtitle }}</p>
+        </div>
+
+         <div class="account-overview-bottom">
+             <div class="account-user-details-row">
+                 <p class="subtitle-1">User Name:</p>
+                 <p id="account-username"></p>
+             </div>
+             <div class="account-user-details-row">
+                 <p class="subtitle-1">Email:</p>
+                 <p id="account-email"></p>
+             </div>
+        </div>
+    </div>
+</div>
