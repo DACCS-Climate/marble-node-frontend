@@ -1,5 +1,3 @@
-{% set textbox_type = textbox_type %}
-
 {% if textbox_type == "password_input_text" %}
     {% set input_textbox_id = "userPassword" %}
 {% else %}
@@ -8,14 +6,12 @@
 
 {% set textbox = {
         "reg_input_text": {
-            "textbox_label": "Email or Username",
             "textbox_name": "username",
             "input_type": "text",
             "eye_icon_visible": "visibility-none-password-eye",
             "more_info_text": "Enter Username or Email registered with the node you wish to access."
         },
         "password_input_text": {
-            "textbox_label": "Password",
             "textbox_name": "userpassword",
             "input_type": "password",
             "input_required": "required ",
@@ -28,7 +24,7 @@
 <div class="d-flex flex-column textbox-container">
     <div class="d-flex flex-row">
         <label class="d-flex justify-content-start subtitle-1 margin-textbox-label" for="{{ textbox[textbox_type]["textbox_name"] }}">
-            {{ textbox[textbox_type]["textbox_label"] }}
+            {{ textbox_label }}
         </label>
 
         <a tabindex="0" class="button-more-information" role="button" data-toggle="popover" data-bs-trigger="focus"
