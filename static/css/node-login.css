@@ -22,6 +22,9 @@
     --d-elevation-2: 0px 3px 8px 0px rgba(136, 144, 194, 0.25), 0px 7px 21px 0px rgba(37, 44, 97, 0.20);
     --d-elevation-3: 0px 3px 8px 0px rgba(178, 0, 2, 0.12), 0px 7px 21px 0px rgba(178, 0, 2, 0.12);
 
+
+    --account-overview-elevation: 0px 9px 12px 0px rgba(0, 0, 0, 0.20);
+
     --border-black: 1px solid #000000;
     --textbox-border-radius: 5px;
 
@@ -281,7 +284,14 @@ h6{
     width: 1156px;
     padding-left: 20px;
     padding-right: 20px;
+    padding-bottom: 50px;
+    margin-bottom: 50px;
     background-color: var(--white);
+    border-bottom: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: var(--gray-500);
+
+
 }
 
 .nav-item{
@@ -1083,7 +1093,6 @@ h6{
 }
 
 .padding-header-row th:first-child{
-    /*padding-left: 27px;*/
 }
 
 .padding-header-row th:last-child{
@@ -1091,7 +1100,6 @@ h6{
 }
 
 .popup-network-body tr td:first-child{
-   /*padding-left: 50px;*/
 }
 
 .popup-network-body tr:first-child td{
@@ -1099,7 +1107,6 @@ h6{
 }
 
 .popup-network-body tr td:last-child{
-   /*padding-right: 50px;*/
 }
 
 .popup-network-body tr:last-child td{
@@ -1121,7 +1128,6 @@ h6{
 }
 
 .network-entry-row td:nth-child(2){
-  /*padding-left: 20px;*/
 }
 
 /*Providers Popup*/
@@ -1155,3 +1161,187 @@ h6{
     margin-right: 93px;
     margin-bottom: 67px;
 }
+
+/*Account Page*/
+
+.account-menu-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.page-title{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.account-overview-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.account-overview-content{
+    width: 1008px;
+    height: 446px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 20px;
+    background-color: var(--gray-100);
+    box-shadow: var(--account-overview-elevation);
+    padding-left: 61px;
+}
+
+.margin-overview-title{
+    margin-bottom: 30px;
+}
+
+.account-user-details-row p{
+    margin-right: 5px;
+    margin-bottom: unset;
+}
+
+.account-user-details-row:not(:last-child){
+    margin-bottom: 20px;
+}
+
+.account-overview-top{
+    width: 879px;
+    display: flex;
+    flex-direction: column;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--gray-500);
+}
+
+.account-user-details-row{
+    display: flex;
+    flex-direction: row;
+}
+
+.account-overview-bottom{
+    width: 879px;
+    display: flex;
+    flex-direction: column;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+/*Node Servicex section*/
+.node-services-container{
+    margin-bottom: 120px;
+}
+
+.header-services{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.services-title-border {
+    width: 90%;
+    border-bottom-style: solid;
+    border-bottom-color: var(--gray-500);
+    border-bottom-width: 1px;
+}
+
+.title-services-text{
+    text-align: center;
+}
+
+.margin-services-title{
+    margin-top: 50px;
+    margin-bottom:50px;
+    padding-bottom: 50px;
+}
+
+.services-margin-div {
+    margin-top: 0px;
+}
+
+.node-card{
+    max-width: 322px;
+    /*max-height: 238px;*/
+    height: 256px;
+    margin-left: 35px;
+    margin-top: 35px;
+    margin-right: 35px;
+    margin-bottom: 35px;
+    padding-left: 17px;
+    padding-right: 17px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+
+.margin-node-card-title{
+    margin-bottom: 10px;
+}
+
+.height-node-description{
+    min-height: 75px;
+}
+/*
+.width-node-services-div{
+    width: 80%;
+}*/
+
+.services-button a:not(:last-child) {
+    margin-right: 20px
+}
+
+.services-button-margin {
+    margin-top: 10px;
+}
+
+.node-card-link-button{
+    width: 93px;
+    height: 30px;
+    padding-left: 35px;
+    padding-right: 35px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    text-decoration: none;
+}
+
+.node-card-doc-button{
+    width: 153px;
+    height: 30px;
+    padding-left: 35px;
+    padding-right: 35px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    text-decoration: none;
+}
+
+
+/*Account Settings*/
+.settings-container{
+    width: 979px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.settings-right{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-left{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-username{
+    display: flex;
+    flex-direction: column;
+}
+
+/*End Account Page*/
