@@ -374,7 +374,7 @@ h6{
 }
 
 .margin-textbox-label{
-    margin-bottom: 25px;
+    margin-bottom: 10px;
 }
 
 .input-textbox{
@@ -383,6 +383,11 @@ h6{
     border: var(--border-black);
     border-radius: var(--textbox-border-radius);
     flex-shrink: 0;
+}
+
+.margin-textbox-caption{
+    margin-top: 10px;
+    margin-bottom: unset;
 }
 
 .textbox-padding{
@@ -399,6 +404,7 @@ h6{
     height: 15px;
     background-color: var(--background-transparent);
     border: none;
+    margin-top: 25px;
 }
 
 .icon-more-information{
@@ -1232,7 +1238,7 @@ h6{
     padding-bottom: 30px;
 }
 
-/*Node Servicex section*/
+/*Node Services section*/
 .node-services-container{
     margin-bottom: 120px;
 }
@@ -1320,23 +1326,67 @@ h6{
 
 
 /*Account Settings*/
+
+.account-top-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 .settings-container{
     width: 979px;
     display: flex;
     flex-direction: row;
-    align-items: center;
-}
-
-.settings-right{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
 }
 
 .settings-left{
     width: 100%;
     display: flex;
     flex-direction: column;
+    align-items: center;
+}
+
+.border-settings-title{
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--gray-500);
+}
+
+.margin-textbox-label{
+    margin-top: 30px;
+}
+
+.settings-edit-buttons{
+    display: flex;
+    flex-direction: row;
+}
+
+.settings-right{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.background-image-settings{
+    height: 709px;
+    background-image: url(../images/background/background-settings.png);
+    background-repeat: no-repeat;
+    background-size: auto;
+}
+
+.settings-right-buttons{
+    display: flex;
+    flex-direction: column;
+}
+
+.margin-settings-button{
+    margin-right: 50px;
+}
+
+.settings-right-buttons a:not(:last-child){
+    margin-bottom: 94px;
 }
 
 .settings-username{
