@@ -1,0 +1,73 @@
+{% set edit_title = "Edit Profile" %}
+
+{% block account_content %}
+
+<div class="settings-container">
+
+    <div class="settings-left">
+
+        <div>
+            <h4>{{ edit_title }}</h4>
+            <div class="settings-username margin-textbox-label">
+                <p id="settingsUsernameLabel">Username</p>
+                <p id="settingsUsername"></p>
+            </div>
+
+            <div class="settings-edit-password">
+                {% with %}
+                    {% set textbox_type = "password_input_text" %}
+                    {% set textbox_label = "New Password" %}
+                    {% include "partials/textbox.html" %}
+                {% endwith %}
+            </div>
+
+            <div class="settings-edit-email">
+                {% with %}
+                    {% set textbox_type = "reg_input_text" %}
+                    {% set textbox_label = "Email" %}
+                    {% set caption = "Edit email registered with <span id='emailCaptionNodeName' ></span>" %}
+                    {% include "partials/textbox.html" %}
+                {% endwith %}
+                <p id="editEmailMessage" class="overline"></p>
+            </div>
+
+        <div class="settings-edit-buttons">
+            <div class="margin-settings-button">
+                {% with %}
+                    {% set button_type = "reg_save_button" %}
+                    {% set button_id = "settingsUpdateButton" %}
+                    {% set button_label = "Save Changes" %}
+                    {% include "partials/button.html" %}
+                {% endwith %}
+            </div>
+            <div>
+                {% with %}
+                    {% set button_type = "reg_action_button" %}
+                    {% set button_id = "settingsBackButton" %}
+                    {% set button_label = "Back" %}
+                    {% include "partials/button.html" %}
+                {% endwith %}
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="settings-right background-image-settings">
+        <div class="settings-right-buttons">
+            {% with %}
+                {% set button_type = "lg_action_button" %}
+                {% set button_label = "Network Nodes" %}
+                {% include "partials/button.html" %}
+            {% endwith %}
+
+
+            {% with %}
+                {% set button_type = "med_delete_button" %}
+                {% set button_label = "Delete" %}
+                {% include "partials/button.html" %}
+            {% endwith %}
+        </div>
+    </div>
+<script src="js/settings.js"></script>
+</div>
+
+{% endblock %}
