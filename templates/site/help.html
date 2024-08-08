@@ -1,0 +1,33 @@
+{% extends "layouts/account-main.html" %}
+
+{% set documentation = [
+        {
+            "text": "To view latest documentation and FAQ, please visit this page:",
+            "link": "FAQ"
+        },
+        {
+            "text": "Questions, suggestions, or problems? Please visit our GitHub page to open an issue",
+            "link": "<i class='fa-brands fa-github'></i><a href='https://github.com/DACCS-Climate/Marble-node-Magpie-ui/issues'>GitHub Issues</a>"
+
+        }
+    ]
+%}
+
+{% block account_content %}
+<div class="help-container">
+    <div class="help-content">
+        <h4>{{ help_title }}</h4>
+    </div>
+
+    <div class="documentation-content">
+        <h4>{{ documentation_title }}</h4>
+        {% for doc in documentation %}
+        <div class="documentation-entry">
+            <p>{{ doc["text"]|safe }}</p>
+        <div>{{ doc["link"]|safe }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
