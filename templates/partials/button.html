@@ -67,7 +67,7 @@
 %}
 
 {% if button_type == "dropdown" %}
-    <button id="{{ button_library[button_type]['id'] }}" class="{{ button_library[button_type]['class'] }} {{ button_library[button_type]['href_class'] }} {{ 'disabled' if disabled else '' }}"
+    <button id="{{ button_library[button_type]['id']|default(button_id) }}" class="{{ button_library[button_type]['class'] }} {{ button_library[button_type]['href_class'] }} {{ 'disabled' if disabled else '' }}"
                 type="button" onclick="{{ button_library[button_type]['show_spinner_function'] }}" {{ button_library[button_type]['toggle'] }}>
 
             {% if button_library[button_type]['content'] and button_type != "lg_action_button" %}
@@ -77,7 +77,7 @@
         </button>
 {% else %}
     <a  class="undecorated-link button-anchor-tag {{ button_library[button_type]['button_backdrop_class'] }} {{ 'disabled' if disabled else '' }}" >
-        <button id="{{ button_library[button_type]['id'] }}" class="{{ button_library[button_type]['class'] }} {{ github_icon_class }} {{ 'disabled' if disabled else '' }}"
+        <button id="{{ button_library[button_type]['id']|default(button_id) }}" class="{{ button_library[button_type]['class'] }} {{ github_icon_class }} {{ 'disabled' if disabled else '' }}"
                 type="button" onclick="{{ button_library[button_type]['show_spinner_function'] }}">
 
             {% if button_library[button_type]['content'] and button_type != "lg_action_button" %}
