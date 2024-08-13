@@ -39,17 +39,14 @@ const converters = {
 
 document.addEventListener("DOMContentLoaded", function () {
     var sessionDetailsJSON = getSessionDetails();
-    var baseURL;
-    var currentNode;
 
     //Call getBaseURL function from account.js
-    getBaseURL(sessionDetailsJSON).then(data => {
-        baseURL = data;
-        getServices(baseURL);
+    getBaseURL(sessionDetailsJSON).then(baseURL => {
+        setServices(baseURL);
     });
 })
 
-function getServices(node_url){
+function setServices(node_url){
     const githubURL = "{{ node_registry_url }}";
 
     fetch(githubURL).then(resp =>  resp.json()).then(json => {
