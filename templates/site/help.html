@@ -1,13 +1,17 @@
 {% extends "layouts/account-main.html" %}
 
+{% set help_title = "Help & Support" %}
+{% set help_text = "For any help and support related to your account please email us on the following link:" %}
+
+{% set documentation_title = "Documentation" %}
 {% set documentation = [
         {
             "text": "To view latest documentation and FAQ, please visit this page:",
-            "link": "FAQ"
+            "link": "<a class='help-link' href=''>FAQ</a>"
         },
         {
             "text": "Questions, suggestions, or problems? Please visit our GitHub page to open an issue",
-            "link": "<i class='fa-brands fa-github'></i><a href='https://github.com/DACCS-Climate/Marble-node-Magpie-ui/issues'>GitHub Issues</a>"
+            "link": "<i class='fa-brands fa-github help-link'></i><a class='help-link margin-github-link' href='https://github.com/DACCS-Climate/Marble-node-Magpie-ui/issues'>GitHub Issues</a>"
 
         }
     ]
@@ -17,17 +21,22 @@
 <div class="help-container">
     <div class="help-content">
         <h4>{{ help_title }}</h4>
+        <div class="help-entry margin-help-entry">
+            <p>{{ help_text|safe }}</p>
+            <p><a id="helpContact" class="help-link"></a></p>
+        </div>
     </div>
 
-    <div class="documentation-content">
+    <div class="documentation-content margin-documentation-content">
         <h4>{{ documentation_title }}</h4>
         {% for doc in documentation %}
-        <div class="documentation-entry">
+        <div class="documentation-entry margin-documentation-entry">
             <p>{{ doc["text"]|safe }}</p>
         <div>{{ doc["link"]|safe }}</div>
         </div>
         {% endfor %}
     </div>
+<script src="js/help.js"></script>
 </div>
 
 {% endblock %}
