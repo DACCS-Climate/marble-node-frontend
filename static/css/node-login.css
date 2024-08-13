@@ -1394,4 +1394,43 @@ h6{
     flex-direction: column;
 }
 
+
+/*Account Help*/
+.help-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.help-content{
+    width: 1156px;
+    padding-left: 135px;
+}
+
+.help-link{
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.help-entry{
+    margin-top:30px;
+}
+
+.documentation-content{
+    width: 1156px;
+    padding-left: 135px;
+}
+
+.margin-documentation-content{
+    margin-top: 50px;
+}
+
+.margin-documentation-entry{
+    margin-top:30px;
+}
+
+.margin-github-link{
+    margin-left: 10px;
+}
 /*End Account Page*/
