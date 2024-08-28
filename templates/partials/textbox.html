@@ -8,15 +8,15 @@
         "reg_input_text": {
             "textbox_name": "username",
             "input_type": "text",
-            "eye_icon_visible": "visibility-none-password-eye",
-            "more_info_text": "Enter Username or Email registered with the node you wish to access."
+            "eye_icon_visible": "visibility-none-password-eye"
+
         },
         "password_input_text": {
             "textbox_name": "userpassword",
             "input_type": "password",
             "input_required": "required ",
-            "eye_icon_visible": "",
-            "more_info_text": "Test text"
+            "eye_icon_visible": ""
+
         }
     }
 %}
@@ -27,15 +27,17 @@
             {{ textbox_label }}
         </label>
 
-        <a tabindex="0" class="button-more-information" role="button" data-toggle="popover" data-bs-trigger="focus"
-                data-bs-placement="right" data-bs-content="{{ textbox[textbox_type]["more_info_text"] }}">
-            <i class="fa-solid fa-circle-info icon-more-information margin-icon-more-information" ></i>
-        </a>
+        {% if more_info_text %}
+            <a tabindex="0" class="button-more-information" role="button" data-toggle="popover" data-bs-trigger="focus"
+                    data-bs-placement="right" data-bs-content="{{ more_info_text }}">
+                <i class="fa-solid fa-circle-info icon-more-information margin-icon-more-information" ></i>
+            </a>
+        {% endif %}
     </div>
     <div class="d-flex flex-row">
         <input type='{{ textbox[textbox_type]["input_type"] }}' id="{{ input_textbox_id }}" name="{{ textbox[textbox_type]["textbox_name"] }}"
             {% if textbox[textbox_type]["input_type"] == "password" %}
-               class="input-textbox textbox-password-padding"
+                class="input-textbox textbox-password-padding"
             {% else %}
                 class="input-textbox textbox-padding"
             {% endif %}
