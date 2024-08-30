@@ -40,7 +40,7 @@ const converters = {
 document.addEventListener("DOMContentLoaded", function () {
     var sessionDetailsJSON = getSessionDetails();
 
-    //Call getBaseURL function from account.js
+    //Call getBaseURL function from main.js
     getBaseURL(sessionDetailsJSON).then(baseURL => {
         setServices(baseURL);
     });
