@@ -24,6 +24,7 @@
                     <div id="divUsernameInput" class="div-login-username-input">
                         {% with %}
                             {% set textbox_type = "reg_input_text" %}
+                            {% set textbox_label = "Password", %}
                             {% include "partials/textbox.html" %}
                         {% endwith %}
                     </div>
@@ -35,6 +36,7 @@
                     <div id="divPasswordInput" class="display-flex div-login-password-input">
                     {% with %}
                         {% set textbox_type = "password_input_text" %}
+                        {% set textbox_label = "Email or Username" %}
                         {% include "partials/textbox.html" %}
                     {% endwith %}
                     </div>
