@@ -24,7 +24,8 @@
                     <div id="divUsernameInput" class="div-login-username-input">
                         {% with %}
                             {% set textbox_type = "reg_input_text" %}
-                            {% set textbox_label = "Password", %}
+                            {% set textbox_label = "Email or Username" %}
+                            {% set tooltip_text = "Enter Username or Email registered with the node you wish to access." %}
                             {% include "partials/textbox.html" %}
                         {% endwith %}
                     </div>
@@ -36,7 +37,7 @@
                     <div id="divPasswordInput" class="display-flex div-login-password-input">
                     {% with %}
                         {% set textbox_type = "password_input_text" %}
-                        {% set textbox_label = "Email or Username" %}
+                        {% set textbox_label = "Password" %}
                         {% include "partials/textbox.html" %}
                     {% endwith %}
                     </div>
