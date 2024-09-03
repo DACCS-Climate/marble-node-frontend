@@ -16,7 +16,9 @@
             <div class="settings-edit-password">
                 {% with %}
                     {% set textbox_type = "password_input_text" %}
+                    {% set input_textbox_id = "settingsEditPassword" %}
                     {% set textbox_label = "New Password" %}
+                    {% set tooltip_text = "" %}
                     {% include "partials/textbox.html" %}
                 {% endwith %}
             </div>
@@ -26,6 +28,7 @@
                     {% set textbox_type = "reg_input_text" %}
                     {% set input_textbox_id = "settingsEditEmail" %}
                     {% set textbox_label = "Email" %}
+                    {% set tooltip_text = "" %}
                     {% set caption = "Edit email registered with <span id='emailCaptionNodeName' ></span>" %}
                     {% include "partials/textbox.html" %}
                 {% endwith %}
@@ -36,16 +39,14 @@
             <div class="margin-settings-button">
                 {% with %}
                     {% set button_type = "reg_save_button" %}
-                    {% set button_id = "settingsUpdateButton" %}
                     {% set button_label = "Save Changes" %}
                     {% include "partials/button.html" %}
                 {% endwith %}
             </div>
             <div>
                 {% with %}
-                    {% set button_type = "reg_action_button" %}
-                    {% set button_id = "settingsBackButton" %}
-                    {% set button_label = "Back" %}
+                    {% set button_type = "med_delete_button" %}
+                    {% set button_label = "Delete" %}
                     {% include "partials/button.html" %}
                 {% endwith %}
             </div>
@@ -57,13 +58,6 @@
             {% with %}
                 {% set button_type = "lg_action_button" %}
                 {% set button_label = "Network Nodes" %}
-                {% include "partials/button.html" %}
-            {% endwith %}
-
-
-            {% with %}
-                {% set button_type = "med_delete_button" %}
-                {% set button_label = "Delete" %}
                 {% include "partials/button.html" %}
             {% endwith %}
         </div>
