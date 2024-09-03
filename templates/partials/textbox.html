@@ -27,9 +27,9 @@
             {{ textbox_label }}
         </label>
 
-        {% if more_info_text %}
+        {% if tooltip_text %}
             <a tabindex="0" class="button-more-information" role="button" data-toggle="popover" data-bs-trigger="focus"
-                    data-bs-placement="right" data-bs-content="{{ more_info_text }}">
+                    data-bs-placement="right" data-bs-content="{{ tooltip_text }}">
                 <i class="fa-solid fa-circle-info icon-more-information margin-icon-more-information" ></i>
             </a>
         {% endif %}
