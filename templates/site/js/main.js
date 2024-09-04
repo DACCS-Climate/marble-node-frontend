@@ -33,8 +33,8 @@ document.addEventListener("DOMContentLoaded", function () {
 function testLogin(){
     let authCookie;
     //NOTE:  In an actual login the username would come from the username field
-    //const usernameInput = document.getElementById("userName").value;
-    //const passwordInput = document.getElementById("userPassword").value;
+    const usernameInput = document.getElementById("userName").value;
+    const passwordInput = document.getElementById("userPassword").value;
 
     const nodeSignIn = nodeURL + "/magpie/signin";
     //const nodeSignInFragment = "/magpie/signin"
@@ -48,8 +48,8 @@ function testLogin(){
             },
         credentials: 'include',
         body: JSON.stringify({
-            "user_name": "alexandercyu", //usernameInput
-            "password": "a30nD@CCSUTlive", //passwordInput
+            "user_name": usernameInput,
+            "password": passwordInput,
             "provider_name":"ziggurat"
             })
         }).then(response   =>  {
