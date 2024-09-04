@@ -14,8 +14,6 @@ document.addEventListener("DOMContentLoaded", function () {
     //var updateButton = document.getElementById("settingsUpdateButton");
     //signoutButton.addEventListener("click",updateUserDetails);
 
-    //var backButton = document.getElementById("settingsBackButton");
-    //backButton.addEventListener("click", goPreviousPage);
 
 
     testLogin();
@@ -40,7 +38,6 @@ function testLogin(){
 
     const nodeSignIn = nodeURL + "/magpie/signin";
     //const nodeSignInFragment = "/magpie/signin"
-        //const nodeSignIn = nodeURL + "/magpie/ui/login"
 
     console.log("testLogin");
     fetch(nodeSignIn, {
@@ -49,7 +46,7 @@ function testLogin(){
             "Accept": "application/json",
             "Content-Type": "application/json"
             },
-
+        credentials: 'include',
         body: JSON.stringify({
             "user_name": "alexandercyu", //usernameInput
             "password": "a30nD@CCSUTlive", //passwordInput
@@ -59,7 +56,7 @@ function testLogin(){
             authCookie = getAuthTkt(response);
             if(authCookie != null){
                 //TODO replace username with variable "usernameInput"
-                displayAccountDetails("alexandercyu", authCookie);
+                storeUserDetails("alexandercyu", authCookie);
             }
     })
 }
@@ -97,7 +94,7 @@ function getAuthTkt(response){
 
         if(json.code == 200){
 
-            var cookieArray = response.getSetCookie();
+            var cookieArray = response.headers.getSetCookie();
 
             if(cookieArray.length > 0){
                 authTkt = cookieArray[0];
@@ -117,7 +114,6 @@ function getAuthTkt(response){
     }
 }
 
-
 function getNodeRegistry() {
     const githubURL = "{{ node_registry_url }}";
     return fetch(githubURL).then(response => {
@@ -127,7 +123,6 @@ function getNodeRegistry() {
     })
 }
 function getBaseURL(json){
-
     return json.then( sessionData =>
     {
         var urlArray = sessionData.url.split("/magpie");
@@ -139,9 +134,9 @@ function getSessionDetails(){
     //TODO Remove sessionURL and use sessionURLFragment
     //TODO Remove nodeURL and use {MAGPIE_URL}
     const sessionURLFragment = "session";
-    //const sessionURL = nodeURL + "/magpie/session"
-    const testSessionURL = testNodeURL + "/magpie/session"
-    return fetch(testSessionURL,{
+    const sessionURL = nodeURL + "/magpie/session"
+    //const testSessionURL = testNodeURL + "/magpie/session"
+    return fetch(sessionURL,{
         method: "GET",
         headers: {
             "Accept": "application/json, text/plain",
@@ -174,6 +169,17 @@ function getUserDetails(username, cookie){
             return json;
         })
 }
+
+function storeUserDetails(username, cookie){
+    getUserDetails(username, cookie).then(json => {
+        json.then(userData => {
+            sessionStorage.setItem("username", userData["user"].user_name);
+            sessionStorage.setItem("email", userData["user"].email);
+        })
+    })
+
+}
+
 function displayAccountDetails(username, cookie){
     var h3Header = document.getElementById("h3Header");
     var accountUsername = document.getElementById("account-username");
@@ -181,37 +187,11 @@ function displayAccountDetails(username, cookie){
     var dropdownMenuTitle = document.getElementById("dropdownMenuTitle");
 
 
-    getUserDetails(username, cookie).then(json => {
-        json.then(userData => {
-            h3Header.innerText = "Hi, " + userData["user"].user_name;
-            accountUsername.innerText = userData["user"].user_name;
-            accountEmail.innerText = userData["user"].email;
-            dropdownMenuTitle.innerText = userData["user"].user_name;
-        })
-    })
-}
+    h3Header.innerText = "Hi, " + sessionStorage.getItem("username");
+    accountUsername.innerText = sessionStorage.getItem("username");
+    accountEmail.innerText = sessionStorage.getItem("email");
+    dropdownMenuTitle.innerText = sessionStorage.getItem("username");
 
-function getNodeContact(nodeBaseURL){
-    const githubURL = "{{ node_registry_url }}";
-    return fetch(githubURL).then(response => {return  response.json()}).then(json => {
-        var node_keys = Object.keys(json);
-        node_keys.forEach((key, index) => {
-            if(json[key].links){
-                json[key].links.forEach((link) =>{
-                    if(link.rel && link.rel === "service"){
-                        if(nodeBaseURL.includes(link.href)){
-                            /*
-                            nodeAdminEmail.setAttribute("href", "mailto:" + json[key].contact);
-                            passwordResetEmail.setAttribute("href", "mailto:" + json[key].contact);
-                            passwordResetEmail.innerText = json[key].contact;
-                            */
-                            return json[key].contact
-                        }
-                    }
-                })
-            }
-        })
-    })
 }
 
 //Sets email link on an anchor tag
@@ -248,9 +228,12 @@ function signout(){
     var sessionDetails = getSessionDetails();
 
     getBaseURL(sessionDetails).then(data => {
+        //TODO Replace signoutURL with signoutURLFragment in the fetch
         signoutURL = data + "/magpie/signout";
+        var signoutURLFragment = "signout";
         fetch(signoutURL).then(response => response.json()).then(json => {
             if(json.code && json.code == 200){
+                sessionStorage.clear();
                 window.location.href = loginHome;
             }
         })
