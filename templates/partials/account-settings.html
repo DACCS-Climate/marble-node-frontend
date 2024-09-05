@@ -16,7 +16,6 @@
             <div class="settings-edit-password">
                 {% with %}
                     {% set textbox_type = "password_input_text" %}
-                    {% set input_textbox_id = "settingsEditPassword" %}
                     {% set textbox_label = "New Password" %}
                     {% set tooltip_text = "" %}
                     {% include "partials/textbox.html" %}
@@ -63,6 +62,7 @@
         </div>
     </div>
 <script src="js/settings.js"></script>
+<script src="js/login-styles-scripts.js"></script>
 </div>
 
 {% endblock %}
