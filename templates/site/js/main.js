@@ -33,8 +33,8 @@ document.addEventListener("DOMContentLoaded", function () {
 function testLogin(){
     let authCookie;
     //NOTE:  In an actual login the username would come from the username field
-    const usernameInput = document.getElementById("userName").value;
-    const passwordInput = document.getElementById("userPassword").value;
+    //const usernameInput = document.getElementById("userName").value;
+    //const passwordInput = document.getElementById("userPassword").value;
 
     const nodeSignIn = nodeURL + "/magpie/signin";
     //const nodeSignInFragment = "/magpie/signin"
@@ -48,8 +48,8 @@ function testLogin(){
             },
         credentials: 'include',
         body: JSON.stringify({
-            "user_name": usernameInput,
-            "password": passwordInput,
+            "user_name": "",
+            "password": "",
             "provider_name":"ziggurat"
             })
         }).then(response   =>  {
@@ -58,31 +58,6 @@ function testLogin(){
                 //TODO replace username with variable "usernameInput"
                 storeUserDetails("alexandercyu", authCookie);
             }
-    })
-}
-
-function testLogin2(){
-     const testNodeSignIn = "https://infomatics-dcs.cs.toronto.edu/magpie/signin";
-    //const nodeSignInFragment = "/magpie/signin"
-        //const nodeSignIn = nodeURL + "/magpie/ui/login"
-
-    console.log("testLogin");
-    fetch(testNodeSignIn, {
-        method: "POST",
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-            },
-        credentials: 'include',
-        body: JSON.stringify({
-            "user_name": "admin",
-            "password": "qwertyqwerty!",
-            "provider_name":"ziggurat"
-            })
-        }).then(response  => {
-
-            getAuthTkt(response);
-
     })
 }
 
