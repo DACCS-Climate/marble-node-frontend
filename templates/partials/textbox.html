@@ -9,21 +9,20 @@
             "textbox_name": "username",
             "input_type": "text",
             "eye_icon_visible": "visibility-none-password-eye"
-
         },
         "password_input_text": {
             "textbox_name": "userpassword",
             "input_type": "password",
             "input_required": "required ",
             "eye_icon_visible": ""
-
         }
     }
 %}
 
-<div class="d-flex flex-column textbox-container">
-    <div class="d-flex flex-row">
-        <label class="d-flex justify-content-start subtitle-1 margin-textbox-label" for="{{ textbox[textbox_type]["textbox_name"] }}">
+
+<div class="textbox-container">
+    <div class="textbox-label-icon">
+        <label class="textbox-label margin-textbox-label subtitle-1" for="{{ textbox[textbox_type]["textbox_name"] }}">
             {{ textbox_label }}
         </label>
 
@@ -34,7 +33,7 @@
             </a>
         {% endif %}
     </div>
-    <div class="d-flex flex-row">
+    <div class="textbox-field-container">
         <input type='{{ textbox[textbox_type]["input_type"] }}' id="{{ input_textbox_id }}" name="{{ textbox[textbox_type]["textbox_name"] }}"
             {% if textbox[textbox_type]["input_type"] == "password" %}
                 class="input-textbox textbox-password-padding"
@@ -50,3 +49,4 @@
     </div>
     <div><p id="textboxCaption" class="overline margin-textbox-caption">{{ caption|safe }}</p></div>
 </div>
+
