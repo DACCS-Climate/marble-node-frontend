@@ -5,9 +5,6 @@ document.addEventListener("DOMContentLoaded", function () {
     var updateButton = document.getElementById("settingsUpdateButton");
     updateButton.addEventListener("click",updateUserDetails);
 
-    //var backButton = document.getElementById("settingsBackButton");
-    //backButton.addEventListener("click", goPreviousPage);
-
 
     testLogin();
     //var email = getNodeContact();
