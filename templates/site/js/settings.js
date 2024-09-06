@@ -40,15 +40,13 @@ function setNodeName(node_url, elementID){
 }
 
 function setUserDetails(){
-    var json = getSessionDetails();
-    var user = json["user"];
 
     var usernameElement = document.getElementById("settingsUsername");
     var passwordElement = document.getElementById("settingsEditPassword");
-    var emailElement = document.getElementById("settingsEditEmail");
+    var emailTextbox = document.getElementById("settingsEditEmail");
 
-    usernameElement.innerText = user["user_name"];
-    emailElement.value = user["email"];
+    usernameElement.innerText = sessionStorage.getItem("username");
+    emailTextbox.value = sessionStorage.getItem("email");
 }
 
 function updateUserDetails(){
@@ -86,12 +84,19 @@ function updateUserPassword(username, password){
     fetch(updateURL, {
         method: "PATCH",
         body:{
+            "user_name": username,
             "password": password,
             "status": 1
         }
     })
 }
 
-function goPreviousPage(){
-    history.back();
+function deleteUser(username){
+    const deleteURLFragment = "users/" + username;
+    const deleteURL =  nodeURL + "users/" + username;
+
+    //TODO Replace updateURL with deleteURL Fragment
+    fetch(deleteURL, {
+        method: "DELETE"
+    })
 }
