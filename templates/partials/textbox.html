@@ -1,7 +1,7 @@
 {% if textbox_type == "password_input_text" %}
-    {% set input_textbox_id = "userPassword" %}
+    {% set input_textbox_id = input_textbox_id | default("userPassword") %}
 {% else %}
-    {% set input_textbox_id = "userName" %}
+    {% set input_textbox_id = input_textbox_id | default("userName") %}
 {% endif %}
 
 {% set textbox = {
@@ -50,7 +50,3 @@
     </div>
     <div><p id="textboxCaption" class="overline margin-textbox-caption">{{ caption|safe }}</p></div>
 </div>
-
-
-
-
