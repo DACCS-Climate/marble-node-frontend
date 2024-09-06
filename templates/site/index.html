@@ -12,7 +12,10 @@
             <div class="login-content">
                 <div class="login-content-left">
                     <div id="divProviderTitle" class="display-none div-provider-title">
-                        {% include "partials/label.html" %}
+                        {% with %}
+                            {% set tooltip_text = "" %}
+                            {% include "partials/label.html" %}
+                        {% endwith %}
 
                         <div id="divProviderInput" class="div-provider-image-name">
                             <img id="loginProviderLogo" class="login-provider-logo margin-login-provider-logo">
