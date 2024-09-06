@@ -50,12 +50,3 @@ function showSpinner(){
 
     animatedSpinner.classList.toggle("spinner-visible");
 }
-
-//TODO
-//Make function for mouseover and mouseout event on the provider buttons
-//The ID for the button will be set using jinja in the existing button template file
-//It will set  the mouseover to look for the given id and swap the button icon logo to the white version
-//It will set the mouseout to look for the given id and swap the button icon logo back to the original coloured version
-
-//TODO
-//Hide spinner logo or make invisible so the text will be centered in the button

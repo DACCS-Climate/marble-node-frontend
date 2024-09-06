@@ -22,6 +22,10 @@
     --d-elevation-2: 0px 3px 8px 0px rgba(136, 144, 194, 0.25), 0px 7px 21px 0px rgba(37, 44, 97, 0.20);
     --d-elevation-3: 0px 3px 8px 0px rgba(178, 0, 2, 0.12), 0px 7px 21px 0px rgba(178, 0, 2, 0.12);
 
+    --login-elevation-1: 0px 1px 2px 0px rgba(0, 0, 0, 0.30), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+
+    --password-elevation: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
     --border-black: 1px solid #000000;
     --textbox-border-radius: 5px;
 
@@ -30,21 +34,29 @@
     /*Shadows*/
     --text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
-    /*Colours*/
-
-    /*General Use*/
-    --alert-background: #F6DC3D;
+    /*Backgrounds*/
     --background: #FFFFFF;
     --background-black: #000000;
     --background-transparent: transparent;
     --background-blur: blur(15px);
     --background-blur-mobile: blur(15px);
+    --backdrop-filter-provider: blur(7.5px);
+    --backdrop-filter-attention: blur(2px);
+    --backdrop-filter-feedback: blur(2px);
+    --backdrop-filter-password: blur(12.5px);
+    --backdrop-filter-network: blur(7.5px);
+
+    /*Colours*/
+
+    /*General Use*/
+    --alert-background: #F6DC3D;
     --black: #000000;
     --black-opacity-lighter: rgba(0, 0, 0, 0.18);
     --black-opacity-light: rgba(0,0,0,0.25);
-    --black-opacity-midlight: rgba(0,0,0,0.30);
-    --black-opacity-mid: rgba(0,0,0,0.5);
-    --black-opacity-mid-dark: rgba(0, 0, 0, 0.55);
+    --black-opacity-mid-light: rgba(0,0,0,0.30);
+    --black-opacity-mid: rgba(0, 0, 0, 0.50);
+    --black-opacity-mid-dark: rgba(0, 0, 0, 0.75);
+    --black-opacity-darker: rgba(0, 0, 0, 0.8);
     --opaque-light-grey: rgba(255,255,255, 0.3);
     --white-opacity-light: rgba(255, 255, 255, 0.18);
     --red-opacity-mid: rgba(178, 0, 2, 0.50);
@@ -270,6 +282,10 @@ h6{
   text-shadow: none; /* Prevent inheritance from `body` */
 }
 
+.margin-button-arrow{
+    margin-left: 12px;
+}
+
 /*Override Bootstrap*/
 
 .fa-solid, .fa-regular{
@@ -342,6 +358,14 @@ h6{
 
 /*Body*/
 
+.display-flex{
+    display: flex;
+}
+
+.display-none{
+    display: none;
+}
+
 .margin-unset-default{
     margin: unset;
 }
@@ -360,11 +384,28 @@ h6{
 .textbox-container{
     width: 300px;
     height: auto;
+    display: flex;
+    flex-direction: column;
     margin-bottom: 30px;
 }
 
+.textbox-label-icon{
+    display: flex;
+    flex-direction: row;
+}
+
+.textbox-label{
+    display: flex;
+    justify-content: start;
+}
+
 .margin-textbox-label{
-    margin-bottom: 25px;
+    margin-bottom: 10px;
+}
+
+.textbox-field-container{
+    display: flex;
+    flex-direction: row;
 }
 
 .input-textbox{
@@ -537,6 +578,10 @@ h6{
 }
 
 /*Buttons*/
+
+.button-no-outline{
+    outline: none;
+}
 
 .button-close-x{
     width: 15px;
@@ -891,7 +936,7 @@ h6{
     height: 524px;
     padding: 30px;
     background-color: var(--red-opacity-mid);
-    backdrop-filter: blur(2px);
+    backdrop-filter: var(--backdrop-filter-attention);
 }
 
 .popup-attention-content-container{
@@ -932,8 +977,8 @@ h6{
 .popup-feedback-container{
     width: 676px;
     height: 404px;
-    background-color: var(--black-opacity-mid-dark);
-    backdrop-filter: blur(2px);
+    background-color: var(--black-opacity-mid);
+    backdrop-filter: var(--backdrop-filter-feedback);
     padding-left: 26px;
     padding-top: 33px;
     padding-right: 39px;
@@ -1005,9 +1050,10 @@ h6{
     height: 363px;
     padding: 33px;
     background-color: var(--white-opacity-light);
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: var(--password-elevation);
     border-radius: 5px;
-    backdrop-filter: blur(12.5px);
+    backdrop-filter: var(--backdrop-filter-password);
+    -webkit-backdrop-filter: var(--backdrop-filter-password);
 }
 
 .password-close-button-container{
@@ -1038,7 +1084,7 @@ h6{
     flex-direction: column;
     border-radius: 10px;
     background-color: var(--black-opacity-lighter);
-    backdrop-filter: blur(7.5px);
+    backdrop-filter: var(--backdrop-filter-network);
     border-radius: 10px;
     padding: 24px;
 }
@@ -1050,6 +1096,10 @@ h6{
 .popup-network-content{
     width: 100%;
     color: var(--text-on-dark);
+}
+
+.popup-network-colgroup col{
+    width: 5%;
 }
 
 .column-network-name{
@@ -1082,24 +1132,12 @@ h6{
     padding-bottom: 10px;
 }
 
-.padding-header-row th:first-child{
-    /*padding-left: 27px;*/
-}
-
 .padding-header-row th:last-child{
     padding-right: 18px;
 }
 
-.popup-network-body tr td:first-child{
-   /*padding-left: 50px;*/
-}
-
 .popup-network-body tr:first-child td{
    padding-top: 50px;
-}
-
-.popup-network-body tr td:last-child{
-   /*padding-right: 50px;*/
 }
 
 .popup-network-body tr:last-child td{
@@ -1120,16 +1158,14 @@ h6{
     margin-bottom: 20px;
 }
 
-.network-entry-row td:nth-child(2){
-  /*padding-left: 20px;*/
-}
-
 /*Providers Popup*/
 .provider-container{
     width: 780px;
-    height: auto;
+    height: 552px;
     padding: 33px;
     background-color: var(--white);
+    border-radius: 10px;
+    backdrop-filter: var(--backdrop-filter-provider);
 }
 
 .provider-close-button-container{
@@ -1139,6 +1175,7 @@ h6{
 .provider-button-container{
     width: 630px;
     height: auto;
+    overflow: auto;
 }
 
 .popup-provider-title{
@@ -1154,4 +1191,206 @@ h6{
 .provider-button-row .provider-button:not(:nth-child(3n)){
     margin-right: 93px;
     margin-bottom: 67px;
+}
+
+/*Login page*/
+.login-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.header-login{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header-login h3, .header-login h5{
+    margin-bottom: 50px;
+}
+
+.login-content{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.login-content-left{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 192px;
+    padding-right: 214px;
+    box-shadow: var(--login-elevation-1);
+}
+
+.label-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.login-error{
+    color: var(--error);
+    margin-top:10px;
+}
+
+.link-forgot-password{
+    display: flex;
+    color: var(--primary);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.link-forgot-password:hover{
+    color: var(--primary);
+    text-decoration: underline;
+}
+
+.margin-forgot-password{
+    margin-bottom: 30px;
+}
+
+.choose-different-provider{
+    color: var(--primary);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.choose-different-provider:hover{
+    color: var(--primary);
+    text-decoration: underline;
+}
+
+.arrow-choose-different-provider{
+    color: var(--primary);
+    margin-left: 10px;
+}
+
+.div-choose-different-provider{
+    flex-direction: row;
+    align-items: center;
+}
+
+.margin-choose-different-provider{
+    margin-bottom: 30px;
+}
+
+.margin-signin-button{
+    margin-top: 30px;
+}
+
+.provider-input-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.div-provider-details{
+    display: flex;
+    flex-direction: column;
+}
+
+.div-provider-title{
+    flex-direction: column;
+}
+
+.div-provider-image-name{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.div-provider-image-name p{
+    margin: unset;
+}
+
+.login-provider-logo{
+    width: 36px;
+    height: 36px;
+}
+
+.margin-login-provider-logo{
+    margin-right: 30px;
+}
+
+.provider-name-hidden{
+    visibility: hidden;
+}
+
+.login-content-right{
+    width: 589px;
+    height: 617px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: var(--login-elevation-1);
+}
+
+.div-login-type-position{
+    position: relative;
+    top: 35%;
+    height: 100%;
+}
+
+.div-login-type-content{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    color: var(--text-on-dark);
+}
+
+.div-provider-button{
+    width: 100%;
+    justify-content: center;
+    margin-top: 33px;
+}
+
+.div-email-button{
+    width: 100%;
+    justify-content: center;
+    margin-top: 33px;
+}
+
+.login-provider-background{
+    background-image: url("../images/background/background-login-provider.png");
+    background-repeat: no-repeat;
+    background-size: auto;
+}
+
+.login-email-background{
+    background-image: url("../images/background/background-login-email.png");
+    background-repeat: no-repeat;
+}
+
+/*Modal*/
+.stop-scroll{
+    overflow: hidden;
+}
+
+.start-scroll{
+    overflow: auto;
+}
+
+dialog{
+    border: none;
+    padding: unset;
+}
+
+/*Provider Modal*/
+.dialog-provider{
+    background-color: var(--background-transparent);
+}
+
+.dialog-provider::backdrop{
+    background-color: var(--black-opacity-mid-light);
+}
+
+/*Password Reset Modal*/
+.dialog-password-reset{
+    background-color: var(--background-transparent);
+}
+
+.dialog-password-reset::backdrop{
+    background-color: var(--black-opacity-darker);
 }
