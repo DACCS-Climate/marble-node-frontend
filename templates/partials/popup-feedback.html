@@ -1,3 +1,5 @@
+{% set popup_feedback_title = "Give feedback to Marble" %}
+
 <dialog id="feedbackModal">
     <div class="popup-feedback-container">
         <div class="popup-feedback-content-container">
@@ -27,9 +29,12 @@
                 {% set logo_image_class = "feedback-logo-image-triangle" %}
                 {% set feedback_entry_title = "Something went wrong?" %}
                 {% set feedback_entry_message = "Let us know about a broken feature." %}
+                {% set feedback_entry_url = "https://discourse.marbleclimate.com/c/site-feedback/2" %}
                 {% include "partials/popup-feedback-entry.html" %}
             {% endwith %}
 
         </div>
     </div>
+<script src="js/modal.js"></script>
+<script src="js/modal-feedback.js"></script>
 </dialog>
