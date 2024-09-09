@@ -4,6 +4,7 @@
             <div class="popup-button-close">
                 {% with button_type = "close_button_x"%}
                     {% set button_href = "javascript:void(0)" %}
+                    {% set button_id= "closeNetworkModal" %}
                     {% include "partials/button.html" %}
                 {% endwith %}
             </div>
@@ -73,4 +74,6 @@
             </table>
         </div>
     </div>
+<script src="js/modal.js"></script>
+<script src="js/modal-network-node.js"></script>
 </dialog>
