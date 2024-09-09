@@ -33,29 +33,29 @@ def build(build_directory, node_registry_url, clean=False):
         with open(build_destination, "w") as f:
             f.write(env.get_template(template).render(node_registry_url=node_registry_url))
 
-    if __name__ == "__main__":
-        parser = argparse.ArgumentParser()
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
 
-        parser.add_argument(
-            "-b",
-            "--build-directory",
-            default=os.path.join(THIS_DIR, "build"),
-            help="location on disk to write built templates to.",
-        )
+    parser.add_argument(
+        "-b",
+        "--build-directory",
+        default=os.path.join(THIS_DIR, "build"),
+        help="location on disk to write built templates to.",
+    )
 
-        parser.add_argument(
-            "-u",
-            "--node-registry-url",
-            default="https://raw.githubusercontent.com/"
-                    "DACCS-Climate/Marble-node-registry/current-registry/node_registry.json",
-            help="node registry URL",
-        )
+    parser.add_argument(
+        "-u",
+        "--node-registry-url",
+        default="https://raw.githubusercontent.com/"
+                "DACCS-Climate/Marble-node-registry/current-registry/node_registry.json",
+        help="node registry URL",
+    )
 
-        parser.add_argument(
-            "-c",
-            "--clean",
-            action="store_true",
-            help="clean build directories before building.",
-        )
-        args = parser.parse_args()
-        build(args.build_directory, args.node_registry_url, args.clean)
+    parser.add_argument(
+        "-c",
+        "--clean",
+        action="store_true",
+        help="clean build directories before building.",
+    )
+    args = parser.parse_args()
+    build(args.build_directory, args.node_registry_url, args.clean)
