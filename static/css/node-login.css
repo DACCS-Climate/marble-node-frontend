@@ -1057,6 +1057,11 @@ h6{
     color: var(--text-on-dark);
 }
 
+.feedback-link{
+    text-decoration: none;
+    color: var(--text-on-dark);
+}
+
 /*Password reset popup*/
 .popup-password-container{
     width: 557px;
