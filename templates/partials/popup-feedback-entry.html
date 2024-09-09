@@ -1,9 +1,11 @@
-<div class="feedback-entry-container">
-    <div class="feedback-logo">
-        <img class="{{ logo_image_class }}" src="{{ feedback_entry_image }}"/>
+<a class="feedback-link" href="{{ feedback_entry_url }}">
+    <div class="feedback-entry-container">
+        <div class="feedback-logo">
+            <img class="{{ logo_image_class }}" src="{{ feedback_entry_image }}"/>
+        </div>
+        <div class="feedback-text-content">
+            <h6 id="feedbackImproveNode">{{ feedback_entry_title }}</h6>
+            <p class="subtitle-2">{{ feedback_entry_message }}</p>
+        </div>
     </div>
-    <div class="feedback-text-content">
-        <a class="stretched-link" href="{{ feedback_entry_url }}"><h6 id="feedbackImproveNode">{{ feedback_entry_title }}</h6></a>
-        <p class="subtitle-2">{{ feedback_entry_message }}</p>
-    </div>
-</div>
+</a>
