@@ -1103,7 +1103,6 @@ h6{
     border-radius: 10px;
     background-color: var(--black-opacity-lighter);
     backdrop-filter: var(--backdrop-filter-network);
-    border-radius: 10px;
     padding: 24px;
 }
 
@@ -1684,4 +1683,14 @@ dialog{
 
 .dialog-password-reset::backdrop{
     background-color: var(--black-opacity-darker);
+}
+
+.dialog-network-node{
+    background-color: var(--background-transparent);
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.dialog-network-node::backdrop{
+    background-color: var(--black-opacity-mid);
 }
