@@ -40,12 +40,20 @@ function setNodeName(node_url, elementID){
 }
 
 function setUserDetails(){
+    //TODO Remove placeholder username once design is approved
+    var placeholder_username = "XYZ";
 
     var usernameElement = document.getElementById("settingsUsername");
     var passwordElement = document.getElementById("settingsEditPassword");
     var emailTextbox = document.getElementById("settingsEditEmail");
 
-    usernameElement.innerText = sessionStorage.getItem("username");
+    if(sessionStorage.getItem("username")){
+        usernameElement.innerText = sessionStorage.getItem("username");
+    }
+    else{
+        usernameElement.innerText = placeholder_username;
+    }
+
     emailTextbox.value = sessionStorage.getItem("email");
 }
 
