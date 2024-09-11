@@ -303,8 +303,6 @@ h6{
     border-bottom: 1px;
     border-bottom-style: solid;
     border-bottom-color: var(--gray-500);
-
-
 }
 
 .nav-item{
@@ -325,6 +323,11 @@ h6{
 }
 
 .navbar-nav li a:hover{
+    color: var(--primary);
+    background-color: var(--primary-opacity-light);
+}
+
+.nav-item-highlight{
     color: var(--primary);
     background-color: var(--primary-opacity-light);
 }
@@ -377,7 +380,11 @@ h6{
     margin: unset;
 }
 
-.header-margin-bottom{
+.margin-header-bottom-30{
+    margin-bottom: 30px;
+}
+
+.margin-header-bottom-50{
     margin-bottom: 50px;
 }
 
@@ -442,7 +449,6 @@ h6{
     height: 15px;
     background-color: var(--background-transparent);
     border: none;
-    margin-top: 25px;
 }
 
 .icon-more-information{
@@ -1413,10 +1419,6 @@ h6{
     border-bottom-color: var(--gray-500);
 }
 
-.margin-textbox-label{
-    margin-top: 30px;
-}
-
 .settings-edit-buttons{
     display: flex;
     flex-direction: row;
@@ -1607,6 +1609,9 @@ h6{
     flex-direction: column;
 }
 
+.margin-settings-username{
+    margin-bottom: 30px;
+}
 
 /*Account Help*/
 .help-container{
