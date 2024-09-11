@@ -1128,13 +1128,13 @@ h6{
 }
 
 .column-network-name{
-    width: 185px;
+    width: 200px;
     text-align: center;
     text-wrap: wrap;
 }
 
 .column-user-name{
-    width: 213px;
+    width: 200px;
     text-align: center;
     text-wrap: wrap;
 }
