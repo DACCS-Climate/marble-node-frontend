@@ -47,6 +47,8 @@
             </div>
         {% endif %}
     </div>
-    <div><p id="textboxCaption" class="overline margin-textbox-caption">{{ caption|safe }}</p></div>
+    {% if caption %}
+        <div><p id="textboxCaption" class="overline margin-textbox-caption">{{ caption|safe }}</p></div>
+    {% endif %}
 </div>
 
