@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-    //testLogin();
+    testLogin();
     //testLogin2();
 
     //var email = getNodeContact();
@@ -49,9 +49,9 @@ function testLogin(){
             },
         credentials: 'include',
         body: JSON.stringify({
-            "user_name": "alexandercyu",
-            "password": "a30nD@CCSUTlive",
-            "provider_name":"ziggurat"
+            user_name: "alexandercyu",
+            password: "a30nD@CCSUTlive",
+            provider_name:"ziggurat"
             })
         }).then(response   =>  {
             authCookie = getAuthTkt(response);
@@ -111,7 +111,8 @@ function login(){
                 },
             body: JSON.stringify({
                 user_name: usernameInput,
-                password: passwordInput
+                password: passwordInput,
+                provider_name:"ziggurat"
                 })
             }).then(response => response.json()).then(json  => {
 
@@ -198,6 +199,61 @@ function getSessionDetails(){
         })
 }
 
+//User functions
+function getUserDetails(username, cookie){
+    //Use fetch to get user details from user/username endpoint in api
+    //Use details returned to populate fields
+
+    //TODO: When done remove loggedUserUrl and put loggedUserURLFragment for the fetch url.  base url should resolve when run from birdhouse
+    const loggedUserURL = nodeURL + "/magpie/users/" + username;
+    //const loggedUserURL = nodeURL + "/magpie/users/current";
+    //const loggedUserURLFragment = "users/current";
+    return fetch(loggedUserURL,{
+        method: "GET",
+        headers: {
+            "Accept": "application/json, text/plain",
+            "Content-Type": "application/json",
+            "Authorization": cookie, //TODO use Authorization header when request is same-origin
+            }
+        }).then(response => {return response.json()}).then(json =>{
+            console.log("user details");
+            console.log(json);
+            return json;
+        })
+}
+
+function storeUserDetails(username, cookie){
+    getUserDetails(username, cookie).then(json => {
+        json.then(userData => {
+            sessionStorage.setItem("username", userData["user"].user_name);
+            sessionStorage.setItem("email", userData["user"].email);
+        })
+    })
+
+}
+
+function deleteUser(username){
+    const deleteURLFragment = "users/" + username;
+    const deleteURL = nodeURL + "/magpie/users/" + username;
+
+    fetch(deleteURL,{
+            method: "DELETE",
+            headers: {
+                "Accept": "application/json, text/plain",
+                "Content-Type": "application/json"
+                }
+            }).then(response => response.json()).then(json =>{
+
+                    if(json.code == 200){
+                        sessionStorage.clear();
+                        window.location.href = loginHome;
+                    }
+
+                })
+}
+
+
+//Page functionality and page details functions
 
 //Matches base url of the current node with the node registry and sets the email for the reset password modal and
 //the error message for a login error
@@ -229,59 +285,29 @@ function setNodeAdminEmail(){
     })
 }
 
+function setNodeName(node_url, elementID){
 
-//Gets session details and returns the base url of the current node
-/*
-async function getSessionDetails(){
-    //TODO
-    //Replace nodeSessionURL with the sessionURLFragment variable in the fetch
-    //Remove nodeSessionURL variable assignment
-    const sessionURLFragment = "magpie/session"
-    const nodeSessionURL = nodeURL + sessionURLFragment;
+    getNodeRegistry().then(json => {
+        var node_keys = Object.keys(json);
+        let node_info;
 
-    return fetch(nodeSessionURL,{
-        method: "GET",
-        headers: {
-            Accept: "application/json, text/plain",
-            "Content-Type": "application/json"
-            }
-        }).then(response => response.json()).then(json =>{
-        return json.url.replace(sessionURLFragment, "");
-    })
-}*/
+        node_keys.forEach(key => {
+        node_info = json[key];
+        Object.entries(node_info).forEach(([node_details_key, node_details]) => {
 
+                if(node_details_key == "links"){
+                    node_info[node_details_key].forEach((link) => {
 
-
-function getUserDetails(username, cookie){
-    //Use fetch to get user details from user/username endpoint in api
-    //Use details returned to populate fields
-
-    //TODO: When done remove loggedUserUrl and put loggedUserURLFragment for the fetch url.  base url should resolve when run from birdhouse
-    const loggedUserURL = nodeURL + "/magpie/users/" + username;
-    //const loggedUserURL = nodeURL + "/magpie/users/current";
-    //const loggedUserURLFragment = "users/current";
-    return fetch(loggedUserURL,{
-        method: "GET",
-        headers: {
-            "Accept": "application/json, text/plain",
-            "Content-Type": "application/json",
-            "Authorization": cookie, //TODO use Authorization header when request is same-origin
-            }
-        }).then(response => {return response.json()}).then(json =>{
-            console.log("user details");
-            console.log(json);
-            return json;
-        })
-}
-
-function storeUserDetails(username, cookie){
-    getUserDetails(username, cookie).then(json => {
-        json.then(userData => {
-            sessionStorage.setItem("username", userData["user"].user_name);
-            sessionStorage.setItem("email", userData["user"].email);
+                        if(link.rel == "service"){
+                            if(node_url == link.href){
+                                elementID.innerText = node_info["name"];
+                            }
+                        }
+                    })
+                }
+            })
         })
     })
-
 }
 
 function displayAccountDetails(username, cookie){
