@@ -4,7 +4,7 @@
         <div class="popup-attention-content-container">
             <div class="popup-button-close">
                 {% with button_type = "close_button_x"%}
-                    {% set button_href = "javascript:void(0)" %}
+                    {% set button_id = "closeDeleteModal" %}
                     {% include "partials/button.html" %}
                 {% endwith %}
             </div>
@@ -14,10 +14,12 @@
             <div class="margin-popup-button">
                 {% with button_type = "med_delete_button_red_no_icon"%}
                     {% set button_label = "DELETE" %}
-                    {% set button_href = "javascript:void(0)" %}
+                    {% set button_id = "deleteUserButton" %}
                     {% include "partials/button.html" %}
                 {% endwith %}
             </div>
         </div>
     </div>
+<script src="js/modal.js"></script>
+<script src="js/modal-delete.js"></script>
 </dialog>
