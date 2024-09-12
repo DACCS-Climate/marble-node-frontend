@@ -4,6 +4,7 @@ function setModal(modalElementID, openModalButtonElementID, openModalLinkElement
     var bodyHTMLCollection = document.getElementsByTagName("body");
     var bodyTags = Array.from(bodyHTMLCollection);
 
+    //Adds open modal function to a button
     if(openModalButtonElementID != ""){
         var openModalButton = document.getElementById(openModalButtonElementID);
 
@@ -28,7 +29,8 @@ function setModal(modalElementID, openModalButtonElementID, openModalLinkElement
             modalElement.close();
         });
     }
-    
+
+    //Adds open modal function to a text link
     if(openModalLinkElementID != ""){
         var openModalLink = document.getElementById(openModalLinkElementID);
 
