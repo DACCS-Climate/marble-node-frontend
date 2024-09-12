@@ -412,3 +412,19 @@ function signout(){
         })
     });
 }
+
+//Node functions
+
+//TODO Add function that adds a user to a node
+// Function takes node name, username and user email
+// on click it sends an email to the node admin with the user's details and an automated message requesting and account
+// be made on the given node.
+// The return should be sent to the user's email either with a token that authenticates them or a request to set a password
+function createNode(){
+
+}
+
+//TODO Add function that removes a user from a node
+function deleteNode(){
+
+}
