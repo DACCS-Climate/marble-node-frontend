@@ -38,6 +38,7 @@
             <div class="margin-settings-button">
                 {% with %}
                     {% set button_type = "reg_save_button" %}
+                    {% set button_id = "saveUserChangesButton" %}
                     {% set button_label = "Save Changes" %}
                     {% include "partials/button.html" %}
                 {% endwith %}
@@ -45,6 +46,7 @@
             <div>
                 {% with %}
                     {% set button_type = "med_delete_button" %}
+                    {% set button_id = "openDeleteModalButton" %}
                     {% set button_label = "Delete" %}
                     {% include "partials/button.html" %}
                 {% endwith %}
@@ -56,6 +58,7 @@
         <div class="settings-right-buttons">
             {% with %}
                 {% set button_type = "lg_action_button" %}
+                {% set button_id = "openNetworkModalButton" %}
                 {% set button_label = "Network Nodes" %}
                 {% include "partials/button.html" %}
             {% endwith %}
@@ -63,6 +66,12 @@
     </div>
 <script src="js/settings.js"></script>
 <script src="js/login-styles-scripts.js"></script>
+{% with %}
+    {% set popup_attention_title = "Your Attention is required!" %}
+    {% set popup_attention_message = "This operation will delete your account and its associated permissions as well as
+    log you out of your account. All data linked to your account will also be lost. <br> This is irreversible!" %}
+    {% include "partials/popup-attention.html" %}
+{% endwith %}
 </div>
 
 {% endblock %}
