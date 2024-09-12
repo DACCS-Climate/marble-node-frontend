@@ -1,10 +1,10 @@
-<dialog id="deleteAttentionModal">
+<dialog id="{{ popup_attention_id }}" class="dialog-attention">
     <div class="popup-attention-container">
 
         <div class="popup-attention-content-container">
             <div class="popup-button-close">
                 {% with button_type = "close_button_x"%}
-                    {% set button_id = "closeDeleteModal" %}
+                    {% set button_id = popup_close_button_id %}
                     {% include "partials/button.html" %}
                 {% endwith %}
             </div>
