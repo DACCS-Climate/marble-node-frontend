@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
     var settingsButton = document.getElementById('menuItemSettings');
     var helpButton = document.getElementById('menuItemHelp');
 
-    var currentURL = window.location.href;
     var currentPath = window.location.pathname;
 
     if (currentPath.includes("account.html")) {
