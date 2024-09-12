@@ -59,6 +59,7 @@
     --black-opacity-darker: rgba(0, 0, 0, 0.8);
     --opaque-light-grey: rgba(255,255,255, 0.3);
     --white-opacity-light: rgba(255, 255, 255, 0.18);
+    --white-opacity-darker: rgba(255, 255, 255, 0.85);
     --red-opacity-mid: rgba(178, 0, 2, 0.50);
     --primary-opacity-light: rgba(48, 79, 254, 0.12);
     --primary-opacity-midlight: rgba(48, 79,245, 0.35);
@@ -1684,6 +1685,10 @@ dialog{
 
 .dialog-password-reset::backdrop{
     background-color: var(--black-opacity-darker);
+}
+
+.dialog-attention::backdrop{
+    background-color: var(--white-opacity-darker);
 }
 
 .dialog-network-node{
