@@ -1,3 +1,3 @@
 document.addEventListener("DOMContentLoaded", function () {
-    setModal("networkNodeModal", "", "openNetworkModalLink", "closeNetworkModal");
+    setModal("networkNodeModal", "openNetworkModalButton", "openNetworkModalLink", "closeNetworkModal");
 })
