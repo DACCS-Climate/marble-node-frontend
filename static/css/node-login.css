@@ -1157,9 +1157,6 @@ h6{
     padding-bottom: 10px;
 }
 
-.padding-header-row th:first-child{
-}
-
 .padding-header-row th:last-child{
     padding-right: 18px;
 }
@@ -1184,9 +1181,6 @@ h6{
 .network-entry-row{
     color: var(--text-on-dark);
     margin-bottom: 20px;
-}
-
-.network-entry-row td:nth-child(2){
 }
 
 /*Providers Popup*/
