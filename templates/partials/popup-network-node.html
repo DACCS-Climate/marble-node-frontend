@@ -23,6 +23,7 @@
                         {% set node_name = "Node1" %}
                         {% set user_name = "TestUser1" %}
                         {% set button_type = "med_delete_button" %}
+                        {% set popup_network_node_button_id = "openDeleteNodePlaceholderID" %}
                         {% include "partials/popup-network-entry.html" %}
                     {% endwith %}
 
@@ -40,7 +41,7 @@
                     {% endwith %}
 
                     {% with %}
-                        {% set node_name = "Test wrapping text in column name entry for this particular node" %}
+                        {% set node_name = "Test wrapping text in node name entry for this particular node" %}
                         {% set user_name = "Test wrapping text in user name entry for this particular node" %}
                         {% set button_type =  "med_action_button" %}
                         {% set button_label = "Create" %}
@@ -76,4 +77,13 @@
     </div>
 <script src="js/modal.js"></script>
 <script src="js/modal-network-node.js"></script>
+
+{% with %}
+    {% set popup_attention_id = "deleteNodeAttentionModal" %}
+    {% set popup_close_button_id = "closeDeleteNodeAttentionModal" %}
+    {% set popup_attention_title = "Your Attention is required!" %}
+    {% set popup_attention_message = "This will permanently delete the link to (node_name). Are you sure?" %}
+    {% include "partials/popup-attention.html" %}
+{% endwith %}
+
 </dialog>
