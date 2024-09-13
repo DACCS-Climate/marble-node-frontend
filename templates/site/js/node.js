@@ -15,6 +15,8 @@ const converters = {
             const doc_elem = node_card.getElementById("node-card-template-doc")
 
             desc_elem.classList.add("height-node-description");
+            link_elem.setAttribute("target", "_blank");
+            doc_elem.setAttribute("target", "_blank");
 
             name_elem.id = `node-card-${index}-name`
             desc_elem.id = `node-card-${index}-description`
