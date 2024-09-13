@@ -261,7 +261,6 @@ function deleteUser(username){
 function setNodeAdminEmail(){
     const githubURL = "{{ node_registry_url }}";
     const sessionURLFragment = "magpie/session";
-    let nodeAdminEmail = document.getElementById("nodeAdminEmail");
     let passwordResetEmail = document.getElementById("passwordResetEmail");
 
     getSessionDetails().then(sessionJSON => {
@@ -273,7 +272,6 @@ function setNodeAdminEmail(){
                     json[key].links.forEach((link) => {
                         if (link.rel && link.rel === "service") {
                             if (currentNodeURL.includes(link.href)) {
-                                nodeAdminEmail.setAttribute("href", "mailto:" + json[key].contact);
                                 passwordResetEmail.setAttribute("href", "mailto:" + json[key].contact);
                                 passwordResetEmail.innerText = json[key].contact;
                             }
