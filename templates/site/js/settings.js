@@ -12,6 +12,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var saveChangesButton = document.getElementById("buttonSave");
     saveChangesButton.addEventListener("click",updateUserDetails);
+
+    var deleteUserButton = document.getElementById("deleteUserButton");
+    deleteUserButton.addEventListener("click",updateUserDetails);
 })
 
 function setUserDetails(){
@@ -71,15 +74,5 @@ function updateUserPassword(username, password){
             "password": password,
             "status": 1
         }
-    })
-}
-
-function deleteUser(username){
-    const deleteURLFragment = "users/" + username;
-    const deleteURL =  nodeURL + "users/" + username;
-
-    //TODO Replace updateURL with deleteURL Fragment
-    fetch(deleteURL, {
-        method: "DELETE"
     })
 }
