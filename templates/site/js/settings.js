@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
     saveChangesButton.addEventListener("click",updateUserDetails);
 
     var deleteUserButton = document.getElementById("deleteUserButton");
-    deleteUserButton.addEventListener("click",updateUserDetails);
+    deleteUserButton.addEventListener("click",deleteUser);
 })
 
 function setUserDetails(){
