@@ -252,6 +252,26 @@ function deleteUser(username){
                 })
 }
 
+//TODO: Placeholder function for deleting a user from a specific node
+// Depends on functionality from a future feature that will enable a user to see all the nodes they are registered on
+function deleteNodeUser(username, nodeName){
+    const deleteURLFragment = "users/" + username;
+    const deleteURL = nodeURL + "/magpie/users/" + username;
+
+    fetch(deleteURL,{
+            method: "DELETE",
+            headers: {
+                "Accept": "application/json, text/plain",
+                "Content-Type": "application/json"
+                }
+            }).then(response => response.json()).then(json =>{
+
+                    if(json.code == 200){
+                        sessionStorage.clear();
+                    }
+
+                })
+}
 
 //Page functionality and page details functions
 
