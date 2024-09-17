@@ -1119,9 +1119,15 @@ h6{
     width: 732px;
 }
 
-.popup-network-content{
+.popup-network-table{
+    position: relative;
     width: 100%;
     color: var(--text-on-dark);
+}
+
+.popup-network-table th{
+    position: sticky;
+    top: 0;
 }
 
 .popup-network-colgroup col{
