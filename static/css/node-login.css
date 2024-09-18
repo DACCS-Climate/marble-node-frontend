@@ -1117,6 +1117,8 @@ h6{
 
 .network-close-button-container{
     width: 732px;
+    position: sticky;
+    top: 0;
 }
 
 .popup-network-table{
@@ -1127,7 +1129,12 @@ h6{
 
 .popup-network-table th{
     position: sticky;
-    top: 0;
+    top: 22px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.popup-network-table.header-scroll-background th{
+    background-color: var(--white-opacity-light);
 }
 
 .popup-network-colgroup col{
@@ -1154,6 +1161,9 @@ h6{
 .popup-network-header{
     width: 659px;
     color: var(--text-on-dark);
+}
+
+.border-network-header{
     border-bottom: solid;
     border-bottom-color: var(--white);
     border-bottom-width: 1px;
@@ -1691,6 +1701,11 @@ dialog{
 
 .dialog-password-reset::backdrop{
     background-color: var(--black-opacity-darker);
+}
+
+.dialog-attention{
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .dialog-attention::backdrop{
