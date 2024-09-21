@@ -1,78 +1,76 @@
 <dialog id="networkNodeModal" class="dialog-network-node">
     <div class="popup-network-container">
-        <div class="network-close-button-container">
-            <div class="popup-button-close">
-                {% with button_type = "close_button_x"%}
-                    {% set button_href = "javascript:void(0)" %}
-                    {% set button_id= "closeNetworkModal" %}
-                    {% include "partials/button.html" %}
-                {% endwith %}
-            </div>
-        </div>
+
         <div>
-            <table class="popup-network-table">
-                <thead class="popup-network-header border-network-header">
-                    <tr class="padding-header-row">
-                        <th class="subtitle-1 column-network-name" >Network Name</th>
-                        <th class="subtitle-1 column-user-name" >User Name</th>
-                        <th class="subtitle-1 column-button">Action</th>
-                    </tr>
-                </thead>
-                <tbody class="popup-network-body">
-                    {% with %}
-                        {% set node_name = "Node1" %}
-                        {% set user_name = "TestUser1" %}
-                        {% set button_type = "med_delete_button" %}
-                        {% set popup_network_node_button_id = "openDeleteNodePlaceholderID" %}
-                        {% include "partials/popup-network-entry.html" %}
-                    {% endwith %}
+            <div class="popup-network-header padding-header-row">
+                <div class="network-close-button-container">
+                    <div class="popup-button-close">
+                        {% with button_type = "close_button_x"%}
+                            {% set button_href = "javascript:void(0)" %}
+                            {% set button_id= "closeNetworkModal" %}
+                            {% include "partials/button.html" %}
+                        {% endwith %}
+                    </div>
+                </div>
 
-                    {% with %}
-                        {% set node_name = "Node2" %}
-                        {% set user_name = "TestUser2" %}
-                        {% set button_type = "med_delete_button" %}
-                        {% include "partials/popup-network-entry.html" %}
-                    {% endwith %}
-                    {% with %}
-                        {% set node_name = "Node3" %}
-                        {% set user_name = "TestUser3" %}
-                        {% set button_type = "med_delete_button" %}
-                        {% include "partials/popup-network-entry.html" %}
-                    {% endwith %}
+                <div class="popup-network-title-container popup-network-columns border-network-title popup-network-title padding-header-title">
+                    <p class="subtitle-1 column-network-name margin-unset-default " >Network Name</p>
+                    <p class="subtitle-1 column-user-name margin-unset-default " >User Name</p>
+                    <p class="subtitle-1 column-button margin-unset-default ">Action</p>
+                </div>
+            </div>
+            <div class="padding-network-body">
+                 {% with %}
+                            {% set node_name = "Node1" %}
+                            {% set user_name = "TestUser1" %}
+                            {% set button_type = "med_delete_button" %}
+                            {% set popup_network_node_button_id = "openDeleteNodePlaceholderID" %}
+                            {% include "partials/popup-network-entry-test.html" %}
+                        {% endwith %}
 
-                    {% with %}
-                        {% set node_name = "Test wrapping text in node name entry for this particular node" %}
-                        {% set user_name = "Test wrapping text in user name entry for this particular node" %}
-                        {% set button_type =  "med_action_button" %}
-                        {% set button_label = "Create" %}
-                        {% include "partials/popup-network-entry.html" %}
-                    {% endwith %}
+                        {% with %}
+                            {% set node_name = "Node2" %}
+                            {% set user_name = "TestUser2" %}
+                            {% set button_type = "med_delete_button" %}
+                            {% include "partials/popup-network-entry-test.html" %}
+                        {% endwith %}
+                        {% with %}
+                            {% set node_name = "Node3" %}
+                            {% set user_name = "TestUser3" %}
+                            {% set button_type = "med_delete_button" %}
+                            {% include "partials/popup-network-entry-test.html" %}
+                        {% endwith %}
 
-                    {% with %}
-                        {% set node_name = "UofT" %}
-                        {% set user_name = "Username 1" %}
-                        {% set button_type = "med_delete_button" %}
-                        {% include "partials/popup-network-entry.html" %}
-                    {% endwith %}
+                        {% with %}
+                            {% set node_name = "Test wrapping text in node name entry for this particular node" %}
+                            {% set user_name = "Test wrapping text in user name entry for this particular node" %}
+                            {% set button_type =  "med_action_button" %}
+                            {% set button_label = "Create" %}
+                            {% include "partials/popup-network-entry-test.html" %}
+                        {% endwith %}
 
-                    {% with %}
-                        {% set node_name = "Hirondelle" %}
-                        {% set user_name = "Username of user 2" %}
-                        {% set button_type = "med_delete_button" %}
-                        {% include "partials/popup-network-entry.html" %}
-                    {% endwith %}
+                        {% with %}
+                            {% set node_name = "UofT" %}
+                            {% set user_name = "Username 1" %}
+                            {% set button_type = "med_delete_button" %}
+                            {% include "partials/popup-network-entry-test.html" %}
+                        {% endwith %}
 
-                    {% with %}
-                        {% set node_name = "PAVICS" %}
-                        {% set user_name = "User 2" %}
-                        {% set button_type =  "med_action_button" %}
-                        {% set button_label = "Create" %}
-                        {% include "partials/popup-network-entry.html" %}
-                    {% endwith %}
+                        {% with %}
+                            {% set node_name = "Hirondelle" %}
+                            {% set user_name = "Username of user 2" %}
+                            {% set button_type = "med_delete_button" %}
+                            {% include "partials/popup-network-entry-test.html" %}
+                        {% endwith %}
 
-
-                </tbody>
-            </table>
+                        {% with %}
+                            {% set node_name = "PAVICS" %}
+                            {% set user_name = "User 2" %}
+                            {% set button_type =  "med_action_button" %}
+                            {% set button_label = "Create" %}
+                            {% include "partials/popup-network-entry-test.html" %}
+                        {% endwith %}
+            </div>
         </div>
     </div>
 <script src="js/modal.js"></script>
