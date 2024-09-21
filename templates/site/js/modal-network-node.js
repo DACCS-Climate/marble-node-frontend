@@ -9,17 +9,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function backgroundColourOnScroll(){
     const networkNodeModal = document.getElementById("networkNodeModal");
-    const networkNodeTable = document.querySelector(".popup-network-table");
-    const networkNodeTableHeader = document.querySelector(".popup-network-header");
+    const networkNodeHeader = document.querySelector(".popup-network-header");
+    const networkNodeHeaderTitle = document.querySelector(".popup-network-title");
+    const networkNodeCloseIcon = document.getElementById("closeNetworkModal");
+    const networkNodeBorder =  document.querySelector(".border-network-title");
 
     networkNodeModal.onscroll = (event) => {
         if(networkNodeModal.scrollTop > 0){
-            networkNodeTable.classList.add("header-scroll-background");
-            networkNodeTableHeader.classList.remove("border-network-header");
+            networkNodeHeader.classList.add("header-scroll");
+            networkNodeHeaderTitle.classList.add("header-scroll");
+            networkNodeCloseIcon.classList.add("image-close-icon-dark");
+            networkNodeCloseIcon.classList.remove("image-close-icon");
+            networkNodeBorder.classList.add("header-scroll");
         }
         else{
-            networkNodeTable.classList.remove("header-scroll-background");
-            networkNodeTableHeader.classList.add("border-network-header");
+            networkNodeHeader.classList.remove("header-scroll");
+            networkNodeHeaderTitle.classList.remove("header-scroll");
+            networkNodeCloseIcon.classList.remove("image-close-icon-dark");
+            networkNodeCloseIcon.classList.add("image-close-icon");
+            networkNodeBorder.classList.remove("header-scroll");
         }
     }
 }
