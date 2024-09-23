@@ -649,7 +649,7 @@ h6{
     width: 16px;
     height: 15px;
     background-image: url("../images/button/exclamation_triangle_red.svg");
-
+    background-repeat: no-repeat;
     margin-right: 12px;
 }
 
@@ -657,6 +657,7 @@ h6{
     width: 16px;
     height: 15px;
     background-image: url("../images/button/exclamation_triangle_white.svg");
+    background-repeat: no-repeat;
     margin-right: 12px;
 }
 
@@ -779,11 +780,11 @@ h6{
 }
 
 .button-med-delete:hover .image-delete-icon-red{
-    background-color: var(--white);
+    background-image: url("../images/button/exclamation_triangle_white.svg");
 }
 
 .button-med-delete:hover .image-delete-icon-white{
-    background-color: var(--error);
+    background-image: url("../images/button/exclamation_triangle_red.svg");
 }
 
 .button-med-delete-no-icon{
@@ -1091,7 +1092,7 @@ h6{
 
 /*Network Node popup*/
 .popup-network-container{
-    width: 780px;
+    width: 770px;
     height: auto;
     display: flex;
     flex-direction: column;
@@ -1127,7 +1128,6 @@ h6{
 
 .popup-network-columns{
     column-count: 3;
-    column-width: 200px;
 }
 
 .column-network-name{
