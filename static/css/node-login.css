@@ -1371,7 +1371,6 @@ h6{
 
 .node-card{
     max-width: 322px;
-    /*max-height: 238px;*/
     height: 256px;
     margin-left: 35px;
     margin-top: 35px;
@@ -1390,10 +1389,6 @@ h6{
 .height-node-description{
     min-height: 75px;
 }
-/*
-.width-node-services-div{
-    width: 80%;
-}*/
 
 .services-button a:not(:last-child) {
     margin-right: 20px
