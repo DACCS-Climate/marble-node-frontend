@@ -648,24 +648,15 @@ h6{
 .image-delete-icon-red{
     width: 16px;
     height: 15px;
-    mask-image:  url("../images/button/exclamation_triangle_red.svg");
-    -webkit-mask-image:  url("../images/button/exclamation_triangle_red.svg");
-    mask-size: 16px 15px;
-    mask-repeat: no-repeat;
-    mask-position: center;
-    background-color: var(--error);
+    background-image: url("../images/button/exclamation_triangle_red.svg");
+
     margin-right: 12px;
 }
 
 .image-delete-icon-white{
     width: 16px;
     height: 15px;
-    mask-image:  url("../images/button/exclamation_triangle_white.svg");
-    -webkit-mask-image:  url("../images/button/exclamation_triangle_white.svg");
-    mask-size: 16px 15px;
-    mask-repeat: no-repeat;
-    mask-position: center;
-    background-color: var(--white);
+    background-image: url("../images/button/exclamation_triangle_white.svg");
     margin-right: 12px;
 }
 
@@ -1135,7 +1126,8 @@ h6{
 }
 
 .popup-network-columns{
-    columns: 3;
+    column-count: 3;
+    column-width: 200px;
 }
 
 .column-network-name{
@@ -1176,9 +1168,7 @@ h6{
 }
 
 .border-network-title.header-scroll{
-    border-bottom: solid;
     border-bottom-color: var(--black);
-    border-bottom-width: 1px;
 }
 
 .margin-header-text{
