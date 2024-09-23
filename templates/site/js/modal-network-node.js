@@ -8,26 +8,29 @@ document.addEventListener("DOMContentLoaded", function () {
 })
 
 function backgroundColourOnScroll(){
+    let networkNodeCloseIcon;
     const networkNodeModal = document.getElementById("networkNodeModal");
-    const networkNodeHeader = document.querySelector(".popup-network-header");
+    const networkNodeHeader = document.getElementById("popupNetworkHeader");
     const networkNodeHeaderTitle = document.querySelector(".popup-network-title");
-    const networkNodeCloseIcon = document.getElementById("closeNetworkModal");
     const networkNodeBorder =  document.querySelector(".border-network-title");
+
+    var headerNodeList = networkNodeHeader.querySelectorAll(".image-close-icon");
+    if(headerNodeList.length > 0){
+        networkNodeCloseIcon = headerNodeList[0]
+    }
 
     networkNodeModal.onscroll = (event) => {
         if(networkNodeModal.scrollTop > 0){
             networkNodeHeader.classList.add("header-scroll");
             networkNodeHeaderTitle.classList.add("header-scroll");
-            networkNodeCloseIcon.classList.add("image-close-icon-dark");
-            networkNodeCloseIcon.classList.remove("image-close-icon");
             networkNodeBorder.classList.add("header-scroll");
+            networkNodeCloseIcon.classList.replace("image-close-icon","image-close-icon-dark");
         }
         else{
             networkNodeHeader.classList.remove("header-scroll");
             networkNodeHeaderTitle.classList.remove("header-scroll");
-            networkNodeCloseIcon.classList.remove("image-close-icon-dark");
-            networkNodeCloseIcon.classList.add("image-close-icon");
             networkNodeBorder.classList.remove("header-scroll");
+            networkNodeCloseIcon.classList.replace("image-close-icon-dark","image-close-icon");
         }
     }
 }
