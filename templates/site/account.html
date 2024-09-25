@@ -1,0 +1,22 @@
+{% extends "layouts/account-main.html" %}
+
+{% set h3_header_title = "Hi, Test User" %}
+{% set h5_header_title = "Please enter your login details!" %}
+
+{% block account_content %}
+
+<div>
+    <div class="page-title">
+        <h3 id="h3Header"></h3>
+        <h5>{{ h5_header_title }}</h5>
+    </div>
+    <div class="account-top-container">
+        {% include "partials/account-overview.html" %}
+    </div>
+
+    <div class="account-bottom-container">
+        {% include "partials/node.html" %}
+    </div>
+</div>
+
+{% endblock %}

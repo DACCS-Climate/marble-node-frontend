@@ -15,7 +15,10 @@ def filter_site_templates(template, extensions=("js", "html")):
             "." in basename and
             basename.rsplit(".", 1)[1] in extensions)
 
-def build(build_directory, node_registry_url):
+
+def build(build_directory, node_registry_url, clean=False):
+    if clean:
+        shutil.rmtree(build_directory, ignore_errors=True)
     env = Environment(
         loader=FileSystemLoader(TEMPLATE_PATH), autoescape=select_autoescape(enabled_extensions=("html", "js", "css"))
     )
@@ -48,6 +51,11 @@ if __name__ == "__main__":
         help="node registry URL",
     )
 
+    parser.add_argument(
+        "-c",
+        "--clean",
+        action="store_true",
+        help="clean build directories before building.",
+    )
     args = parser.parse_args()
-
-    build(args.build_directory, args.node_registry_url)
+    build(args.build_directory, args.node_registry_url, args.clean)

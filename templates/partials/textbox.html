@@ -1,7 +1,7 @@
 {% if textbox_type == "password_input_text" %}
-    {% set input_textbox_id = "userPassword" %}
+    {% set input_textbox_id = input_textbox_id | default("userPassword") %}
 {% else %}
-    {% set input_textbox_id = "userName" %}
+    {% set input_textbox_id = input_textbox_id | default("userName") %}
 {% endif %}
 
 {% set textbox = {
@@ -19,6 +19,7 @@
     }
 %}
 
+
 <div class="textbox-container">
     <div class="textbox-label-icon">
         <label class="textbox-label margin-textbox-label subtitle-1" for="{{ textbox[textbox_type]["textbox_name"] }}">
@@ -35,7 +36,7 @@
     <div class="textbox-field-container">
         <input type='{{ textbox[textbox_type]["input_type"] }}' id="{{ input_textbox_id }}" name="{{ textbox[textbox_type]["textbox_name"] }}"
             {% if textbox[textbox_type]["input_type"] == "password" %}
-               class="input-textbox textbox-password-padding"
+                class="input-textbox textbox-password-padding"
             {% else %}
                 class="input-textbox textbox-padding"
             {% endif %}
@@ -46,12 +47,8 @@
             </div>
         {% endif %}
     </div>
-    {% if textbox[textbox_type]["input_type"] == "password" %}
-        <p id="loginError" class="overline login-error display-none">Username or password incorrect.
-        Try again or <a id="nodeAdminEmail" href="">email the admin to create an account</a>.</p>
+    {% if caption %}
+        <div><p id="textboxCaption" class="overline margin-textbox-caption">{{ caption|safe }}</p></div>
     {% endif %}
 </div>
-
-
-
 

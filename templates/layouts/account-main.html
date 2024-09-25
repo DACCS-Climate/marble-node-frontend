@@ -1,0 +1,13 @@
+{% extends "layouts/main.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="account-menu-container">
+        {% include "partials/menu.html" %}
+    </div>
+
+    {% block account_content %}
+    {% endblock %}
+
+</div>
+{% endblock %}

@@ -1,10 +1,25 @@
 function setModal(modalElementID, openModalButtonElementID, openModalLinkElementID, closeModalElementID){
-    // Get the modal
-    var modalElement = document.getElementById(modalElementID);
+    let modalElement;
     var bodyHTMLCollection = document.getElementsByTagName("body");
     var bodyTags = Array.from(bodyHTMLCollection);
 
-    if(openModalButtonElementID != ""){
+    // Get the modal
+    if(modalElementID != "" && document.getElementById(modalElementID) != null){
+        modalElement = document.getElementById(modalElementID);
+
+        // When the user clicks anywhere outside of the modal, close it
+        modalElement.addEventListener("click", () => {
+            if(event.target.id == modalElementID){
+                bodyTags.forEach(body => {
+                    body.classList.remove(...body.classList);
+                })
+                modalElement.close();
+            }
+        } )
+    }
+
+    //Adds open modal function to a button
+    if(openModalButtonElementID != "" && document.getElementById(openModalButtonElementID) != null){
         var openModalButton = document.getElementById(openModalButtonElementID);
 
         // When the user clicks on the button, open the modal
@@ -18,7 +33,7 @@ function setModal(modalElementID, openModalButtonElementID, openModalLinkElement
         });
     }
 
-    if(closeModalElementID != ""){
+    if(closeModalElementID != "" && document.getElementById(closeModalElementID) != null){
         var closeModalButton = document.getElementById(closeModalElementID);
 
         closeModalButton.addEventListener("click", () => {
@@ -28,8 +43,9 @@ function setModal(modalElementID, openModalButtonElementID, openModalLinkElement
             modalElement.close();
         });
     }
-    
-    if(openModalLinkElementID != ""){
+
+    //Adds open modal function to a text link
+    if(openModalLinkElementID != "" && document.getElementById(openModalLinkElementID) != null){
         var openModalLink = document.getElementById(openModalLinkElementID);
 
         openModalLink.addEventListener('click', () => {
@@ -40,14 +56,4 @@ function setModal(modalElementID, openModalButtonElementID, openModalLinkElement
             modalElement.showModal();
         })
     }
-
-    // When the user clicks anywhere outside of the modal, close it
-    modalElement.addEventListener("click", () => {
-        if(event.target.id == modalElementID){
-            bodyTags.forEach(body => {
-                body.classList.remove(...body.classList);
-            })
-            modalElement.close();
-        }
-    } )
 }

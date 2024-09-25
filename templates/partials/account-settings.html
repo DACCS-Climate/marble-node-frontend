@@ -1,0 +1,80 @@
+{% set edit_title = "Edit Profile" %}
+
+{% block account_content %}
+
+    <div class="settings-container">
+
+        <div class="settings-left">
+
+            <div>
+                <h4 class="margin-header-bottom-30">{{ edit_title }}</h4>
+                <div class="settings-username margin-settings-username">
+                    <p id="settingsUsernameLabel" class="subtitle-1">Username</p>
+                    <p id="settingsUsername" class="margin-unset-default body-1"></p>
+                </div>
+
+                <div class="settings-edit-password">
+                    {% with %}
+                        {% set textbox_type = "password_input_text" %}
+                        {% set textbox_label = "New Password" %}
+                        {% set tooltip_text = "" %}
+                        {% include "partials/textbox.html" %}
+                    {% endwith %}
+                </div>
+
+                <div class="settings-edit-email">
+                    {% with %}
+                        {% set textbox_type = "reg_input_text" %}
+                        {% set input_textbox_id = "settingsEditEmail" %}
+                        {% set textbox_label = "Email" %}
+                        {% set tooltip_text = "" %}
+                        {% set caption = "Edit email registered with <span id='emailCaptionNodeName' ></span>" %}
+                        {% include "partials/textbox.html" %}
+                    {% endwith %}
+                    <p id="editEmailMessage" class="overline"></p>
+                </div>
+
+            <div class="settings-edit-buttons">
+                <div class="margin-settings-button">
+                    {% with %}
+                        {% set button_type = "reg_save_button" %}
+                        {% set button_id = "saveUserChangesButton" %}
+                        {% set button_label = "Save Changes" %}
+                        {% include "partials/button.html" %}
+                    {% endwith %}
+                </div>
+                <div>
+                    {% with %}
+                        {% set button_type = "med_delete_button" %}
+                        {% set button_id = "openDeleteModalButton" %}
+                        {% set button_label = "Delete" %}
+                        {% include "partials/button.html" %}
+                    {% endwith %}
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="settings-right background-image-settings">
+            <div class="settings-right-buttons">
+                {% with %}
+                    {% set button_type = "lg_action_button" %}
+                    {% set button_id = "openNetworkModalButton" %}
+                    {% set button_label = "Network Nodes" %}
+                    {% include "partials/button.html" %}
+                {% endwith %}
+            </div>
+        </div>
+        <script src="js/settings.js"></script>
+        <script src="js/login-styles-scripts.js"></script>
+        {% with %}
+            {% set popup_attention_id = "deleteAttentionModal" %}
+            {% set popup_close_button_id = "closeDeleteModal" %}
+            {% set popup_attention_title = "Your Attention is required!" %}
+            {% set popup_attention_delete_button_id = "deleteUserButton" %}
+            {% set popup_attention_message = "This operation will delete your account and its associated permissions as well as
+            log you out of your account. All data linked to your account will also be lost. <br> This is irreversible!" %}
+            {% include "partials/popup-attention.html" %}
+        {% endwith %}
+    </div>
+
+{% endblock %}
