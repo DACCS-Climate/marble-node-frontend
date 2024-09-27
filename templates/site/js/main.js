@@ -38,10 +38,10 @@ function testLogin(){
     //const passwordInput = document.getElementById("userPassword").value;
 
     const nodeSignIn = nodeURL + "/magpie/signin";
-    //const nodeSignInFragment = "/magpie/signin"
+    const nodeSignInFragment = "/magpie/signin"
 
     console.log("testLogin");
-    fetch(nodeSignIn, {
+    fetch(nodeSignInFragment, {
         method: "POST",
         headers: {
             "Accept": "application/json",
@@ -49,15 +49,15 @@ function testLogin(){
             },
         credentials: 'include',
         body: JSON.stringify({
-            user_name: "alexandercyu",
-            password: "a30nD@CCSUTlive",
+            user_name: "admin",
+            password: "qwertyqwerty!",
             provider_name:"ziggurat"
             })
         }).then(response   =>  {
             authCookie = getAuthTkt(response);
             if(authCookie != null){
                 //TODO replace username with variable "usernameInput"
-                storeUserDetails("alexandercyu", authCookie);
+                storeUserDetails("admin", authCookie);
             }
     })
 }
