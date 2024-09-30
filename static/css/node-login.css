@@ -468,18 +468,6 @@ h6{
     margin-left: 15px;
 }
 
-.popover-body{
-    background-color: var(--primary-opacity-midlight);
-    color: var(--text-on-dark);
-    /*Overline font style class*/
-    font-family: var(--main-font-family);
-    font-size: 10px;
-    font-style: normal;
-    font-weight: var(--reg-font-weight);
-    line-height: var(--line-height-normal);
-    letter-spacing: 0.15px;
-}
-
 /*Password visibility icon*/
 .icon-eye{
     width: 20px;
@@ -727,10 +715,6 @@ h6{
     box-shadow: var(--d-elevation-3);
 }
 
-.button-delete-triangle{
-    color: var(--error);
-}
-
 .button-lg-delete:hover{
     color: var(--white);
     background-color: var(--error);
@@ -738,7 +722,7 @@ h6{
 }
 
 .button-lg-delete:hover .image-delete-icon-red{
-    background-color: var(--white);
+    background-image: url("../images/button/exclamation_triangle_white.svg");
 }
 
 .button-med{
@@ -781,10 +765,6 @@ h6{
 
 .button-med-delete:hover .image-delete-icon-red{
     background-image: url("../images/button/exclamation_triangle_white.svg");
-}
-
-.button-med-delete:hover .image-delete-icon-white{
-    background-image: url("../images/button/exclamation_triangle_red.svg");
 }
 
 .button-med-delete-no-icon{
@@ -1108,12 +1088,6 @@ h6{
     width: 710px;
 }
 
-.popup-network-table{
-    position: relative;
-    width: 100%;
-    color: var(--text-on-dark);
-}
-
 .popup-network-header{
     width: 770px;
     position: sticky;
@@ -1208,11 +1182,6 @@ h6{
 
 .padding-network-body div:not(:last-child) p{
     padding-bottom: 20px;
-}
-
-.network-entry-row{
-    color: var(--text-on-dark);
-    margin-bottom: 20px;
 }
 
 .network-entry-text{
@@ -1440,12 +1409,6 @@ h6{
     align-items: center;
 }
 
-.border-settings-title{
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    border-bottom-color: var(--gray-500);
-}
-
 .settings-edit-buttons{
     display: flex;
     flex-direction: row;
@@ -1520,11 +1483,6 @@ h6{
 .choose-different-provider:hover{
     color: var(--primary);
     text-decoration: underline;
-}
-
-.arrow-choose-different-provider{
-    color: var(--primary);
-    margin-left: 10px;
 }
 
 .div-choose-different-provider{
