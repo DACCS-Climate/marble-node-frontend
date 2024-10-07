@@ -34,19 +34,28 @@ function toggleEyeIcon(element) {
 
 /*Show spinner on button on click*/
 function showSpinner(){
+    var saveChangesButton = document.getElementById("saveUserChangesButton");
+
     var buttonLabel = document.getElementById("buttonLabel");
     var animatedSpinner = document.getElementById("spinnerAnimated");
+
+
+
 
     if(buttonLabel.innerText === "Save Changes"){
         buttonLabel.innerText = "Saving";
     }
-    else if (buttonLabel.innerText === "Saving" ){
-        buttonLabel.innerText = "Save Changes";
-    }
-    else
-    {
-        null
-    }
 
     animatedSpinner.classList.toggle("spinner-visible");
+}
+
+function showSaveCheckmark(){
+    var buttonLabel = document.getElementById("buttonLabel");
+    var animatedSpinner = document.getElementById("spinnerAnimated");
+
+    if (buttonLabel.innerText === "Saving" ) {
+        buttonLabel.innerText = "Saved";
+    }
+    animatedSpinner.classList.toggle("spinner-visible");
+    saveButtonCheckmark.classList.toggle("checkmark-visible");
 }
