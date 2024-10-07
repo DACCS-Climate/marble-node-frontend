@@ -5,7 +5,7 @@ const converters = {
         services_row.id = "nodeServices";
         services_row.classList.add("d-flex", "flex-wrap", "justify-content-between", "width-node-services-div");
 
-        val.forEach( (service, index) => {
+        Object.entries(val).forEach( ([index, service]) => {
             const node_card_template = document.getElementById("node-card-template")
             const node_card = node_card_template.content.cloneNode(true);
 
@@ -40,46 +40,27 @@ const converters = {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    var sessionDetailsJSON = getSessionDetails();
 
-    //Call getBaseURL function from main.js
-    getBaseURL(sessionDetailsJSON).then(baseURL => {
-        setServices(baseURL);
-    });
+    setServices()
+
 })
+//TODO Replace hardcoded node name with handlebars variable that will take value from parse config.toml file
+function setServices(){
+    getNodeServices().then(json => {
 
-function setServices(node_url){
-    const githubURL = "{{ node_registry_url }}";
+        Object.entries(json).forEach(([key, val]) => {
 
-    fetch(githubURL).then(resp =>  resp.json()).then(json => {
+            const elem = document.getElementById("services");
+            const converted_val = (converters[key] || converters["_default"])(val, "RedOak")
 
-        var node_keys = Object.keys(json);
-        let node_info;
+            if (elem !== null) {
+                elem.replaceChildren(converted_val);
+            }
 
-        node_keys.forEach(key => {
-            node_info = json[key];
+            let services_title = document.getElementById("servicesTitle");
+            //services_title.innerText = `Services by ${service["name"]}`;
+            services_title.innerText = `Services by Red Oak`;
 
-            Object.entries(node_info).forEach(([node_details_key, node_details]) => {
-
-                if(node_details_key == "links"){
-                    node_info[node_details_key].forEach((link) => {
-
-                        if(link.rel == "service"){
-                            if(node_url == link.href){
-                                const elem = document.getElementById("services");
-                                const converted_val = (converters["services"] || converters["_default"])(node_info["services"], node_info)
-
-                                if (elem !== null) {
-                                    elem.replaceChildren(converted_val);
-                                }
-
-                                let services_title = document.getElementById("servicesTitle");
-                                services_title.innerText = `Services by ${node_info["name"]}`;
-                            }
-                        }
-                    })
-                }
-            })
         })
     })
 }
