@@ -1,98 +1,31 @@
-/*TODO
-Get the root url using /session to use with the endpoints in the function below
-
-* */
-//TODO: When done remove nodeURL
-const nodeURL = "https://redoak.cs.toronto.edu";
-const testNodeURL = "https://infomatics-dcs.cs.toronto.edu";
-//TODO Use user credentials (username) to access database (POSTGres) and get their details for Edit page
-
-document.addEventListener("DOMContentLoaded", function () {
-    //var signoutButton = document.getElementById("accountLogoutButton");
-    //signoutButton.addEventListener("click",signout);
-
-    //var updateButton = document.getElementById("settingsUpdateButton");
-    //signoutButton.addEventListener("click",updateUserDetails);
-
-
-
-
-    testLogin();
-    //testLogin2();
-
-    //var email = getNodeContact();
-    //console.log(email);
-    //var userDetailsJSON = getUserDetails();
-    //displayAccountDetails(userDetailsJSON);
-
-
-});
-
-
-//TODO: When done remove this function.  This is only for mocking a user logging in
-//NOTE: the cookie "auth_tkt" is in the xmlhttprequest response and not the fetch response
-function testLogin(){
-    let authCookie;
-    //NOTE:  In an actual login the username would come from the username field
-    //const usernameInput = document.getElementById("userName").value;
-    //const passwordInput = document.getElementById("userPassword").value;
-
-    const nodeSignIn = nodeURL + "/magpie/signin";
-    const nodeSignInFragment = "/magpie/signin"
-
-    console.log("testLogin");
-    fetch(nodeSignInFragment, {
-        method: "POST",
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-            },
-        credentials: 'include',
-        body: JSON.stringify({
-            user_name: "admin",
-            password: "qwertyqwerty!",
-            provider_name:"ziggurat"
-            })
-        }).then(response   =>  {
-            authCookie = getAuthTkt(response);
-            if(authCookie != null){
-                //TODO replace username with variable "usernameInput"
-                storeUserDetails("admin", authCookie);
-            }
-    })
-}
-
 function login(){
+    const nodeSignInURLFragment = "/magpie/signin";
+    const accountHome = "account.html";
+
     const usernameInput = document.getElementById("userName").value;
     const passwordInput = document.getElementById("userPassword").value;
     const providerInput = document.getElementById("hiddenProviderName").value
 
-    const nodeSignInURLFragment = "magpie/signin";
-    const nodeSignIn = nodeURL + "magpie/signin";
-    const accountHome = "account.html";
-    let loginErrorMessage = document.getElementById("loginError");
+    let loginErrorMessage = document.getElementById("loginErrorMessage");
 
-    //TODO Replace nodeSignIn in fetch with nodeSignInURLFragment variable when done
-    //TODO Replace providersSignIn in fetch with providerSignInURLFragment variable when done
     if(providerInput){
-        const providerSignInURLFragment = "magpie/providers/" + providerInput + "/signin";
-        const providerSignIn = nodeURL + "magpie/providers/" + providerInput + "/signin";
+        const providerSignInURLFragment = "/magpie/providers/" + providerInput + "/signin";
 
-        fetch(providerSignIn, {
-            method: "GET",
+        fetch(providerSignInURLFragment, {
+            method: "POST",
             headers:{
                  Accept: "application/json, text/plain",
                 "Content-Type": "application/json"
             }
         }).then(response => response.json().then(json => {
+
             try{
                 if(json.code == 200){
-                    //window.location.href = accountHome;
-                    console.log(json);
+                    window.location.href = accountHome;
                 }
                 else{
                     if(loginErrorMessage.classList.contains("display-none")){
-                        loginErrorMessage.classList.toggle("display-flex");
+                        loginErrorMessage.classList.toggle("display-none");
                     }
                 }
 
@@ -103,7 +36,7 @@ function login(){
         }))
     }
     else{
-        fetch(nodeSignIn, {
+        fetch(nodeSignInURLFragment, {
             method: "POST",
             headers: {
                 Accept: "application/json, text/plain",
@@ -114,54 +47,24 @@ function login(){
                 password: passwordInput,
                 provider_name:"ziggurat"
                 })
-            }).then(response => response.json()).then(json  => {
+            }).then(response => response.json().then(json  => {
 
             try{
                 if(json.code == 200){
-
+                    setClientSessionItem("username", usernameInput);
                     window.location.href = accountHome;
-                    //console.log(json);
                 }
                 else{
                     if(loginErrorMessage.classList.contains("display-none")){
-                        loginErrorMessage.classList.toggle("display-flex");
+                        loginErrorMessage.classList.toggle("display-none");
                     }
                 }
 
             }catch (error){
-                 //throw new Error(error)
                 console.log(error);
 
             }
-        })
-    }
-}
-
-function getAuthTkt(response){
-    let authTkt;
-    var json = response.json();
-
-    try{
-
-        if(json.code == 200){
-
-            var cookieArray = response.headers.getSetCookie();
-
-            if(cookieArray.length > 0){
-                authTkt = cookieArray[0];
-                return authTkt;
-            }
-        }
-        else{
-            return null;
-        }
-
-    }
-    catch (error){
-         //throw new Error(error)
-        console.log("Error caught:")
-        console.log(error);
-
+        }))
     }
 }
 
@@ -182,12 +85,9 @@ function getBaseURL(json){
 }
 
 function getSessionDetails(){
-    //TODO Remove sessionURL and use sessionURLFragment
-    //TODO Remove nodeURL and use {MAGPIE_URL}
-    const sessionURLFragment = "session";
-    const sessionURL = nodeURL + "/magpie/session"
-    //const testSessionURL = testNodeURL + "/magpie/session"
-    return fetch(sessionURL,{
+    const sessionURLFragment = "/magpie/session";
+
+    return fetch(sessionURLFragment,{
         method: "GET",
         headers: {
             "Accept": "application/json, text/plain",
@@ -200,43 +100,98 @@ function getSessionDetails(){
 }
 
 //User functions
-function getUserDetails(username, cookie){
-    //Use fetch to get user details from user/username endpoint in api
-    //Use details returned to populate fields
-
-    //TODO: When done remove loggedUserUrl and put loggedUserURLFragment for the fetch url.  base url should resolve when run from birdhouse
-    const loggedUserURL = nodeURL + "/magpie/users/" + username;
-    //const loggedUserURL = nodeURL + "/magpie/users/current";
-    //const loggedUserURLFragment = "users/current";
-    return fetch(loggedUserURL,{
+//--------------
+function getUserDetails(username){
+    const loggedUserURLFragment = "/magpie/users/" + username;
+    return fetch(loggedUserURLFragment,{
         method: "GET",
         headers: {
             "Accept": "application/json, text/plain",
-            "Content-Type": "application/json",
-            "Authorization": cookie, //TODO use Authorization header when request is same-origin
+            "Content-Type": "application/json"
             }
         }).then(response => {return response.json()}).then(json =>{
-            console.log("user details");
-            console.log(json);
             return json;
         })
 }
 
-function storeUserDetails(username, cookie){
-    getUserDetails(username, cookie).then(json => {
-        json.then(userData => {
-            sessionStorage.setItem("username", userData["user"].user_name);
-            sessionStorage.setItem("email", userData["user"].email);
-        })
-    })
+function storeUserDetails(){
+    var username = getClientSessionItem("username");
 
+    getUserDetails(username).then(json => {
+        localStorage.setItem("email", json.user["email"]);
+    })
 }
 
-function deleteUser(username){
-    const deleteURLFragment = "users/" + username;
-    const deleteURL = nodeURL + "/magpie/users/" + username;
+function setClientSessionItem(sessionItemName, sessionItem){
+    localStorage.setItem(sessionItemName, sessionItem);
+}
 
-    fetch(deleteURL,{
+function getClientSessionItem(sessionItem){
+    var retrievedSessionItem = localStorage.getItem(sessionItem) ;
+    return retrievedSessionItem
+}
+
+function updateUserDetails(){
+    var username = getClientSessionItem("username");
+    var sessionEmail = getClientSessionItem("email");
+    var password = document.getElementById("userPassword").value;
+    var email = document.getElementById("settingsEditEmail").value;
+
+    showSpinner()
+
+    if (password != "" || password != null){
+        updateUserPassword(username, password);
+    }
+
+    if(email != sessionEmail && email != null){
+        updateUserEmail(username, email);
+    }
+}
+
+function updateUserEmail(username,email){
+    const updateURLFragment = "/magpie/users/"  + username;
+
+    fetch(updateURLFragment, {
+        method: "PATCH",
+        headers: {
+            "Accept": "application/json, text/plain",
+            "Content-Type": "application/json"
+        },
+        body:JSON.stringify({
+            "email": email
+        })
+    }).then(response => response.json()).then(json =>{
+            if(json.code && json.code == 200){
+                showSaveCheckmark()
+            }
+        })
+}
+
+function updateUserPassword(username, password){
+    const updateURLFragment = "/magpie/users/" + username;
+
+    fetch(updateURLFragment, {
+        method: "PATCH",
+        headers: {
+            "Accept": "application/json, text/plain",
+            "Content-Type": "application/json"
+        },
+        body:JSON.stringify({
+            "password": password
+        })
+    }).then(response => response.json()).then(json =>{
+            if(json.code && json.code == 200){
+                showSaveCheckmark()
+            }
+        })
+}
+
+function deleteUser(){
+    var username = getClientSessionItem("username");
+    const deleteURLFragment = "/magpie/users/" + username;
+    const loginHome = "index.html";
+
+    fetch(deleteURLFragment,{
             method: "DELETE",
             headers: {
                 "Accept": "application/json, text/plain",
@@ -245,7 +200,7 @@ function deleteUser(username){
             }).then(response => response.json()).then(json =>{
 
                     if(json.code == 200){
-                        sessionStorage.clear();
+                        localStorage.clear();
                         window.location.href = loginHome;
                     }
 
@@ -255,10 +210,9 @@ function deleteUser(username){
 //TODO: Placeholder function for deleting a user from a specific node
 // Depends on functionality from a future feature that will enable a user to see all the nodes they are registered on
 function deleteNodeUser(username, nodeName){
-    const deleteURLFragment = "users/" + username;
-    const deleteURL = nodeURL + "/magpie/users/" + username;
+    const deleteURLFragment = "/magpie/users/" + username;
 
-    fetch(deleteURL,{
+    fetch(deleteURLFragment,{
             method: "DELETE",
             headers: {
                 "Accept": "application/json, text/plain",
@@ -267,20 +221,21 @@ function deleteNodeUser(username, nodeName){
             }).then(response => response.json()).then(json =>{
 
                     if(json.code == 200){
-                        sessionStorage.clear();
+                        localStorage.clear();
                     }
 
                 })
 }
 
 //Page functionality and page details functions
+//---------------------------------------------
 
+//TODO Check if all usages of this function are replaced with the config file rendering
 //Matches base url of the current node with the node registry and sets the email for the reset password modal and
 //the error message for a login error
-
 function setNodeAdminEmail(){
     const githubURL = "{{ node_registry_url }}";
-    const sessionURLFragment = "magpie/session";
+    const sessionURLFragment = "/magpie/session";
     let passwordResetEmail = document.getElementById("passwordResetEmail");
 
     getSessionDetails().then(sessionJSON => {
@@ -302,7 +257,7 @@ function setNodeAdminEmail(){
         })
     })
 }
-
+//TODO Check if all usages of this function are replaced with the config file rendering
 function setNodeName(node_url, elementID){
 
     getNodeRegistry().then(json => {
@@ -328,18 +283,42 @@ function setNodeName(node_url, elementID){
     })
 }
 
-function displayAccountDetails(username, cookie){
+function getNodeServices(){
+    const servicesURLFragment = "/services";
+
+    return fetch(servicesURLFragment,{
+        method: "GET",
+        headers: {
+            "Accept": "application/json, text/plain",
+            "Content-Type": "application/json"
+            }
+        }).then(response => {return response.json()}).then(json =>{
+            return json;
+        })
+}
+
+function displayAccountDetails(){
+    var username = getClientSessionItem("username");
+
     var h3Header = document.getElementById("h3Header");
     var accountUsername = document.getElementById("account-username");
     var accountEmail = document.getElementById("account-email");
+
+
+    getUserDetails(username).then(json => {
+        h3Header.innerText = "Hi, " + json.user["user_name"];
+        accountUsername.innerText = json.user["user_name"];
+        accountEmail.innerText = json.user["email"];
+    })
+}
+
+function displayAccountMenuDetails(){
+    var username = getClientSessionItem("username");
     var dropdownMenuTitle = document.getElementById("dropdownMenuTitle");
 
-
-    h3Header.innerText = "Hi, " + sessionStorage.getItem("username");
-    accountUsername.innerText = sessionStorage.getItem("username");
-    accountEmail.innerText = sessionStorage.getItem("email");
-    dropdownMenuTitle.innerText = sessionStorage.getItem("username");
-
+    getUserDetails(username).then(json => {
+        dropdownMenuTitle.innerText = json.user["user_name"];
+    })
 }
 
 //Sets email link on an anchor tag
@@ -413,18 +392,14 @@ function loginModeEmail(){
 
 function signout(){
     const loginHome = "index.html"
-    let signoutURL;
-    const signoutURLFragment = "signout";
-
     var sessionDetails = getSessionDetails();
 
     getBaseURL(sessionDetails).then(data => {
-        //TODO Replace signoutURL with signoutURLFragment in the fetch
-        signoutURL = data + "/magpie/signout";
-        var signoutURLFragment = "signout";
-        fetch(signoutURL).then(response => response.json()).then(json => {
+
+        var signoutURLFragment = "/magpie/signout";
+        fetch(signoutURLFragment).then(response => response.json()).then(json => {
             if(json.code && json.code == 200){
-                sessionStorage.clear();
+                localStorage.clear();
                 window.location.href = loginHome;
             }
         })
