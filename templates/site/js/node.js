@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setServices()
 
 })
-//TODO Replace hardcoded node name with handlebars variable that will take value from parse config.toml file
+
 function setServices(){
     getNodeServices().then(json => {
 
@@ -58,9 +58,7 @@ function setServices(){
             }
 
             let services_title = document.getElementById("servicesTitle");
-            //services_title.innerText = `Services by ${service["name"]}`;
-            services_title.innerText = `Services by Red Oak`;
-
+            services_title.innerText = `Services by {{ current_node_name }}`;
         })
     })
 }
