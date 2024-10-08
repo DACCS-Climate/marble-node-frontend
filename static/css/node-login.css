@@ -913,6 +913,14 @@ h6{
     display:flex;
 }
 
+.checkmark-not-visible{
+    display: none;
+}
+
+.checkmark-visible{
+    display: flex;
+}
+
 /*Popups*/
 
 .margin-popup-header{
