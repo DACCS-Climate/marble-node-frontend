@@ -19,60 +19,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function setUserDetails(){
     //TODO Remove placeholder username once design is approved
-    var placeholder_username = "XYZ";
+    const placeholder_username = "XYZ";
 
     var usernameElement = document.getElementById("settingsUsername");
-    var passwordElement = document.getElementById("settingsEditPassword");
     var emailTextbox = document.getElementById("settingsEditEmail");
 
-    if(sessionStorage.getItem("username")){
-        usernameElement.innerText = sessionStorage.getItem("username");
+    if(localStorage.getItem("username")){
+        usernameElement.innerText = getClientSessionItem("username");
     }
     else{
         usernameElement.innerText = placeholder_username;
     }
 
-    emailTextbox.value = sessionStorage.getItem("email");
-}
-
-function updateUserDetails(){
-    var username = document.getElementById("settingsUsername")
-    var password = document.getElementById("settingsEditPassword");
-    var email = document.getElementById("settingsEditEmail");
-
-    if (password != ""){
-        updateUserPassword(username, password);
-    }
-
-    updateUserEmail(username, email);
-}
-
-function updateUserEmail(username, email){
-    const updateURLFragment = "users/" + username;
-    const updateURL =  nodeURL + "users/" + username;
-
-    //TODO Replace updateURL with updateURL Fragment
-    fetch(updateURL, {
-        method: "PATCH",
-        body:{
-            "user_name":username,
-            "email": email,
-            "status": 1
-        }
-    })
-}
-
-function updateUserPassword(username, password){
-    const updateURLFragment = "users/" + username;
-    const updateURL =  nodeURL + "users/" + username;
-
-    //TODO Replace updateURL with updateURL Fragment
-    fetch(updateURL, {
-        method: "PATCH",
-        body:{
-            "user_name": username,
-            "password": password,
-            "status": 1
-        }
-    })
+    emailTextbox.value = localStorage.getItem("email");
 }
