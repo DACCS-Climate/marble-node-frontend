@@ -1,2 +1,5 @@
 [Branding]
 favicon = "images/logo/logo.png"
+
+[Node-Details]
+current_node_name = "Red Oak"
