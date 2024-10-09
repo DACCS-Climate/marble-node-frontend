@@ -39,7 +39,10 @@ def build(build_directory, node_registry_url, config_file, clean=False):
             config_data = tomllib.load(configfile)
 
             with open(build_destination, "w") as f:
-                f.write(env.get_template(template).render(current_node_name=config_data["Node-Details"]["current_node_name"]))
+                f.write(env.get_template(template).render(current_node_name=config_data["Node-Details"]["current_node_name"],
+                                                          current_node_admin_email=config_data["Node-Details"]["current_node_admin_email"],
+                                                          current_login_home = config_data["Node-Details"]["current_login_home"],
+                                                          current_account_home=config_data["Node-Details"]["current_account_home"]))
 
 
 if __name__ == "__main__":
