@@ -3,3 +3,6 @@ favicon = "images/logo/logo.png"
 
 [Node-Details]
 current_node_name = "Red Oak"
+current_node_admin_email = "redoak-info@cs.toronto.edu"
+current_login_home = "index.html"
+current_account_home = "account.html"
