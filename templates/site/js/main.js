@@ -1,6 +1,8 @@
+const loginHome = `{{ current_login_home }}`;
+const accountHome = `{{ current_account_home }}`;
+
 function login(){
     const nodeSignInURLFragment = "/magpie/signin";
-    const accountHome = "account.html";
 
     const usernameInput = document.getElementById("userName").value;
     const passwordInput = document.getElementById("userPassword").value;
@@ -51,7 +53,6 @@ function login(){
 
             try{
                 if(json.code == 200){
-                    setClientSessionItem("username", usernameInput);
                     window.location.href = accountHome;
                 }
                 else{
@@ -68,14 +69,6 @@ function login(){
     }
 }
 
-function getNodeRegistry() {
-    const githubURL = "{{ node_registry_url }}";
-    return fetch(githubURL).then(response => {
-        return response.json().then(json => {
-            return json;
-        })
-    })
-}
 function getBaseURL(json){
     return json.then( sessionData =>
     {
@@ -101,8 +94,18 @@ function getSessionDetails(){
 
 //User functions
 //--------------
-function getUserDetails(username){
-    const loggedUserURLFragment = "/magpie/users/" + username;
+function checkUserAuthenticated(){
+    getSessionDetails().then(json => {
+        if(json.code && json.code == 200) {
+            if (json.authenticated === false) {
+                window.location.href = loginHome;
+            }
+        }
+    })
+}
+
+function getUserDetails(){
+    const loggedUserURLFragment = "/magpie/users/current";
     return fetch(loggedUserURLFragment,{
         method: "GET",
         headers: {
@@ -114,42 +117,31 @@ function getUserDetails(username){
         })
 }
 
-function storeUserDetails(){
-    var username = getClientSessionItem("username");
-
-    getUserDetails(username).then(json => {
-        localStorage.setItem("email", json.user["email"]);
-    })
-}
-
-function setClientSessionItem(sessionItemName, sessionItem){
-    localStorage.setItem(sessionItemName, sessionItem);
-}
-
-function getClientSessionItem(sessionItem){
-    var retrievedSessionItem = localStorage.getItem(sessionItem) ;
-    return retrievedSessionItem
-}
-
 function updateUserDetails(){
-    var username = getClientSessionItem("username");
-    var sessionEmail = getClientSessionItem("email");
-    var password = document.getElementById("userPassword").value;
-    var email = document.getElementById("settingsEditEmail").value;
+    var username;
+    var sessionEmail;
 
-    showSpinner()
+    getUserDetails().then(json => {
+        username = json.user["user_name"];
+        sessionEmail = json.user["email"];
+        var password = document.getElementById("userPassword").value;
+        var email = document.getElementById("settingsEditEmail").value;
 
-    if (password != "" || password != null){
-        updateUserPassword(username, password);
-    }
+        showSpinner()
 
-    if(email != sessionEmail && email != null){
-        updateUserEmail(username, email);
-    }
+        if (password != "" || password != null){
+            updateUserPassword(username, password);
+        }
+
+        if(email != sessionEmail && email != null){
+            updateUserEmail(username, email);
+        }
+    })
+
 }
 
 function updateUserEmail(username,email){
-    const updateURLFragment = "/magpie/users/"  + username;
+    const updateURLFragment = "/magpie/users/" + username;
 
     fetch(updateURLFragment, {
         method: "PATCH",
@@ -187,9 +179,14 @@ function updateUserPassword(username, password){
 }
 
 function deleteUser(){
-    var username = getClientSessionItem("username");
-    const deleteURLFragment = "/magpie/users/" + username;
-    const loginHome = "index.html";
+    var username;
+    var deleteURLFragment;
+
+    getUserDetails().then(json => {
+        username = json.user["user_name"]
+        deleteURLFragment = "/magpie/users/" + username;
+    })
+
 
     fetch(deleteURLFragment,{
             method: "DELETE",
@@ -229,58 +226,22 @@ function deleteNodeUser(username, nodeName){
 
 //Page functionality and page details functions
 //---------------------------------------------
-
-//TODO Check if all usages of this function are replaced with the config file rendering
-//Matches base url of the current node with the node registry and sets the email for the reset password modal and
-//the error message for a login error
 function setNodeAdminEmail(){
-    const githubURL = "{{ node_registry_url }}";
-    const sessionURLFragment = "/magpie/session";
+    var nodeEmailHref = `mailto:{{ current_node_admin_email }}`;
     let passwordResetEmail = document.getElementById("passwordResetEmail");
-
-    getSessionDetails().then(sessionJSON => {
-        var currentNodeURL = sessionJSON.url.replace(sessionURLFragment, "");
-        fetch(githubURL).then(resp => resp.json()).then(json => {
-            var node_keys = Object.keys(json);
-            node_keys.forEach((key, index) => {
-                if (json[key].links) {
-                    json[key].links.forEach((link) => {
-                        if (link.rel && link.rel === "service") {
-                            if (currentNodeURL.includes(link.href)) {
-                                passwordResetEmail.setAttribute("href", "mailto:" + json[key].contact);
-                                passwordResetEmail.innerText = json[key].contact;
-                            }
-                        }
-                    })
-                }
-            })
-        })
-    })
+    passwordResetEmail.setAttribute("href", nodeEmailHref);
+    passwordResetEmail.innerText = `{{ current_node_admin_email }}`;
 }
-//TODO Check if all usages of this function are replaced with the config file rendering
-function setNodeName(node_url, elementID){
 
-    getNodeRegistry().then(json => {
-        var node_keys = Object.keys(json);
-        let node_info;
+function setCaptionNodeName(element_id){
+    var captionElement = document.getElementById(element_id);
+    captionElement.innerText = `{{ current_node_name }}`;
+}
 
-        node_keys.forEach(key => {
-        node_info = json[key];
-        Object.entries(node_info).forEach(([node_details_key, node_details]) => {
-
-                if(node_details_key == "links"){
-                    node_info[node_details_key].forEach((link) => {
-
-                        if(link.rel == "service"){
-                            if(node_url == link.href){
-                                elementID.innerText = node_info["name"];
-                            }
-                        }
-                    })
-                }
-            })
-        })
-    })
+//Sets email link on an anchor tag
+function setNodeContact(elementID){
+    elementID.href = "mailto:" + `{{ current_node_admin_email }}`;
+    elementID.innerText = `{{ current_node_admin_email }}`;
 }
 
 function getNodeServices(){
@@ -298,14 +259,12 @@ function getNodeServices(){
 }
 
 function displayAccountDetails(){
-    var username = getClientSessionItem("username");
-
     var h3Header = document.getElementById("h3Header");
     var accountUsername = document.getElementById("account-username");
     var accountEmail = document.getElementById("account-email");
 
 
-    getUserDetails(username).then(json => {
+    getUserDetails().then(json => {
         h3Header.innerText = "Hi, " + json.user["user_name"];
         accountUsername.innerText = json.user["user_name"];
         accountEmail.innerText = json.user["email"];
@@ -313,38 +272,11 @@ function displayAccountDetails(){
 }
 
 function displayAccountMenuDetails(){
-    var username = getClientSessionItem("username");
     var dropdownMenuTitle = document.getElementById("dropdownMenuTitle");
 
-    getUserDetails(username).then(json => {
+    getUserDetails().then(json => {
         dropdownMenuTitle.innerText = json.user["user_name"];
     })
-}
-
-//Sets email link on an anchor tag
-function setNodeContact(node_url, elementID){
-    getNodeRegistry().then(json => {
-        var node_keys = Object.keys(json);
-        let node_info;
-
-        node_keys.forEach(key => {
-        node_info = json[key];
-        Object.entries(node_info).forEach(([node_details_key, node_details]) => {
-
-                if(node_details_key == "links"){
-                    node_info[node_details_key].forEach((link) => {
-
-                        if(link.rel == "service"){
-                            if(node_url == link.href){
-                                elementID.href = "mailto:" + node_info["contact"];
-                                elementID.innerText = node_info["contact"];
-                            }
-                        }
-                    })
-                }
-            })
-        })
-    });
 }
 
 //Swap Select Provider and Sign In With Email buttons
@@ -391,7 +323,6 @@ function loginModeEmail(){
 }
 
 function signout(){
-    const loginHome = "index.html"
     var sessionDetails = getSessionDetails();
 
     getBaseURL(sessionDetails).then(data => {
