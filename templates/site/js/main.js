@@ -189,7 +189,6 @@ function deleteUser(){
             }).then(response => response.json()).then(json =>{
 
                     if(json.code == 200){
-                        localStorage.clear();
                         window.location.href = loginHome;
                     }
 
@@ -210,7 +209,7 @@ function deleteNodeUser(username, nodeName){
             }).then(response => response.json()).then(json =>{
 
                     if(json.code == 200){
-                        localStorage.clear();
+                       
                     }
 
                 })
