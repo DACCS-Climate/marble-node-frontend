@@ -1,14 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
-    var sessionDetailsJSON = getSessionDetails();
-    var editEmailCaption = document.getElementById("emailCaptionNodeName");
-
-    //Call getBaseURL function from main.js
-    getBaseURL(sessionDetailsJSON).then(baseURL => {
-        setNodeName(baseURL,editEmailCaption)
-    });
-
     //Set username and email in Settings page
     setUserDetails();
+
+    //Set node name in email hint caption
+    setCaptionNodeName("emailCaptionNodeName");
 
     var saveChangesButton = document.getElementById("buttonSave");
     saveChangesButton.addEventListener("click",updateUserDetails);
@@ -24,12 +19,14 @@ function setUserDetails(){
     var usernameElement = document.getElementById("settingsUsername");
     var emailTextbox = document.getElementById("settingsEditEmail");
 
-    if(localStorage.getItem("username")){
-        usernameElement.innerText = getClientSessionItem("username");
-    }
-    else{
-        usernameElement.innerText = placeholder_username;
-    }
+    getUserDetails().then(json => {
+        if(json.user["user_name"]){
+            usernameElement.innerText = json.user["user_name"];
+        }
+        else{
+            usernameElement.innerText = placeholder_username;
+        }
 
-    emailTextbox.value = localStorage.getItem("email");
+        emailTextbox.value = json.user["email"];
+        })
 }
