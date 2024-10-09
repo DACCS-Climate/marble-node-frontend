@@ -25,4 +25,5 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     displayAccountMenuDetails();
     logoutButton.addEventListener("click",signout);
+    checkUserAuthenticated();
 })
