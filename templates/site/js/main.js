@@ -69,14 +69,6 @@ function login(){
     }
 }
 
-function getBaseURL(json){
-    return json.then( sessionData =>
-    {
-        var urlArray = sessionData.url.split("/magpie");
-        return urlArray[0];
-    })
-}
-
 function getSessionDetails(){
     const sessionURLFragment = "/magpie/session";
 
@@ -323,18 +315,12 @@ function loginModeEmail(){
 }
 
 function signout(){
-    var sessionDetails = getSessionDetails();
-
-    getBaseURL(sessionDetails).then(data => {
-
-        var signoutURLFragment = "/magpie/signout";
+    var signoutURLFragment = "/magpie/signout";
         fetch(signoutURLFragment).then(response => response.json()).then(json => {
             if(json.code && json.code == 200){
-                localStorage.clear();
                 window.location.href = loginHome;
             }
         })
-    });
 }
 
 //Node functions
