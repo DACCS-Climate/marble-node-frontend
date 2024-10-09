@@ -18,25 +18,25 @@
 %}
 
 {% block account_content %}
-<div class="help-container">
-    <div class="help-content">
-        <h4>{{ help_title }}</h4>
-        <div class="help-entry margin-help-entry">
-            <p>{{ help_text|safe }}</p>
-            <p><a id="helpContact" class="help-link"></a></p>
+    <div class="help-container">
+        <div class="help-content">
+            <h4>{{ help_title }}</h4>
+            <div class="help-entry margin-help-entry">
+                <p>{{ help_text|safe }}</p>
+                <p><a id="helpContact" class="help-link"></a></p>
+            </div>
         </div>
-    </div>
 
-    <div class="documentation-content margin-documentation-content">
-        <h4>{{ documentation_title }}</h4>
-        {% for doc in documentation %}
-        <div class="documentation-entry margin-documentation-entry">
-            <p>{{ doc["text"]|safe }}</p>
-        <div>{{ doc["link"]|safe }}</div>
+        <div class="documentation-content margin-documentation-content">
+            <h4>{{ documentation_title }}</h4>
+            {% for doc in documentation %}
+            <div class="documentation-entry margin-documentation-entry">
+                <p>{{ doc["text"]|safe }}</p>
+            <div>{{ doc["link"]|safe }}</div>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-    </div>
-<script src="js/help.js"></script>
-</div>
 
+        <script src="js/help.js"></script>
+    </div>
 {% endblock %}
