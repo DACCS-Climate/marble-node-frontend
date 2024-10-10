@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
     //Set node name in email hint caption
     setCaptionNodeName("emailCaptionNodeName");
 
+    resetSaveButton();
+
     var saveChangesButton = document.getElementById("buttonSave");
     saveChangesButton.addEventListener("click",updateUserDetails);
 
@@ -13,20 +15,11 @@ document.addEventListener("DOMContentLoaded", function () {
 })
 
 function setUserDetails(){
-    //TODO Remove placeholder username once design is approved
-    const placeholder_username = "XYZ";
-
     var usernameElement = document.getElementById("settingsUsername");
     var emailTextbox = document.getElementById("settingsEditEmail");
 
     getUserDetails().then(json => {
-        if(json.user["user_name"]){
-            usernameElement.innerText = json.user["user_name"];
-        }
-        else{
-            usernameElement.innerText = placeholder_username;
-        }
-
+        usernameElement.innerText = json.user["user_name"];
         emailTextbox.value = json.user["email"];
         })
 }
