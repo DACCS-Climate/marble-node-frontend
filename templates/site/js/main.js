@@ -134,14 +134,7 @@ function updateUserDetails(){
 }
 
 function deleteUser(){
-    var username;
-    var deleteURLFragment;
-
-    getUserDetails().then(json => {
-        username = json.user["user_name"]
-        deleteURLFragment = "/magpie/users/" + username;
-    })
-
+    const deleteURLFragment = "/magpie/users/current";
 
     fetch(deleteURLFragment,{
             method: "DELETE",
@@ -160,8 +153,8 @@ function deleteUser(){
 
 //TODO: Placeholder function for deleting a user from a specific node
 // Depends on functionality from a future feature that will enable a user to see all the nodes they are registered on
-function deleteNodeUser(username, nodeName){
-    const deleteURLFragment = "/magpie/users/" + username;
+function deleteNodeUser(nodeName){
+    const deleteURLFragment = "/magpie/users/current";
 
     fetch(deleteURLFragment,{
             method: "DELETE",
