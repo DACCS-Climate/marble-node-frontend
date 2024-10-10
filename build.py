@@ -66,7 +66,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-g",
         "--config-file",
-        default=os.path.join(THIS_DIR, "config.toml"),
+        default=os.path.join(THIS_DIR, "config.toml.example"),
         help="TOML config file",
     )
 
