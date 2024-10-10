@@ -34,28 +34,42 @@ function toggleEyeIcon(element) {
 
 /*Show spinner on button on click*/
 function showSpinner(){
-    var saveChangesButton = document.getElementById("saveUserChangesButton");
-
     var buttonLabel = document.getElementById("buttonLabel");
     var animatedSpinner = document.getElementById("spinnerAnimated");
-
-
-
 
     if(buttonLabel.innerText === "Save Changes"){
         buttonLabel.innerText = "Saving";
     }
 
-    animatedSpinner.classList.toggle("spinner-visible");
+    animatedSpinner.classList.remove("spinner-not-visible");
+    animatedSpinner.classList.add("spinner-visible");
 }
 
 function showSaveCheckmark(){
+    var saveButtonCheckmark = document.getElementById("saveButtonCheckmark");
     var buttonLabel = document.getElementById("buttonLabel");
     var animatedSpinner = document.getElementById("spinnerAnimated");
 
     if (buttonLabel.innerText === "Saving" ) {
         buttonLabel.innerText = "Saved";
     }
-    animatedSpinner.classList.toggle("spinner-visible");
-    saveButtonCheckmark.classList.toggle("checkmark-visible");
+    animatedSpinner.classList.remove("spinner-visible");
+    animatedSpinner.classList.add("spinner-not-visible");
+    saveButtonCheckmark.classList.add("checkmark-visible");
+}
+
+function resetSaveButton(){
+    var saveButtonCheckmark = document.getElementById("saveButtonCheckmark");
+    var animatedSpinner = document.getElementById("spinnerAnimated");
+
+    if (saveButtonCheckmark.classList.contains("checkmark-visible")){
+        saveButtonCheckmark.classList.remove("checkmark-visible");
+        saveButtonCheckmark.classList.add("checkmark-not-visible");
+    }
+
+    if (animatedSpinner.classList.contains("spinner-visible")){
+        animatedSpinner.classList.remove("spinner-visible");
+        animatedSpinner.classList.add("spinner-not-visible");
+    }
+
 }
