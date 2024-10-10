@@ -960,6 +960,22 @@ h6{
     margin-right: 5px;
 }
 
+.error-not-visible{
+    display: none;
+} 
+
+.error-visible{
+    display: flex;
+}
+
+.error-save-button{
+    color: var(--error);
+}
+
+.margin-button-error{
+    margin-left: 5px;
+}
+
 /*Popups*/
 
 .margin-popup-header{
