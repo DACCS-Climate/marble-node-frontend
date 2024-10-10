@@ -956,6 +956,10 @@ h6{
     display: flex;
 }
 
+.margin-button-checkmark{
+    margin-right: 5px;
+}
+
 /*Popups*/
 
 .margin-popup-header{
