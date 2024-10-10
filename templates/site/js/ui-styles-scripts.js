@@ -58,6 +58,23 @@ function showSaveCheckmark(){
     saveButtonCheckmark.classList.add("checkmark-visible");
 }
 
+function showSaveError(){
+    var animatedSpinner = document.getElementById("spinnerAnimated");
+    var saveButtonError = document.getElementById("saveButtonError");
+
+    if (animatedSpinner.classList.contains("spinner-visible")){
+        animatedSpinner.classList.remove("spinner-visible");
+        animatedSpinner.classList.add("spinner-not-visible");
+    }
+
+    if(saveButtonError.classList.contains("error-not-visible")){
+        saveButtonError.classList.remove("error-not-visible");
+        saveButtonError.classList.add("error-visible");        
+    }
+
+
+}
+
 function resetSaveButton(){
     var saveButtonCheckmark = document.getElementById("saveButtonCheckmark");
     var animatedSpinner = document.getElementById("spinnerAnimated");
@@ -70,6 +87,11 @@ function resetSaveButton(){
     if (animatedSpinner.classList.contains("spinner-visible")){
         animatedSpinner.classList.remove("spinner-visible");
         animatedSpinner.classList.add("spinner-not-visible");
+    }
+
+    if(saveButtonError.classList.contains("error-visible")){
+        saveButtonError.classList.remove("error-visible");
+        saveButtonError.classList.add("error-not-visible");        
     }
 
 }
