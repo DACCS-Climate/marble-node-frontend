@@ -104,9 +104,7 @@ function getUserDetails(){
             "Accept": "application/json, text/plain",
             "Content-Type": "application/json"
             }
-        }).then(response => {return response.json()}).then(json =>{
-            return json;
-        })
+        }).then(response => {return response.json()})
 }
 
 function updateUserDetails(){
@@ -244,9 +242,7 @@ function getNodeServices(){
             "Accept": "application/json, text/plain",
             "Content-Type": "application/json"
             }
-        }).then(response => {return response.json()}).then(json =>{
-            return json;
-        })
+        }).then(response => {return response.json()})
 }
 
 function displayAccountDetails(){
@@ -256,7 +252,7 @@ function displayAccountDetails(){
 
 
     getUserDetails().then(json => {
-        h3Header.innerText = "Hi, " + json.user["user_name"];
+        h3Header.innerText = "Hi " + json.user["user_name"];
         accountUsername.innerText = json.user["user_name"];
         accountEmail.innerText = json.user["email"];
     })
