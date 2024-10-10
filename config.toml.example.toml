@@ -1,8 +1,0 @@
-[Branding]
-favicon = "images/logo/logo.png"
-
-[Node-Details]
-current_node_name = "Example"
-current_node_admin_email = "admin@example.com"
-current_login_home = "index.html"
-current_account_home = "account.html"

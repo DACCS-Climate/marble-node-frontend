@@ -1,0 +1,4 @@
+[Node-Details]
+node_name = "Example"
+node_admin_email = "admin@example.com"
+login_home = "index.html"
