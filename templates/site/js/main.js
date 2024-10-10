@@ -108,30 +108,12 @@ function getUserDetails(){
 }
 
 function updateUserDetails(){
-    var username;
-    var sessionEmail;
+    const updateURLFragment = "/magpie/users/current";
 
-    getUserDetails().then(json => {
-        username = json.user["user_name"];
-        sessionEmail = json.user["email"];
-        var password = document.getElementById("userPassword").value;
-        var email = document.getElementById("settingsEditEmail").value;
+    var password = document.getElementById("userPassword").value;
+    var email = document.getElementById("settingsEditEmail").value;
 
-        showSpinner()
-
-        if (password != "" || password != null){
-            updateUserPassword(username, password);
-        }
-
-        if(email != sessionEmail && email != null){
-            updateUserEmail(username, email);
-        }
-    })
-
-}
-
-function updateUserEmail(username,email){
-    const updateURLFragment = "/magpie/users/" + username;
+    showSpinner()
 
     fetch(updateURLFragment, {
         method: "PATCH",
@@ -140,6 +122,7 @@ function updateUserEmail(username,email){
             "Content-Type": "application/json"
         },
         body:JSON.stringify({
+            "password": password,
             "email": email
         })
     }).then(response => response.json()).then(json =>{
@@ -147,25 +130,7 @@ function updateUserEmail(username,email){
                 showSaveCheckmark()
             }
         })
-}
 
-function updateUserPassword(username, password){
-    const updateURLFragment = "/magpie/users/" + username;
-
-    fetch(updateURLFragment, {
-        method: "PATCH",
-        headers: {
-            "Accept": "application/json, text/plain",
-            "Content-Type": "application/json"
-        },
-        body:JSON.stringify({
-            "password": password
-        })
-    }).then(response => response.json()).then(json =>{
-            if(json.code && json.code == 200){
-                showSaveCheckmark()
-            }
-        })
 }
 
 function deleteUser(){
