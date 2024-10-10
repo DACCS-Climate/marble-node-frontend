@@ -127,7 +127,10 @@ function updateUserDetails(){
         })
     }).then(response => response.json()).then(json =>{
             if(json.code && json.code == 200){
-                showSaveCheckmark()
+                showSaveCheckmark();
+            }
+            else{
+                showSaveError();
             }
         })
 
