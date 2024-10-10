@@ -1,5 +1,5 @@
 const loginHome = `{{ current_login_home }}`;
-const accountHome = `{{ current_account_home }}`;
+const accountHome = "account.html";
 
 function login(){
     const nodeSignInURLFragment = "/magpie/signin";
