@@ -109,8 +109,8 @@ function setUserDetails(){
     var hiddenEmail = document.getElementById("hiddenEmail");
 
     getUserDetails().then(json => {
-        hiddenUsername.value = json.user["user_name"];
-        hiddenEmail.value = json.user["email"];
+        hiddenUsername.innerText = json.user["user_name"];
+        hiddenEmail.innerText = json.user["email"];
     })
 }
 
