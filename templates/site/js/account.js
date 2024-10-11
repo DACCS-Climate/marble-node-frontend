@@ -12,8 +12,8 @@ function displayAccountDetails(){
 
     console.log(hiddenUsername.value)
     console.log(hiddenEmail.value)
-    h3Header.innerText = "Hi " + hiddenUsername.value;
-    accountUsername.innerText = hiddenUsername.value;
-    accountEmail.innerText = hiddenEmail.value;
+    h3Header.innerText = "Hi " + hiddenUsername.innerText;
+    accountUsername.innerText = hiddenUsername.innerText;
+    accountEmail.innerText = hiddenEmail.innerText;
 
 }
