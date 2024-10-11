@@ -78,10 +78,7 @@ function getSessionDetails(){
             "Accept": "application/json, text/plain",
             "Content-Type": "application/json"
             }
-        }).then(response => { return response.json().then(json =>{
-                return json;
-            })
-        })
+        }).then(response => {return response.json()})
 }
 
 //User functions
@@ -105,6 +102,16 @@ function getUserDetails(){
             "Content-Type": "application/json"
             }
         }).then(response => {return response.json()})
+}
+
+function setUserDetails(){
+    var hiddenUsername = document.getElementById("hiddenUsername");
+    var hiddenEmail = document.getElementById("hiddenEmail");
+
+    getUserDetails().then(json => {
+        hiddenUsername.value = json.user["user_name"];
+        hiddenEmail.value = json.user["email"];
+    })
 }
 
 function updateUserDetails(){
@@ -205,20 +212,22 @@ function getNodeServices(){
             }
         }).then(response => {return response.json()})
 }
-
+/*
 function displayAccountDetails(){
     var h3Header = document.getElementById("h3Header");
     var accountUsername = document.getElementById("account-username");
     var accountEmail = document.getElementById("account-email");
 
+    var hiddenUsername = document.getElementById("hiddenUsername");
+    var hiddenEmail = document.getElementById("hiddenEmail");
 
-    getUserDetails().then(json => {
-        h3Header.innerText = "Hi " + json.user["user_name"];
-        accountUsername.innerText = json.user["user_name"];
-        accountEmail.innerText = json.user["email"];
-    })
+    console.log(hiddenUsername.value)
+    h3Header.innerText = "Hi " + hiddenUsername.value;
+    accountUsername.innerText = hiddenUsername.value;
+    accountEmail.innerText = hiddenEmail.value;
+
 }
-
+*/
 function displayAccountMenuDetails(){
     var dropdownMenuTitle = document.getElementById("dropdownMenuTitle");
 
