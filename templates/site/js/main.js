@@ -104,15 +104,70 @@ function getUserDetails(){
         }).then(response => {return response.json()})
 }
 
-function setUserDetails(){
+function setHiddenFields(){
     var hiddenUsername = document.getElementById("hiddenUsername");
     var hiddenEmail = document.getElementById("hiddenEmail");
 
-    getUserDetails().then(json => {
-        hiddenUsername.innerText = json.user["user_name"];
-        hiddenEmail.innerText = json.user["email"];
+        getUserDetails().then(json => {
+        hiddenUsername.value = json.user["user_name"];
+        hiddenEmail.value = json.user["email"];
     })
 }
+
+function setUserAccountDetails(setUserDetailsFunction){
+    const targetNode = document.getElementById("hiddenUsername");
+    const config = { attributes: true};
+
+    const callback = (mutationList, observer) => {
+      for (const mutation of mutationList) {
+        if (mutation.type === "attributes") {
+            setUserDetailsFunction();
+        }
+        else{
+            setUserDetailsFunction();
+        }
+      }
+    };
+
+    const observer = new MutationObserver(callback);
+
+    // Start observing the target node for configured mutations
+    observer.observe(targetNode, config);
+}
+
+function displayAccountMenuDetails(){
+    var dropdownMenuTitle = document.getElementById("dropdownMenuTitle");
+    var hiddenUsername = document.getElementById("hiddenUsername");
+
+    dropdownMenuTitle.innerText = hiddenUsername.value;
+}
+
+function displayAccountDetails(){
+    var h3Header = document.getElementById("h3Header");
+    var accountUsername = document.getElementById("account-username");
+    var accountEmail = document.getElementById("account-email");
+
+    var hiddenUsername = document.getElementById("hiddenUsername");
+    var hiddenEmail = document.getElementById("hiddenEmail");
+
+    h3Header.innerText = "Hi " + hiddenUsername.value;
+    accountUsername.innerText = hiddenUsername.value;
+    accountEmail.innerText = hiddenEmail.value;
+
+}
+
+function displaySettingsPageUserDetails(){
+    var usernameElement = document.getElementById("settingsUsername");
+    var emailTextbox = document.getElementById("settingsEditEmail");
+
+    var hiddenUsername = document.getElementById("hiddenUsername");
+    var hiddenEmail = document.getElementById("hiddenEmail");
+
+    usernameElement.innerText = hiddenUsername.value;
+    emailTextbox.value = hiddenEmail.value;
+
+}
+
 
 function updateUserDetails(){
     const updateURLFragment = "/magpie/users/current";
@@ -211,29 +266,6 @@ function getNodeServices(){
             "Content-Type": "application/json"
             }
         }).then(response => {return response.json()})
-}
-/*
-function displayAccountDetails(){
-    var h3Header = document.getElementById("h3Header");
-    var accountUsername = document.getElementById("account-username");
-    var accountEmail = document.getElementById("account-email");
-
-    var hiddenUsername = document.getElementById("hiddenUsername");
-    var hiddenEmail = document.getElementById("hiddenEmail");
-
-    console.log(hiddenUsername.value)
-    h3Header.innerText = "Hi " + hiddenUsername.value;
-    accountUsername.innerText = hiddenUsername.value;
-    accountEmail.innerText = hiddenEmail.value;
-
-}
-*/
-function displayAccountMenuDetails(){
-    var dropdownMenuTitle = document.getElementById("dropdownMenuTitle");
-
-    getUserDetails().then(json => {
-        dropdownMenuTitle.innerText = json.user["user_name"];
-    })
 }
 
 //Swap Select Provider and Sign In With Email buttons
