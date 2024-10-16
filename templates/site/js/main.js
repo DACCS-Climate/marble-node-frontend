@@ -122,9 +122,15 @@ function setUserAccountDetails(setUserDetailsFunction, setUserDetailsFunctionAPI
       for (const mutation of mutationList) {
         if (mutation.type === "attributes") {
             setUserDetailsFunction();
+            
+            // Stop observing the target node after fields have been set
+            observer.disconnect();
         }
         else{
             setUserDetailsFunctionAPI();
+
+            // Stop observing the target node after fields have been set
+            observer.disconnect();
         }
       }
     };
