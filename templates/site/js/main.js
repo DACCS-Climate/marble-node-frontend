@@ -122,7 +122,7 @@ function setUserAccountDetails(setUserDetailsFunction, setUserDetailsFunctionAPI
       for (const mutation of mutationList) {
         if (mutation.type === "attributes") {
             setUserDetailsFunction();
-            
+
             // Stop observing the target node after fields have been set
             observer.disconnect();
         }
@@ -205,10 +205,16 @@ function displaySettingsPageUserDetailsAPI(){
 }
 
 function updateUserDetails(){
+    resetSaveButton();
+    let bodyParams;
     const updateURLFragment = "/magpie/users/current";
 
     var password = document.getElementById("userPassword").value;
     var email = document.getElementById("settingsEditEmail").value;
+
+    if((password != null || password != "") && (email != null || email != "")){
+        bodyParams = JSON.stringify({"password": password, "email": email})
+    }
 
     showSpinner()
 
@@ -218,10 +224,7 @@ function updateUserDetails(){
             "Accept": "application/json, text/plain",
             "Content-Type": "application/json"
         },
-        body:JSON.stringify({
-            "password": password,
-            "email": email
-        })
+        body: bodyParams
     }).then(response => response.json()).then(json =>{
             if(json.code && json.code == 200){
                 showSaveCheckmark();
