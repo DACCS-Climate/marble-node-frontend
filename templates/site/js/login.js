@@ -7,8 +7,8 @@ document.addEventListener("DOMContentLoaded", function () {
         login();
     })
 
-    userPasswordTextbox.addEventListener('keypress', function (event){
-        if(event.code == 13){
+    userPasswordTextbox.addEventListener('keypress', (event) => {
+        if(event.code == "Enter"){
             login();
         }
     })
