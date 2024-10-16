@@ -114,7 +114,7 @@ function setHiddenFields(){
     })
 }
 
-function setUserAccountDetails(setUserDetailsFunction){
+function setUserAccountDetails(setUserDetailsFunction, setUserDetailsFunctionAPI){
     const targetNode = document.getElementById("hiddenUsername");
     const config = { attributes: true};
 
@@ -124,7 +124,7 @@ function setUserAccountDetails(setUserDetailsFunction){
             setUserDetailsFunction();
         }
         else{
-            setUserDetailsFunction();
+            setUserDetailsFunctionAPI();
         }
       }
     };
@@ -142,6 +142,15 @@ function displayAccountMenuDetails(){
     dropdownMenuTitle.innerText = hiddenUsername.value;
 }
 
+function displayAccountMenuDetailsAPI(){
+    var dropdownMenuTitle = document.getElementById("dropdownMenuTitle");
+
+    getUserDetails().then(json => {
+        dropdownMenuTitle.innerText = json.user["user_name"];
+    })
+
+}
+
 function displayAccountDetails(){
     var h3Header = document.getElementById("h3Header");
     var accountUsername = document.getElementById("account-username");
@@ -153,7 +162,18 @@ function displayAccountDetails(){
     h3Header.innerText = "Hi " + hiddenUsername.value;
     accountUsername.innerText = hiddenUsername.value;
     accountEmail.innerText = hiddenEmail.value;
+}
 
+function displayAccountDetailsAPI(){
+    var h3Header = document.getElementById("h3Header");
+    var accountUsername = document.getElementById("account-username");
+    var accountEmail = document.getElementById("account-email");
+
+    getUserDetails().then(json => {
+        h3Header.innerText = "Hi " + json.user["user_name"];
+        accountUsername.innerText = json.user["user_name"];
+        accountEmail.innerText = json.user["email"];
+    })
 }
 
 function displaySettingsPageUserDetails(){
@@ -165,9 +185,18 @@ function displaySettingsPageUserDetails(){
 
     usernameElement.innerText = hiddenUsername.value;
     emailTextbox.value = hiddenEmail.value;
-
 }
 
+function displaySettingsPageUserDetailsAPI(){
+    var usernameElement = document.getElementById("settingsUsername");
+    var emailTextbox = document.getElementById("settingsEditEmail");
+
+    getUserDetails().then(json => {
+        usernameElement.innerText = json.user["user_name"];
+        emailTextbox.value = json.user["email"];
+    })
+
+}
 
 function updateUserDetails(){
     const updateURLFragment = "/magpie/users/current";
