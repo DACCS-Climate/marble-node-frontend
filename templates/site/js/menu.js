@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
         settingsButton.classList.remove("nav-item-highlight");
         helpButton.classList.remove("nav-item-highlight");
     }
-    setUserAccountDetails(displayAccountMenuDetails);
+    setUserAccountDetails(displayAccountMenuDetails, displayAccountMenuDetailsAPI);
     logoutButton.addEventListener("click",signout);
     checkUserAuthenticated();
 })

@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     //Set username and email in Settings page
-    setUserAccountDetails(displaySettingsPageUserDetails);
+    setUserAccountDetails(displaySettingsPageUserDetails, displaySettingsPageUserDetailsAPI);
 
     //Set node name in email hint caption
     setCaptionNodeName("emailCaptionNodeName");
