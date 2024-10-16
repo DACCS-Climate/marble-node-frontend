@@ -37,11 +37,12 @@ def build(build_directory, node_registry_url, config_file, clean=False):
 
         with open(config_file, "rb") as configfile:
             config_data = tomllib.load(configfile)
+            node_details = config_data["Node-Details"]
 
             with open(build_destination, "w") as f:
-                f.write(env.get_template(template).render(current_node_name=config_data["Node-Details"]["node_name"],
-                                                          current_node_admin_email=config_data["Node-Details"]["node_admin_email"],
-                                                          current_login_home = config_data.get(config_data["Node-Details"]["login_home"], "index.html")))
+                f.write(env.get_template(template).render(current_node_name=node_details["node_name"],
+                                                          current_node_admin_email=node_details["node_admin_email"],
+                                                          current_login_home = node_details.get("login_home", "index.html")))
 
 
 if __name__ == "__main__":
@@ -65,7 +66,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-g",
         "--config-file",
-        default=os.path.join(THIS_DIR, "config.toml.example"),
+        default=os.path.join(THIS_DIR, "config.toml"),
         help="TOML config file",
     )
 
