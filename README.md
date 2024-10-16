@@ -34,9 +34,8 @@ The admin email is used in the Help page.
 To customize the interface:
 1. Copy the `config.toml.example` file and rename it `config.toml`.  This file should be kept (or put) in the root 
 folder for the project.
-2. Change the values under `[Node-Details]` for `node_name` and `node_admin_email` to the ones you want.
-3. In the `build.py` file change the filename in the `--config-file` parser argument from `"config.toml.example"` to 
-`"config.toml"`
+2. Uncomment the entries that will be changed
+3. Change the values under `[Node-Details]` for `node_name` and `node_admin_email` to the ones you want.
 4. Save the file and build the interface again.
 
 # Additional Customizations
@@ -45,8 +44,9 @@ If you don't want to use the landing page provided you can change that as well.
 
 To customize the landing page:
 1. Edit an existing `config.toml` file or create a new one.
-2. Change the value under `[Node-Details]` for `login_home` to the one you want.
-3. Save the file and build the interface again.
+2. Uncomment `login_home` if needed
+3. Change the value under `[Node-Details]` for `login_home` to the one you want.
+4. Save the file and build the interface again.
 
 # Development
 
