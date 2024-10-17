@@ -2,19 +2,15 @@
 An optional alternative login interface to the default Magpie user interface
 
 # Requirements
-- Python 3.11 or later
-- [TOML parser](https://pypi.org/project/toml/) (if using Python version 3.10 or lower)
-- [Jinja2](https://pypi.org/project/Jinja2/)
+- Python 3.9 or later
 
 # Build the Interface
 
 To convert the files in the `templates/` directory into the login interface:
 
 1. Install the requirements:
-` python3 -m pip install -r requirements.txt`
-2. Depending on your Python version, install the TOML parser as well
-` python3 -m pip install toml`
-3. Build the HTML files
+`python3 -m pip install -r requirements.txt`
+2. Build the HTML files
 `python3 build.py`
 
 The HTML files can now be found in the `build` directory.  To view them go to `build` and run a basic webserver.  
