@@ -1,13 +1,22 @@
 import os
 import shutil
 import argparse
-import tomllib
 
 from jinja2 import FileSystemLoader, Environment, select_autoescape
+
+try:
+    import tomllib
+except ModuleNotFoundError:
+    import toml as tomllib
+    TOML_OPEN_MODE="r"
+else:
+    TOML_OPEN_MODE="rb"
+
 
 THIS_DIR = os.path.abspath(os.path.dirname(__file__))
 TEMPLATE_PATH = os.path.join(THIS_DIR, "templates")
 SITE_PATH = os.path.join(TEMPLATE_PATH, "site")
+
 
 def filter_site_templates(template, extensions=("js", "html")):
     abs_filepath = os.path.join(TEMPLATE_PATH, template)
@@ -35,7 +44,7 @@ def build(build_directory, node_registry_url, config_file, clean=False):
         with open(build_destination, "w") as f:
             f.write(env.get_template(template).render(node_registry_url=node_registry_url))
 
-        with open(config_file, "rb") as configfile:
+        with open(config_file, TOML_OPEN_MODE) as configfile:
             config_data = tomllib.load(configfile)
             node_details = config_data["Node-Details"]
 
