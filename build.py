@@ -26,7 +26,7 @@ def filter_site_templates(template, extensions=("js", "html")):
             basename.rsplit(".", 1)[1] in extensions)
 
 
-def build(build_directory, node_registry_url, config_file, clean=False):
+def build(build_directory, config_file, clean=False):
 
     if clean:
         shutil.rmtree(build_directory, ignore_errors=True)
@@ -41,8 +41,6 @@ def build(build_directory, node_registry_url, config_file, clean=False):
             build_directory, os.path.relpath(os.path.join(TEMPLATE_PATH, template), SITE_PATH)
         )
         os.makedirs(os.path.dirname(build_destination), exist_ok=True)
-        with open(build_destination, "w") as f:
-            f.write(env.get_template(template).render(node_registry_url=node_registry_url))
 
         with open(config_file, TOML_OPEN_MODE) as configfile:
             config_data = tomllib.load(configfile)
@@ -65,14 +63,6 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
-        "-u",
-        "--node-registry-url",
-        default="https://raw.githubusercontent.com/"
-                "DACCS-Climate/Marble-node-registry/current-registry/node_registry.json",
-        help="node registry URL",
-    )
-
-    parser.add_argument(
         "-g",
         "--config-file",
         default=os.path.join(THIS_DIR, "config.toml"),
@@ -86,4 +76,4 @@ if __name__ == "__main__":
         help="clean build directories before building.",
     )
     args = parser.parse_args()
-    build(args.build_directory, args.node_registry_url, args.config_file, args.clean)
+    build(args.build_directory, args.config_file, args.clean)
