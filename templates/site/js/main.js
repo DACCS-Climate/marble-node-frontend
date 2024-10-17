@@ -206,14 +206,18 @@ function displaySettingsPageUserDetailsAPI(){
 
 function updateUserDetails(){
     resetSaveButton();
-    let bodyParams;
+    let bodyParams = {};
     const updateURLFragment = "/magpie/users/current";
 
     var password = document.getElementById("userPassword").value;
     var email = document.getElementById("settingsEditEmail").value;
 
-    if((password != null || password != "") && (email != null || email != "")){
-        bodyParams = JSON.stringify({"password": password, "email": email})
+    if((password != null && password != "")){
+        bodyParams["password"] = password;
+    }
+
+    if((email != null && email != "")){
+        bodyParams["email"] = email;
     }
 
     showSpinner()
@@ -224,7 +228,7 @@ function updateUserDetails(){
             "Accept": "application/json, text/plain",
             "Content-Type": "application/json"
         },
-        body: bodyParams
+        body: JSON.stringify(bodyParams)
     }).then(response => response.json()).then(json =>{
             if(json.code && json.code == 200){
                 showSaveCheckmark();
