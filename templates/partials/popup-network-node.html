@@ -1,3 +1,15 @@
+{% set user_node_placeholder = {
+
+        "node1": {
+            "node_name": "Node1",
+            "user_name":"TestUser1" ,
+            "content": '<div class="image-close-icon"></div>'
+        },
+        }
+%}
+
+
+
 <dialog id="networkNodeModal" class="dialog-network-node">
     <div class="popup-network-container">
 
@@ -73,8 +85,9 @@
             </div>
         </div>
     </div>
-<script src="js/modal.js"></script>
-<script src="js/modal-network-node.js"></script>
+<!-- TODO Uncomment the script tags when the new Magpie node discovery functionality is pulled in -->
+<!--<script src="js/modal.js"></script>
+<script src="js/modal-network-node.js"></script>-->
 
 {% with %}
     {% set popup_attention_id = "deleteNodeAttentionModal" %}

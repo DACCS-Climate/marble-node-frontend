@@ -1,6 +1,7 @@
 import os
 import shutil
 import argparse
+import tomllib
 
 from jinja2 import FileSystemLoader, Environment, select_autoescape
 
@@ -16,7 +17,8 @@ def filter_site_templates(template, extensions=("js", "html")):
             basename.rsplit(".", 1)[1] in extensions)
 
 
-def build(build_directory, node_registry_url, clean=False):
+def build(build_directory, node_registry_url, config_file, clean=False):
+
     if clean:
         shutil.rmtree(build_directory, ignore_errors=True)
     env = Environment(
@@ -32,6 +34,16 @@ def build(build_directory, node_registry_url, clean=False):
         os.makedirs(os.path.dirname(build_destination), exist_ok=True)
         with open(build_destination, "w") as f:
             f.write(env.get_template(template).render(node_registry_url=node_registry_url))
+
+        with open(config_file, "rb") as configfile:
+            config_data = tomllib.load(configfile)
+            node_details = config_data["Node-Details"]
+
+            with open(build_destination, "w") as f:
+                f.write(env.get_template(template).render(current_node_name=node_details["node_name"],
+                                                          current_node_admin_email=node_details["node_admin_email"],
+                                                          current_login_home = node_details.get("login_home", "index.html")))
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -52,10 +64,17 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
+        "-g",
+        "--config-file",
+        default=os.path.join(THIS_DIR, "config.toml"),
+        help="TOML config file",
+    )
+
+    parser.add_argument(
         "-c",
         "--clean",
         action="store_true",
         help="clean build directories before building.",
     )
     args = parser.parse_args()
-    build(args.build_directory, args.node_registry_url, args.clean)
+    build(args.build_directory, args.node_registry_url, args.config_file, args.clean)

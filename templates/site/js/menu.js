@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var accountButton = document.getElementById('menuItemAccount');
     var settingsButton = document.getElementById('menuItemSettings');
     var helpButton = document.getElementById('menuItemHelp');
-
+    var logoutButton = document.getElementById("accountLogoutButton");
     var currentPath = window.location.pathname;
 
     if (currentPath.includes("account.html")) {
@@ -23,4 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
         settingsButton.classList.remove("nav-item-highlight");
         helpButton.classList.remove("nav-item-highlight");
     }
+    setUserAccountDetails(displayAccountMenuDetails, displayAccountMenuDetailsAPI);
+    logoutButton.addEventListener("click",signout);
+    checkUserAuthenticated();
 })

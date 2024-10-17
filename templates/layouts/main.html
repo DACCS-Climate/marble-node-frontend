@@ -28,10 +28,14 @@
     <link href="css/node-login.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <script src="js/main.js"></script>
+    <script src="js/load-details.js"></script>
     <meta charset="UTF-8">
     <title>{{ page_title }}</title>
 </head>
 <body>
+<input type="hidden"  id="hiddenUsername" class="hidden-field"/>
+<input type="hidden"  id="hiddenEmail" class="hidden-field">
+
     {% block content %}
 
     {% endblock %}

@@ -1,3 +1,4 @@
+/*Legacy styles from design*/
 :root {
 
     /*Fonts*/
@@ -282,13 +283,14 @@ h6{
   color: #333;
   text-shadow: none; /* Prevent inheritance from `body` */
 }
+/*End legacy styles from design*/
 
+/*Used in button template partial*/
 .margin-button-arrow{
     margin-left: 12px;
 }
 
-/*Override Bootstrap*/
-
+/*Override Fontawesome*/
 .fa-solid, .fa-regular{
     line-height: var(--line-height-normal);
 }
@@ -328,6 +330,7 @@ h6{
     background-color: var(--primary-opacity-light);
 }
 
+/*Used in menu.js*/
 .nav-item-highlight{
     color: var(--primary);
     background-color: var(--primary-opacity-light);
@@ -365,6 +368,10 @@ h6{
 
 .dropdown-menu li:not(:first-child){
     margin-top: 30px;
+}
+
+.hidden-field{
+    visibility: hidden
 }
 
 /*Body*/
@@ -440,6 +447,7 @@ h6{
     padding: 20px;
 }
 
+/*Used in textbox template partial*/
 .textbox-password-padding{
     padding: 20px 50px 20px 20px;
 }
@@ -469,6 +477,7 @@ h6{
 }
 
 /*Password visibility icon*/
+/*Used in ui-styles-scripts*/
 .icon-eye{
     width: 20px;
     height: 20px;
@@ -499,6 +508,7 @@ h6{
     cursor: pointer;
 }
 
+/*Used in textbox template partial*/
 .visibility-none-password-eye{
     visibility: hidden;
 }
@@ -586,7 +596,7 @@ h6{
 }
 
 /*Buttons*/
-
+/*Used in button template partial*/
 .button-close-x{
     width: 15px;
     height: 15px;
@@ -606,6 +616,7 @@ h6{
     background-color: var(--white);
 }
 
+/*Used in button template partial*/
 .image-close-icon-dark{
     width: 15px;
     height: 15px;
@@ -625,6 +636,7 @@ h6{
 
 }
 
+/*Used in button template partial*/
 .button-icon-position{
     overflow: visible;
     box-sizing: content-box;
@@ -633,6 +645,7 @@ h6{
     vertical-align: -.125em;
 }
 
+/*Used in button template partial*/
 .image-delete-icon-red{
     width: 16px;
     height: 15px;
@@ -641,6 +654,7 @@ h6{
     margin-right: 12px;
 }
 
+/*Legacy style from design*/
 .image-delete-icon-white{
     width: 16px;
     height: 15px;
@@ -661,6 +675,7 @@ h6{
     text-decoration: none
 }
 
+/*Used in button template partial*/
 .button-reg{
     width: 158px;
     height: 60px;
@@ -673,6 +688,7 @@ h6{
     flex-shrink: 0;
 }
 
+/*Used in button template partial*/
 .button-reg-reverse{
     width: 158px;
     height: 60px;
@@ -685,12 +701,14 @@ h6{
     flex-shrink: 0;
 }
 
+/*Legacy style from design*/
 .button-reg-alt:hover{
     color: var(--white);
     background-color: var(--primary);
     box-shadow: var(--d-elevation-1);
 }
 
+/*Used in button template partial*/
 .button-lg{
     width: 201px;
     height: 62px;
@@ -700,12 +718,14 @@ h6{
     box-shadow: var(--d-elevation-1);
 }
 
+/*Used in button template partial*/
 .button-lg:hover{
     color: var(--text-on-dark);
     background-color: var(--primary);
     box-shadow: var(--d-elevation-2);
 }
 
+/*Used in button template partial*/
 .button-lg-delete{
     width: 201px;
     height: 62px;
@@ -715,16 +735,19 @@ h6{
     box-shadow: var(--d-elevation-3);
 }
 
+/*Used in button template partial*/
 .button-lg-delete:hover{
     color: var(--white);
     background-color: var(--error);
     box-shadow: var(--d-elevation-3);
 }
 
+/*Used in button template partial*/
 .button-lg-delete:hover .image-delete-icon-red{
     background-image: url("../images/button/exclamation_triangle_white.svg");
 }
 
+/*Used in button template partial*/
 .button-med{
     width: 150px;
     height: 62px;
@@ -736,18 +759,21 @@ h6{
     box-shadow: var(--d-elevation-1);
 }
 
+/*Used in button template partial*/
 .button-reg:hover, .button-med:hover{
     color: var(--white);
     background-color: var(--primary);
     box-shadow: var(--d-elevation-2);
 }
 
+/*Used in button template partial*/
 .button-reg:focus, .button-med:focus{
     color: var(--white);
     background-color: var(--primary);
     box-shadow: var(--d-elevation-2);
 }
 
+/*Used in button template partial*/
 .button-med-delete{
     width: 150px;
     height: 60px;
@@ -757,16 +783,19 @@ h6{
     box-shadow: var(--d-elevation-3);
 }
 
+/*Used in button template partial*/
 .button-med-delete:hover{
     color: var(--text-on-dark);
     background-color: var(--error);
     box-shadow: var(--d-elevation-3);
 }
 
+/*Used in button template partial*/
 .button-med-delete:hover .image-delete-icon-red{
     background-image: url("../images/button/exclamation_triangle_white.svg");
 }
 
+/*Used in button template partial*/
 .button-med-delete-no-icon{
     width: 150px;
     height: 60px;
@@ -776,6 +805,7 @@ h6{
     box-shadow: var(--d-elevation-3);
 }
 
+/*Used in button template partial*/
 .button-med-round{
     width: 79px;
     height: 79px;
@@ -785,12 +815,14 @@ h6{
     box-shadow: var(--elevation-1);
 }
 
+/*Used in button template partial*/
 .button-med-round-icon{
     width: 46px;
     height: 49px;
     color: var(--primary);
 }
 
+/*Used in button template partial*/
 .button-med-alt{
     width: 140px;
     height: 50px;
@@ -839,6 +871,7 @@ h6{
 	);
 }
 
+/*Used in button template partial*/
 .button-med-action-alt-backdrop{
     width: 146px;
     height: 56px;
@@ -888,6 +921,7 @@ h6{
     margin-right: 12px;
 }
 
+/*Used in button template partial*/
 .button-med-alt:hover{
     color: var(--text-on-dark);
     background-color: var(--primary);
@@ -899,18 +933,51 @@ h6{
     pointer-events: none;
 }
 
+/*Used in button template partial*/
 .button-spinner-alignment{
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+/*Used in button template partial*/
 .spinner-not-visible{
     display:none;
 }
 
+/*Used in ui-styles-scripts.js*/
 .spinner-visible{
     display:flex;
+}
+
+/*Used in button template partial*/
+.checkmark-not-visible{
+    display: none;
+}
+
+/*Used in ui-styles-scripts.js*/
+.checkmark-visible{
+    display: flex;
+}
+
+.margin-button-checkmark{
+    margin-right: 5px;
+}
+
+.error-not-visible{
+    display: none;
+} 
+
+.error-visible{
+    display: flex;
+}
+
+.error-save-button{
+    color: var(--error);
+}
+
+.margin-button-error{
+    margin-right: 5px;
 }
 
 /*Popups*/
@@ -1011,6 +1078,7 @@ h6{
     margin-left: 15px;
 }
 
+/*Used in popup-feedback partial*/
 .feedback-logo-image-round{
     width: 50px;
     height: 50px;
@@ -1018,6 +1086,7 @@ h6{
     margin-top: 8px;
 }
 
+/*Used in popup-feedback partial*/
 .feedback-logo-image-triangle{
     width: 48px;
     height: 48px;
@@ -1095,6 +1164,7 @@ h6{
     transition: background-color 0.3s ease-in-out;
 }
 
+/*Used in modal-network-node.js*/
 .popup-network-header.header-scroll{
     background-color: var(--white);
     border-radius: 10px;
@@ -1131,6 +1201,7 @@ h6{
     transition: color 0.3s ease-in-out;
 }
 
+/*Used in modal-network-node.js*/
 .popup-network-title.header-scroll p{
     color: var(--black);
 }
@@ -1142,6 +1213,7 @@ h6{
     transition: border-bottom-color 0.3s ease-in-out;
 }
 
+/*Used in modal-network-node.js*/
 .border-network-title.header-scroll{
     border-bottom-color: var(--black);
 }
@@ -1355,6 +1427,7 @@ h6{
     margin-bottom: 10px;
 }
 
+/*Used in node.js*/
 .height-node-description{
     min-height: 75px;
 }
@@ -1453,6 +1526,7 @@ h6{
     flex-direction: row;
 }
 
+/*Used in index.html template portion*/
 .login-error{
     color: var(--error);
     margin-top:10px;
@@ -1633,23 +1707,22 @@ h6{
     margin-top:30px;
 }
 
+/*Used in help.html dictionary*/
 .margin-github-link{
     margin-left: 10px;
 }
 /*End Account Page*/
 
+/*Used in main.js loginModeEmail function*/
 .login-email-background{
     background-image: url("../images/background/background-login-email.png");
     background-repeat: no-repeat;
 }
 
 /*Modal*/
+/*Used in modal.js*/
 .stop-scroll{
     overflow: hidden;
-}
-
-.start-scroll{
-    overflow: auto;
 }
 
 dialog{

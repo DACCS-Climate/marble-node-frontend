@@ -40,6 +40,7 @@
                     <div id="divPasswordInput" class="display-flex div-login-password-input">
                     {% with %}
                         {% set textbox_type = "password_input_text" %}
+                        {% set caption = '<span id="loginErrorMessage" class="login-error display-none">Incorrect username or password!</span> ' %}
                         {% set textbox_label = "Password" %}
                         {% include "partials/textbox.html" %}
                     {% endwith %}
@@ -99,6 +100,6 @@
     {% include "partials/popup-provider.html" %}
     {% include "partials/popup-password-reset.html" %}
     <script src="js/login.js"></script>
-    <script src="js/login-styles-scripts.js"></script>
+    <script src="js/ui-styles-scripts.js"></script>
 {% endblock %}
 
