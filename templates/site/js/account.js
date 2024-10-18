@@ -1,3 +1,1 @@
-document.addEventListener("DOMContentLoaded", function () {
-    setUserAccountDetails(displayAccountDetails,displayAccountDetailsAPI);
-});
+document.addEventListener("DOMContentLoaded", displayAccountDetails);

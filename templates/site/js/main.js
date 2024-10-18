@@ -1,5 +1,5 @@
 const loginHome = `{{ current_login_home }}`;
-const accountHome = "account.html";
+const accountHome = "index.html";
 
 function login(){
     const nodeSignInURLFragment = "/magpie/signin";
@@ -69,113 +69,23 @@ function login(){
     }
 }
 
-function getSessionDetails(){
-    const sessionURLFragment = "/magpie/session";
-
-    return fetch(sessionURLFragment,{
-        method: "GET",
-        headers: {
-            "Accept": "application/json, text/plain",
-            "Content-Type": "application/json"
-            }
-        }).then(response => {return response.json()})
-}
-
 //User functions
 //--------------
-function checkUserAuthenticated(){
-    getSessionDetails().then(json => {
-        if(json.code && json.code == 200) {
-            if (json.authenticated === false) {
-                window.location.href = loginHome;
-            }
-        }
-    })
-}
-
-function getUserDetails(){
-    const loggedUserURLFragment = "/magpie/users/current";
-    return fetch(loggedUserURLFragment,{
-        method: "GET",
-        headers: {
-            "Accept": "application/json, text/plain",
-            "Content-Type": "application/json"
-            }
-        }).then(response => {return response.json()})
-}
-
-function setHiddenFields(){
-    var hiddenUsername = document.getElementById("hiddenUsername");
-    var hiddenEmail = document.getElementById("hiddenEmail");
-
-        getUserDetails().then(json => {
-        hiddenUsername.value = json.user["user_name"];
-        hiddenEmail.value = json.user["email"];
-    })
-}
-
-function setUserAccountDetails(setUserDetailsFunction, setUserDetailsFunctionAPI){
-    const targetNode = document.getElementById("hiddenUsername");
-    const config = { attributes: true};
-
-    const callback = (mutationList, observer) => {
-      for (const mutation of mutationList) {
-        if (mutation.type === "attributes") {
-            setUserDetailsFunction();
-
-            // Stop observing the target node after fields have been set
-            observer.disconnect();
-        }
-        else{
-            setUserDetailsFunctionAPI();
-
-            // Stop observing the target node after fields have been set
-            observer.disconnect();
-        }
-      }
-    };
-
-    const observer = new MutationObserver(callback);
-
-    // Start observing the target node for configured mutations
-    observer.observe(targetNode, config);
-}
 
 function displayAccountMenuDetails(){
     var dropdownMenuTitle = document.getElementById("dropdownMenuTitle");
-    var hiddenUsername = document.getElementById("hiddenUsername");
 
-    dropdownMenuTitle.innerText = hiddenUsername.value;
-}
-
-function displayAccountMenuDetailsAPI(){
-    var dropdownMenuTitle = document.getElementById("dropdownMenuTitle");
-
-    getUserDetails().then(json => {
+    window.session_info.then(json => {
         dropdownMenuTitle.innerText = json.user["user_name"];
-    })
-
+    })  
 }
 
 function displayAccountDetails(){
     var h3Header = document.getElementById("h3Header");
     var accountUsername = document.getElementById("account-username");
     var accountEmail = document.getElementById("account-email");
-
-    var hiddenUsername = document.getElementById("hiddenUsername");
-    var hiddenEmail = document.getElementById("hiddenEmail");
-
-    h3Header.innerText = "Hi " + hiddenUsername.value;
-    accountUsername.innerText = hiddenUsername.value;
-    accountEmail.innerText = hiddenEmail.value;
-}
-
-function displayAccountDetailsAPI(){
-    var h3Header = document.getElementById("h3Header");
-    var accountUsername = document.getElementById("account-username");
-    var accountEmail = document.getElementById("account-email");
-
-    getUserDetails().then(json => {
+    
+    window.session_info.then(json => {
         h3Header.innerText = "Hi " + json.user["user_name"];
         accountUsername.innerText = json.user["user_name"];
         accountEmail.innerText = json.user["email"];
@@ -186,22 +96,10 @@ function displaySettingsPageUserDetails(){
     var usernameElement = document.getElementById("settingsUsername");
     var emailTextbox = document.getElementById("settingsEditEmail");
 
-    var hiddenUsername = document.getElementById("hiddenUsername");
-    var hiddenEmail = document.getElementById("hiddenEmail");
-
-    usernameElement.innerText = hiddenUsername.value;
-    emailTextbox.value = hiddenEmail.value;
-}
-
-function displaySettingsPageUserDetailsAPI(){
-    var usernameElement = document.getElementById("settingsUsername");
-    var emailTextbox = document.getElementById("settingsEditEmail");
-
-    getUserDetails().then(json => {
+    window.session_info.then(json => {
         usernameElement.innerText = json.user["user_name"];
         emailTextbox.value = json.user["email"];
     })
-
 }
 
 function updateUserDetails(){
@@ -280,23 +178,6 @@ function deleteNodeUser(nodeName){
 
 //Page functionality and page details functions
 //---------------------------------------------
-function setNodeAdminEmail(){
-    var nodeEmailHref = `mailto:{{ current_node_admin_email }}`;
-    let passwordResetEmail = document.getElementById("passwordResetEmail");
-    passwordResetEmail.setAttribute("href", nodeEmailHref);
-    passwordResetEmail.innerText = `{{ current_node_admin_email }}`;
-}
-
-function setCaptionNodeName(element_id){
-    var captionElement = document.getElementById(element_id);
-    captionElement.innerText = `{{ current_node_name }}`;
-}
-
-//Sets email link on an anchor tag
-function setNodeContact(elementID){
-    elementID.href = "mailto:" + `{{ current_node_admin_email }}`;
-    elementID.innerText = `{{ current_node_admin_email }}`;
-}
 
 function getNodeServices(){
     const servicesURLFragment = "/services";

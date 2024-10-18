@@ -23,7 +23,7 @@
         "button_id": "providerGithub",
         "label": "Github",
         "icon": "images/button/logo_github_dark.svg",
-        "github_icon_class": "image-github-icon-swap",
+        "extra_button_class": "image-github-icon-swap",
         "provider_signin_name": "github"
         },
     "OpenID":{
@@ -75,9 +75,9 @@
             {% for provider in providers %}
                 <div class="provider-button">
                     {% with button_type = "med_action_alt_button"%}
-                        {% set github_icon_class = providers[provider]["github_icon_class"] %}
+                        {% set extra_button_class = providers[provider]["extra_button_class"] %}
                         {% set button_id = providers[provider]["button_id"] %}
-                        {% set provider_signin_value = providers[provider]["provider_signin_name"] %}
+                        {% set button_value = providers[provider]["provider_signin_name"] %}
                         {% set button_image = providers[provider]["icon"] %}
                         {% set button_label = providers[provider]["label"] %}
                         {% include "partials/button.html" %}
@@ -91,6 +91,3 @@
     <script src="js/modal.js"></script>
     <script src="js/modal-provider.js"></script>
 </dialog>
-
-
-

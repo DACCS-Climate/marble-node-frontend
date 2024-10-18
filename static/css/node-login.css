@@ -508,11 +508,6 @@ h6{
     cursor: pointer;
 }
 
-/*Used in textbox template partial*/
-.visibility-none-password-eye{
-    visibility: hidden;
-}
-
 /*Checkbox*/
 
 .checkbox-buffer{

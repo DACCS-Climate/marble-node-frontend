@@ -23,7 +23,7 @@
             <h4>{{ help_title }}</h4>
             <div class="help-entry margin-help-entry">
                 <p>{{ help_text|safe }}</p>
-                <p><a id="helpContact" class="help-link"></a></p>
+                <p><a id="helpContact" class="help-link" href="mailto:{{ current_node_admin_email }}">{{ current_node_admin_email }}</a></p>
             </div>
         </div>
 
@@ -32,11 +32,9 @@
             {% for doc in documentation %}
             <div class="documentation-entry margin-documentation-entry">
                 <p>{{ doc["text"]|safe }}</p>
-            <div>{{ doc["link"]|safe }}</div>
+                <div>{{ doc["link"]|safe }}</div>
             </div>
             {% endfor %}
         </div>
-
-        <script src="js/help.js"></script>
     </div>
 {% endblock %}

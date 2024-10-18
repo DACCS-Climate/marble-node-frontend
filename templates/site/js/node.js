@@ -51,14 +51,14 @@ function setServices(){
         Object.entries(json).forEach(([key, val]) => {
 
             const elem = document.getElementById("services");
-            const converted_val = (converters[key] || converters["_default"])(val, "RedOak")
+            const converted_val = (converters[key] || converters["_default"])(val)
 
             if (elem !== null) {
                 elem.replaceChildren(converted_val);
             }
 
             let services_title = document.getElementById("servicesTitle");
-            services_title.innerText = `Services by {{ current_node_name }}`;
+            services_title.innerText = "Services by {{ current_node_name }}";
         })
     })
 }

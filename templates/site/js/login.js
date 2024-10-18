@@ -17,13 +17,4 @@ document.addEventListener("DOMContentLoaded", function () {
         loginModeEmail();
     })
 
-    setNodeAdminEmail();
 })
-
-
-
-
-
-
-
-

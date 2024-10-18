@@ -1,13 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
     //Set username and email in Settings page
-    setUserAccountDetails(displaySettingsPageUserDetails, displaySettingsPageUserDetailsAPI);
-
-    //Set node name in email hint caption
-    setCaptionNodeName("emailCaptionNodeName");
-
+    displaySettingsPageUserDetails()
     resetSaveButton();
 
-    var saveChangesButton = document.getElementById("buttonSave");
+    var saveChangesButton = document.getElementById("saveUserChangesButton");
     saveChangesButton.addEventListener("click",updateUserDetails);
 
     var deleteUserButton = document.getElementById("deleteUserButton");
