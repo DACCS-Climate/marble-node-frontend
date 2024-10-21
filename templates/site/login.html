@@ -9,7 +9,7 @@
             </div>
             <div class="login-content">
                 <div class="login-content-left">
-                    <div id="divProviderTitle" class="display-none div-provider-title">
+                    <div id="divProviderTitle" class="login-provider-only div-provider-title">
                         {% with %}
                             {% set label_text = "Provider Name" %}
                             {% include "partials/label.html" %}
@@ -31,24 +31,25 @@
                         {% endwith %}
                     </div>
 
-                    <div id="chooseDifferentProvider" class="display-none div-choose-different-provider margin-choose-different-provider" >
+                    <div id="chooseDifferentProvider" class="login-provider-only div-choose-different-provider margin-choose-different-provider" >
                         <a id="openProviderModalLink" class="choose-different-provider subtitle-1">Choose a different provider</a>
                     </div>
 
-                    <div id="divPasswordInput" class="display-flex div-login-password-input">
-                    {% with %}
-                        {% set textbox_type = "password_input_text" %}
-                        {% set caption = '<span id="loginErrorMessage" class="login-error display-none">Incorrect username or password!</span> ' %}
-                        {% set textbox_label = "Password" %}
-                        {% include "partials/textbox.html" %}
-                    {% endwith %}
+                    <div id="divPasswordInput" class="login-email-only div-login-password-input">
+                        {% with %}
+                            {% set textbox_type = "password_input_text" %}
+                            {% set textbox_label = "Password" %}
+                            {% include "partials/textbox.html" %}
+                        {% endwith %}
                     </div>
-
+                    <div>
+                        <span id="loginErrorMessage" class="login-error overline"></span>
+                    </div>
                     <!--TODO-->
                     <!--For the 'email the admin to create an account' portion, detect which node is the current node
                      (either by checking the url for the node's url or some other way), then get the contact email for the node's admin
                       and create the email href for the user to click-->
-                    <div id="divForgotPassword">
+                    <div id="divForgotPassword" class="login-email-only">
                         <a id="openPasswordResetModalLink" class="link-forgot-password margin-forgot-password subtitle-1">Forgot password?</a>
                     </div>
                     <div>
@@ -69,21 +70,22 @@
                 <div id="loginContentRight" class="login-content-right login-provider-background">
                     <div class="div-login-type-position">
                         <div class="div-login-type-content">
-                            <p id="loginTypeTitle">Already have an account with a provider?</p>
+                            <p id="loginTypeTitle">
+                                <span class="login-email-only">Already have an account with a provider?</span>
+                                <span class="login-provider-only">Already have an account?</span>
+                            </p>
 
-                            <div id="divProviderButton" class="display-flex div-provider-button">
+                            <div id="divProviderButton" class="login-email-only div-provider-button">
                                 {% with button_type = "lg_action_button"%}
                                     {% set button_id = "openProviderModal" %}
-                                    {% set button_additional_attributes= ""%}
                                     {% set button_label = "Select Provider" %}
                                     {% include "partials/button.html" %}
                                 {% endwith %}
                             </div>
 
-                            <div id="divEmailButton" class="display-none div-email-button">
+                            <div id="divEmailButton" class="login-provider-only div-email-button">
                                 {% with button_type = "lg_action_button"%}
                                     {% set button_id = "buttonSelectEmail" %}
-                                    {% set button_additional_attributes= ""%}
                                     {% set button_label = "Sign In With Email" %}
                                     {% include "partials/button.html" %}
                                 {% endwith %}

@@ -1,74 +1,6 @@
 const loginHome = `{{ current_login_home }}`;
 const accountHome = "index.html";
 
-function login(){
-    const nodeSignInURLFragment = "/magpie/signin";
-
-    const usernameInput = document.getElementById("userName").value;
-    const passwordInput = document.getElementById("userPassword").value;
-    const providerInput = document.getElementById("hiddenProviderName").value
-
-    let loginErrorMessage = document.getElementById("loginErrorMessage");
-
-    if(providerInput){
-        const providerSignInURLFragment = "/magpie/providers/" + providerInput + "/signin";
-
-        fetch(providerSignInURLFragment, {
-            method: "POST",
-            headers:{
-                 Accept: "application/json, text/plain",
-                "Content-Type": "application/json"
-            }
-        }).then(response => response.json().then(json => {
-
-            try{
-                if(json.code == 200){
-                    window.location.href = accountHome;
-                }
-                else{
-                    if(loginErrorMessage.classList.contains("display-none")){
-                        loginErrorMessage.classList.toggle("display-none");
-                    }
-                }
-
-            }catch (error){
-                console.log(error);
-            }
-
-        }))
-    }
-    else{
-        fetch(nodeSignInURLFragment, {
-            method: "POST",
-            headers: {
-                Accept: "application/json, text/plain",
-                "Content-Type": "application/json"
-                },
-            body: JSON.stringify({
-                user_name: usernameInput,
-                password: passwordInput,
-                provider_name:"ziggurat"
-                })
-            }).then(response => response.json().then(json  => {
-
-            try{
-                if(json.code == 200){
-                    window.location.href = accountHome;
-                }
-                else{
-                    if(loginErrorMessage.classList.contains("display-none")){
-                        loginErrorMessage.classList.toggle("display-none");
-                    }
-                }
-
-            }catch (error){
-                console.log(error);
-
-            }
-        }))
-    }
-}
-
 //User functions
 //--------------
 
@@ -189,49 +121,6 @@ function getNodeServices(){
             "Content-Type": "application/json"
             }
         }).then(response => {return response.json()})
-}
-
-//Swap Select Provider and Sign In With Email buttons
-//Swap background images for right side for Provider and Email
-//Swap Provider image and name area
-//Make password input field visible again
-function loginModeEmail(){
-    var divProviderTitle = document.getElementById("divProviderTitle");
-    var divPasswordInput = document.getElementById("divPasswordInput");
-    var hiddenProviderName = document.getElementById("hiddenProviderName");
-    var divLoginContentRight = document.getElementById("loginContentRight");
-    var emailButton = document.getElementById("divEmailButton");
-    var providerButton = document.getElementById("divProviderButton");
-    var loginTypeTitle = document.getElementById("loginTypeTitle");
-    var chooseDifferentProvider = document.getElementById("chooseDifferentProvider");
-    var divForgotPassword = document.getElementById("divForgotPassword");
-
-    hiddenProviderName.value = ""; //Erase provider name stored in the hidden text field
-    divLoginContentRight.classList.replace("login-email-background", "login-provider-background");
-    loginTypeTitle.innerText = "Already have an account with a provider?";
-
-    if(chooseDifferentProvider.classList.contains("display-flex")){
-        chooseDifferentProvider.classList.replace("display-flex", "display-none");
-    }
-
-    if(divProviderTitle.classList.contains("display-flex")){
-        divProviderTitle.classList.replace("display-flex", "display-none");
-    }
-
-    if(emailButton.classList.contains("display-flex")){
-        emailButton.classList.replace("display-flex", "display-none");
-    }
-
-    if(providerButton.classList.contains("display-none")){
-        providerButton.classList.replace("display-none", "display-flex");
-    }
-
-    if(divPasswordInput.classList.contains("display-none")){
-        divPasswordInput.classList.replace("display-none", "display-flex");
-    }
-
-    divForgotPassword.classList.remove(...divForgotPassword.classList);
-    divForgotPassword.classList.add("display-flex");
 }
 
 function signout(){

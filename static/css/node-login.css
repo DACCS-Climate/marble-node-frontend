@@ -141,6 +141,9 @@
     --gray-800: #424242;
     --gray-900: #212121;
 
+    /*login page display toggles*/
+    --login-email-only: flex;
+    --login-provider-only: none;
 }
 
 
@@ -1371,6 +1374,14 @@ h6{
     flex-direction: column;
     padding-top: 30px;
     padding-bottom: 30px;
+}
+
+.login-email-only {
+    display: var(--login-email-only);
+}
+
+.login-provider-only {
+    display: var(--login-provider-only);
 }
 
 /*Node Services section*/
