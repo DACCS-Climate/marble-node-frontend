@@ -1,3 +1,3 @@
 document.addEventListener("DOMContentLoaded", function () {
-    setModal("passwordResetModal", "", "openPasswordResetModalLink", "closePasswordResetModal");
+    setModal("passwordResetModal", ["openPasswordResetModalLink"], ["closePasswordResetModal"]);
 })

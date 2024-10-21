@@ -1,11 +1,22 @@
+function deleteUser(){
+    const deleteURLFragment = "/magpie/users/current";
+
+    fetch(deleteURLFragment,{
+        method: "DELETE",
+        headers: {
+            "Accept": "application/json, text/plain",
+            "Content-Type": "application/json"
+            }
+        }).then(response => response.json()).then(json => {
+            if(json.code == 200){
+                window.location.href = loginHome;
+            }
+        })
+}
+
 document.addEventListener("DOMContentLoaded", function () {
-    setModal("deleteAttentionModal", "openDeleteModalButton", "", "closeDeleteModal");
+    setModal("deleteAttentionModal", ["openDeleteModalButton"], ["closeDeleteModal"]);
 
-    setModal("deleteNodeAttentionModal", "openDeleteNodePlaceholderID", "", "closeDeleteNodeAttentionModal")
-
-    if(document.getElementById("deleteUserButton") && document.getElementById("deleteUserButton") != null){
-        var attentionModalDeleteButton = document.getElementById("deleteUserButton");
-        attentionModalDeleteButton.addEventListener("click",deleteUser);
-    }
-
+    const attentionModalDeleteButton = document.getElementById("deleteUserButton");
+    attentionModalDeleteButton.addEventListener("click", deleteUser);
 })

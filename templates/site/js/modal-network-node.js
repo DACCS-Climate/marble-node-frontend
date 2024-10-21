@@ -1,11 +1,22 @@
-document.addEventListener("DOMContentLoaded", function () {
-    setModal("networkNodeModal", "openNetworkModalButton", "openNetworkModalLink", "closeNetworkModal");
+//TODO: Placeholder function for deleting a user from a specific node
+// Depends on functionality from a future feature that will enable a user to see all the nodes they are registered on
+function deleteNodeUser(nodeName){
+    const deleteURLFragment = "/magpie/users/current";
 
-    var deleteNodeUserButton = document.getElementById("deleteNodeUserButton");
-    deleteNodeUserButton.addEventListener("click",deleteNodeUser);
+    fetch(deleteURLFragment,{
+        method: "DELETE",
+        headers: {
+            "Accept": "application/json, text/plain",
+            "Content-Type": "application/json"
+            }
+        }).then(response => response.json()).then(json =>{
 
-    backgroundColourOnScroll();
-})
+            if(json.code == 200){
+                
+            }
+
+        })
+}
 
 function backgroundColourOnScroll(){
     let networkNodeCloseIcon;
@@ -34,3 +45,13 @@ function backgroundColourOnScroll(){
         }
     }
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    setModal("networkNodeModal", ["openNetworkModalButton", "openNetworkModalLink"], ["closeNetworkModal"]);
+    setModal("deleteNodeAttentionModal", ["openDeleteNodePlaceholderID"], ["closeDeleteNodeAttentionModal"])
+
+    const deleteNodeUserButton = document.getElementById("deleteNodeUserButton");
+    deleteNodeUserButton.addEventListener("click", deleteNodeUser);
+
+    backgroundColourOnScroll();
+})

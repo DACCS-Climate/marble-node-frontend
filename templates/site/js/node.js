@@ -1,3 +1,16 @@
+async function getNodeServices(){
+    const servicesURLFragment = "/services";
+
+    const response = await fetch(servicesURLFragment, {
+        method: "GET",
+        headers: {
+            "Accept": "application/json, text/plain",
+            "Content-Type": "application/json"
+        }
+    });
+    return await response.json();
+}
+
 function createServiceRow(services_json) {
     const services_row = document.createElement("div");
     services_row.id = "nodeServices";

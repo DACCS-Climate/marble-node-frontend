@@ -1719,7 +1719,6 @@ h6{
 }
 /*End Account Page*/
 
-/*Used in main.js loginModeEmail function*/
 .login-email-background{
     background-image: url("../images/background/background-login-email.png");
     background-repeat: no-repeat;
