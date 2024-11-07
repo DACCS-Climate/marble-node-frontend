@@ -49,7 +49,7 @@ def build(build_directory, config_file, clean=False):
             with open(build_destination, "w") as f:
                 f.write(env.get_template(template).render(current_node_name=node_details["node_name"],
                                                           current_node_admin_email=node_details["node_admin_email"],
-                                                          current_login_home = node_details.get("login_home", "index.html")))
+                                                          current_login_home = node_details.get("login_home", "login.html")))
 
 
 if __name__ == "__main__":

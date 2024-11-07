@@ -1,4 +1,4 @@
-{% set disabled = disabled|default('') %}
+{% set disabled = 'disabled' if disabled else '' %}
 
 {% set button_library = {
         "close_button_x": {
@@ -22,7 +22,6 @@
             "content": '<i id="spinnerAnimated" class="fa-solid fa-circle-notch fa-spin spinner-not-visible" data-fa-transform="left-10"></i>
             <i id="saveButtonCheckmark" class="fa-solid fa-check checkmark-not-visible margin-button-checkmark"></i>
             <i id="saveButtonError" class="fa-solid fa-x error-save-button error-not-visible margin-button-error"></i>',
-
         },
         "reg_saved_button": {
             "class": "button-reg-reverse d-button-text",
@@ -30,7 +29,8 @@
         },
         "lg_action_button": {
             "class": "button-lg d-button-text",
-            "content": '<i class="fa-solid fa-arrow-right margin-button-arrow"></i>'
+            "content": '<i class="fa-solid fa-arrow-right margin-button-arrow"></i>',
+            "content_position": "end"
         },
         "lg_delete_button": {
             "class": "button-lg-delete d-button-text",
@@ -44,7 +44,6 @@
             "class": "button-med-delete d-button-text",
             "content": '<div class="image-delete-icon-red button-icon-position"></div>',
             "button_label": "Delete"
-
         },
         "med_delete_button_red_no_icon": {
             "class": "button-med-delete-no-icon d-button-text",
@@ -52,61 +51,46 @@
         },
         "med_action_alt_button": {
             "class": "button-med-alt d-button-alt-text",
-            "button_backdrop_class": "button-med-action-alt-backdrop"
+            "a_class": "button-med-action-alt-backdrop"
         },
         "med_round_button": {
             "class": "button-med-round",
             "content": '<i class="fa-solid fa-user button-med-round-icon"></i>'
         },
         "dropdown":{
-        "id": "loginDropdown",
-        "class": "button-med-round",
-        "href_class": "nav-link",
-        "toggle": 'data-bs-toggle=dropdown aria-expanded=false',
-        "content": '<i class="fa-solid fa-user button-med-round-icon"></i>'
+            "id": "loginDropdown",
+            "class": "button-med-round nav-link",
+            "content": '<i class="fa-solid fa-user button-med-round-icon"></i>',
+            "additional_attributes": 'data-bs-toggle=dropdown aria-expanded=false'
         }
     }
 %}
 
-{% if button_type == "dropdown" %}
+{% set button = button_library[button_type] %}
 
-    <button id="{{ button_library[button_type]['id']|default(button_id) }}" class="{{ button_library[button_type]['class'] }} {{ button_library[button_type]['href_class'] }} {{ 'disabled' if disabled else '' }}"
-                type="button" onclick="{{ button_library[button_type]['show_spinner_function'] }}" {{ button_library[button_type]['toggle'] }}>
+{% if button_type != "dropdown" %}
+    <a class="undecorated-link button-anchor-tag {{ button['a_class'] }} {{ disabled }}">
+{% endif %}
 
-            {% if button_library[button_type]['content'] and button_type != "lg_action_button" %}
-                {{ button_library[button_type]['content']|safe }}
-            {% endif %}
+    <button id="{{ button_id|default(button['id']) }}" 
+            class="{{ button['class'] }} {{ extra_button_class }} {{ disabled }}" 
+            type="button"
+            {% if button_value %} value="{{ button_value }}" {% endif %}
+            {{ button["additional_attributes"] }}>
+        {% if button['content_position']|default("start") == "start" %}
+            {{ button['content']|safe }}
+        {% endif %}
+        {% if button_image %}
+            <img class="button-med-action-alt-image" src="{{ button_image|safe }}"/>
+        {% endif %}
+        <span id="{{ button['label_id'] }}">
+            {{ button_label | default(button['button_label']) | safe }}
+        </span>
+        {% if button['content_position']|default("start") == "end" %}
+            {{ button['content']|safe }}
+        {% endif %}
+    </button>
 
-        </button>
-{% else %}
-    <a class="undecorated-link button-anchor-tag {{ button_library[button_type]['button_backdrop_class'] }} {{ 'disabled' if disabled else '' }}">
-        <button id="{{ button_library[button_type]['id'] | default(button_id) }}" class="{{ button_library[button_type]['class'] }} {{ github_icon_class }} {{ 'disabled' if disabled else '' }}"
-                value="{{ provider_signin_value }}"
-                {{ button_additional_attributes }}
-                type="button">
-
-
-            {% if button_library[button_type]['content'] and button_type != "lg_action_button" %}
-                {{ button_library[button_type]['content']|safe }}
-            {% endif %}
-
-            <!--Used for Alternative button with corner cut off -->
-            {% if button_image %}
-              <img class="button-med-action-alt-image" src="{{ button_image|safe }}"/>
-            {% endif %}
-
-            <!--Button label -->
-            <span id="{{ button_library[button_type]['label_id'] }}">
-                {% if button_label %}
-                    {{ button_label|safe }}
-                {% else %}
-                    {{ button_library[button_type]['button_label'] }}
-                {% endif %}
-            </span>
-
-            {% if button_type == "lg_action_button" %}
-                {{ button_library[button_type]['content']|safe }}
-            {% endif %}
-        </button>
+{% if button_type != "dropdown" %}
     </a>
 {% endif %}

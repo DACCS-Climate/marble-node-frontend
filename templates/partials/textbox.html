@@ -1,28 +1,18 @@
 {% if textbox_type == "password_input_text" %}
     {% set input_textbox_id = input_textbox_id | default("userPassword") %}
+    {% set textbox_name = "userpassword" %}
+    {% set input_type = "password" %}
+    {% set input_class = "textbox-password-padding" %}
 {% else %}
     {% set input_textbox_id = input_textbox_id | default("userName") %}
+    {% set textbox_name = "username" %}
+    {% set input_type = "text" %}
+    {% set input_class = "textbox-padding" %}
 {% endif %}
-
-{% set textbox = {
-        "reg_input_text": {
-            "textbox_name": "username",
-            "input_type": "text",
-            "eye_icon_visible": "visibility-none-password-eye"
-        },
-        "password_input_text": {
-            "textbox_name": "userpassword",
-            "input_type": "password",
-            "input_required": "required ",
-            "eye_icon_visible": ""
-        }
-    }
-%}
-
 
 <div class="textbox-container">
     <div class="textbox-label-icon">
-        <label class="textbox-label margin-textbox-label subtitle-1" for="{{ textbox[textbox_type]["textbox_name"] }}">
+        <label class="textbox-label margin-textbox-label subtitle-1" for="{{ textbox_name }}">
             {{ textbox_label }}
         </label>
 
@@ -34,15 +24,9 @@
         {% endif %}
     </div>
     <div class="textbox-field-container">
-        <input type='{{ textbox[textbox_type]["input_type"] }}' id="{{ input_textbox_id }}" name="{{ textbox[textbox_type]["textbox_name"] }}"
-            {% if textbox[textbox_type]["input_type"] == "password" %}
-                class="input-textbox textbox-password-padding"
-            {% else %}
-                class="input-textbox textbox-padding"
-            {% endif %}
-        />
-        {% if textbox[textbox_type]["input_type"] == "password" %}
-            <div id="eyeIconContainer" class="icon-eye-position {{ textbox[textbox_type]["eye_icon_visible"] }}">
+        <input type='{{ input_type }}' id="{{ input_textbox_id }}" name="{{ textbox_name }}" class="input-textbox {{ input_class }}"/>
+        {% if input_type == "password" %}
+            <div id="eyeIconContainer" class="icon-eye-position">
                 <div id="passwordVisibilityIcon" class="icon-eye-slash"></div>
             </div>
         {% endif %}
@@ -51,4 +35,3 @@
         <div><p id="textboxCaption" class="overline margin-textbox-caption">{{ caption|safe }}</p></div>
     {% endif %}
 </div>
-

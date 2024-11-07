@@ -1,59 +1,31 @@
-function setModal(modalElementID, openModalButtonElementID, openModalLinkElementID, closeModalElementID){
-    let modalElement;
-    var bodyHTMLCollection = document.getElementsByTagName("body");
-    var bodyTags = Array.from(bodyHTMLCollection);
+function setModal(modalElementID, openElementIDs, closeElementIDs) {
+    const bodyElem = document.getElementsByTagName("body")[0];
+    const modalElement = document.getElementById(modalElementID);
 
-    // Get the modal
-    if(modalElementID != "" && document.getElementById(modalElementID) != null){
-        modalElement = document.getElementById(modalElementID);
-
-        // When the user clicks anywhere outside of the modal, close it
-        modalElement.addEventListener("click", () => {
-            if(event.target.id == modalElementID){
-                bodyTags.forEach(body => {
-                    body.classList.remove(...body.classList);
-                })
-                modalElement.close();
-            }
-        } )
-    }
-
-    //Adds open modal function to a button
-    if(openModalButtonElementID != "" && document.getElementById(openModalButtonElementID) != null){
-        var openModalButton = document.getElementById(openModalButtonElementID);
-
-        // When the user clicks on the button, open the modal
-        openModalButton.addEventListener("click", function(){
-            bodyTags.forEach(body => {
-                body.classList.remove(...body.classList);
-                body.classList.add("stop-scroll");
-            })
-
-            modalElement.showModal();
-        });
-    }
-
-    if(closeModalElementID != "" && document.getElementById(closeModalElementID) != null){
-        var closeModalButton = document.getElementById(closeModalElementID);
-
-        closeModalButton.addEventListener("click", () => {
-            bodyTags.forEach(body => {
-                body.classList.remove(...body.classList);
-            })
+    document.addEventListener("keydown", (event) => {
+        if (event.code == "Escape") {
+            bodyElem.classList.remove("stop-scroll");
             modalElement.close();
-        });
-    }
+        }
+    })
 
-    //Adds open modal function to a text link
-    if(openModalLinkElementID != "" && document.getElementById(openModalLinkElementID) != null){
-        var openModalLink = document.getElementById(openModalLinkElementID);
+    openElementIDs.forEach(elem_id => {
+        const elem = document.getElementById(elem_id);
+        if (elem) {
+            elem.addEventListener("click", function(){
+                bodyElem.classList.add("stop-scroll");
+                modalElement.showModal();
+            });
+        }
+    })
 
-        openModalLink.addEventListener('click', () => {
-            bodyTags.forEach(body => {
-                body.classList.remove(...body.classList);
-                body.classList.add("stop-scroll");
-            })
-            modalElement.showModal();
-        })
-    }
+    closeElementIDs.forEach(elem_id => {
+        const elem = document.getElementById(elem_id);
+        if (elem) {
+            elem.addEventListener("click", function(){
+                bodyElem.classList.remove("stop-scroll");
+                modalElement.close();
+            });
+        }
+    })
 }

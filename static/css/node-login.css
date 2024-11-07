@@ -141,6 +141,9 @@
     --gray-800: #424242;
     --gray-900: #212121;
 
+    /*login page display toggles*/
+    --login-email-only: flex;
+    --login-provider-only: none;
 }
 
 
@@ -506,11 +509,6 @@ h6{
     right: 40px;
     z-index: 25;
     cursor: pointer;
-}
-
-/*Used in textbox template partial*/
-.visibility-none-password-eye{
-    visibility: hidden;
 }
 
 /*Checkbox*/
@@ -1378,6 +1376,14 @@ h6{
     padding-bottom: 30px;
 }
 
+.login-email-only {
+    display: var(--login-email-only);
+}
+
+.login-provider-only {
+    display: var(--login-provider-only);
+}
+
 /*Node Services section*/
 .node-services-container{
     margin-bottom: 120px;
@@ -1713,7 +1719,6 @@ h6{
 }
 /*End Account Page*/
 
-/*Used in main.js loginModeEmail function*/
 .login-email-background{
     background-image: url("../images/background/background-login-email.png");
     background-repeat: no-repeat;

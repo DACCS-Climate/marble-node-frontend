@@ -28,7 +28,7 @@
                         {% set input_textbox_id = "settingsEditEmail" %}
                         {% set textbox_label = "Email" %}
                         {% set tooltip_text = "" %}
-                        {% set caption = "Edit email registered with <span id='emailCaptionNodeName' ></span>" %}
+                        {% set caption = "Edit email registered with <span id='emailCaptionNodeName' >%s</span>" % current_node_name %}
                         {% include "partials/textbox.html" %}
                     {% endwith %}
                     <p id="editEmailMessage" class="overline"></p>
@@ -75,6 +75,7 @@
             log you out of your account. All data linked to your account will also be lost. <br> This is irreversible!" %}
             {% include "partials/popup-attention.html" %}
         {% endwith %}
+        <script src="js/modal-delete.js"></script>
     </div>
 
 {% endblock %}
