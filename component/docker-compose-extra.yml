@@ -1,0 +1,4 @@
+services:
+  proxy:
+    volumes:
+      - ${MARBLE_FRONTEND_BUILD_DIR}:/static/marble-frontend:ro

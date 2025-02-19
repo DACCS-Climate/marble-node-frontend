@@ -1,0 +1,37 @@
+#!/bin/sh
+
+case "${MARBLE_FRONTEND_REBUILD_RULE}" in
+    "never")
+        exit
+        ;;
+    "if_missing")
+        [ -d "${MARBLE_FRONTEND_BUILD_DIR}" ] && exit
+        ;;
+    "always")
+        ;;
+    *)
+        1>&2 echo "MARBLE_FRONTEND_REBUILD_RULE variable must be one of [never, if_missing, always]"
+        exit 1
+        ;;
+esac
+
+THIS_FILE="$(readlink -f "$0" || realpath "$0")"
+THIS_DIR="$(dirname "${THIS_FILE}")"
+ROOT_DIR="$(dirname "${THIS_DIR}")"
+
+[ -n "${MARBLE_NODE_NAME}" ] && MARBLE_FRONTEND_ENV_VARS="${MARBLE_FRONTEND_ENV_VARS};MARBLE_FRONTEND_CONFIG.NODE_NAME=${MARBLE_NODE_NAME}"
+
+# clean up extra semicolons if they exist
+MARBLE_FRONTEND_ENV_VARS=$(echo "$MARBLE_FRONTEND_ENV_VARS" | tr -s ';')
+MARBLE_FRONTEND_ENV_VARS=${MARBLE_FRONTEND_ENV_VARS%;}
+MARBLE_FRONTEND_ENV_VARS=${MARBLE_FRONTEND_ENV_VARS#;}
+
+if [ -n "$MARBLE_FRONTEND_ENV_VARS" ]; then
+    MARBLE_FRONTEND_ENV_VARS="-e $(echo "${MARBLE_FRONTEND_ENV_VARS}" | sed 's/;/ -e /g')"
+fi
+
+if [ -n "$MARBLE_FRONTEND_CONFIG_FILE" ]; then
+    MARBLE_FRONTEND_CONFIG_VOLUME="-v $(readlink -f "$MARBLE_FRONTEND_CONFIG_FILE" || realpath "$MARBLE_FRONTEND_CONFIG_FILE"):/config.toml"
+fi
+
+docker run --rm ${MARBLE_FRONTEND_ENV_VARS} -v "${ROOT_DIR}:/marble-frontend:ro" -v "${MARBLE_FRONTEND_BUILD_DIR}:/build-dir" "${MARBLE_FRONTEND_CONFIG_VOLUME}" "${MARBLE_FRONTEND_PYTHON_IMAGE}" sh -c 'pip install -r /marble-frontend/requirements.txt && python /marble-frontend/build.py --clean --build-directory /build-dir --config-file /config.toml'

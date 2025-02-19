@@ -44,6 +44,11 @@ To customize the landing page:
 3. Change the value under `[Node-Details]` for `login_home` to the one you want.
 4. Save the file and build the interface again.
 
+# Including this site as the frontend for a Marble node
+
+In your local environment file for [birdhouse-deploy](https://github.com/bird-house/birdhouse-deploy/), add the
+absolute path to the `/component` directory in this repo to the `BIRDHOUSE_EXTRA_CONF_DIRS` variable.
+
 # Development
 
 This is how the files are arranged in this repo and how to update them in order to develop this website.
