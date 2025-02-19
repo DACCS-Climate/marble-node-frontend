@@ -1,7 +1,7 @@
 //TODO: Placeholder function for deleting a user from a specific node
 // Depends on functionality from a future feature that will enable a user to see all the nodes they are registered on
 function deleteNodeUser(nodeName){
-    const deleteURLFragment = "/magpie/users/current";
+    const deleteURLFragment = "{{ configs['magpie_path'] }}/users/current";
 
     fetch(deleteURLFragment,{
         method: "DELETE",

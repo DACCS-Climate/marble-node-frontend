@@ -1,5 +1,5 @@
 function deleteUser(){
-    const deleteURLFragment = "/magpie/users/current";
+    const deleteURLFragment = "{{ configs['magpie_path'] }}/users/current";
 
     fetch(deleteURLFragment,{
         method: "DELETE",

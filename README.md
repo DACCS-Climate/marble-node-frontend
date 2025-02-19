@@ -1,48 +1,46 @@
-# Marble-node-Magpie-ui
-An optional alternative login interface to the default Magpie user interface
+# Marble node frontend
+A frontend for [marble](https://marbleclimate.com) nodes.
 
 # Requirements
 - Python 3.9 or later
 
-# Build the Interface
+# Build the static site
 
-To convert the files in the `templates/` directory into the login interface:
+To convert the files in the `templates/` directory into a built website:
 
 1. Install the requirements:
-`python3 -m pip install -r requirements.txt`
+
+```sh
+python3 -m pip install -r requirements.txt
+```
+
 2. Build the HTML files
-`python3 build.py`
 
-The HTML files can now be found in the `build` directory.  To view them go to `build` and run a basic webserver.  
-In a web browser go to `https://localhost`
-```
-cd build
-python -m http.server
+```sh
+python3 build.py
 ```
 
-# Customizing the Interface
+To see all build options: 
 
-The interface can be customized for the node that runs it by allowing the name of the node and the contact email for
-the node admin to be set in the `config.toml` file.  A template for making the `config.toml` file is the 
-`config.toml.example` file.  The node name is shown in user feedback messages such as error messages and usage hints. 
-The admin email is used in the Help page.  
+```sh
+python3 build.py --help
+```
 
-To customize the interface:
-1. Copy the `config.toml.example` file and rename it `config.toml`.  This file should be kept (or put) in the root 
-folder for the project.
-2. Uncomment the entries that will be changed
-3. Change the values under `[Node-Details]` for `node_name` and `node_admin_email` to the ones you want.
-4. Save the file and build the interface again.
+# Configuration
 
-# Additional Customizations
+Configuration settings can be specified when building the site using either a configuration file or using environment
+variables.
 
-If you don't want to use the landing page provided you can change that as well.
+By default the configuration file is named `config.toml` and is found at the root of this repository. An alternative
+file location can be specified with the `--config-file` argument to `build.py`.
 
-To customize the landing page:
-1. Edit an existing `config.toml` file or create a new one.
-2. Uncomment `login_home` if needed
-3. Change the value under `[Node-Details]` for `login_home` to the one you want.
-4. Save the file and build the interface again.
+The configuration options are described in `config.toml.example`. Commented options have a default value and need not
+be specified. Non-commented options must be specified.
+
+Configuration options can also be specified using environment variables. For example, `node_name` can be specified
+by setting the `MARBLE_FRONTEND_CONFIG.NODE_NAME` variable. Environment variables will always take precedence over
+options in the configuration files.
+All configuration options set by environment variables will use the prefix `MARBLE_FRONTEND_CONFIG.`.
 
 # Development
 

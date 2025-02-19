@@ -1,3 +1,4 @@
+from collections.abc import Mapping
 import os
 import shutil
 import argparse
@@ -7,7 +8,7 @@ from jinja2 import FileSystemLoader, Environment, select_autoescape
 try:
     import tomllib
 except ModuleNotFoundError:
-    import toml as tomllib
+    import toml as tomllib # type: ignore
     TOML_OPEN_MODE="r"
 else:
     TOML_OPEN_MODE="rb"
@@ -17,13 +18,46 @@ THIS_DIR = os.path.abspath(os.path.dirname(__file__))
 TEMPLATE_PATH = os.path.join(THIS_DIR, "templates")
 SITE_PATH = os.path.join(TEMPLATE_PATH, "site")
 
-
 def filter_site_templates(template, extensions=("js", "html")):
     abs_filepath = os.path.join(TEMPLATE_PATH, template)
     basename = os.path.basename(template)
     return (SITE_PATH == os.path.commonpath((abs_filepath, SITE_PATH)) and
             "." in basename and
             basename.rsplit(".", 1)[1] in extensions)
+
+def config_data(config_file):
+    if os.path.isfile(config_file):
+        with open(config_file, TOML_OPEN_MODE) as f:
+            config_data = tomllib.load(f)
+    else:
+        config_data = {}
+    with open(os.path.join(THIS_DIR, "config.default.toml"), TOML_OPEN_MODE) as f:
+        config_defaults = tomllib.load(f)
+    
+    def add_defaults(configs, defaults, path=None):
+        missing = []
+        if path is not None:
+            env_config_override = os.getenv(f"MARBLE_FRONTEND_CONFIG.{path.upper()}")
+            if env_config_override is not None:
+                configs = env_config_override
+        if configs is None:
+            if defaults == "__required":
+                missing.append(path)
+                return None, missing
+            else:
+                return defaults, missing
+        if isinstance(configs, Mapping) and isinstance(defaults, Mapping):
+            for key in defaults:
+                new_path = key if path is None else ".".join([path, key])
+                configs[key], missing_ = add_defaults(configs.get(key), defaults[key], new_path)
+                missing.extend(missing_)
+        return configs, missing
+    
+    final_configs, missing = add_defaults(config_data, config_defaults)
+    
+    if missing:
+        raise Exception(f"The following missing configuration options are required: {missing}")
+    return final_configs
 
 
 def build(build_directory, config_file, clean=False):
@@ -42,14 +76,8 @@ def build(build_directory, config_file, clean=False):
         )
         os.makedirs(os.path.dirname(build_destination), exist_ok=True)
 
-        with open(config_file, TOML_OPEN_MODE) as configfile:
-            config_data = tomllib.load(configfile)
-            node_details = config_data["Node-Details"]
-
-            with open(build_destination, "w") as f:
-                f.write(env.get_template(template).render(current_node_name=node_details["node_name"],
-                                                          current_node_admin_email=node_details["node_admin_email"],
-                                                          current_login_home = node_details.get("login_home", "login.html")))
+        with open(build_destination, "w") as f:
+            f.write(env.get_template(template).render(configs=config_data(config_file)))
 
 
 if __name__ == "__main__":
