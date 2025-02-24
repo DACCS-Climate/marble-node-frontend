@@ -50,11 +50,11 @@
                             <a href="{{ configs['registration_url'] }}" class="login-link  subtitle-1">Register for an account</a>
                         {% endif %}
                     </div>
-                    {% if configs["terms-and-conditions"]["url"] or configs["terms-and-conditions"]["text"] %}
+                    {% if configs["terms_and_conditions"]["url"] or configs["terms_and_conditions"]["text"] %}
                         <div>
                             {% with %}
-                                {% if configs["terms-and-conditions"]["url"] %}
-                                    {% set checkbox_label = 'By logging in to ' ~ configs["node_name"] ~ ' you accept the <a href="' ~ configs['terms-and-conditions']['url'] ~ '">terms and conditions</a>.' %}
+                                {% if configs["terms_and_conditions"]["url"] %}
+                                    {% set checkbox_label = 'By logging in to ' ~ configs["node_name"] ~ ' you accept the <a href="' ~ configs['terms_and_conditions']['url'] ~ '">terms and conditions</a>.' %}
                                 {% else %}
                                     {% set checkbox_label = 'By logging in to ' ~ configs["node_name"] ~ ' you accept the <a href="#" id="termsAndConditionsModalLink">terms and conditions</a>.' %}
                                 {% endif %}
@@ -72,7 +72,7 @@
                     </div>
                 </div>
                 <div id="loginContentRight" class="login-content-right login-provider-background">
-                    {% if configs["login-providers"]["enable"] %}
+                    {% if configs["login_providers"]["enable"] %}
                         <div class="div-login-type-position">
                             <div class="div-login-type-content">
                                 <p id="loginTypeTitle">
@@ -105,7 +105,7 @@
 
     {% include "partials/popup-provider.html" %}
     {% include "partials/popup-password-reset.html" %}
-    {% if not configs["terms-and-conditions"]["url"] and configs["terms-and-conditions"]["text"] %}
+    {% if not configs["terms_and_conditions"]["url"] and configs["terms_and_conditions"]["text"] %}
         {% include "partials/popup-terms-and-conditions.html" %}
     {% endif %}
     <script src="js/login.js"></script>

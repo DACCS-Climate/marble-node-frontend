@@ -38,9 +38,16 @@ The configuration options are described in `config.toml.example`. Commented opti
 be specified. Non-commented options must be specified.
 
 Configuration options can also be specified using environment variables. For example, `node_name` can be specified
-by setting the `MARBLE_FRONTEND_CONFIG.NODE_NAME` variable. Environment variables will always take precedence over
+by setting the `MARBLE_FRONTEND_CONFIG__NODE_NAME` variable. Environment variables will always take precedence over
 options in the configuration files.
-All configuration options set by environment variables will use the prefix `MARBLE_FRONTEND_CONFIG.`.
+
+All configuration options set by environment variables will use the prefix `MARBLE_FRONTEND_CONFIG__`.
+Nested configuration settings can be specified by providing the full path to the configuration setting, separated
+by a double underscore (`__`). For example:
+
+```shell
+MARBLE_FRONTEND_CONFIG__TERMS_AND_CONDITIONS__URL=http://example.com
+```
 
 # Development
 

@@ -13,7 +13,7 @@ node_admin_email = "admin@example.com"
 # URL where users can request an account on the node
 #registration_url = ""
 
-[login-providers]
+[login_providers]
 
 # Display provider login options
 #enable = true
@@ -21,11 +21,11 @@ node_admin_email = "admin@example.com"
 # Choose which providers to display as an option
 #providers = ["CEDA", "DKRZ", "SMHI", "Github", "OpenID", "WSO2", "IPSL", "LLNL"]
 
-[terms-and-conditions]
+[terms_and_conditions]
 
 # URL to a terms and conditions page that users must agree to before logging in
 #url = ""
 
 # Terms and conditions text that users must agree to before logging in.
-# This will replace terms_and_conditions_url if both are defined
+# This will replace the terms_and_conditions.url if both are defined
 #text = ""

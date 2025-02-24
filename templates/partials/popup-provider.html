@@ -73,7 +73,7 @@
         <div class="provider-button-container">
             <div class="provider-button-row">
             {% for provider, data in providers.items() %}
-                {% if provider in configs["login-providers"]["providers"] %}
+                {% if provider in configs["login_providers"]["providers"] %}
                     <div class="provider-button">
                         {% with button_type = "med_action_alt_button"%}
                             {% set extra_button_class = data["extra_button_class"] %}
