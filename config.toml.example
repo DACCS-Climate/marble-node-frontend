@@ -1,4 +1,31 @@
-[Node-Details]
+# The name of the current Marble node, this is used for display purposes only
 node_name = "Example"
+
+# The email that users should contact when requesting help about the current node
 node_admin_email = "admin@example.com"
-# login_home = "login.html"
+
+# Path to access the magpie api (magpie MUST be run on the same host as this application)
+#magpie_path = "/magpie"
+
+# Path to the page used to log in to this node.
+#login_home = "login.html"
+
+# URL where users can request an account on the node
+#registration_url = ""
+
+[login_providers]
+
+# Display provider login options
+#enable = true
+
+# Choose which providers to display as an option
+#providers = ["CEDA", "DKRZ", "SMHI", "Github", "OpenID", "WSO2", "IPSL", "LLNL"]
+
+[terms_and_conditions]
+
+# URL to a terms and conditions page that users must agree to before logging in
+#url = ""
+
+# Terms and conditions text that users must agree to before logging in.
+# This will replace the terms_and_conditions.url if both are defined
+#text = ""

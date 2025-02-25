@@ -11,7 +11,7 @@ function displaySettingsPageUserDetails(){
 function updateUserDetails(){
     resetSaveButton();
     let bodyParams = {};
-    const updateURLFragment = "/magpie/users/current";
+    const updateURLFragment = "{{ configs['magpie_path'] }}/users/current";
 
     var password = document.getElementById("userPassword").value;
     var email = document.getElementById("settingsEditEmail").value;

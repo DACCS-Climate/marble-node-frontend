@@ -1,0 +1,10 @@
+node_name = "__required"
+node_admin_email = "__required"
+magpie_path = "/magpie"
+login_home = "login.html"
+
+[terms_and_conditions]
+
+[login_providers]
+enable = true
+providers = ["CEDA", "DKRZ", "SMHI", "Github", "OpenID", "WSO2", "IPSL", "LLNL"]

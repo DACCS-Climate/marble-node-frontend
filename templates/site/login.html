@@ -4,8 +4,7 @@
     <div class="container">
         <div class="login-container">
             <div class="header-login">
-                <h3>Welcome User</h3>
-                <h5>Please enter your login details!</h5>
+                <h3>{{ configs["node_name"] }}</h3>
             </div>
             <div class="login-content">
                 <div class="login-content-left">
@@ -26,7 +25,7 @@
                         {% with %}
                             {% set textbox_type = "reg_input_text" %}
                             {% set textbox_label = "Email or Username" %}
-                            {% set tooltip_text = "Enter Username or Email registered with the node you wish to access." %}
+                            {% set tooltip_text = "Enter your Username or Email." %}
                             {% include "partials/textbox.html" %}
                         {% endwith %}
                     </div>
@@ -45,16 +44,25 @@
                     <div>
                         <span id="loginErrorMessage" class="login-error overline"></span>
                     </div>
-                    <div id="divForgotPassword" class="login-email-only">
-                        <a id="openPasswordResetModalLink" class="link-forgot-password margin-forgot-password subtitle-1">Forgot password?</a>
+                    <div id="divForgotPassword" class="login-email-only login-link-container">
+                        <a id="openPasswordResetModalLink" class="login-link subtitle-1">Forgot password?</a>
+                        {% if configs["registration_url"] %}
+                            <a href="{{ configs['registration_url'] }}" class="login-link  subtitle-1">Register for an account</a>
+                        {% endif %}
                     </div>
-                    <div>
-                        {% with %}
-                            {% set checkbox_label = "I have read all terms and conditions." %}
-                            {% include "partials/checkbox.html" %}
-                        {% endwith %}
-                    </div>
-
+                    {% if configs["terms_and_conditions"]["url"] or configs["terms_and_conditions"]["text"] %}
+                        <div>
+                            {% with %}
+                                {% if configs["terms_and_conditions"]["url"] %}
+                                    {% set checkbox_label = 'By logging in to ' ~ configs["node_name"] ~ ' you accept the <a href="' ~ configs['terms_and_conditions']['url'] ~ '">terms and conditions</a>.' %}
+                                {% else %}
+                                    {% set checkbox_label = 'By logging in to ' ~ configs["node_name"] ~ ' you accept the <a href="#" id="termsAndConditionsModalLink">terms and conditions</a>.' %}
+                                {% endif %}
+                                {% set checkbox_id = "termsAndConditionsCheckbox" %}
+                                {% include "partials/checkbox.html" %}
+                            {% endwith %}
+                        </div>
+                    {% endif %}
                     <div class="margin-signin-button">
                         {% with button_type = "med_action_button"%}
                             {% set button_id = "buttonSignIn" %}
@@ -64,30 +72,32 @@
                     </div>
                 </div>
                 <div id="loginContentRight" class="login-content-right login-provider-background">
-                    <div class="div-login-type-position">
-                        <div class="div-login-type-content">
-                            <p id="loginTypeTitle">
-                                <span class="login-email-only">Already have an account with a provider?</span>
-                                <span class="login-provider-only">Already have an account?</span>
-                            </p>
+                    {% if configs["login_providers"]["enable"] %}
+                        <div class="div-login-type-position">
+                            <div class="div-login-type-content">
+                                <p id="loginTypeTitle">
+                                    <span class="login-email-only">Already have an account with a provider?</span>
+                                    <span class="login-provider-only">Already have an account?</span>
+                                </p>
 
-                            <div id="divProviderButton" class="login-email-only div-provider-button">
-                                {% with button_type = "lg_action_button"%}
-                                    {% set button_id = "openProviderModal" %}
-                                    {% set button_label = "Select Provider" %}
-                                    {% include "partials/button.html" %}
-                                {% endwith %}
-                            </div>
+                                <div id="divProviderButton" class="login-email-only div-provider-button">
+                                    {% with button_type = "lg_action_button"%}
+                                        {% set button_id = "openProviderModal" %}
+                                        {% set button_label = "Select Provider" %}
+                                        {% include "partials/button.html" %}
+                                    {% endwith %}
+                                </div>
 
-                            <div id="divEmailButton" class="login-provider-only div-email-button">
-                                {% with button_type = "lg_action_button"%}
-                                    {% set button_id = "buttonSelectEmail" %}
-                                    {% set button_label = "Sign In With Email" %}
-                                    {% include "partials/button.html" %}
-                                {% endwith %}
+                                <div id="divEmailButton" class="login-provider-only div-email-button">
+                                    {% with button_type = "lg_action_button"%}
+                                        {% set button_id = "buttonSelectEmail" %}
+                                        {% set button_label = "Sign In With Email" %}
+                                        {% include "partials/button.html" %}
+                                    {% endwith %}
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -95,6 +105,9 @@
 
     {% include "partials/popup-provider.html" %}
     {% include "partials/popup-password-reset.html" %}
+    {% if not configs["terms_and_conditions"]["url"] and configs["terms_and_conditions"]["text"] %}
+        {% include "partials/popup-terms-and-conditions.html" %}
+    {% endif %}
     <script src="js/login.js"></script>
     <script src="js/ui-styles-scripts.js"></script>
 {% endblock %}

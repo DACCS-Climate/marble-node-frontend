@@ -28,7 +28,7 @@
                         {% set input_textbox_id = "settingsEditEmail" %}
                         {% set textbox_label = "Email" %}
                         {% set tooltip_text = "" %}
-                        {% set caption = "Edit email registered with <span id='emailCaptionNodeName' >%s</span>" % current_node_name %}
+                        {% set caption = "Edit email registered with <span id='emailCaptionNodeName' >%s</span>" % configs["node_name"] %}
                         {% include "partials/textbox.html" %}
                     {% endwith %}
                     <p id="editEmailMessage" class="overline"></p>

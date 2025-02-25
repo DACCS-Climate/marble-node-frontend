@@ -1,0 +1,17 @@
+<dialog id="termsAndConditionsModal" >
+    <div class="popup-terms-and-conditions-container">
+        <div>
+            <div class="popup-button-close">
+                {% with button_type = "close_button_x_dark"%}
+                    {% set button_id = "termsAndConditionsModalClose" %}
+                    {% include "partials/button.html" %}
+                {% endwith %}
+            </div>
+        </div>
+        <h4>Terms and Conditions</h4>
+        <div>
+            <pre>{{ configs["terms_and_conditions"]["text"] }}</pre>
+        </div>
+    </div>
+    <script src="js/modal-terms-and-conditions.js"></script>
+</dialog>

@@ -1,17 +1,21 @@
 {% extends "layouts/account-main.html" %}
 
 {% set help_title = "Help & Support" %}
-{% set help_text = "For any help and support related to your account please email us on the following link:" %}
+{% set help_text = "For any help and support related to your account please email your node administrator at:" %}
 
 {% set documentation_title = "Documentation" %}
 {% set documentation = [
         {
-            "text": "To view latest documentation and FAQ, please visit this page:",
+            "text": "Documentation and Tutorials:",
+            "link": "<a class='help-link' href='https://marbleclimate.com/tutorials'>Documentation</a>"
+        },
+        {
+            "text": "Frequently asked questions:",
             "link": "<a class='help-link' href='https://discourse.marbleclimate.com/faq'>FAQ</a>"
         },
         {
-            "text": "Questions, suggestions, or problems? Please visit our GitHub page to open an issue",
-            "link": "<i class='fa-brands fa-github help-link'></i><a class='help-link margin-github-link' href='https://github.com/DACCS-Climate/Marble-node-Magpie-ui/issues'>GitHub Issues</a>"
+            "text": "Report an issue with this website:",
+            "link": "<i class='fa-brands fa-github help-link'></i><a class='help-link margin-github-link' href='https://github.com/DACCS-Climate/marble-node-frontend/issues/new'>GitHub Issues</a>"
 
         }
     ]
@@ -23,7 +27,7 @@
             <h4>{{ help_title }}</h4>
             <div class="help-entry margin-help-entry">
                 <p>{{ help_text|safe }}</p>
-                <p><a id="helpContact" class="help-link" href="mailto:{{ current_node_admin_email }}">{{ current_node_admin_email }}</a></p>
+                <p><a id="helpContact" class="help-link" href="mailto:{{ configs['node_admin_email'] }}">{{ configs['node_admin_email'] }}</a></p>
             </div>
         </div>
 

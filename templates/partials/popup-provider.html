@@ -72,17 +72,19 @@
 
         <div class="provider-button-container">
             <div class="provider-button-row">
-            {% for provider in providers.values() %}
-                <div class="provider-button">
-                    {% with button_type = "med_action_alt_button"%}
-                        {% set extra_button_class = provider["extra_button_class"] %}
-                        {% set button_id = provider["button_id"] %}
-                        {% set button_value = provider["provider_signin_name"] %}
-                        {% set button_image = provider["icon"] %}
-                        {% set button_label = provider["label"] %}
-                        {% include "partials/button.html" %}
-                    {% endwith %}
-                </div>
+            {% for provider, data in providers.items() %}
+                {% if provider in configs["login_providers"]["providers"] %}
+                    <div class="provider-button">
+                        {% with button_type = "med_action_alt_button"%}
+                            {% set extra_button_class = data["extra_button_class"] %}
+                            {% set button_id = data["button_id"] %}
+                            {% set button_value = data["provider_signin_name"] %}
+                            {% set button_image = data["icon"] %}
+                            {% set button_label = data["label"] %}
+                            {% include "partials/button.html" %}
+                        {% endwith %}
+                    </div>
+                {% endif %}
             {% endfor %}
             </div>
         </div>

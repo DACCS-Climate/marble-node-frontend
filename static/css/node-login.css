@@ -513,17 +513,12 @@ h6{
 
 /*Checkbox*/
 
-.checkbox-buffer{
-    width: 25px;
-    height: 25px;
-}
-
 /* The container */
 .checkbox-container {
     display: block;
     position: relative;
-    width: 25px;
-    height: 25px;
+    /* height: 25px; */
+    width: 100%;
     padding-left: 35px;
     margin-bottom: 12px;
     cursor: pointer;
@@ -532,6 +527,7 @@ h6{
     -ms-user-select: none;
     user-select: none;
     white-space: nowrap;
+    text-wrap: wrap;
 }
 
 /* Hide the browser's default checkbox */
@@ -582,7 +578,7 @@ h6{
 
 /* Style the checkmark/indicator */
 .checkbox-container .checkmark:after {
-    left: 3px;
+    left: 5px;
     bottom: 3px;
     width: 8px;
     height: 13px;
@@ -596,8 +592,8 @@ h6{
 /*Buttons*/
 /*Used in button template partial*/
 .button-close-x{
-    width: 15px;
-    height: 15px;
+    width: 23px;
+    height: 23px;
     background-color: var(--background-transparent);
     border: none;
     outline: none;
@@ -624,6 +620,14 @@ h6{
     mask-repeat: no-repeat;
     mask-position: center;
     background-color: var(--black);
+}
+
+.button-close-x:hover {
+    background-color: var(--primary);
+}
+
+.button-close-x:hover .image-close-icon-dark {
+    background-color: var(--white);
 }
 
 .popup-button-close{
@@ -1052,13 +1056,13 @@ h6{
 }
 
 .feedback-entry-container{
-    width: 654px;
+    width: 676px;
     display: flex;
     flex-direction: row;
-    margin-left: 11px;
-    margin-top: 38px;
-    padding-top: 3px;
-    padding-bottom: 3px;
+    padding-left: 33px;
+    margin-top: 34px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .feedback-entry-container:hover{
@@ -1308,6 +1312,14 @@ h6{
     align-items: center;
 }
 
+.popup-terms-and-conditions-container {
+    width: 790px;
+    padding: 33px;
+    background-color: var(--white-opacity-light);
+    box-shadow: var(--password-elevation);
+    border-radius: 5px;
+}
+
 /*Login page*/
 .login-container{
     display: flex;
@@ -1449,21 +1461,13 @@ h6{
 .node-card-link-button{
     width: 93px;
     height: 30px;
-    padding-left: 35px;
-    padding-right: 35px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    text-decoration: none;
+    background-color: var(--background-transparent);
 }
 
 .node-card-doc-button{
     width: 153px;
     height: 30px;
-    padding-left: 35px;
-    padding-right: 35px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    text-decoration: none;
+    background-color: var(--background-transparent);
 }
 
 
@@ -1527,6 +1531,10 @@ h6{
     box-shadow: var(--login-elevation-1);
 }
 
+.login-content-left > * {
+    width: 300px;
+}
+
 .label-container{
     display: flex;
     flex-direction: row;
@@ -1538,20 +1546,22 @@ h6{
     margin-top:10px;
 }
 
-.link-forgot-password{
+.login-link-container {
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.login-link {
     color: var(--primary);
     text-decoration: none;
     cursor: pointer;
 }
 
-.link-forgot-password:hover{
+.login-link:hover{
     color: var(--primary);
     text-decoration: underline;
-}
-
-.margin-forgot-password{
-    margin-bottom: 30px;
 }
 
 .choose-different-provider{
@@ -1730,7 +1740,7 @@ h6{
     overflow: hidden;
 }
 
-dialog{
+dialog {
     border: none;
     padding: unset;
 }

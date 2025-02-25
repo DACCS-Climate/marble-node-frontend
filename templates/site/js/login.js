@@ -14,8 +14,14 @@ function set_login_mode(mode) {
 
 function login(){
     const loginErrorMessage = document.getElementById("loginErrorMessage");
+    const termsAndConditionsCheckbox = document.getElementById("termsAndConditionsCheckbox");
 
-    fetch("/magpie/signin", {
+    if (termsAndConditionsCheckbox && !termsAndConditionsCheckbox.checked) {
+        loginErrorMessage.innerText = "Please accept the terms and conditions before logging in.";
+        return
+    }
+
+    fetch("{{ configs['magpie_path'] }}/signin", {
         method: "POST",
         headers: {
             Accept: "application/json, text/plain",
