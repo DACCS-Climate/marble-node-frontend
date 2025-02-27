@@ -103,7 +103,9 @@
         </div>
     </div>
 
-    {% include "partials/popup-provider.html" %}
+    {% if configs["login_providers"]["enable"] %}
+        {% include "partials/popup-provider.html" %}
+    {% endif %}
     {% include "partials/popup-password-reset.html" %}
     {% if not configs["terms_and_conditions"]["url"] and configs["terms_and_conditions"]["text"] %}
         {% include "partials/popup-terms-and-conditions.html" %}
