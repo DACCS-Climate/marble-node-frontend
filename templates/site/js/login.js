@@ -60,9 +60,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     })
 
-    emailButton.addEventListener('click', (event) => {
-        set_login_mode("email");
-    })
+    if (emailButton) {
+        emailButton.addEventListener('click', (event) => {
+            set_login_mode("email");
+        })
+    }
 
     set_login_mode("email");
 })
