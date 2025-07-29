@@ -1,0 +1,48 @@
+input{
+    width:200px;
+}
+label{
+    width:200px;
+}
+
+
+.addInputButton{
+    width:200px;
+    height: 20px;
+}
+
+div {
+    margin: 20px;
+  }
+
+  *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.parent {
+    width: 100vw;
+    height: 20vh;
+    /* Aligns the children items in a row direction */
+    display: flex;
+}
+
+.child{
+    width: 200px;
+    height: 50px;
+}
+
+#desc{
+    width:400px;
+    height: 100px;
+}
+#myFile{
+    width:400px;
+    height: 100px;
+}
+
+#title{
+    width:400px;
+    height: 20px;
+}
