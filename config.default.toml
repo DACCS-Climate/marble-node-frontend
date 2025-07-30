@@ -1,3 +1,4 @@
+[node_details]
 node_name = "__required"
 node_admin_email = "__required"
 magpie_path = "/magpie"
