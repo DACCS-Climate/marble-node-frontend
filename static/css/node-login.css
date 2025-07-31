@@ -1998,34 +1998,35 @@ dialog {
     flex-direction: column;
 }
 
-.author-child{
+.author-child, .multipoint-child{
     display: flex;
     flex-direction: row;
 }
 
-.author-child div:not(:last-child){
+.author-child div:not(:last-child), .multipoint-child div:not(:last-child){
     margin-right: 70px;
 }
 
-.author-details{
+.author-details, .latitude-child, .longitude-child{
     display: flex;
     flex-direction: column;
 }
 
-.author-buttons{
+.author-buttons, .multipoint-buttons{
     display: flex;
     flex-direction: row;
     margin-top: 30px;
 }
 
-.author-buttons input:not(:last-child){
+.author-buttons input:not(:last-child), .multipoint-buttons input:not(:last-child){
     margin-right: 30px;
 }
 
-.div-error-author{
+.div-error-author, .div-error-multipoint{
     margin-top: 10px;
 }
 
-.text-error-author{
+.text-error-author, .text-error-multipoint{
     color: var(--error);
 }
+
