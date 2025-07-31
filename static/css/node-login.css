@@ -1992,3 +1992,40 @@ dialog {
     font-size: 20px;
     letter-spacing: 0.03px;
 }
+
+.author-parent{
+    display: flex;
+    flex-direction: column;
+}
+
+.author-child{
+    display: flex;
+    flex-direction: row;
+}
+
+.author-child div:not(:last-child){
+    margin-right: 70px;
+}
+
+.author-details{
+    display: flex;
+    flex-direction: column;
+}
+
+.author-buttons{
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+}
+
+.author-buttons input:not(:last-child){
+    margin-right: 30px;
+}
+
+.div-error-author{
+    margin-top: 10px;
+}
+
+.text-error-author{
+    color: var(--error);
+}
