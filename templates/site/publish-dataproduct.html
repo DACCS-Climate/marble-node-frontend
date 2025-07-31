@@ -42,8 +42,10 @@
         </div>
         `;
         document.getElementById('add_button').innerHTML = `
-        <input type="button" class="button-med d-button-text" value="Add Point" onclick="addPoint('geo_bbox');"/>
-        <input type="button" class="button-med d-button-text" value="Remove Point" onclick="removeEntry('multipoint', 'geo_bbox');"/>
+        <div id="addMultiPointButtons" class="multipoint-buttons">
+            <input type="button" class="button-med d-button-text" value="Add Point" onclick="addPoint('geo_bbox');"/>
+            <input type="button" class="button-med d-button-text" value="Remove Point" onclick="removeEntry('multipoint', 'geo_bbox');"/>
+        </div>
         <div id="removeMultiPointError" class="div-error-multipoint">
             <p id="multipointErrorMessage" class="subtitle-1 text-error-multipoint"></p>
         </div>
@@ -185,7 +187,7 @@
                 </div>
             </div>
         </div>
-        <div id="addAuthor" class="author-buttons">
+        <div id="addAuthorButtons" class="author-buttons">
             <input type="button" value="Add Author" class="button-med d-button-text" onclick="addAuthor('author_box');"/>
             <input type="button" value="Remove Author" class="button-med d-button-text" onclick="removeEntry('author', 'author_box');"/>
         </div>
