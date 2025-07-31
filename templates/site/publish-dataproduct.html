@@ -17,9 +17,9 @@
         document.getElementById('geo_bbox').innerHTML = `
         <div id="point1" class="child">
           <h5> Input point: </h5><br>
-          <label for="bbox1">Latitude (Required):</label><br>
+          <label for="bbox1" class="subtitle-1">Latitude (Required):</label><br>
           <input type="text" id="lat1" name="lat1" class="input-textbox margin-input-field" value=""><br>
-          <label for="bbox2">Longitude (Required):</label><br>
+          <label for="bbox2" class="subtitle-1">Longitude (Required):</label><br>
           <input type="text" id="lon1" name="lon1" class="input-textbox margin-input-field" value=""><br>
         </div>
         `;
@@ -31,9 +31,9 @@
         document.getElementById('geo_bbox').innerHTML = `
         <h5> Input points: </h5><br>
         <div id="point1" class="child">
-          <label for="bbox1">Latitude (Required):</label><br>
+          <label for="bbox1" class="subtitle-1">Latitude (Required):</label><br>
           <input type="text" id="lat1" name="lat1" class="input-textbox margin-input-field" value=""><br>
-          <label for="bbox2">Longitude (Required):</label><br>
+          <label for="bbox2" class="subtitle-1">Longitude (Required):</label><br>
           <input type="text" id="lon1" name="lon1" class="input-textbox margin-input-field" value=""><br>
         </div>
         `;
@@ -146,19 +146,29 @@
     <div class="author-group border-content-section margin-content-section padding-content-section">
         <h4>Authors</h4><br>
         <p>Citation will list authors in order placed here. First author will be contacted by email regarding any issues in the submission.</p>
-        <div id="author_box" class="parent">
+        <div id="author_box" class="parent author-parent">
         <!-- Initial author fields -->
-            <div id="author1" class="child">
-                <label for="fname1" class="subtitle-1 margin-input-label">First Name:</label><br>
-                <input type="text" id="fname1" name="fname1" class="input-textbox margin-input-field" value="" required><br>
-                <label for="lname1" class="subtitle-1 margin-input-label">Last Name:</label><br>
-                <input type="text" id="lname1" name="lname1" class="input-textbox margin-input-field" value="" required><br>
-                <label for="email1" class="subtitle-1 margin-input-label">Email:</label><br>
-                <input type="text" id="email1" name="email1" class="input-textbox margin-input-field" value="" required><br>
+            <div id="author1" class="child author-child">
+                <div class="author-details">
+                    <label for="fname1" class="subtitle-1 margin-input-label">First Name:</label><br>
+                    <input type="text" id="fname1" name="fname1" class="input-textbox margin-input-field" value="" required><br>
+                </div>
+                <div class="author-details">
+                    <label for="lname1" class="subtitle-1 margin-input-label">Last Name:</label><br>
+                    <input type="text" id="lname1" name="lname1" class="input-textbox margin-input-field" value="" required><br>
+                </div>
+                <div class="author-details">
+                    <label for="email1" class="subtitle-1 margin-input-label">Email:</label><br>
+                    <input type="text" id="email1" name="email1" class="input-textbox margin-input-field" value="" required><br>
+                </div>
             </div>
         </div>
-        <div id="addAuthor">
+        <div id="addAuthor" class="author-buttons">
             <input type="button" value="Add Author" class="button-med d-button-text" onclick="addAuthor('author_box');"/>
+            <input type="button" value="Remove Author" class="button-med d-button-text" onclick="removeAuthor();"/>
+        </div>
+        <div id="removeAuthorError" class="div-error-author">
+            <p id="authorErrorMessage"></p>
         </div>
         <input type="hidden" id="authorFNames" name="authorFNames" class="input-textbox margin-input-field">
         <input type="hidden" id="authorLNames" name="authorLNames" class="input-textbox margin-input-field">
