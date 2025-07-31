@@ -1,15 +1,29 @@
 function addAuthor(divElementID) {
+    clearAuthorError();
+
     var authorDiv = document.getElementById(divElementID);
     var autindex = document.querySelectorAll("[id^=fname]").length + 1; // Count existing authors
 
     var div_box = document.createElement("div");
-    div_box.classList.add("child");
+    div_box.id = "author" + autindex;
+    div_box.classList.add("child", "author-child");
+
+    var divFirstName = document.createElement("div");
+    divFirstName.classList.add("author-details");
+
+    var divLastName = document.createElement("div");
+    divLastName.classList.add("author-details");
+
+    var divEmail = document.createElement("div");
+    divEmail.classList.add("author-details");
 
     var label1 = document.createElement("label");
     label1.innerText = "First Name:";
+    label1.classList.add("subtitle-1");
     label1.setAttribute("for", "fname" + autindex);
 
     var input1 = document.createElement("input");
+    input1.classList.add("input-textbox", "margin-input-field");
     input1.setAttribute("type", "text");
     input1.setAttribute("id", "fname" + autindex);
     input1.setAttribute("name", "fname[]"); // Make it an array input
@@ -17,30 +31,64 @@ function addAuthor(divElementID) {
 
     var label2 = document.createElement("label");
     label2.innerText = "Last Name:";
+    label2.classList.add("subtitle-1");
     label2.setAttribute("for", "lname" + autindex);
 
     var input2 = document.createElement("input");
+    input2.classList.add("input-textbox", "margin-input-field");
     input2.setAttribute("type", "text");
     input2.setAttribute("id", "lname" + autindex);
     input2.setAttribute("name", "lname[]"); // Changed name to array input for last name
 
     var label3 = document.createElement("label");
     label3.innerText = "Email:";
+    label3.classList.add("subtitle-1");
     label3.setAttribute("for", "email" + autindex);
 
     var input3 = document.createElement("input");
+    input3.classList.add("input-textbox", "margin-input-field");
     input3.setAttribute("type", "text");
     input3.setAttribute("id", "email" + autindex);
     input3.setAttribute("name", "email[]"); // Make it an array input
 
-    div_box.appendChild(label1);
-    div_box.appendChild(input1);
-    div_box.appendChild(label2);
-    div_box.appendChild(input2);
-    div_box.appendChild(label3);
-    div_box.appendChild(input3);
+    divFirstName.appendChild(label1);
+    divFirstName.appendChild(input1);
+    divLastName.appendChild(label2);
+    divLastName.appendChild(input2);
+    divEmail.appendChild(label3);
+    divEmail.appendChild(input3);
+
+    div_box.appendChild(divFirstName);
+    div_box.appendChild(divLastName);
+    div_box.appendChild(divEmail);
 
     authorDiv.appendChild(div_box);
+}
+
+function removeAuthor(){
+    clearAuthorError();
+
+    var authorBox = document.getElementById("author_box");
+    var authorErrorP = document.getElementById("authorErrorMessage");
+    var authorList = authorBox.querySelectorAll("div.author-child");
+
+    var lastAuthorID = "author" + authorList.length
+    var lastAuthor = document.getElementById(lastAuthorID)
+
+    authorErrorP.classList.add("subtitle-1", "text-error-author");
+
+    if(authorList.length != 1){
+        authorBox.removeChild(lastAuthor);
+    }
+    else{
+        authorErrorP.innerText = "At least one author required.";
+    }
+}
+
+
+function clearAuthorError(){
+    var authorErrorP = document.getElementById("authorErrorMessage");
+    authorErrorP.innerText = "";
 }
 
 // Function to update the hidden input field before form submission
