@@ -6,8 +6,15 @@ document.addEventListener("DOMContentLoaded", function () {
     var lname1 = document.getElementById("lname1");
     var email1 = document.getElementById("email1");
 
-    fname1.addEventListener("focus", clearAuthorError);
-    lname1.addEventListener("focus", clearAuthorError);
-    email1.addEventListener("focus", clearAuthorError);
+    fname1.addEventListener("focus", function(){
+        clearEntryError("author");
+    });
 
+    lname1.addEventListener("focus", function(){
+        clearEntryError("author");
+    });
+
+    email1.addEventListener("focus", function(){
+        clearEntryError("author");
+    });
 })
