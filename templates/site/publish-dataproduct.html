@@ -8,8 +8,8 @@
 
     <script>
 
-    function geoPolygon2() {
-      var selected_geometry = document.getElementById("geometry").selectedIndex;
+    function geoPolygon2(selected_geometry) {
+      //var selected_geometry = document.getElementById("geometry").selectedIndex;
       console.log(selected_geometry);
 
       if (selected_geometry == 1) {
@@ -30,20 +30,29 @@
         initializeDiv('geo_bbox');
         document.getElementById('geo_bbox').innerHTML = `
         <h5> Input points: </h5><br>
-        <div id="point1" class="child">
-          <label for="bbox1" class="subtitle-1">Latitude (Required):</label><br>
-          <input type="text" id="lat1" name="lat1" class="input-textbox margin-input-field" value=""><br>
-          <label for="bbox2" class="subtitle-1">Longitude (Required):</label><br>
-          <input type="text" id="lon1" name="lon1" class="input-textbox margin-input-field" value=""><br>
+        <div id="point1" class="child multipoint-child">
+            <div class="latitude-child">
+                <label for="bbox1" class="subtitle-1">Latitude (Required):</label><br>
+                <input type="text" id="lat1" name="lat1" class="input-textbox margin-input-field" value=""><br>
+            </div>
+            <div class="longitude-child">
+                <label for="bbox2" class="subtitle-1">Longitude (Required):</label><br>
+                <input type="text" id="lon1" name="lon1" class="input-textbox margin-input-field" value=""><br>
+            </div>
         </div>
         `;
         document.getElementById('add_button').innerHTML = `
-        <input type="button" class="input-textbox margin-input-field" value="Add Point" onclick="addPoint('geo_bbox');"/>
+        <input type="button" class="button-med d-button-text" value="Add Point" onclick="addPoint('geo_bbox');"/>
+        <input type="button" class="button-med d-button-text" value="Remove Point" onclick="removeEntry('multipoint', 'geo_bbox');"/>
+        <div id="removeMultiPointError" class="div-error-multipoint">
+            <p id="multipointErrorMessage" class="subtitle-1 text-error-multipoint"></p>
+        </div>
         `;
         document.getElementById('upload').innerHTML = `
           <h5> OR: GeoJSON bounding box </h5><br>
           <input type="text" id="myFile" name="myFile" class="input-textbox margin-input-field" value="">
         `;
+        initializeMultiPointLatLonClear();
       } else if ([4, 6, 7].includes(selected_geometry)) {
         // For MultiLineString, MultiPolygon, GeometryCollection
         document.getElementById('geo_bbox').innerHTML = ``;
@@ -63,31 +72,44 @@
         var autindex = document.querySelectorAll("[id^=lat]").length + 1; // Count existing authors
 
         var div_box = document.createElement("div");
-        div_box.classList.add("child");
+        div_box.classList.add("child", "multipoint-child");
+        div_box.id = "multipoint" + autindex;
+
+        var latitudeDiv = document.createElement("div");
+        latitudeDiv.classList.add("latitude-child");
+        var longitudeDiv = document.createElement("div");
+        longitudeDiv.classList.add("longitude-child");
 
         var label1 = document.createElement("label");
+        label1.classList.add("subtitle-1");
         label1.innerText = "Latitude:";
         label1.setAttribute("for", "lat" + autindex);
 
         var input1 = document.createElement("input");
+        input1.classList.add("input-textbox", "margin-input-field");
         input1.setAttribute("type", "text");
         input1.setAttribute("id", "lat" + autindex);
         input1.setAttribute("name", "lat[]"); // Make it an array input
         input1.addEventListener("input", updateAuthorList); // Update list on input
 
         var label2 = document.createElement("label");
+        label2.classList.add("subtitle-1");
         label2.innerText = "Longitude:";
         label2.setAttribute("for", "lon" + autindex);
 
         var input2 = document.createElement("input");
+        input2.classList.add("input-textbox", "margin-input-field");
         input2.setAttribute("type", "text");
         input2.setAttribute("id", "lon" + autindex);
         input2.setAttribute("name", "lon[]"); // Changed name to array input for last name
 
-        div_box.appendChild(label1);
-        div_box.appendChild(input1);
-        div_box.appendChild(label2);
-        div_box.appendChild(input2);
+        latitudeDiv.appendChild(label1);
+        latitudeDiv.appendChild(input1);
+        longitudeDiv.appendChild(label2);
+        longitudeDiv.appendChild(input2);
+
+        div_box.appendChild(latitudeDiv);
+        div_box.appendChild(longitudeDiv);
 
         pointDiv.appendChild(div_box);
     }
@@ -165,10 +187,10 @@
         </div>
         <div id="addAuthor" class="author-buttons">
             <input type="button" value="Add Author" class="button-med d-button-text" onclick="addAuthor('author_box');"/>
-            <input type="button" value="Remove Author" class="button-med d-button-text" onclick="removeAuthor();"/>
+            <input type="button" value="Remove Author" class="button-med d-button-text" onclick="removeEntry('author', 'author_box');"/>
         </div>
         <div id="removeAuthorError" class="div-error-author">
-            <p id="authorErrorMessage"></p>
+            <p id="authorErrorMessage" class="subtitle-1 text-error-author"></p>
         </div>
         <input type="hidden" id="authorFNames" name="authorFNames" class="input-textbox margin-input-field">
         <input type="hidden" id="authorLNames" name="authorLNames" class="input-textbox margin-input-field">
