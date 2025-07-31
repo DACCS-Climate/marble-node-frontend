@@ -1,5 +1,5 @@
 function addAuthor(divElementID) {
-    clearAuthorError();
+    clearEntryError("author");
 
     var authorDiv = document.getElementById(divElementID);
     var autindex = document.querySelectorAll("[id^=fname]").length + 1; // Count existing authors
@@ -65,30 +65,48 @@ function addAuthor(divElementID) {
     authorDiv.appendChild(div_box);
 }
 
-function removeAuthor(){
-    clearAuthorError();
+function removeEntry(entryType, elementID){
 
-    var authorBox = document.getElementById("author_box");
-    var authorErrorP = document.getElementById("authorErrorMessage");
-    var authorList = authorBox.querySelectorAll("div.author-child");
+    clearEntryError(entryType);
 
-    var lastAuthorID = "author" + authorList.length
-    var lastAuthor = document.getElementById(lastAuthorID)
+    var selector = "div." + entryType + "-child";
+    var entryBox = document.getElementById(elementID);
+    var nodeList = entryBox.querySelectorAll(selector);
+    var lastEntryID = entryType + nodeList.length
+    var lastEntry = document.getElementById(lastEntryID)
 
-    authorErrorP.classList.add("subtitle-1", "text-error-author");
-
-    if(authorList.length != 1){
-        authorBox.removeChild(lastAuthor);
+    if(nodeList.length != 1){
+        entryBox.removeChild(lastEntry);
     }
     else{
-        authorErrorP.innerText = "At least one author required.";
+        showEntryError(entryType);
     }
 }
 
+function showEntryError(entryType){
+    switch(entryType){
+        case "author":
+            var authorErrorP = document.getElementById("authorErrorMessage");
+            authorErrorP.innerText = "At least one author required.";
+        case "multipoint":
+            var multipointErrorP = document.getElementById("multipointErrorMessage");
+            multipointErrorP.innerText = "At least one point required.";
 
-function clearAuthorError(){
-    var authorErrorP = document.getElementById("authorErrorMessage");
-    authorErrorP.innerText = "";
+    }
+}
+
+function clearEntryError(entryType){
+
+    switch(entryType){
+        case "author":
+            var authorErrorP = document.getElementById("authorErrorMessage");
+            authorErrorP.innerText = "";
+        case "multipoint":
+            var multipointErrorP = document.getElementById("multipointErrorMessage");
+            multipointErrorP.innerText = "";
+
+    }
+
 }
 
 // Function to update the hidden input field before form submission
