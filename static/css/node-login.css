@@ -1998,12 +1998,12 @@ dialog {
     flex-direction: column;
 }
 
-.author-child, .multipoint-child{
+.author-child, .point-child, .multipoint-child{
     display: flex;
     flex-direction: row;
 }
 
-.author-child div:not(:last-child), .multipoint-child div:not(:last-child){
+.author-child div:not(:last-child), .point-child div:not(:last-child), .multipoint-child div:not(:last-child){
     margin-right: 70px;
 }
 
