@@ -1930,8 +1930,6 @@ dialog {
     align-items: center;
 }
 
-
-
 .dropdown-list-container:has(.dropdown):has(.dropdown-default-list-button[aria-expanded="true"]){
     background-color: var(--white);
 }
@@ -2017,6 +2015,13 @@ dialog {
     margin-top: 30px;
 }
 
+.remove-button{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    margin-bottom: 10px;
+}
+
 .author-buttons input:not(:last-child), .multipoint-buttons input:not(:last-child){
     margin-right: 30px;
 }
@@ -2028,4 +2033,3 @@ dialog {
 .text-error-author, .text-error-multipoint{
     color: var(--error);
 }
-
