@@ -65,22 +65,14 @@ function addAuthor(divElementID) {
     authorDiv.appendChild(div_box);
 }
 
-function removeEntry(entryType, elementID){
+function removeEntry(parentElementID, elementID){
 
-    clearEntryError(entryType);
+    clearEntryError(parentElementID);
 
-    var selector = "div." + entryType + "-child";
-    var entryBox = document.getElementById(elementID);
-    var nodeList = entryBox.querySelectorAll(selector);
-    var lastEntryID = entryType + nodeList.length
-    var lastEntry = document.getElementById(lastEntryID)
+    var parentDiv = document.getElementById(parentElementID);
+    var coordinateEntry = document.getElementById(elementID);
 
-    if(nodeList.length != 1){
-        entryBox.removeChild(lastEntry);
-    }
-    else{
-        showEntryError(entryType);
-    }
+    parentDiv.removeChild(coordinateEntry);
 }
 
 function showEntryError(entryType){
