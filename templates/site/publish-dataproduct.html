@@ -15,20 +15,25 @@
       if (selected_geometry == 1) {
         // For Point
         document.getElementById('geo_bbox').innerHTML = `
-        <div id="point1" class="child">
-          <h5> Input point: </h5><br>
-          <label for="bbox1" class="subtitle-1">Latitude (Required):</label><br>
-          <input type="text" id="lat1" name="lat1" class="input-textbox margin-input-field" value=""><br>
-          <label for="bbox2" class="subtitle-1">Longitude (Required):</label><br>
-          <input type="text" id="lon1" name="lon1" class="input-textbox margin-input-field" value=""><br>
+        <h5> Input point: </h5><br>
+        <div id="point1" class="child point-child">
+            <div class="latitude-child">
+                <label for="bbox1" class="subtitle-1">Latitude (Required):</label>
+                <input type="text" id="lat1" name="lat1" class="input-textbox margin-input-field" value="">
+            </div>
+            <div class="longitude-child">
+                <label for="bbox2" class="subtitle-1">Longitude (Required):</label>
+                <input type="text" id="lon1" name="lon1" class="input-textbox margin-input-field" value="">
+            </div>
         </div>
         `;
         document.getElementById('add_button').innerHTML = `
         `;
       } else if ([2, 3, 5].includes(selected_geometry)) {
+
         // For MultiPoint, Polygon, LineString
         initializeDiv('geo_bbox');
-        document.getElementById('geo_bbox').innerHTML = `
+       document.getElementById('geo_bbox').innerHTML = `
         <h5> Input points: </h5><br>
         <div id="point1" class="child multipoint-child">
             <div class="latitude-child">
@@ -206,7 +211,7 @@
         <p> For complex geometries or sets of points longer than 4, we strongly recommend <a href="https://geojson.io/">generating a geoJSON bounding box using this tool</a> and pasting it into the box</p>
         <label for="geometry" class="subtitle-1 margin-input-label">Choose the geometry type:</label>
         <div id="select" class="child">
-
+        <!--
         <select name="geometry" id="geometry" onchange="geoPolygon2();" onfocus="this.selectedIndex = -1;" required>
           <option value="blank">Select one</option>
           <option value="Point">Point</option>
@@ -218,11 +223,13 @@
             <option value="GeometryCollection">Geometry Collection</option>
           <option value="null">Null: Not-spatial file</option>
         </select>
+        -->
 
             {% with %}
                 {% set dropdown_type = "default_dropdown_list" %}
                 {% set banner_search_dropdown_class = "banner-dropdown-list-container"%}
                 {% set dropdown_button_id = "dropdownListDefaultButton" %}
+                {% set dropdown_button_text_id = "dropdownListDefaultButtonText" %}
                 {% set dropdown_default_UL_id = "geometry" %}
                 {% set dropdown_label_text = "Select one" %}
                 {% include "partials/dropdown-publish.html" %}
