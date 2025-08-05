@@ -2,14 +2,29 @@ function initializeDiv(divID) {
 
     var geoBboxDiv = document.getElementById(divID);
     geoBboxDiv.classList.add("geobbox");
+    geoBboxDiv.innerHTML = "";
 
-    var geoBboxContainerDiv = document.getElementById("geo_bbox_container");
+    var coordinateInputContainerDiv = document.createElement("div");
+    coordinateInputContainerDiv.id = "coordinateContainer1";
+    coordinateInputContainerDiv.classList.add("child", "multipoint-child");
+
+    var latitudeContainer = document.createElement("div");
+    latitudeContainer.classList.add("latitude-child");
 
     var label1 = document.createElement("label");
     var input1 = document.createElement("input");
+    label1.classList.add("subtitle-1");
+    input1.id = "lat1";
+    input1.classList.add("input-textbox", "margin-input-field");
+
+    var longitudeContainer = document.createElement("div");
+    longitudeContainer.classList.add("longitude-child");
 
     var label2 = document.createElement("label");
     var input2 = document.createElement("input");
+    label2.classList.add("subtitle-1");
+    input2.id = "lon1";
+    input2.classList.add("input-textbox", "margin-input-field");
 
     var addButton = document.createElement("button");
     addButton.classList.add("addInputButton");
@@ -32,12 +47,13 @@ function initializeDiv(divID) {
     input2.setAttribute("id", "bbox2");
     input2.setAttribute("name", "bbox2");
 
-    geoBboxDiv.appendChild(label1);
-    geoBboxDiv.appendChild(input1);
-    geoBboxDiv.appendChild(label2);
-    geoBboxDiv.appendChild(input2);
-    geoBboxDiv.appendChild(addButton);
-
+    latitudeContainer.appendChild(label1);
+    latitudeContainer.appendChild(input1);
+    longitudeContainer.appendChild(label2);
+    longitudeContainer.appendChild(input2);
+    coordinateInputContainerDiv.appendChild(latitudeContainer);
+    coordinateInputContainerDiv.appendChild(longitudeContainer);
+    geoBboxDiv.appendChild(coordinateInputContainerDiv);
 }
 
 function getDivElements(divID){
