@@ -62,7 +62,7 @@
                 {% for item in dropdown_library["default_dropdown_list"]["list_items"] %}
                     {% set itemIndex = loop.index %}
                     <li class="dropdown-default-list-item">
-                        <a id="{{ item["item_id"] }}" class="subtitle-1" role="button" selectedIndex="{{ itemIndex }}" onclick="geoPolygon2({{ itemIndex }})">
+                        <a id="{{ item["item_id"] }}" class="subtitle-1 dropdown-default-list-item-text" role="button" selectedIndex="{{ itemIndex }}" onclick="geoPolygon2({{ itemIndex }})">
                             {{ item["item_label"]|safe }}
                         </a>
                     </li>

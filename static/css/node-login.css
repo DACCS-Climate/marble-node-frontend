@@ -1897,7 +1897,8 @@ dialog {
     display: flex;
     align-items: center;
     min-height: 64px;
-
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .dropdown-default-list{
@@ -1985,12 +1986,10 @@ dialog {
 
 
 .dropdown-default-list-item-text{
-    color: var(--primary);
-    /*H6 font without line-height*/
-    font-family: var(--secondary-font-family);
-    font-weight: var(--reg-font-weight);
-    font-size: 20px;
-    letter-spacing: 0.03px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
 }
 
 .author-parent{
