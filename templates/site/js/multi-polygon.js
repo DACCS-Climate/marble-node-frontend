@@ -102,17 +102,3 @@ function addNewPoint(divElementID){
     geoBboxDiv.appendChild(input2);
 
 }
-
-
-function initializeMultiPointLatLonClear(){
-    var multipointLat1 = document.getElementById("lat1");
-    var multipointLon1 = document.getElementById("lon1");
-
-    multipointLat1.addEventListener("focus", function(){
-        clearEntryError("multipoint");
-    });
-
-    multipointLon1.addEventListener("focus", function(){
-        clearEntryError("multipoint");
-    });
-}
