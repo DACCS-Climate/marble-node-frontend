@@ -67,18 +67,16 @@
                         </a>
                     </li>
                     <script>
-                                document.addEventListener("DOMContentLoaded", function () {
-                                    var listItem = document.getElementById("{{ item["item_id"] }}");
+                        document.addEventListener("DOMContentLoaded", function () {
+                            var listItem = document.getElementById("{{ item["item_id"] }}");
 
-                                    listItem.addEventListener('click', function() {
-                                        replaceListItem("{{ dropdown_label_text }}", "{{ dropdown_button_text_id }}", "{{ item["item_id"] }}");
-                                       // swapListItems("{#  #}{ dropdown_button_text_id}}", "{#  #}{ item["item_id"] }}");
-                                    })
-                                });
-                            </script>
+                            listItem.addEventListener('click', function() {
+                                replaceListItem("{{ dropdown_label_text }}", "{{ dropdown_button_text_id }}", "{{ item["item_id"] }}");
+                            })
+                        });
+                    </script>
 
                 {% endfor %}
-
 
             </ul>
         </div>
