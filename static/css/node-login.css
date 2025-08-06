@@ -417,6 +417,10 @@ h6{
     display: none;
 }
 
+.show{
+    display: flex;
+}
+
 .margin-unset-default{
     margin: unset;
 }
@@ -1990,7 +1994,7 @@ dialog {
     align-items: center;
 }
 
-.author-parent{
+.author-parent, .multipoint-parent{
     display: flex;
     flex-direction: column;
 }
