@@ -1995,13 +1995,21 @@ dialog {
     flex-direction: column;
 }
 
-.author-child, .point-child, .multipoint-child{
+.author-child, .author-additional-child, .point-child, .multipoint-child, .multipoint-additional-child{
     display: flex;
     flex-direction: row;
 }
 
 .author-child div:not(:last-child), .point-child div:not(:last-child), .multipoint-child div:not(:last-child){
-    margin-right: 70px;
+    margin-right: 60px;
+}
+
+.author-additional-child div:not(:nth-last-child(2)), .multipoint-additional-child div:not(:nth-last-child(2)){
+    margin-right: 60px;
+}
+
+.remove-button, .author-remove-button{
+    margin-left: 10px;
 }
 
 .author-details, .latitude-child, .longitude-child{
