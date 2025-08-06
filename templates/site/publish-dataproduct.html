@@ -31,8 +31,46 @@
         `;
       } else if ([2, 3, 5].includes(selected_geometry)) {
 
-        // For MultiPoint, Polygon, LineString
-        initializeDiv('geo_bbox');
+          if(selected_geometry == 2){
+              // For MultiPoint
+              if(document.getElementById("geo_multipoint_content").querySelector(".multipoint-child") != null){
+                  swapDiv('geo_multipoint');
+              }
+              else{
+                  swapDiv('geo_multipoint');
+                  initializeDiv('geo_multipoint');
+              }
+
+              document.getElementById('add_button').innerHTML =
+                  `<div id="addMultiPointButtons" class="multipoint-buttons">
+                    <input type="button" class="button-med d-button-text" value="Add Point" onclick="addPoint('geo_multipoint_content');"/>
+                   </div>`;
+          }
+          else if(selected_geometry == 5){
+              // For Polygon
+              if(document.getElementById("geo_polygon_content").querySelector(".multipoint-child") != null){
+                  swapDiv('geo_polygon');
+              }
+              else{
+                  swapDiv('geo_polygon');
+                  initializeDiv('geo_polygon');
+              }
+
+              document.getElementById('add_button').innerHTML =
+                  `<div id="addMultiPointButtons" class="multipoint-buttons">
+                    <input type="button" class="button-med d-button-text" value="Add Point" onclick="addPoint('geo_polygon_content');"/>
+                   </div>`;
+          }
+          else{
+              // For LineString
+              initializeDiv('geo_bbox');
+              document.getElementById('add_button').innerHTML =
+                  `<div id="addMultiPointButtons" class="multipoint-buttons">
+                    <input type="button" class="button-med d-button-text" value="Add Point" onclick="addPoint('geo_bbox');"/>
+                   </div>`;
+          }
+
+
         /*
        document.getElementById('geo_bbox').innerHTML = `
         <h5> Input points: </h5><br>
@@ -49,11 +87,7 @@
         `;
 
          */
-        document.getElementById('add_button').innerHTML = `
-        <div id="addMultiPointButtons" class="multipoint-buttons">
-            <input type="button" class="button-med d-button-text" value="Add Point" onclick="addPoint('geo_bbox');"/>
-        </div>
-        `;
+
         document.getElementById('upload').innerHTML = `
           <h5> OR: GeoJSON bounding box </h5><br>
           <input type="text" id="myFile" name="myFile" class="input-textbox margin-input-field" value="">
@@ -117,7 +151,7 @@
         removePointButton.value = "Remove Point";
         removePointButton.classList.add("button-med", "d-button-text");
         removePointButton.addEventListener("click", function() {
-            removeEntry("geo_bbox", "multipoint" + autindex)
+            removeEntry(divElementID, "multipoint" + autindex);
         });
 
         latitudeDiv.appendChild(label1);
@@ -247,7 +281,18 @@
 
 
         </div>
-      <div id="geo_bbox" class="parent"></div>
+      <div id="geo_bbox" class="parent">
+          <div id="geo_multipoint" class="parent display-none">
+              <div id="geo_multipoint_content">
+
+              </div>
+          </div>
+          <div id="geo_polygon" class="parent display-none">
+              <div id="geo_polygon_content">
+
+              </div>
+          </div>
+      </div>
       <div id="add_button"></div>
       <div id="upload"></div>
       </div>
