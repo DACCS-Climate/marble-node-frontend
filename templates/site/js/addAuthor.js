@@ -1,12 +1,11 @@
 function addAuthor(divElementID) {
-    clearEntryError("author");
 
     var authorDiv = document.getElementById(divElementID);
     var autindex = document.querySelectorAll("[id^=fname]").length + 1; // Count existing authors
 
     var div_box = document.createElement("div");
     div_box.id = "author" + autindex;
-    div_box.classList.add("child", "author-child");
+    div_box.classList.add("child", "author-additional-child");
 
     var divFirstName = document.createElement("div");
     divFirstName.classList.add("author-details");
@@ -16,6 +15,9 @@ function addAuthor(divElementID) {
 
     var divEmail = document.createElement("div");
     divEmail.classList.add("author-details");
+
+    var divRemoveAuthor = document.createElement("div");
+    divRemoveAuthor.classList.add("remove-button");
 
     var label1 = document.createElement("label");
     label1.innerText = "First Name:";
@@ -51,23 +53,31 @@ function addAuthor(divElementID) {
     input3.setAttribute("id", "email" + autindex);
     input3.setAttribute("name", "email[]"); // Make it an array input
 
+    var removeAuthorButton = document.createElement("input");
+    removeAuthorButton.setAttribute("type", "button");
+    removeAuthorButton.value = "Remove Author";
+    removeAuthorButton.classList.add("button-med", "d-button-text", "author-remove-button");
+    removeAuthorButton.addEventListener("click", function() {
+        removeEntry("author_box", "author" + autindex)
+    });
+    
     divFirstName.appendChild(label1);
     divFirstName.appendChild(input1);
     divLastName.appendChild(label2);
     divLastName.appendChild(input2);
     divEmail.appendChild(label3);
     divEmail.appendChild(input3);
+    divRemoveAuthor.appendChild(removeAuthorButton);
 
     div_box.appendChild(divFirstName);
     div_box.appendChild(divLastName);
     div_box.appendChild(divEmail);
+    div_box.appendChild(divRemoveAuthor);
 
     authorDiv.appendChild(div_box);
 }
 
 function removeEntry(parentElementID, elementID){
-
-    clearEntryError(parentElementID);
 
     var parentDiv = document.getElementById(parentElementID);
     var coordinateEntry = document.getElementById(elementID);
@@ -75,31 +85,6 @@ function removeEntry(parentElementID, elementID){
     parentDiv.removeChild(coordinateEntry);
 }
 
-function showEntryError(entryType){
-    switch(entryType){
-        case "author":
-            var authorErrorP = document.getElementById("authorErrorMessage");
-            authorErrorP.innerText = "At least one author required.";
-        case "multipoint":
-            var multipointErrorP = document.getElementById("multipointErrorMessage");
-            multipointErrorP.innerText = "At least one point required.";
-
-    }
-}
-
-function clearEntryError(entryType){
-
-    switch(entryType){
-        case "author":
-            var authorErrorP = document.getElementById("authorErrorMessage");
-            authorErrorP.innerText = "";
-        case "multipoint":
-            var multipointErrorP = document.getElementById("multipointErrorMessage");
-            multipointErrorP.innerText = "";
-
-    }
-
-}
 
 // Function to update the hidden input field before form submission
 function updateAuthorList() {
