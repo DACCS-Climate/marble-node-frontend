@@ -53,16 +53,13 @@
         <div id="addMultiPointButtons" class="multipoint-buttons">
             <input type="button" class="button-med d-button-text" value="Add Point" onclick="addPoint('geo_bbox');"/>
         </div>
-        <div id="removeMultiPointError" class="div-error-multipoint">
-            <p id="multipointErrorMessage" class="subtitle-1 text-error-multipoint"></p>
-        </div>
         `;
         document.getElementById('upload').innerHTML = `
           <h5> OR: GeoJSON bounding box </h5><br>
           <input type="text" id="myFile" name="myFile" class="input-textbox margin-input-field" value="">
         `;
 
-        initializeMultiPointLatLonClear();
+
       } else if ([4, 6, 7].includes(selected_geometry)) {
         // For MultiLineString, MultiPolygon, GeometryCollection
         document.getElementById('geo_bbox').innerHTML = ``;
@@ -82,12 +79,8 @@
         var autindex = document.querySelectorAll("[id^=lat]").length + 1; // Count existing authors
 
         var div_box = document.createElement("div");
-        div_box.classList.add("child", "multipoint-child");
+        div_box.classList.add("child", "multipoint-additional-child");
         div_box.id = "multipoint" + autindex;
-
-        var coordinateInputContainerDiv = document.createElement("div");
-        coordinateInputContainerDiv.id = "coordinateContainer" + autindex;
-        coordinateInputContainerDiv.classList.add("child", "multipoint-child");
 
         var latitudeDiv = document.createElement("div");
         latitudeDiv.classList.add("latitude-child");
@@ -133,12 +126,9 @@
         longitudeDiv.appendChild(input2);
         removeButtonDiv.appendChild(removePointButton);
 
-        coordinateInputContainerDiv.appendChild(latitudeDiv);
-        coordinateInputContainerDiv.appendChild(longitudeDiv);
-        coordinateInputContainerDiv.appendChild(removeButtonDiv);
-
-        div_box.appendChild(coordinateInputContainerDiv);
-
+        div_box.appendChild(latitudeDiv);
+        div_box.appendChild(longitudeDiv);
+        div_box.appendChild(removeButtonDiv);
 
         pointDiv.appendChild(div_box);
     }
@@ -216,11 +206,8 @@
         </div>
         <div id="addAuthorButtons" class="author-buttons">
             <input type="button" value="Add Author" class="button-med d-button-text" onclick="addAuthor('author_box');"/>
-            <input type="button" value="Remove Author" class="button-med d-button-text" onclick="removeEntry('author', 'author_box');"/>
         </div>
-        <div id="removeAuthorError" class="div-error-author">
-            <p id="authorErrorMessage" class="subtitle-1 text-error-author"></p>
-        </div>
+
         <input type="hidden" id="authorFNames" name="authorFNames" class="input-textbox margin-input-field">
         <input type="hidden" id="authorLNames" name="authorLNames" class="input-textbox margin-input-field">
         <input type="hidden" id="authorEmails" name="authorEmails" class="input-textbox margin-input-field">
