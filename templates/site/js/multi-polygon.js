@@ -1,8 +1,18 @@
 function initializeDiv(divID) {
 
     var geoBboxDiv = document.getElementById(divID);
-    geoBboxDiv.classList.add("geobbox");
-    geoBboxDiv.innerHTML = "";
+    var geoContentDiv;
+
+
+    if(divID == "geo_bbox"){
+        geoBboxDiv.innerHTML = "";
+    }
+
+    if(divID == "geo_multipoint" || divID == "geo_polygon"){
+        geoBboxDiv.classList.add("show");
+        geoContentDiv = document.getElementById(divID + "_content");
+    }
+
 
     var coordinateInputContainerDiv = document.createElement("div");
     coordinateInputContainerDiv.id = "coordinateContainer1";
@@ -53,7 +63,41 @@ function initializeDiv(divID) {
     longitudeContainer.appendChild(input2);
     coordinateInputContainerDiv.appendChild(latitudeContainer);
     coordinateInputContainerDiv.appendChild(longitudeContainer);
-    geoBboxDiv.appendChild(coordinateInputContainerDiv);
+
+    if(divID == "geo_multipoint" || divID == "geo_polygon"){
+        geoContentDiv.appendChild(coordinateInputContainerDiv);
+    }
+    else{
+        geoBboxDiv.appendChild(coordinateInputContainerDiv);
+    }
+
+}
+
+function swapDiv(divID){
+    var geoMultipointDiv = document.getElementById("geo_multipoint");
+    var geoPolygonDiv = document.getElementById("geo_polygon");
+
+    if(divID == "geo_multipoint"){
+        if(geoPolygonDiv.classList.contains("show")){
+            geoPolygonDiv.classList.remove("show");
+            geoPolygonDiv.classList.remove("multipoint-parent");
+        }
+
+        geoMultipointDiv.classList.add("multipoint-parent");
+        geoMultipointDiv.classList.add("show");
+
+    }
+
+    if(divID == "geo_polygon"){
+        if(geoMultipointDiv.classList.contains("show")){
+            geoMultipointDiv.classList.remove("show");
+            geoMultipointDiv.classList.remove("multipoint-parent");
+        }
+
+        geoPolygonDiv.classList.add("multipoint-parent");
+        geoPolygonDiv.classList.add("show");
+
+    }
 }
 
 function getDivElements(divID){
