@@ -2034,10 +2034,3 @@ dialog {
     margin-right: 30px;
 }
 
-.div-error-author, .div-error-multipoint{
-    margin-top: 10px;
-}
-
-.text-error-author, .text-error-multipoint{
-    color: var(--error);
-}
