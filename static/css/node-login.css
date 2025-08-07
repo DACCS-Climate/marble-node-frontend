@@ -1994,7 +1994,7 @@ dialog {
     align-items: center;
 }
 
-.author-parent, .multipoint-parent{
+.author-parent, .multipoint-parent, .upload-geojson-child{
     display: flex;
     flex-direction: column;
 }
@@ -2021,7 +2021,7 @@ dialog {
     flex-direction: column;
 }
 
-.author-buttons, .multipoint-buttons{
+.author-buttons{
     display: flex;
     flex-direction: row;
     margin-top: 30px;
@@ -2034,7 +2034,7 @@ dialog {
     margin-bottom: 10px;
 }
 
-.author-buttons input:not(:last-child), .multipoint-buttons input:not(:last-child){
+.author-buttons input:not(:last-child){
     margin-right: 30px;
 }
 
