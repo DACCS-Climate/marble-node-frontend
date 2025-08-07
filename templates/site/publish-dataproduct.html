@@ -9,163 +9,172 @@
     <script>
 
     function geoPolygon2(selected_geometry) {
-      //var selected_geometry = document.getElementById("geometry").selectedIndex;
-      console.log(selected_geometry);
+        //var selected_geometry = document.getElementById("geometry").selectedIndex;
+        console.log(selected_geometry);
+        if (selected_geometry == 1) {
+            // For Point
 
-      if (selected_geometry == 1) {
-        // For Point
-        document.getElementById('geo_bbox').innerHTML = `
-        <h5> Input point: </h5><br>
-        <div id="point1" class="child point-child">
-            <div class="latitude-child">
-                <label for="bbox1" class="subtitle-1">Latitude (Required):</label>
-                <input type="text" id="lat1" name="lat1" class="input-textbox margin-input-field" value="">
+            if(document.getElementById("geo_point_content").querySelector(".multipoint-child") != null){
+                swapDiv('geo_point');
+            }
+            else{
+                swapDiv('geo_point');
+                initializeDiv('geo_point');
+            }
+
+              /*
+            document.getElementById('geo_bbox').innerHTML = `
+            <h5> Input point: </h5><br>
+            <div id="point1" class="child point-child">
+                <div class="latitude-child">
+                    <label for="bbox1" class="subtitle-1">Latitude (Required):</label>
+                    <input type="text" id="lat1" name="lat1" class="input-textbox margin-input-field" value="">
+                </div>
+                <div class="longitude-child">
+                    <label for="bbox2" class="subtitle-1">Longitude (Required):</label>
+                    <input type="text" id="lon1" name="lon1" class="input-textbox margin-input-field" value="">
+                </div>
             </div>
-            <div class="longitude-child">
-                <label for="bbox2" class="subtitle-1">Longitude (Required):</label>
-                <input type="text" id="lon1" name="lon1" class="input-textbox margin-input-field" value="">
-            </div>
-        </div>
-        `;
-        document.getElementById('add_button').innerHTML = `
-        `;
-      } else if ([2, 3, 5].includes(selected_geometry)) {
+            `;*/
+            document.getElementById('add_button').innerHTML = ``;
+            document.getElementById('upload').innerHTML = ``;
 
-          if(selected_geometry == 2){
-              // For MultiPoint
-              if(document.getElementById("geo_multipoint_content").querySelector(".multipoint-child") != null){
-                  swapDiv('geo_multipoint');
-              }
-              else{
-                  swapDiv('geo_multipoint');
-                  initializeDiv('geo_multipoint');
-              }
+            } else if ([2, 3, 5].includes(selected_geometry)) {
 
-              document.getElementById('add_button').innerHTML =
-                  `<div id="addMultiPointButtons" class="multipoint-buttons">
-                    <input type="button" class="button-med d-button-text" value="Add Point" onclick="addPoint('geo_multipoint_content');"/>
-                   </div>`;
-          }
-          else if(selected_geometry == 5){
-              // For Polygon
-              if(document.getElementById("geo_polygon_content").querySelector(".multipoint-child") != null){
-                  swapDiv('geo_polygon');
-              }
-              else{
-                  swapDiv('geo_polygon');
-                  initializeDiv('geo_polygon');
-              }
+                switch (selected_geometry){
+                    case 2:
+                        // For MultiPoint
+                        if(document.getElementById("geo_multipoint_content").querySelector(".multipoint-child") != null){
+                            swapDiv('geo_multipoint');
+                        }
+                        else{
+                            swapDiv('geo_multipoint');
+                            initializeDiv('geo_multipoint');
+                        }
+/*
+                        document.getElementById('add_button').innerHTML =
+                            `<div id="addMultiPointButtons" class="multipoint-buttons">
+                              <input type="button" class="button-med d-button-text" value="Add Point" onclick="addPoint('geo_multipoint_content');"/>
+                             </div>`;*/
 
-              document.getElementById('add_button').innerHTML =
-                  `<div id="addMultiPointButtons" class="multipoint-buttons">
-                    <input type="button" class="button-med d-button-text" value="Add Point" onclick="addPoint('geo_polygon_content');"/>
-                   </div>`;
-          }
-          else{
-              // For LineString
-              initializeDiv('geo_bbox');
-              document.getElementById('add_button').innerHTML =
-                  `<div id="addMultiPointButtons" class="multipoint-buttons">
-                    <input type="button" class="button-med d-button-text" value="Add Point" onclick="addPoint('geo_bbox');"/>
-                   </div>`;
-          }
+                        break;
 
+                    case 3:
+                        // For LineString
+                        if(document.getElementById("geo_linestring").querySelector(".multipoint-child") != null){
+                            swapDiv('geo_linestring');
+                        }
+                        else{
+                            swapDiv('geo_linestring');
+                            initializeDiv('geo_linestring');
+                        }
+/*
+                        document.getElementById('add_button').innerHTML =
+                            `<div id="addMultiPointButtons" class="multipoint-buttons">
+                              <input type="button" class="button-med d-button-text" value="Add Point" onclick="addPoint('geo_linestring_content');"/>
+                             </div>`;*/
 
-        /*
-       document.getElementById('geo_bbox').innerHTML = `
-        <h5> Input points: </h5><br>
-        <div id="point1" class="child multipoint-child">
-            <div class="latitude-child">
-                <label for="bbox1" class="subtitle-1">Latitude (Required):</label><br>
-                <input type="text" id="lat1" name="lat1" class="input-textbox margin-input-field" value=""><br>
-            </div>
-            <div class="longitude-child">
-                <label for="bbox2" class="subtitle-1">Longitude (Required):</label><br>
-                <input type="text" id="lon1" name="lon1" class="input-textbox margin-input-field" value=""><br>
-            </div>
-        </div>
-        `;
+                        break;
 
-         */
+                    case 5:
+                        // For Polygon
+                        if(document.getElementById("geo_polygon_content").querySelector(".multipoint-child") != null){
+                            swapDiv('geo_polygon');
+                        }
+                        else{
+                            swapDiv('geo_polygon');
+                            initializeDiv('geo_polygon');
+                        }
+/*
+                        document.getElementById('add_button').innerHTML =
+                            `<div id="addMultiPointButtons" >
+                              <input type="button" class="button-med d-button-text" value="Add Point" onclick="addPoint('geo_polygon_content');"/>
+                             </div>`;*/
 
-        document.getElementById('upload').innerHTML = `
-          <h5> OR: GeoJSON bounding box </h5><br>
-          <input type="text" id="myFile" name="myFile" class="input-textbox margin-input-field" value="">
-        `;
+                        break;
+                }
 
 
-      } else if ([4, 6, 7].includes(selected_geometry)) {
-        // For MultiLineString, MultiPolygon, GeometryCollection
-        document.getElementById('geo_bbox').innerHTML = ``;
-        document.getElementById('add_button').innerHTML = ``;
-        document.getElementById('upload').innerHTML = `
-          <h5> GeoJSON bounding box </h5><br>
-          <input type="text" id="myFile" name="myFile" class="input-textbox margin-input-field" value="">
-        `;
-      } else if (selected_geometry == 8) {
-        // For Non-Spatial
-        document.getElementById('geo_bbox').innerHTML = "No bounding box required";
-      }
+/*
+              document.getElementById('upload').innerHTML = `
+                <h5> OR: GeoJSON bounding box </h5><br>
+                <input type="text" id="myFile" name="myFile" class="input-textbox margin-input-field" value="">
+              `;*/
+
+
+            } else if ([4, 6, 7].includes(selected_geometry)) {
+                switch (selected_geometry) {
+                    case 4:
+                        // For MultiLineString
+                        if(document.getElementById("geo_multi_linestring_content").querySelector(".upload-geojson-child") != null){
+                            swapDiv('geo_multi_linestring');
+                        }
+                        else{
+                            swapDiv('geo_multi_linestring');
+                            initializeUploadDiv('geo_multi_linestring');
+                        }
+
+                        document.getElementById('add_button').innerHTML = ``;
+                        /*document.getElementById('upload').innerHTML = `
+                        <h5> GeoJSON bounding box </h5><br>
+                        <input type="text" id="myFile" name="myFile" class="input-textbox margin-input-field" value="">
+                        `;*/
+
+                        break;
+
+                    case 6:
+                        // For MultiPolygon,
+                        if(document.getElementById("geo_multi_polygon_content").querySelector(".upload-geojson-child") != null){
+                            swapDiv('geo_multi_polygon');
+                        }
+                        else{
+                            swapDiv('geo_multi_polygon');
+                            initializeUploadDiv('geo_multi_polygon');
+                        }
+
+                        document.getElementById('add_button').innerHTML = ``;
+                        /*
+                        document.getElementById('upload').innerHTML = `
+                        <h5> GeoJSON bounding box </h5><br>
+                        <input type="text" id="myFile" name="myFile" class="input-textbox margin-input-field" value="">
+                       `;*/
+
+                        break;
+
+                    case 7:
+                        // For GeometryCollection
+                        if(document.getElementById("geo_geometry_collection_content").querySelector(".upload-geojson-child") != null){
+                            swapDiv('geo_geometry_collection');
+                        }
+                        else{
+                            swapDiv('geo_geometry_collection');
+                            initializeUploadDiv('geo_geometry_collection');
+                        }
+
+                        document.getElementById('add_button').innerHTML = ``;
+                        /*
+                        document.getElementById('upload').innerHTML = `
+                        <h5> GeoJSON bounding box </h5><br>
+                        <input type="text" id="myFile" name="myFile" class="input-textbox margin-input-field" value="">
+                        `;*/
+
+                        break;
+
+                }
+
+            } else if (selected_geometry == 8) {
+                // For Non-Spatial
+                if(document.getElementById("geo_null_content").querySelector(".multipoint-child") != null){
+                    swapDiv('geo_null');
+                }
+                else{
+                    swapDiv('geo_null');
+                    document.getElementById('geo_null_content').innerText = "No bounding box required";
+                }
+            }
     }
 
-    function addPoint(divElementID) {
-        var pointDiv = document.getElementById(divElementID);
-        var autindex = document.querySelectorAll("[id^=lat]").length + 1; // Count existing authors
 
-        var div_box = document.createElement("div");
-        div_box.classList.add("child", "multipoint-additional-child");
-        div_box.id = "multipoint" + autindex;
-
-        var latitudeDiv = document.createElement("div");
-        latitudeDiv.classList.add("latitude-child");
-        var longitudeDiv = document.createElement("div");
-        longitudeDiv.classList.add("longitude-child");
-        var removeButtonDiv = document.createElement("div");
-        removeButtonDiv.classList.add("remove-button");
-
-        var label1 = document.createElement("label");
-        label1.classList.add("subtitle-1");
-        label1.innerText = "Latitude:";
-        label1.setAttribute("for", "lat" + autindex);
-
-        var input1 = document.createElement("input");
-        input1.classList.add("input-textbox", "margin-input-field");
-        input1.setAttribute("type", "text");
-        input1.setAttribute("id", "lat" + autindex);
-        input1.setAttribute("name", "lat[]"); // Make it an array input
-        input1.addEventListener("input", updateAuthorList); // Update list on input
-
-        var label2 = document.createElement("label");
-        label2.classList.add("subtitle-1");
-        label2.innerText = "Longitude:";
-        label2.setAttribute("for", "lon" + autindex);
-
-        var input2 = document.createElement("input");
-        input2.classList.add("input-textbox", "margin-input-field");
-        input2.setAttribute("type", "text");
-        input2.setAttribute("id", "lon" + autindex);
-        input2.setAttribute("name", "lon[]"); // Changed name to array input for last name
-
-        var removePointButton = document.createElement("input");
-        removePointButton.setAttribute("type", "button");
-        removePointButton.value = "Remove Point";
-        removePointButton.classList.add("button-med", "d-button-text");
-        removePointButton.addEventListener("click", function() {
-            removeEntry(divElementID, "multipoint" + autindex);
-        });
-
-        latitudeDiv.appendChild(label1);
-        latitudeDiv.appendChild(input1);
-        longitudeDiv.appendChild(label2);
-        longitudeDiv.appendChild(input2);
-        removeButtonDiv.appendChild(removePointButton);
-
-        div_box.appendChild(latitudeDiv);
-        div_box.appendChild(longitudeDiv);
-        div_box.appendChild(removeButtonDiv);
-
-        pointDiv.appendChild(div_box);
-    }
 
     function updateGeoList() {
         var listLat = [];
@@ -203,131 +212,132 @@
 
     <h3>Publish Files to Red Oak STAC Catalog</h3><br>
     <p> This form allows you to publish datasets, data products and/or workflows to the Marble STAC catalog. Before filling out this form, ensure that the primary file is hosted on Red Oak in your public folder. Supplementary files such as input data can be included as third party links. After submission, a STAC item and citation will be generated and reviewed by admin before being uploaded to the catalog.</p>
-    <div id="intro" class="border-content-section margin-content-section padding-content-section">
-        <form id="pointForm" action="http://localhost:8000/submit" method="post"><br>
-    <label for="username" class="subtitle-1">Red Oak Username:</label><br>
-        <input type="text" id="username" name="username" class="input-textbox margin-input-field" value="" required><br>
-    </div>
 
-    <div id="background" class="border-content-section margin-content-section padding-content-section">
-        <h4> Background Information</h4><br>
-        <label for="title" class="subtitle-1 margin-input-label">Title:</label><br>
-        <input type="text" id="title" name="title" class="input-textbox margin-input-field" value="" required><br><br>
-        <label for="desc" class="subtitle-1 margin-input-label">Description:</label><br>
-        <p><i>Include any additional details you want to provide about the STAC item. Similar to an abstract.</i></p>
-        <input type="text" id="desc" name="desc" class="input-textbox margin-input-field" value=""><br><br>
-    </div>
+    <form id="pointForm" action="http://localhost:8000/submit" method="post"><br>
 
-    <div class="author-group border-content-section margin-content-section padding-content-section">
-        <h4>Authors</h4><br>
-        <p>Citation will list authors in order placed here. First author will be contacted by email regarding any issues in the submission.</p>
-        <div id="author_box" class="parent author-parent">
-        <!-- Initial author fields -->
-            <div id="author1" class="child author-child">
-                <div class="author-details">
-                    <label for="fname1" class="subtitle-1 margin-input-label">First Name:</label><br>
-                    <input type="text" id="fname1" name="fname1" class="input-textbox margin-input-field" value="" required><br>
-                </div>
-                <div class="author-details">
-                    <label for="lname1" class="subtitle-1 margin-input-label">Last Name:</label><br>
-                    <input type="text" id="lname1" name="lname1" class="input-textbox margin-input-field" value="" required><br>
-                </div>
-                <div class="author-details">
-                    <label for="email1" class="subtitle-1 margin-input-label">Email:</label><br>
-                    <input type="text" id="email1" name="email1" class="input-textbox margin-input-field" value="" required><br>
+        <div id="intro" class="border-content-section margin-content-section padding-content-section">
+            <label for="username" class="subtitle-1">Red Oak Username:</label><br>
+            <input type="text" id="username" name="username" class="input-textbox margin-input-field" value="" required><br>
+        </div>
+
+        <div id="background" class="border-content-section margin-content-section padding-content-section">
+            <h4> Background Information</h4><br>
+            <label for="title" class="subtitle-1 margin-input-label">Title:</label><br>
+            <input type="text" id="title" name="title" class="input-textbox margin-input-field" value="" required><br><br>
+            <label for="desc" class="subtitle-1 margin-input-label">Description:</label><br>
+            <p><i>Include any additional details you want to provide about the STAC item. Similar to an abstract.</i></p>
+            <input type="text" id="desc" name="desc" class="input-textbox margin-input-field" value=""><br><br>
+        </div>
+
+        <div class="author-group border-content-section margin-content-section padding-content-section">
+            <h4>Authors</h4><br>
+            <p>Citation will list authors in order placed here. First author will be contacted by email regarding any issues in the submission.</p>
+            <div id="author_box" class="parent author-parent">
+            <!-- Initial author fields -->
+                <div id="author1" class="child author-child">
+                    <div class="author-details">
+                        <label for="fname1" class="subtitle-1 margin-input-label">First Name:</label><br>
+                        <input type="text" id="fname1" name="fname1" class="input-textbox margin-input-field" value="" required><br>
+                    </div>
+                    <div class="author-details">
+                        <label for="lname1" class="subtitle-1 margin-input-label">Last Name:</label><br>
+                        <input type="text" id="lname1" name="lname1" class="input-textbox margin-input-field" value="" required><br>
+                    </div>
+                    <div class="author-details">
+                        <label for="email1" class="subtitle-1 margin-input-label">Email:</label><br>
+                        <input type="text" id="email1" name="email1" class="input-textbox margin-input-field" value="" required><br>
+                    </div>
                 </div>
             </div>
+            <div id="addAuthorButtons" class="author-buttons">
+                <input type="button" value="Add Author" class="button-med d-button-text" onclick="addAuthor('author_box');"/>
+            </div>
+
+            <input type="hidden" id="authorFNames" name="authorFNames" class="input-textbox margin-input-field">
+            <input type="hidden" id="authorLNames" name="authorLNames" class="input-textbox margin-input-field">
+            <input type="hidden" id="authorEmails" name="authorEmails" class="input-textbox margin-input-field">
         </div>
-        <div id="addAuthorButtons" class="author-buttons">
-            <input type="button" value="Add Author" class="button-med d-button-text" onclick="addAuthor('author_box');"/>
-        </div>
 
-        <input type="hidden" id="authorFNames" name="authorFNames" class="input-textbox margin-input-field">
-        <input type="hidden" id="authorLNames" name="authorLNames" class="input-textbox margin-input-field">
-        <input type="hidden" id="authorEmails" name="authorEmails" class="input-textbox margin-input-field">
-    </div>
+        <div id="geometry_class" class="border-content-section margin-content-section padding-content-section">
+            <h4> Geometry </h4><br>
+            <p> Information on geometry types can be found here: <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.1">RFC 7946, section 3.1</a> </p>
+            <p> Longitudes should range from -180 to 180 and laitudes from -90 to 90.</p>
+            <p> For complex geometries or sets of points longer than 4, we strongly recommend <a href="https://geojson.io/">generating a geoJSON using this tool</a> and pasting it into the box</p>
+            <label for="geometry" class="subtitle-1 margin-input-label">Choose the geometry type:</label>
+            <div id="select" class="child">
 
-    <div id="geometry_class" class="border-content-section margin-content-section padding-content-section">
-        <h4> Geometry </h4><br>
-        <p> Information on geometry types can be found here: <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.1">RFC 7946, section 3.1</a> </p>
-        <p> Longitudes should range from -180 to 180 and laitudes from -90 to 90.</p>
-        <p> For complex geometries or sets of points longer than 4, we strongly recommend <a href="https://geojson.io/">generating a geoJSON using this tool</a> and pasting it into the box</p>
-        <label for="geometry" class="subtitle-1 margin-input-label">Choose the geometry type:</label>
-        <div id="select" class="child">
-        <!--
-        <select name="geometry" id="geometry" onchange="geoPolygon2();" onfocus="this.selectedIndex = -1;" required>
-          <option value="blank">Select one</option>
-          <option value="Point">Point</option>
-          <option value="MultiPoint">Multi-Point</option>
-          <option value="LineString">Line String</option>
-          <option value="MultiLineString">Multi-Line String</option>
-            <option value="Polygon">Polygon</option>
-          <option value="MultiPolygon">Multi-Polygon</option>
-            <option value="GeometryCollection">Geometry Collection</option>
-          <option value="null">Null: Not-spatial file</option>
-        </select>
-        -->
+                {% with %}
+                    {% set dropdown_type = "default_dropdown_list" %}
+                    {% set banner_search_dropdown_class = "banner-dropdown-list-container"%}
+                    {% set dropdown_button_id = "dropdownListDefaultButton" %}
+                    {% set dropdown_button_text_id = "dropdownListDefaultButtonText" %}
+                    {% set dropdown_default_UL_id = "geometry" %}
+                    {% set dropdown_label_text = "Select one" %}
+                    {% include "partials/dropdown-publish.html" %}
+                {% endwith %}
 
-            {% with %}
-                {% set dropdown_type = "default_dropdown_list" %}
-                {% set banner_search_dropdown_class = "banner-dropdown-list-container"%}
-                {% set dropdown_button_id = "dropdownListDefaultButton" %}
-                {% set dropdown_button_text_id = "dropdownListDefaultButtonText" %}
-                {% set dropdown_default_UL_id = "geometry" %}
-                {% set dropdown_label_text = "Select one" %}
-                {% include "partials/dropdown-publish.html" %}
-            {% endwith %}
-
-
-
-        </div>
-      <div id="geo_bbox" class="parent">
-          <div id="geo_multipoint" class="parent display-none">
-              <div id="geo_multipoint_content">
-
+            </div>
+          <div id="geo_bbox" class="parent">
+              <div id="geo_point" class="parent display-none">
+                  <div id="geo_point_content"></div>
+              </div>
+              <div id="geo_multipoint" class="parent display-none">
+                  <div id="geo_multipoint_content"></div>
+              </div>
+              <div id="geo_linestring" class="parent display-none">
+                  <div id="geo_linestring_content"></div>
+              </div>
+              <div id="geo_multi_linestring" class="parent display-none">
+                  <div id="geo_multi_linestring_content"></div>
+              </div>
+              <div id="geo_polygon" class="parent display-none">
+                  <div id="geo_polygon_content"></div>
+              </div>
+              <div id="geo_multi_polygon" class="parent display-none">
+                  <div id="geo_multi_polygon_content"></div>
+              </div>
+              <div id="geo_geometry_collection" class="parent display-none">
+                  <div id="geo_geometry_collection_content"></div>
+              </div>
+              <div id="geo_null" class="parent display-none">
+                  <div id="geo_null_content"></div>
               </div>
           </div>
-          <div id="geo_polygon" class="parent display-none">
-              <div id="geo_polygon_content">
-
-              </div>
+          <div id="add_button"></div>
+          <div id="upload"></div>
           </div>
-      </div>
-      <div id="add_button"></div>
-      <div id="upload"></div>
-      </div>
-      <input type="hidden" id="listLat" name="listLat" class="input-textbox margin-input-field">
-      <input type="hidden" id="listLon" name="listLon" class="input-textbox margin-input-field">
-    <!--</div>-->
-      <div id="metadata" class="border-content-section margin-content-section padding-content-section">
-        <h4> Metadata </h4><br>
-        <h5> Temporal Extent</h5>
-        <label for="start_date" class="subtitle-1 margin-input-label">Start Date:</label>
-        <input type="datetime-local" id="start_date" name="start_date" class="input-textbox margin-input-field" value="" required>
-        <label for="end_date" class="subtitle-1 margin-input-label">End Date:</label>
-        <input type="datetime-local" id="end_date" name="end_date" class="input-textbox margin-input-field" value="" required><br><br>
-        <h5> Climatological Variables</h5>
-        <p>Examples include temperature, pressure, and relative humidity as well as engineering variables such as cooling degree days. Adding additional variables as relevant is encouraged. Consult this link for standard variable names.</p>
-        <label for="vars" class="subtitle-1 margin-input-label">Add variables as comma separated list:</label>
-        <input type="text" id="vars" name="vars" class="input-textbox margin-input-field" value=""><br><br>
+          <input type="hidden" id="listLat" name="listLat" class="input-textbox margin-input-field">
+          <input type="hidden" id="listLon" name="listLon" class="input-textbox margin-input-field">
+
+        <div id="metadata" class="border-content-section margin-content-section padding-content-section">
+            <h4> Metadata </h4><br>
+            <h5> Temporal Extent</h5>
+            <label for="start_date" class="subtitle-1 margin-input-label">Start Date:</label>
+            <input type="datetime-local" id="start_date" name="start_date" class="input-textbox margin-input-field" value="" required>
+            <label for="end_date" class="subtitle-1 margin-input-label">End Date:</label>
+            <input type="datetime-local" id="end_date" name="end_date" class="input-textbox margin-input-field" value="" required><br><br>
+            <h5> Climatological Variables</h5>
+            <p>Examples include temperature, pressure, and relative humidity as well as engineering variables such as cooling degree days. Adding additional variables as relevant is encouraged. Consult this link for standard variable names.</p>
+            <label for="vars" class="subtitle-1 margin-input-label">Add variables as comma separated list:</label>
+            <input type="text" id="vars" name="vars" class="input-textbox margin-input-field" value=""><br><br>
 
 
-        <h5> Models</h5>
-        <p>List of relevant climate model data sources (eg CMIP6, EC3)</p>
-        <input type="text" id="models" name="models" class="input-textbox margin-input-field" value=""><br>
-      </div>
-      <div id="files" class="border-content-section margin-content-section padding-content-section">
-        <h4> Linked Files </h4><br>
-        <label for="path" class="subtitle-1 margin-input-label">Path to File (Primary file to be uploaded to STAC, should be in your public folder):</label><br>
-        <input type="text" id="path" name="path" class="input-textbox margin-input-field" value="" required><br>
-        <label for="input" class="subtitle-1 margin-input-label">Link to inputs (Link to any input data used (can be RedOak or external link):</label><br>
-        <input type="text" id="input" name="input" class="input-textbox margin-input-field" value=""><br>
-        <label for="link" class="subtitle-1 margin-input-label">Linked to any additional files (workflow files):</label><br>
-        <input type="text" id="link" name="link" class="input-textbox margin-input-field" value=""><br>
-      </div>
-      <br>
-      <div><input type="submit" class="button-med d-button-text" value="Submit Form"></div>
-      <br>
+            <h5> Models</h5>
+            <p>List of relevant climate model data sources (eg CMIP6, EC3)</p>
+            <input type="text" id="models" name="models" class="input-textbox margin-input-field" value=""><br>
+        </div>
+        <div id="files" class="border-content-section margin-content-section padding-content-section">
+            <h4> Linked Files </h4><br>
+            <label for="path" class="subtitle-1 margin-input-label">Path to File (Primary file to be uploaded to STAC, should be in your public folder):</label><br>
+            <input type="text" id="path" name="path" class="input-textbox margin-input-field" value="" required><br>
+            <label for="input" class="subtitle-1 margin-input-label">Link to inputs (Link to any input data used (can be RedOak or external link):</label><br>
+            <input type="text" id="input" name="input" class="input-textbox margin-input-field" value=""><br>
+            <label for="link" class="subtitle-1 margin-input-label">Linked to any additional files (workflow files):</label><br>
+            <input type="text" id="link" name="link" class="input-textbox margin-input-field" value=""><br>
+        </div>
+        <br>
+        <div><input type="submit" class="button-med d-button-text" value="Submit Form"></div>
+        <br>
     </form>
     <script>
       document.getElementById("pointForm").addEventListener("submit", function () {
@@ -336,6 +346,5 @@
       </script>
 
     <script src="js/publish-dataproduct.js"></script>
-
 
 {% endblock %}
