@@ -1,10 +1,14 @@
 function addAuthor(divElementID) {
 
     var authorDiv = document.getElementById(divElementID);
-    var autindex = document.querySelectorAll("[id^=fname]").length + 1; // Count existing authors
+    var authorArray = document.querySelectorAll("[id^=fname]");
+    var lastAuthor = authorArray[authorArray.length - 1]
+    var lastAuthorID = lastAuthor.id;
+    var lastAuthorIDArray = lastAuthorID.split("_");
+    var autindex = parseInt(lastAuthorIDArray[1]) + 1;
 
     var div_box = document.createElement("div");
-    div_box.id = "author" + autindex;
+    div_box.id = "author_" + autindex;
     div_box.classList.add("child", "author-additional-child");
 
     var divFirstName = document.createElement("div");
@@ -22,43 +26,43 @@ function addAuthor(divElementID) {
     var label1 = document.createElement("label");
     label1.innerText = "First Name:";
     label1.classList.add("subtitle-1");
-    label1.setAttribute("for", "fname" + autindex);
+    label1.setAttribute("for", "fname_" + autindex);
 
     var input1 = document.createElement("input");
     input1.classList.add("input-textbox", "margin-input-field");
     input1.setAttribute("type", "text");
-    input1.setAttribute("id", "fname" + autindex);
-    input1.setAttribute("name", "fname[]"); // Make it an array input
+    input1.setAttribute("id", "fname_" + autindex);
+    input1.setAttribute("name", "fname_[]"); // Make it an array input
     input1.addEventListener("input", updateAuthorList); // Update list on input
 
     var label2 = document.createElement("label");
     label2.innerText = "Last Name:";
     label2.classList.add("subtitle-1");
-    label2.setAttribute("for", "lname" + autindex);
+    label2.setAttribute("for", "lname_" + autindex);
 
     var input2 = document.createElement("input");
     input2.classList.add("input-textbox", "margin-input-field");
     input2.setAttribute("type", "text");
-    input2.setAttribute("id", "lname" + autindex);
-    input2.setAttribute("name", "lname[]"); // Changed name to array input for last name
+    input2.setAttribute("id", "lname_" + autindex);
+    input2.setAttribute("name", "lname_[]"); // Changed name to array input for last name
 
     var label3 = document.createElement("label");
     label3.innerText = "Email:";
     label3.classList.add("subtitle-1");
-    label3.setAttribute("for", "email" + autindex);
+    label3.setAttribute("for", "email_" + autindex);
 
     var input3 = document.createElement("input");
     input3.classList.add("input-textbox", "margin-input-field");
     input3.setAttribute("type", "text");
-    input3.setAttribute("id", "email" + autindex);
-    input3.setAttribute("name", "email[]"); // Make it an array input
+    input3.setAttribute("id", "email_" + autindex);
+    input3.setAttribute("name", "email_[]"); // Make it an array input
 
     var removeAuthorButton = document.createElement("input");
     removeAuthorButton.setAttribute("type", "button");
     removeAuthorButton.value = "Remove Author";
     removeAuthorButton.classList.add("button-med", "d-button-text", "author-remove-button");
     removeAuthorButton.addEventListener("click", function() {
-        removeEntry("author_box", "author" + autindex)
+        removeEntry("author_box", "author_" + autindex)
     });
     
     divFirstName.appendChild(label1);
