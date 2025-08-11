@@ -1,8 +1,10 @@
-function initializeDiv(divID) {
+function initializeDiv(geometryType, divID) {
 
+    console.log("divID")
+    console.log(divID)
     var geoBboxDiv = document.getElementById(divID);
     var geoContentDiv;
-    var geoPointRowsDiv;
+
     var geoAddButtonDiv;
     var addButton;
     var geojsonUploadDiv;
@@ -10,6 +12,20 @@ function initializeDiv(divID) {
 
     var geogeojsonUploadTitle = document.createElement("h5");
     geogeojsonUploadTitle.innerText = "OR: GeoJSON bounding box";
+
+    var removeButtonContainer = document.createElement("div");
+    removeButtonContainer.classList.add("remove-button", "display-none");
+
+    var removePointButton = document.createElement("input");
+    removePointButton.id = geometryType + "_remove_1";
+    removePointButton.setAttribute("type", "button");
+    removePointButton.value = "Remove Point";
+    removePointButton.classList.add("button-med", "d-button-text");
+    removePointButton.addEventListener("click", function() {
+        removeEntry("geo_" + geometryType + "_content" , geometryType + "_1");
+    });
+
+    removeButtonContainer.appendChild(removePointButton);
 
     if(divID == "geo_bbox"){
         geoBboxDiv.innerHTML = "";
@@ -19,12 +35,14 @@ function initializeDiv(divID) {
         geoContentDiv = document.getElementById(divID + "_content");
     }
 
+
+
+
+
     switch(divID){
         case "geo_multipoint":
         case "geo_linestring":
         case "geo_polygon":
-            geoPointRowsDiv = document.createElement("div");
-            geoPointRowsDiv.id = "geo_multipoint" + "_points_div";
 
             geoAddButtonDiv = document.createElement("div");
             geoAddButtonDiv.id = "geo_multipoint" + "_add_button_div";
@@ -44,7 +62,7 @@ function initializeDiv(divID) {
             addButton.setAttribute("type", "button");
             addButton.setAttribute("value", "Add Point");
             addButton.addEventListener("click", function(){
-                addPoint(divID + "_content");
+                addPoint(geometryType, divID + "_content");
             });
 
             geoAddButtonDiv.appendChild(addButton);
@@ -56,7 +74,7 @@ function initializeDiv(divID) {
 
 
     var coordinateInputContainerDiv = document.createElement("div");
-    coordinateInputContainerDiv.id = "coordinateContainer1";
+    coordinateInputContainerDiv.id = geometryType + "_1";
     coordinateInputContainerDiv.classList.add("child", "multipoint-child");
 
     var latitudeContainer = document.createElement("div");
@@ -77,7 +95,7 @@ function initializeDiv(divID) {
     input2.id = "lon1";
     input2.classList.add("input-textbox", "margin-input-field");
 
-
+/*
     label1.innerText = "Latitude (Required):";
     label1.setAttribute("for", "bbox1");
 
@@ -91,6 +109,21 @@ function initializeDiv(divID) {
     input2.setAttribute("type", "text");
     input2.setAttribute("id", "bbox2");
     input2.setAttribute("name", "bbox2");
+*/
+
+    label1.innerText = "Latitude (Required):";
+    label1.setAttribute("for", "lat_1");
+
+    input1.setAttribute("type", "text");
+    input1.setAttribute("id",  geometryType + "_lat_1");
+    input1.setAttribute("name", geometryType + "_lat_1");
+
+    label2.innerText = "Longitude (Required):";
+    label2.setAttribute("for", geometryType + "_lon_2");
+
+    input2.setAttribute("type", "text");
+    input2.setAttribute("id", geometryType + "_lon_2");
+    input2.setAttribute("name", geometryType + "_lon_2");
 
     latitudeContainer.appendChild(label1);
     latitudeContainer.appendChild(input1);
@@ -98,6 +131,7 @@ function initializeDiv(divID) {
     longitudeContainer.appendChild(input2);
     coordinateInputContainerDiv.appendChild(latitudeContainer);
     coordinateInputContainerDiv.appendChild(longitudeContainer);
+    coordinateInputContainerDiv.appendChild(removeButtonContainer);
 
 
     switch(divID){
@@ -110,8 +144,7 @@ function initializeDiv(divID) {
         case "geo_multipoint":
         case "geo_linestring":
         case "geo_polygon":
-            geoPointRowsDiv.appendChild(coordinateInputContainerDiv);
-            geoContentDiv.appendChild(geoPointRowsDiv);
+            geoContentDiv.appendChild(coordinateInputContainerDiv);
             geoBboxDiv.appendChild(geoAddButtonDiv);
             geoBboxDiv.appendChild(geojsonUploadDiv);
 
@@ -175,64 +208,96 @@ function swapDiv(divID){
     }
 }
 
-function addPoint(divElementID) {
-        var pointDiv = document.getElementById(divElementID);
-        var autindex = document.querySelectorAll("[id^=lat]").length + 1; // Count existing authors
 
-        var div_box = document.createElement("div");
-        div_box.classList.add("child", "multipoint-additional-child");
-        div_box.id = "multipoint" + autindex;
+function getCoordinateInputNum(geometryType){
 
-        var latitudeDiv = document.createElement("div");
-        latitudeDiv.classList.add("latitude-child");
-        var longitudeDiv = document.createElement("div");
-        longitudeDiv.classList.add("longitude-child");
-        var removeButtonDiv = document.createElement("div");
-        removeButtonDiv.classList.add("remove-button");
+    var coordinateInputArray = getCoordinateInputArray(geometryType);
 
-        var label1 = document.createElement("label");
-        label1.classList.add("subtitle-1");
-        label1.innerText = "Latitude:";
-        label1.setAttribute("for", "lat" + autindex);
+    return coordinateInputArray.length;
 
-        var input1 = document.createElement("input");
-        input1.classList.add("input-textbox", "margin-input-field");
-        input1.setAttribute("type", "text");
-        input1.setAttribute("id", "lat" + autindex);
-        input1.setAttribute("name", "lat[]"); // Make it an array input
-        input1.addEventListener("input", updateAuthorList); // Update list on input
+}
 
-        var label2 = document.createElement("label");
-        label2.classList.add("subtitle-1");
-        label2.innerText = "Longitude:";
-        label2.setAttribute("for", "lon" + autindex);
 
-        var input2 = document.createElement("input");
-        input2.classList.add("input-textbox", "margin-input-field");
-        input2.setAttribute("type", "text");
-        input2.setAttribute("id", "lon" + autindex);
-        input2.setAttribute("name", "lon[]"); // Changed name to array input for last name
+function getCoordinateInputArray(geometryType){
+    var coordinateIDPrefix = geometryType + "_lat_";
+    var coordinateArray = document.querySelectorAll(`[id^=${coordinateIDPrefix}]`);
+    return coordinateArray
+}
 
-        var removePointButton = document.createElement("input");
-        removePointButton.setAttribute("type", "button");
-        removePointButton.value = "Remove Point";
-        removePointButton.classList.add("button-med", "d-button-text");
-        removePointButton.addEventListener("click", function() {
-            removeEntry(divElementID, "multipoint" + autindex);
-        });
+function addPoint(geometryType, divElementID) {
+    console.log("geometryType")
+    console.log(geometryType)
+    console.log("divElementID")
+    console.log(divElementID)
 
-        latitudeDiv.appendChild(label1);
-        latitudeDiv.appendChild(input1);
-        longitudeDiv.appendChild(label2);
-        longitudeDiv.appendChild(input2);
-        removeButtonDiv.appendChild(removePointButton);
-
-        div_box.appendChild(latitudeDiv);
-        div_box.appendChild(longitudeDiv);
-        div_box.appendChild(removeButtonDiv);
-
-        pointDiv.appendChild(div_box);
+    var firstRemoveButton = document.getElementById(geometryType + "_remove_1");
+    if(firstRemoveButton.classList.contains("show")){
+        firstRemoveButton.classList.remove("show");
     }
+
+    var pointDiv = document.getElementById(divElementID);
+    //var autindex = document.querySelectorAll("[id^=lat]").length + 1; // Count existing authors
+    var pointArray = getCoordinateInputArray(geometryType);
+
+    var autindex = updateIndex(pointArray);
+
+    var div_box = document.createElement("div");
+    div_box.classList.add("child", "multipoint-additional-child");
+    div_box.id = geometryType + "_" + autindex;
+
+    var latitudeDiv = document.createElement("div");
+    latitudeDiv.classList.add("latitude-child");
+    var longitudeDiv = document.createElement("div");
+    longitudeDiv.classList.add("longitude-child");
+    var removeButtonDiv = document.createElement("div");
+    removeButtonDiv.classList.add("remove-button");
+
+    var label1 = document.createElement("label");
+    label1.classList.add("subtitle-1");
+    label1.innerText = "Latitude:";
+    label1.setAttribute("for", geometryType + "_lat_" + autindex);
+
+    var input1 = document.createElement("input");
+    input1.classList.add("input-textbox", "margin-input-field");
+    input1.setAttribute("type", "text");
+    input1.setAttribute("id", geometryType + "_lat_" + autindex);
+    input1.setAttribute("name", geometryType + "_lat_[]"); // Make it an array input
+    input1.addEventListener("input", updateAuthorList); // Update list on input
+
+    var label2 = document.createElement("label");
+    label2.classList.add("subtitle-1");
+    label2.innerText = "Longitude:";
+    label2.setAttribute("for", geometryType + "_lon_" + autindex);
+
+    var input2 = document.createElement("input");
+    input2.classList.add("input-textbox", "margin-input-field");
+    input2.setAttribute("type", "text");
+    input2.setAttribute("id", geometryType + "_lon_" + autindex);
+    input2.setAttribute("name", geometryType + "_lon_[]"); // Changed name to array input for last name
+
+    var removePointButton = document.createElement("input");
+    removePointButton.setAttribute("type", "button");
+    removePointButton.value = "Remove Point";
+    removePointButton.classList.add("button-med", "d-button-text");
+    removePointButton.addEventListener("click", function() {
+        removeEntry(divElementID, geometryType + "_" + autindex);
+    });
+
+    latitudeDiv.appendChild(label1);
+    latitudeDiv.appendChild(input1);
+    longitudeDiv.appendChild(label2);
+    longitudeDiv.appendChild(input2);
+    removeButtonDiv.appendChild(removePointButton);
+
+    div_box.appendChild(latitudeDiv);
+    div_box.appendChild(longitudeDiv);
+    div_box.appendChild(removeButtonDiv);
+
+    if(getCoordinateInputNum(geometryType) == 1){
+
+    }
+    pointDiv.appendChild(div_box);
+}
 
 
 function getDivElements(divID){
