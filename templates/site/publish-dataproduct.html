@@ -2,10 +2,8 @@
 
 {% block account_content %}
 
-
-    <script src="js/multi-polygon.js"></script>
     <script src="js/addAuthor.js"></script>
-
+    <script src="js/multi-polygon.js"></script>
     <script>
 
     function geoPolygon2(selected_geometry) {
@@ -19,7 +17,7 @@
             }
             else{
                 swapDiv('geo_point');
-                initializeDiv('geo_point');
+                initializePointInputDiv('point', 'geo_point');
             }
 
               /*
@@ -41,6 +39,7 @@
 
             } else if ([2, 3, 5].includes(selected_geometry)) {
 
+
                 switch (selected_geometry){
                     case 2:
                         // For MultiPoint
@@ -49,13 +48,13 @@
                         }
                         else{
                             swapDiv('geo_multipoint');
-                            initializeDiv('geo_multipoint');
+                            initializePointInputDiv('multipoint', 'geo_multipoint');
                         }
-/*
+
                         document.getElementById('add_button').innerHTML =
                             `<div id="addMultiPointButtons" class="multipoint-buttons">
-                              <input type="button" class="button-med d-button-text" value="Add Point" onclick="addPoint('geo_multipoint_content');"/>
-                             </div>`;*/
+                              <input type="button" class="button-med d-button-text" value="Add Point" onclick="addPoint('multipoint', 'geo_multipoint_content');"/>
+                             </div>`;
 
                         break;
 
@@ -66,13 +65,13 @@
                         }
                         else{
                             swapDiv('geo_linestring');
-                            initializeDiv('geo_linestring');
+                            initializePointInputDiv('linestring', 'geo_linestring');
                         }
-/*
+
                         document.getElementById('add_button').innerHTML =
                             `<div id="addMultiPointButtons" class="multipoint-buttons">
-                              <input type="button" class="button-med d-button-text" value="Add Point" onclick="addPoint('geo_linestring_content');"/>
-                             </div>`;*/
+                              <input type="button" class="button-med d-button-text" value="Add Point" onclick="addPoint('linestring', 'geo_linestring_content');"/>
+                             </div>`;
 
                         break;
 
@@ -83,15 +82,16 @@
                         }
                         else{
                             swapDiv('geo_polygon');
-                            initializeDiv('geo_polygon');
+                            initializePointInputDiv('polygon', 'geo_polygon');
                         }
-/*
+
                         document.getElementById('add_button').innerHTML =
                             `<div id="addMultiPointButtons" >
-                              <input type="button" class="button-med d-button-text" value="Add Point" onclick="addPoint('geo_polygon_content');"/>
-                             </div>`;*/
+                              <input type="button" class="button-med d-button-text" value="Add Point" onclick="addPoint('polygon', 'geo_polygon_content');"/>
+                             </div>`;
 
                         break;
+
                 }
 
 
@@ -181,8 +181,8 @@
         var listLon = [];
 
         // Select all first name and last name inputs
-        var inputs1 = document.querySelectorAll("[name='lat[]'], #lat1"); // First name inputs (including the initial one)
-        var inputs2 = document.querySelectorAll("[name='lon[]'], #lon1"); // Last name inputs (including the initial one)
+        var inputs1 = document.querySelectorAll("[name='lat_[]'], #lat_1"); // First name inputs (including the initial one)
+        var inputs2 = document.querySelectorAll("[name='lon_[]'], #lon_1"); // Last name inputs (including the initial one)
 
         inputs1.forEach(input => {
             if (input.value.trim() !== "") {
@@ -234,19 +234,25 @@
             <p>Citation will list authors in order placed here. First author will be contacted by email regarding any issues in the submission.</p>
             <div id="author_box" class="parent author-parent">
             <!-- Initial author fields -->
-                <div id="author1" class="child author-child">
+                <div id="author_1" class="child author-child">
                     <div class="author-details">
-                        <label for="fname1" class="subtitle-1 margin-input-label">First Name:</label><br>
-                        <input type="text" id="fname1" name="fname1" class="input-textbox margin-input-field" value="" required><br>
+                        <label for="fname_1" class="subtitle-1 margin-input-label">First Name:</label><br>
+                        <input type="text" id="fname_1" name="fname1" class="input-textbox margin-input-field" value="" required><br>
                     </div>
                     <div class="author-details">
-                        <label for="lname1" class="subtitle-1 margin-input-label">Last Name:</label><br>
-                        <input type="text" id="lname1" name="lname1" class="input-textbox margin-input-field" value="" required><br>
+                        <label for="lname_1" class="subtitle-1 margin-input-label">Last Name:</label><br>
+                        <input type="text" id="lname_1" name="lname1" class="input-textbox margin-input-field" value="" required><br>
                     </div>
                     <div class="author-details">
-                        <label for="email1" class="subtitle-1 margin-input-label">Email:</label><br>
-                        <input type="text" id="email1" name="email1" class="input-textbox margin-input-field" value="" required><br>
+                        <label for="email_1" class="subtitle-1 margin-input-label">Email:</label><br>
+                        <input type="text" id="email_1" name="email1" class="input-textbox margin-input-field" value="" required><br>
                     </div>
+                    <div class="remove-button">
+                        <div id="author_remove_container_1" class="display-none">
+                            <input type="button" id="author_remove_1" name="author_remove_1" class="button-med d-button-text author-remove-button" value="Remove Author"><br>
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div id="addAuthorButtons" class="author-buttons">
