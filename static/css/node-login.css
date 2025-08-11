@@ -2004,11 +2004,12 @@ dialog {
     flex-direction: row;
 }
 
-.author-child div:not(:last-child), .point-child div:not(:last-child), .multipoint-child div:not(:last-child){
+.point-child div:not(:last-child){
     margin-right: 60px;
 }
 
-.author-additional-child div:not(:nth-last-child(2)), .multipoint-additional-child div:not(:nth-last-child(2)){
+.author-child div:not(:nth-last-child(2)), .author-additional-child div:not(:nth-last-child(2))
+, .multipoint-child div:not(:nth-last-child(2)), .multipoint-additional-child div:not(:nth-last-child(2)){
     margin-right: 60px;
 }
 
