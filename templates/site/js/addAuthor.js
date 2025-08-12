@@ -221,9 +221,9 @@ function updateAuthorList() {
     var authorsEmails = [];
 
     // Select all first name and last name inputs
-    var inputs1 = document.querySelectorAll("[name='fname[]'], #fname1"); // First name inputs (including the initial one)
-    var inputs2 = document.querySelectorAll("[name='lname[]'], #lname1"); // Last name inputs (including the initial one)
-    var inputs3 = document.querySelectorAll("[name='email[]'], #email1"); // Last name inputs (including the initial one)
+    var inputs1 = document.querySelectorAll("[name='fname_[]'], #fname_1"); // First name inputs (including the initial one)
+    var inputs2 = document.querySelectorAll("[name='lname_[]'], #lname_1"); // Last name inputs (including the initial one)
+    var inputs3 = document.querySelectorAll("[name='email_[]'], #email_1"); // Last name inputs (including the initial one)
 
     inputs1.forEach(input => {
         if (input.value.trim() !== "") {
