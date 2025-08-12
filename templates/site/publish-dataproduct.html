@@ -35,7 +35,7 @@
             </div>
             `;*/
             document.getElementById('add_button').innerHTML = ``;
-            document.getElementById('upload').innerHTML = ``;
+           // document.getElementById('upload').innerHTML = ``;
 
             } else if ([2, 3, 5].includes(selected_geometry)) {
 
@@ -50,11 +50,11 @@
                             swapDiv('geo_multipoint');
                             initializePointInputDiv('multipoint', 'geo_multipoint');
                         }
-
+                    /*
                         document.getElementById('add_button').innerHTML =
                             `<div id="addMultiPointButtons" class="multipoint-buttons">
                               <input type="button" class="button-med d-button-text" value="Add Point" onclick="addPoint('multipoint', 'geo_multipoint_content');"/>
-                             </div>`;
+                             </div>`;*/
 
                         break;
 
@@ -67,11 +67,11 @@
                             swapDiv('geo_linestring');
                             initializePointInputDiv('linestring', 'geo_linestring');
                         }
-
+                        /*
                         document.getElementById('add_button').innerHTML =
                             `<div id="addMultiPointButtons" class="multipoint-buttons">
                               <input type="button" class="button-med d-button-text" value="Add Point" onclick="addPoint('linestring', 'geo_linestring_content');"/>
-                             </div>`;
+                             </div>`;*/
 
                         break;
 
@@ -84,11 +84,11 @@
                             swapDiv('geo_polygon');
                             initializePointInputDiv('polygon', 'geo_polygon');
                         }
-
+                        /*
                         document.getElementById('add_button').innerHTML =
                             `<div id="addMultiPointButtons" >
                               <input type="button" class="button-med d-button-text" value="Add Point" onclick="addPoint('polygon', 'geo_polygon_content');"/>
-                             </div>`;
+                             </div>`;*/
 
                         break;
 
