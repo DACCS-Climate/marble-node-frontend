@@ -80,104 +80,113 @@ function initializeAuthor(divAuthorBoxID){
 
 function addAuthor(divElementID) {
 
+    var currentAuthorIndex;
+    var autindex;
     var authorDiv = document.getElementById(divElementID);
     var authorArray = document.querySelectorAll("[id^=fname]");
+
     var authorDivIDArray = divElementID.split("_");
     var geometryType = authorDivIDArray[0];
 
-    if(authorArray.length < 1 || authorArray.length == null){
-        initializeAuthor(divElementID);
+
+    autindex = updateIndex(authorArray);
+
+    var authorArrayItem = authorArray[0]
+    var currentAuthorFieldID = authorArrayItem.id;
+    var currentAuthorIDArray = currentAuthorFieldID.split("_");
+    currentAuthorIndex = currentAuthorIDArray[1];
+
+    var firstRemoveButton = document.getElementById(geometryType + "_remove_container_" + currentAuthorIndex);
+
+    if(!firstRemoveButton.classList.contains("show")){
+        firstRemoveButton.classList.add("show");
     }
-    else{
 
-        var autindex = updateIndex(authorArray);
-        var firstRemoveButton = document.getElementById(geometryType + "_remove_container_1");
 
-        if(firstRemoveButton.classList.contains("show")){
-            firstRemoveButton.classList.remove("show");
-        }
+    var div_box = document.createElement("div");
+    div_box.id = "author_" + autindex;
+    div_box.classList.add("child", "author-additional-child");
 
-        if(firstRemoveButton.classList.contains("show")){
-            firstRemoveButton.classList.remove("show");
-        }
+    var divFirstName = document.createElement("div");
+    divFirstName.classList.add("author-details");
 
-        var div_box = document.createElement("div");
-        div_box.id = "author_" + autindex;
-        div_box.classList.add("child", "author-additional-child");
+    var divLastName = document.createElement("div");
+    divLastName.classList.add("author-details");
 
-        var divFirstName = document.createElement("div");
-        divFirstName.classList.add("author-details");
+    var divEmail = document.createElement("div");
+    divEmail.classList.add("author-details");
 
-        var divLastName = document.createElement("div");
-        divLastName.classList.add("author-details");
+    var divRemoveAuthor = document.createElement("div");
+    divRemoveAuthor.id = "author_remove_container_" + autindex;
+    divRemoveAuthor.classList.add("display-none", "show");
 
-        var divEmail = document.createElement("div");
-        divEmail.classList.add("author-details");
+    var divRemoveAuthorParent = document.createElement("div");
+    divRemoveAuthorParent.classList.add("remove-button");
 
-        var divRemoveAuthor = document.createElement("div");
-        divRemoveAuthor.classList.add("remove-button");
+    var label1 = document.createElement("label");
+    label1.innerText = "First Name:";
+    label1.classList.add("subtitle-1");
+    label1.setAttribute("for", "fname_" + autindex);
 
-        var label1 = document.createElement("label");
-        label1.innerText = "First Name:";
-        label1.classList.add("subtitle-1");
-        label1.setAttribute("for", "fname_" + autindex);
+    var input1 = document.createElement("input");
+    input1.classList.add("input-textbox", "margin-input-field");
+    input1.setAttribute("type", "text");
+    input1.setAttribute("id", "fname_" + autindex);
+    input1.setAttribute("name", "fname_[]"); // Make it an array input
+    input1.addEventListener("input", updateAuthorList); // Update list on input
 
-        var input1 = document.createElement("input");
-        input1.classList.add("input-textbox", "margin-input-field");
-        input1.setAttribute("type", "text");
-        input1.setAttribute("id", "fname_" + autindex);
-        input1.setAttribute("name", "fname_[]"); // Make it an array input
-        input1.addEventListener("input", updateAuthorList); // Update list on input
+    var label2 = document.createElement("label");
+    label2.innerText = "Last Name:";
+    label2.classList.add("subtitle-1");
+    label2.setAttribute("for", "lname_" + autindex);
 
-        var label2 = document.createElement("label");
-        label2.innerText = "Last Name:";
-        label2.classList.add("subtitle-1");
-        label2.setAttribute("for", "lname_" + autindex);
+    var input2 = document.createElement("input");
+    input2.classList.add("input-textbox", "margin-input-field");
+    input2.setAttribute("type", "text");
+    input2.setAttribute("id", "lname_" + autindex);
+    input2.setAttribute("name", "lname_[]"); // Changed name to array input for last name
 
-        var input2 = document.createElement("input");
-        input2.classList.add("input-textbox", "margin-input-field");
-        input2.setAttribute("type", "text");
-        input2.setAttribute("id", "lname_" + autindex);
-        input2.setAttribute("name", "lname_[]"); // Changed name to array input for last name
+    var label3 = document.createElement("label");
+    label3.innerText = "Email:";
+    label3.classList.add("subtitle-1");
+    label3.setAttribute("for", "email_" + autindex);
 
-        var label3 = document.createElement("label");
-        label3.innerText = "Email:";
-        label3.classList.add("subtitle-1");
-        label3.setAttribute("for", "email_" + autindex);
+    var input3 = document.createElement("input");
+    input3.classList.add("input-textbox", "margin-input-field");
+    input3.setAttribute("type", "text");
+    input3.setAttribute("id", "email_" + autindex);
+    input3.setAttribute("name", "email_[]"); // Make it an array input
 
-        var input3 = document.createElement("input");
-        input3.classList.add("input-textbox", "margin-input-field");
-        input3.setAttribute("type", "text");
-        input3.setAttribute("id", "email_" + autindex);
-        input3.setAttribute("name", "email_[]"); // Make it an array input
+    var removeAuthorButton = document.createElement("input");
+    removeAuthorButton.setAttribute("type", "button");
+    removeAuthorButton.value = "Remove Author";
+    removeAuthorButton.classList.add("button-med", "d-button-text", "author-remove-button");
+    removeAuthorButton.addEventListener("click", function() {
+        removeEntry("author_box", "author_" + autindex)
+    });
 
-        var removeAuthorButton = document.createElement("input");
-        removeAuthorButton.setAttribute("type", "button");
-        removeAuthorButton.value = "Remove Author";
-        removeAuthorButton.classList.add("button-med", "d-button-text", "author-remove-button");
-        removeAuthorButton.addEventListener("click", function() {
-            removeEntry("author_box", "author_" + autindex)
-        });
+    divFirstName.appendChild(label1);
+    divFirstName.appendChild(input1);
+    divLastName.appendChild(label2);
+    divLastName.appendChild(input2);
+    divEmail.appendChild(label3);
+    divEmail.appendChild(input3);
+    divRemoveAuthor.appendChild(removeAuthorButton);
+    divRemoveAuthorParent.appendChild(divRemoveAuthor);
 
-        divFirstName.appendChild(label1);
-        divFirstName.appendChild(input1);
-        divLastName.appendChild(label2);
-        divLastName.appendChild(input2);
-        divEmail.appendChild(label3);
-        divEmail.appendChild(input3);
-        divRemoveAuthor.appendChild(removeAuthorButton);
+    div_box.appendChild(divFirstName);
+    div_box.appendChild(divLastName);
+    div_box.appendChild(divEmail);
+    div_box.appendChild(divRemoveAuthorParent);
 
-        div_box.appendChild(divFirstName);
-        div_box.appendChild(divLastName);
-        div_box.appendChild(divEmail);
-        div_box.appendChild(divRemoveAuthor);
+    authorDiv.appendChild(div_box);
 
-        authorDiv.appendChild(div_box);
-    }
 }
 
 function removeEntry(parentElementID, elementID){
-
+    var inputArray;
+    var currentInputIndex;
+    var firstRemoveButton;
     var elementIDArray = elementID.split("_");
     var geometryType = elementIDArray[0];
     var parentDiv = document.getElementById(parentElementID);
@@ -185,15 +194,42 @@ function removeEntry(parentElementID, elementID){
 
     parentDiv.removeChild(coordinateEntry);
 
-    if(getCoordinateInputNum(geometryType) === 1){
+    if(geometryType == "author") {
+        inputArray = document.querySelectorAll("[id^=fname]");
 
-        var firstRemoveButton = document.getElementById(geometryType + "_remove_container_1");
-
-        if(!firstRemoveButton.classList.contains("show")){
-            firstRemoveButton.classList.add("show");
+        if(inputArray.length == 1) {
+            var inputArrayItem = inputArray[0]
+            var currentInputFieldID = inputArrayItem.id;
+            var currentInputIDArray = currentInputFieldID.split("_");
+            currentInputIndex = currentInputIDArray[1];
+            firstRemoveButton = document.getElementById(geometryType + "_remove_container_" + currentInputIndex);
+            
+            if(!firstRemoveButton.classList.contains("show")){
+                firstRemoveButton.classList.add("show");
+            }
+            else{
+                firstRemoveButton.classList.remove("show");
+            }
         }
+    }
+    else{
+        var coordinateIDPrefix = geometryType + "_lat_";
+        inputArray = document.querySelectorAll(`[id^=${coordinateIDPrefix}]`);
+        if(inputArray.length == 1) {
+            var inputArrayItem = inputArray[0]
+            var currentInputFieldID = inputArrayItem.id;
+            var currentInputIDArray = currentInputFieldID.split("_");
+            currentInputIndex = currentInputIDArray[2];
 
+            firstRemoveButton = document.getElementById(geometryType + "_remove_container_" + currentInputIndex);
 
+            if(!firstRemoveButton.classList.contains("show")){
+                firstRemoveButton.classList.add("show");
+            }
+            else{
+                firstRemoveButton.classList.remove("show");
+            }
+        }
     }
 }
 
