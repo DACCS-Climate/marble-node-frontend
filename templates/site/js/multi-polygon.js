@@ -1,8 +1,6 @@
 function initializePointInputDiv(geometryType, divID) {
-
     var geoBboxDiv = document.getElementById(divID);
     var geoContentDiv;
-
     var geoAddButtonDiv;
     var addButton;
     var geojsonUploadDiv;
@@ -35,11 +33,14 @@ function initializePointInputDiv(geometryType, divID) {
     }
     else{
         geoBboxDiv.classList.add("show");
-        geoContentDiv = document.getElementById(divID + "_content");
+        if(divID.includes("_content")){
+            geoContentDiv = document.getElementById(divID );
+        }
+        else{
+            geoContentDiv = document.getElementById(divID + "_content");
+        }
+
     }
-
-
-
 
 
     switch(divID){
@@ -223,13 +224,13 @@ function getCoordinateInputArray(geometryType){
 }
 
 function addPoint(geometryType, divElementID) {
-
-
     var pointInputArray = getCoordinateInputArray(geometryType);
 
-
     if(pointInputArray.length < 1 || pointInputArray.length == null){
-        initializePointInputDiv(geometryType, divElementID);
+        var divElementIDArray = divElementID.split("_");
+        var initializeDiv = divElementIDArray[0] + "_" + divElementIDArray[1];
+
+        initializePointInputDiv(geometryType, initializeDiv);
     }
     else{
         var firstRemoveButton = document.getElementById(geometryType + "_remove_container_1");
