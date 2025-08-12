@@ -9,6 +9,7 @@ function initializePointInputDiv(geometryType, divID) {
     var geogeojsonUploadTitle = document.createElement("h5");
     geogeojsonUploadTitle.innerText = "OR: GeoJSON bounding box";
 
+    // Create remove button, its container and an additional container parent for positioning
     var removeButtonContainerParent = document.createElement("div");
     removeButtonContainerParent.classList.add("remove-button");
 
@@ -28,6 +29,11 @@ function initializePointInputDiv(geometryType, divID) {
     removeButtonContainer.appendChild(removePointButton);
     removeButtonContainerParent.appendChild(removeButtonContainer);
 
+    //Clears div displaying geometry point input fields if the ID "geo_bbox" is passed
+    // NOTE:  this was the original behaviour
+
+    //If any other ID is passed, show the contents of the div
+    // NOTE: This is newly added behaviour
     if(divID == "geo_bbox"){
         geoBboxDiv.innerHTML = "";
     }
@@ -43,13 +49,11 @@ function initializePointInputDiv(geometryType, divID) {
     }
 
 
+    //Only create the geojson upload input field and add button for the following geometries
     switch(divID){
         case "geo_multipoint":
         case "geo_linestring":
         case "geo_polygon":
-
-            geoAddButtonDiv = document.createElement("div");
-            geoAddButtonDiv.id = "geo_multipoint" + "_add_button_div";
 
             geojsonUploadDiv = document.createElement("div");
             geojsonUploadDiv.id = divID + "_geojson_upload_div";
@@ -59,6 +63,9 @@ function initializePointInputDiv(geometryType, divID) {
             geojsonUploadInput.setAttribute("type", "text");
             geojsonUploadInput.setAttribute("name", divID + "File");
             geojsonUploadInput.classList.add("input-textbox", "margin-input-field");
+
+            geoAddButtonDiv = document.createElement("div");
+            geoAddButtonDiv.id = "geo_multipoint" + "_add_button_div";
 
             addButton = document.createElement("input");
             addButton.id = divID + "_add_button";
@@ -137,9 +144,12 @@ function initializePointInputDiv(geometryType, divID) {
         case "geo_linestring":
         case "geo_polygon":
             geoContentDiv.appendChild(coordinateInputContainerDiv);
-            geoBboxDiv.appendChild(geoAddButtonDiv);
-            geoBboxDiv.appendChild(geojsonUploadDiv);
 
+            if(document.getElementById("geo_" + geometryType + "_add_button_div") == null &&
+                document.getElementById("geo_" + geometryType + "_geojson_upload_div") == null) {
+                geoBboxDiv.appendChild(geoAddButtonDiv);
+                geoBboxDiv.appendChild(geojsonUploadDiv);
+            }
             break;
 
         case "geo_multi_linestring":
