@@ -8,7 +8,7 @@
 
     function geoPolygon2(selected_geometry) {
         //var selected_geometry = document.getElementById("geometry").selectedIndex;
-        console.log(selected_geometry);
+        //console.log(selected_geometry);
         if (selected_geometry == 1) {
             // For Point
 
@@ -34,7 +34,7 @@
                 </div>
             </div>
             `;*/
-            document.getElementById('add_button').innerHTML = ``;
+            //document.getElementById('add_button').innerHTML = ``;
            // document.getElementById('upload').innerHTML = ``;
 
             } else if ([2, 3, 5].includes(selected_geometry)) {
@@ -43,7 +43,8 @@
                 switch (selected_geometry){
                     case 2:
                         // For MultiPoint
-                        if(document.getElementById("geo_multipoint_content").querySelector(".multipoint-child") != null){
+                        if(document.getElementById("geo_multipoint_content").querySelector(".multipoint-child") != null
+                        || document.getElementById("geo_multipoint_content").querySelector(".multipoint-additional-child") != null){
                             swapDiv('geo_multipoint');
                         }
                         else{
@@ -60,7 +61,8 @@
 
                     case 3:
                         // For LineString
-                        if(document.getElementById("geo_linestring").querySelector(".multipoint-child") != null){
+                        if(document.getElementById("geo_linestring_content").querySelector(".multipoint-child") != null
+                        || document.getElementById("geo_linestring_content").querySelector(".multipoint-additional-child") != null){
                             swapDiv('geo_linestring');
                         }
                         else{
@@ -77,7 +79,8 @@
 
                     case 5:
                         // For Polygon
-                        if(document.getElementById("geo_polygon_content").querySelector(".multipoint-child") != null){
+                        if(document.getElementById("geo_polygon_content").querySelector(".multipoint-child") != null
+                        || document.getElementById("geo_polygon_content").querySelector(".multipoint-additional-child") != null){
                             swapDiv('geo_polygon');
                         }
                         else{
@@ -114,7 +117,7 @@
                             initializeUploadDiv('geo_multi_linestring');
                         }
 
-                        document.getElementById('add_button').innerHTML = ``;
+                       // document.getElementById('add_button').innerHTML = ``;
                         /*document.getElementById('upload').innerHTML = `
                         <h5> GeoJSON bounding box </h5><br>
                         <input type="text" id="myFile" name="myFile" class="input-textbox margin-input-field" value="">
@@ -132,7 +135,7 @@
                             initializeUploadDiv('geo_multi_polygon');
                         }
 
-                        document.getElementById('add_button').innerHTML = ``;
+                       // document.getElementById('add_button').innerHTML = ``;
                         /*
                         document.getElementById('upload').innerHTML = `
                         <h5> GeoJSON bounding box </h5><br>
@@ -151,7 +154,7 @@
                             initializeUploadDiv('geo_geometry_collection');
                         }
 
-                        document.getElementById('add_button').innerHTML = ``;
+                       // document.getElementById('add_button').innerHTML = ``;
                         /*
                         document.getElementById('upload').innerHTML = `
                         <h5> GeoJSON bounding box </h5><br>
@@ -309,8 +312,8 @@
                   <div id="geo_null_content"></div>
               </div>
           </div>
-          <div id="add_button"></div>
-          <div id="upload"></div>
+          <!--<div id="add_button"></div>
+          <div id="upload"></div>-->
           </div>
           <input type="hidden" id="listLat" name="listLat" class="input-textbox margin-input-field">
           <input type="hidden" id="listLon" name="listLon" class="input-textbox margin-input-field">
