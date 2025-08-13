@@ -160,7 +160,8 @@ function initializePointInputDiv(geometryType, divID) {
 
             break;
     }
-
+//TODO: Delete this if not needed
+// Original behaviour was to add dynamic input fields to the "geo_bbox" div instead of each geometry type to its own div
 /*
     if(divID == "geo_bbox"){
         geoBboxDiv.appendChild(coordinateInputContainerDiv);
