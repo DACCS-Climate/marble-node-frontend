@@ -8,6 +8,7 @@ function initializePointInputDiv(geometryType, divID) {
 
     var geogeojsonUploadTitle = document.createElement("h5");
     geogeojsonUploadTitle.innerText = "OR: GeoJSON bounding box";
+    geogeojsonUploadTitle.classList.add("margin-unset", "margin-geojson-input-label");
 
     // Create remove button, its container and an additional container parent for positioning
     var removeButtonContainerParent = document.createElement("div");
@@ -93,7 +94,7 @@ function initializePointInputDiv(geometryType, divID) {
 
     var label1 = document.createElement("label");
     var input1 = document.createElement("input");
-    label1.classList.add("subtitle-1");
+    label1.classList.add("subtitle-1", "margin-input-label");
     input1.id = "lat1";
     input1.classList.add("input-textbox", "margin-input-field");
 
@@ -102,7 +103,7 @@ function initializePointInputDiv(geometryType, divID) {
 
     var label2 = document.createElement("label");
     var input2 = document.createElement("input");
-    label2.classList.add("subtitle-1");
+    label2.classList.add("subtitle-1", "margin-input-label");
     input2.id = "lon1";
     input2.classList.add("input-textbox", "margin-input-field");
 
@@ -273,7 +274,7 @@ function addPoint(geometryType, divElementID) {
 
 
     var label1 = document.createElement("label");
-    label1.classList.add("subtitle-1");
+    label1.classList.add("subtitle-1", "margin-input-label");
     label1.innerText = "Latitude:";
     label1.setAttribute("for", geometryType + "_lat_" + autindex);
 
@@ -285,7 +286,7 @@ function addPoint(geometryType, divElementID) {
     input1.addEventListener("input", updateAuthorList); // Update list on input
 
     var label2 = document.createElement("label");
-    label2.classList.add("subtitle-1");
+    label2.classList.add("subtitle-1", "margin-input-label");
     label2.innerText = "Longitude:";
     label2.setAttribute("for", geometryType + "_lon_" + autindex);
 
