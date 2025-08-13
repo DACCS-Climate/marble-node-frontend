@@ -1826,6 +1826,7 @@ dialog {
     background-color: var(--gray-100);
     box-shadow: var(--account-overview-elevation);
     padding-left: 61px;
+    padding-right: 61px;
 }
 
 .margin-content-section{
@@ -2013,7 +2014,7 @@ dialog {
     margin-right: 60px;
 }
 
-.remove-button, .author-remove-button{
+.remove-button{
     margin-left: 10px;
 }
 
@@ -2022,10 +2023,13 @@ dialog {
     flex-direction: column;
 }
 
-.author-buttons{
+.author-button{
     display: flex;
     flex-direction: row;
-    margin-top: 30px;
+}
+
+.margin-author-button{
+    margin-top: 10px;
 }
 
 .remove-button{
@@ -2035,7 +2039,19 @@ dialog {
     margin-bottom: 10px;
 }
 
-.author-buttons input:not(:last-child){
+.author-button input:not(:last-child){
     margin-right: 30px;
 }
 
+.margin-geojson-input-label{
+    margin-top: 30px;
+}
+
+.margin-title{
+    margin-bottom: 30px;
+}
+
+.margin-title-underline{
+    margin-top : 20px;
+    margin-bottom: 30px;
+}
