@@ -125,7 +125,7 @@ function addAuthor(divElementID) {
 
     var label1 = document.createElement("label");
     label1.innerText = "First Name:";
-    label1.classList.add("subtitle-1");
+    label1.classList.add("subtitle-1", "margin-input-label");
     label1.setAttribute("for", "fname_" + autindex);
 
     var input1 = document.createElement("input");
@@ -137,7 +137,7 @@ function addAuthor(divElementID) {
 
     var label2 = document.createElement("label");
     label2.innerText = "Last Name:";
-    label2.classList.add("subtitle-1");
+    label2.classList.add("subtitle-1", "margin-input-label");
     label2.setAttribute("for", "lname_" + autindex);
 
     var input2 = document.createElement("input");
@@ -148,7 +148,7 @@ function addAuthor(divElementID) {
 
     var label3 = document.createElement("label");
     label3.innerText = "Email:";
-    label3.classList.add("subtitle-1");
+    label3.classList.add("subtitle-1", "margin-input-label");
     label3.setAttribute("for", "email_" + autindex);
 
     var input3 = document.createElement("input");
@@ -160,7 +160,7 @@ function addAuthor(divElementID) {
     var removeAuthorButton = document.createElement("input");
     removeAuthorButton.setAttribute("type", "button");
     removeAuthorButton.value = "Remove Author";
-    removeAuthorButton.classList.add("button-med", "d-button-text", "author-remove-button");
+    removeAuthorButton.classList.add("button-med", "d-button-text");
     removeAuthorButton.addEventListener("click", function() {
         removeEntry("author_box", "author_" + autindex)
     });
@@ -203,7 +203,7 @@ function removeEntry(parentElementID, elementID){
             var currentInputIDArray = currentInputFieldID.split("_");
             currentInputIndex = currentInputIDArray[1];
             firstRemoveButton = document.getElementById(geometryType + "_remove_container_" + currentInputIndex);
-            
+
             if(!firstRemoveButton.classList.contains("show")){
                 firstRemoveButton.classList.add("show");
             }
