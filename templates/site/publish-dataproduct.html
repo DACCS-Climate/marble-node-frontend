@@ -224,8 +224,9 @@
         </div>
 
         <div id="background" class="border-content-section margin-content-section padding-content-section">
-            <h4> Background Information</h4><br>
-            <label for="title" class="subtitle-1 margin-input-label">Title:</label><br>
+            <h4> Background Information</h4>
+            <hr class="margin-title-underline">
+            <label for="title" class="subtitle-1">Title:</label><br>
             <input type="text" id="title" name="title" class="input-textbox margin-input-field" value="" required><br><br>
             <label for="desc" class="subtitle-1 margin-input-label">Description:</label><br>
             <p><i>Include any additional details you want to provide about the STAC item. Similar to an abstract.</i></p>
@@ -233,7 +234,8 @@
         </div>
 
         <div class="author-group border-content-section margin-content-section padding-content-section">
-            <h4>Authors</h4><br>
+            <h4>Authors</h4>
+            <hr class="margin-title-underline">
             <p>Citation will list authors in order placed here. First author will be contacted by email regarding any issues in the submission.</p>
             <div id="author_box" class="parent author-parent">
             <!-- Initial author fields -->
@@ -258,7 +260,7 @@
 
                 </div>
             </div>
-            <div id="addAuthorButtons" class="author-buttons">
+            <div id="addAuthorButtons" class="author-button">
                 <input type="button" value="Add Author" class="button-med d-button-text" onclick="addAuthor('author_box');"/>
             </div>
 
@@ -268,9 +270,10 @@
         </div>
 
         <div id="geometry_class" class="border-content-section margin-content-section padding-content-section">
-            <h4> Geometry </h4><br>
+            <h4> Geometry </h4>
+            <hr class="margin-title-underline">
             <p> Information on geometry types can be found here: <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.1">RFC 7946, section 3.1</a> </p>
-            <p> Longitudes should range from -180 to 180 and laitudes from -90 to 90.</p>
+            <p> Longitudes should range from -180 to 180 and latitudes from -90 to 90.</p>
             <p> For complex geometries or sets of points longer than 4, we strongly recommend <a href="https://geojson.io/">generating a geoJSON using this tool</a> and pasting it into the box</p>
             <label for="geometry" class="subtitle-1 margin-input-label">Choose the geometry type:</label>
             <div id="select" class="child">
@@ -319,25 +322,28 @@
           <input type="hidden" id="listLon" name="listLon" class="input-textbox margin-input-field">
 
         <div id="metadata" class="border-content-section margin-content-section padding-content-section">
-            <h4> Metadata </h4><br>
-            <h5> Temporal Extent</h5>
-            <label for="start_date" class="subtitle-1 margin-input-label">Start Date:</label>
+            <h4> Metadata </h4>
+            <hr class="margin-title-underline">
+            <h5 class="margin-title"> Temporal Extent</h5>
+            <label for="start_date" class="subtitle-1">Start Date:</label>
             <input type="datetime-local" id="start_date" name="start_date" class="input-textbox margin-input-field" value="" required>
             <label for="end_date" class="subtitle-1 margin-input-label">End Date:</label>
-            <input type="datetime-local" id="end_date" name="end_date" class="input-textbox margin-input-field" value="" required><br><br>
-            <h5> Climatological Variables</h5>
-            <p>Examples include temperature, pressure, and relative humidity as well as engineering variables such as cooling degree days. Adding additional variables as relevant is encouraged. Consult this link for standard variable names.</p>
+            <input type="datetime-local" id="end_date" name="end_date" class="input-textbox margin-input-field" value="" required>
+
+            <h5 class="margin-title margin-content-section"> Climatological Variables</h5>
+            <p class="margin-unset">Examples include temperature, pressure, and relative humidity as well as engineering variables such as cooling degree days. Adding additional variables as relevant is encouraged. Consult this link for standard variable names.</p>
             <label for="vars" class="subtitle-1 margin-input-label">Add variables as comma separated list:</label>
             <input type="text" id="vars" name="vars" class="input-textbox margin-input-field" value=""><br><br>
 
 
-            <h5> Models</h5>
-            <p>List of relevant climate model data sources (eg CMIP6, EC3)</p>
+            <h5 class="margin-title margin-content-section"> Models</h5>
+            <label for="models" class="subtitle-1">List of relevant climate model data sources (eg CMIP6, EC3)</label>
             <input type="text" id="models" name="models" class="input-textbox margin-input-field" value=""><br>
         </div>
         <div id="files" class="border-content-section margin-content-section padding-content-section">
-            <h4> Linked Files </h4><br>
-            <label for="path" class="subtitle-1 margin-input-label">Path to File (Primary file to be uploaded to STAC, should be in your public folder):</label><br>
+            <h4 class="margin-title"> Linked Files </h4>
+            <hr class="margin-title-underline">
+            <label for="path" class="subtitle-1">Path to File (Primary file to be uploaded to STAC, should be in your public folder):</label><br>
             <input type="text" id="path" name="path" class="input-textbox margin-input-field" value="" required><br>
             <label for="input" class="subtitle-1 margin-input-label">Link to inputs (Link to any input data used (can be RedOak or external link):</label><br>
             <input type="text" id="input" name="input" class="input-textbox margin-input-field" value=""><br>
