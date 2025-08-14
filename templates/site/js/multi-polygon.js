@@ -200,8 +200,8 @@ function initializeUploadDiv(divID){
 function swapDiv(divID){
     var geoBBoxDiv = document.getElementById("geo_bbox");
     var currentDiv = document.getElementById(divID);
-    var geoNodeList = geoBBoxDiv.querySelectorAll("[id^=geo_]");
-
+    var geoNodeList = geoBBoxDiv.querySelectorAll("div#geo_bbox > [id^=geo_]");
+    
     for(parentDiv of geoNodeList){
         if(parentDiv.classList.contains("show")){
             parentDiv.classList.remove("show");
