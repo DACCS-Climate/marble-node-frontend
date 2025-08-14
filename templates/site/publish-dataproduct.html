@@ -228,9 +228,15 @@
             <hr class="margin-title-underline">
             <label for="title" class="subtitle-1">Title:</label><br>
             <input type="text" id="title" name="title" class="input-textbox margin-input-field" value="" required><br><br>
-            <label for="desc" class="subtitle-1 margin-input-label">Description:</label><br>
-            <p><i>Include any additional details you want to provide about the STAC item. Similar to an abstract.</i></p>
-            <input type="text" id="desc" name="desc" class="input-textbox margin-input-field" value=""><br><br>
+
+            <div class="margin-input-label">
+                {% with %}
+                    {% set label_text = "Description:" %}
+                    {% set tooltip_text = "Include any additional details you want to provide about the STAC item. Similar to an abstract." %}
+                    {% include "partials/label.html" %}
+                {% endwith %}
+                <input type="text" id="desc" name="desc" class="input-textbox margin-input-field" value=""><br><br>
+            </div>
         </div>
 
         <div class="author-group border-content-section margin-content-section padding-content-section">
