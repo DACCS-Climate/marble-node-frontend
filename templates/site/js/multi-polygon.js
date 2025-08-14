@@ -87,7 +87,7 @@ function initializePointInputDiv(geometryType, divID) {
 
     var coordinateInputContainerDiv = document.createElement("div");
     coordinateInputContainerDiv.id = geometryType + "_1";
-    coordinateInputContainerDiv.classList.add("child", "multipoint-child");
+    coordinateInputContainerDiv.classList.add("multipoint-child");
 
     var latitudeContainer = document.createElement("div");
     latitudeContainer.classList.add("latitude-child");
@@ -180,7 +180,7 @@ function initializeUploadDiv(divID){
     var uploadDiv = document.createElement("div");
 
     uploadDiv.id = "upload_" + divID;
-    uploadDiv.classList.add("child", "upload-geojson-child");
+    uploadDiv.classList.add("upload-geojson-child");
 
     uploadTitle.innerText = "GeoJSON bounding box";
 
@@ -257,7 +257,7 @@ function addPoint(geometryType, divElementID) {
     var autindex = updateIndex(pointArray);
 
     var div_box = document.createElement("div");
-    div_box.classList.add("child", "multipoint-additional-child");
+    div_box.classList.add("multipoint-additional-child");
     div_box.id = geometryType + "_" + autindex;
 
     var latitudeDiv = document.createElement("div");
