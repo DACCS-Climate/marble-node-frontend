@@ -246,9 +246,9 @@
             <h4>Authors</h4>
             <hr class="margin-title-underline">
             <p>Citation will list authors in order placed here. First author will be contacted by email regarding any issues in the submission.</p>
-            <div id="author_box" class="parent author-parent">
+            <div id="author_box" class="author-parent">
             <!-- Initial author fields -->
-                <div id="author_1" class="child author-child">
+                <div id="author_1" class="author-child">
                     <div class="author-details">
                         <label for="fname_1" class="subtitle-1 margin-input-label">First Name:</label><br>
                         <input type="text" id="fname_1" name="fname1" class="input-textbox margin-input-field" value="" required><br>
@@ -285,7 +285,7 @@
             <p> Longitudes should range from -180 to 180 and latitudes from -90 to 90.</p>
             <p> For complex geometries or sets of points longer than 4, we strongly recommend <a href="https://geojson.io/">generating a geoJSON using this tool</a> and pasting it into the box</p>
             <label for="geometry" class="subtitle-1 margin-input-label">Choose the geometry type:</label>
-            <div id="select" class="child">
+            <div id="select">
 
                 {% with %}
                     {% set dropdown_type = "default_dropdown_list" %}
@@ -298,29 +298,29 @@
                 {% endwith %}
 
             </div>
-          <div id="geo_bbox" class="parent">
-              <div id="geo_point" class="parent display-none">
+          <div id="geo_bbox">
+              <div id="geo_point" class="display-none">
                   <div id="geo_point_content"></div>
               </div>
-              <div id="geo_multipoint" class="parent display-none">
+              <div id="geo_multipoint" class="display-none">
                   <div id="geo_multipoint_content"></div>
               </div>
-              <div id="geo_linestring" class="parent display-none">
+              <div id="geo_linestring" class="display-none">
                   <div id="geo_linestring_content"></div>
               </div>
-              <div id="geo_multi_linestring" class="parent display-none">
+              <div id="geo_multi_linestring" class="display-none">
                   <div id="geo_multi_linestring_content"></div>
               </div>
-              <div id="geo_polygon" class="parent display-none">
+              <div id="geo_polygon" class="display-none">
                   <div id="geo_polygon_content"></div>
               </div>
-              <div id="geo_multi_polygon" class="parent display-none">
+              <div id="geo_multi_polygon" class="display-none">
                   <div id="geo_multi_polygon_content"></div>
               </div>
-              <div id="geo_geometry_collection" class="parent display-none">
+              <div id="geo_geometry_collection" class="display-none">
                   <div id="geo_geometry_collection_content"></div>
               </div>
-              <div id="geo_null" class="parent display-none">
+              <div id="geo_null" class="display-none">
                   <div id="geo_null_content"></div>
               </div>
           </div>
