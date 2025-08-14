@@ -25,7 +25,7 @@ function addAuthor(divElementID) {
 
     var div_box = document.createElement("div");
     div_box.id = "author_" + autindex;
-    div_box.classList.add("child", "author-additional-child");
+    div_box.classList.add("author-additional-child");
 
     var divFirstName = document.createElement("div");
     divFirstName.classList.add("author-details");
