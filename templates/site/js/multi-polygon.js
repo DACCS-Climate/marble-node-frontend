@@ -160,7 +160,7 @@ function initializePointInputDiv(geometryType, divID) {
 
             break;
     }
-//TODO: Delete this if not needed
+//TODO: Ask Cassie if form processing depends on the 'geo_bbox' ID or the 'geo_bbox' div.  Delete this if not needed
 // Original behaviour was to add dynamic input fields to the "geo_bbox" div instead of each geometry type to its own div
 /*
     if(divID == "geo_bbox"){
@@ -200,7 +200,7 @@ function initializeUploadDiv(divID){
 function swapDiv(divID){
     var geoBBoxDiv = document.getElementById("geo_bbox");
     var currentDiv = document.getElementById(divID);
-    var geoNodeList = geoBBoxDiv.querySelectorAll("div.parent");
+    var geoNodeList = geoBBoxDiv.querySelectorAll("[id^=geo_]");
 
     for(parentDiv of geoNodeList){
         if(parentDiv.classList.contains("show")){
