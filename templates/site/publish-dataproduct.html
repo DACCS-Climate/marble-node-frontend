@@ -2,218 +2,7 @@
 
 {% block account_content %}
 
-    <script src="js/addAuthor.js"></script>
-    <script src="js/multi-polygon.js"></script>
-    <script>
-
-    function geoPolygon2(selected_geometry) {
-        //var selected_geometry = document.getElementById("geometry").selectedIndex;
-        //console.log(selected_geometry);
-        if (selected_geometry == 1) {
-            // For Point
-
-            if(document.getElementById("geo_point_content").querySelector(".multipoint-child") != null){
-                swapDiv('geo_point');
-            }
-            else{
-                swapDiv('geo_point');
-                initializePointInputDiv('point', 'geo_point');
-            }
-            // TODO: Ask Cassie if the IDs or anything else in the input fields are used in the form processing. Delete if unused
-              /*
-            document.getElementById('geo_bbox').innerHTML = `
-            <h5> Input point: </h5><br>
-            <div id="point1" class="child point-child">
-                <div class="latitude-child">
-                    <label for="bbox1" class="subtitle-1">Latitude (Required):</label>
-                    <input type="text" id="lat1" name="lat1" class="input-textbox margin-input-field" value="">
-                </div>
-                <div class="longitude-child">
-                    <label for="bbox2" class="subtitle-1">Longitude (Required):</label>
-                    <input type="text" id="lon1" name="lon1" class="input-textbox margin-input-field" value="">
-                </div>
-            </div>
-            `;*/
-            //document.getElementById('add_button').innerHTML = ``;
-           // document.getElementById('upload').innerHTML = ``;
-
-            } else if ([2, 3, 5].includes(selected_geometry)) {
-
-
-                switch (selected_geometry){
-                    case 2:
-                        // For MultiPoint
-                        if(document.getElementById("geo_multipoint_content").querySelector(".multipoint-child") != null
-                        || document.getElementById("geo_multipoint_content").querySelector(".multipoint-additional-child") != null){
-                            swapDiv('geo_multipoint');
-                        }
-                        else{
-                            swapDiv('geo_multipoint');
-                            initializePointInputDiv('multipoint', 'geo_multipoint');
-                        }
-                        // TODO: Ask Cassie if the IDs or anything else in the input fields are used in the form processing. Delete if unused
-                    /*
-                        document.getElementById('add_button').innerHTML =
-                            `<div id="addMultiPointButtons" class="multipoint-buttons">
-                              <input type="button" class="button-med d-button-text" value="Add Point" onclick="addPoint('multipoint', 'geo_multipoint_content');"/>
-                             </div>`;*/
-
-                        break;
-
-                    case 3:
-                        // For LineString
-                        if(document.getElementById("geo_linestring_content").querySelector(".multipoint-child") != null
-                        || document.getElementById("geo_linestring_content").querySelector(".multipoint-additional-child") != null){
-                            swapDiv('geo_linestring');
-                        }
-                        else{
-                            swapDiv('geo_linestring');
-                            initializePointInputDiv('linestring', 'geo_linestring');
-                        }
-                        // TODO: Ask Cassie if the IDs or anything else in the input fields are used in the form processing. Delete if unused
-                        /*
-                        document.getElementById('add_button').innerHTML =
-                            `<div id="addMultiPointButtons" class="multipoint-buttons">
-                              <input type="button" class="button-med d-button-text" value="Add Point" onclick="addPoint('linestring', 'geo_linestring_content');"/>
-                             </div>`;*/
-
-                        break;
-
-                    case 5:
-                        // For Polygon
-                        if(document.getElementById("geo_polygon_content").querySelector(".multipoint-child") != null
-                        || document.getElementById("geo_polygon_content").querySelector(".multipoint-additional-child") != null){
-                            swapDiv('geo_polygon');
-                        }
-                        else{
-                            swapDiv('geo_polygon');
-                            initializePointInputDiv('polygon', 'geo_polygon');
-                        }
-                        // TODO: Ask Cassie if the IDs or anything else in the input fields are used in the form processing. Delete if unused
-                        /*
-                        document.getElementById('add_button').innerHTML =
-                            `<div id="addMultiPointButtons" >
-                              <input type="button" class="button-med d-button-text" value="Add Point" onclick="addPoint('polygon', 'geo_polygon_content');"/>
-                             </div>`;*/
-
-                        break;
-
-                }
-
-            // TODO: Ask Cassie if the IDs or anything else in the input fields are used in the form processing. Delete if unused
-                /*
-              document.getElementById('upload').innerHTML = `
-                <h5> OR: GeoJSON bounding box </h5><br>
-                <input type="text" id="myFile" name="myFile" class="input-textbox margin-input-field" value="">
-              `;*/
-
-
-            } else if ([4, 6, 7].includes(selected_geometry)) {
-                switch (selected_geometry) {
-                    case 4:
-                        // For MultiLineString
-                        if(document.getElementById("geo_multi_linestring_content").querySelector(".upload-geojson-child") != null){
-                            swapDiv('geo_multi_linestring');
-                        }
-                        else{
-                            swapDiv('geo_multi_linestring');
-                            initializeUploadDiv('geo_multi_linestring');
-                        }
-                    // TODO: Ask Cassie if the IDs or anything else in the input fields are used in the form processing. Delete if unused
-                       // document.getElementById('add_button').innerHTML = ``;
-                        /*document.getElementById('upload').innerHTML = `
-                        <h5> GeoJSON bounding box </h5><br>
-                        <input type="text" id="myFile" name="myFile" class="input-textbox margin-input-field" value="">
-                        `;*/
-
-                        break;
-
-                    case 6:
-                        // For MultiPolygon,
-                        if(document.getElementById("geo_multi_polygon_content").querySelector(".upload-geojson-child") != null){
-                            swapDiv('geo_multi_polygon');
-                        }
-                        else{
-                            swapDiv('geo_multi_polygon');
-                            initializeUploadDiv('geo_multi_polygon');
-                        }
-                        // TODO: Ask Cassie if the IDs or anything else in the input fields are used in the form processing. Delete if unused
-                       // document.getElementById('add_button').innerHTML = ``;
-                        /*
-                        document.getElementById('upload').innerHTML = `
-                        <h5> GeoJSON bounding box </h5><br>
-                        <input type="text" id="myFile" name="myFile" class="input-textbox margin-input-field" value="">
-                       `;*/
-
-                        break;
-
-                    case 7:
-                        // For GeometryCollection
-                        if(document.getElementById("geo_geometry_collection_content").querySelector(".upload-geojson-child") != null){
-                            swapDiv('geo_geometry_collection');
-                        }
-                        else{
-                            swapDiv('geo_geometry_collection');
-                            initializeUploadDiv('geo_geometry_collection');
-                        }
-                        // TODO: Ask Cassie if the IDs or anything else in the input fields are used in the form processing. Delete if unused
-                       // document.getElementById('add_button').innerHTML = ``;
-                        /*
-                        document.getElementById('upload').innerHTML = `
-                        <h5> GeoJSON bounding box </h5><br>
-                        <input type="text" id="myFile" name="myFile" class="input-textbox margin-input-field" value="">
-                        `;*/
-
-                        break;
-
-                }
-
-            } else if (selected_geometry == 8) {
-                // For Non-Spatial
-                if(document.getElementById("geo_null_content").querySelector(".multipoint-child") != null){
-                    swapDiv('geo_null');
-                }
-                else{
-                    swapDiv('geo_null');
-                    document.getElementById('geo_null_content').innerText = "No bounding box required";
-                }
-            }
-    }
-
-
-
-    function updateGeoList() {
-        var listLat = [];
-        var listLon = [];
-
-        // Select all first name and last name inputs
-        var inputs1 = document.querySelectorAll("[name='lat_[]'], #lat_1"); // First name inputs (including the initial one)
-        var inputs2 = document.querySelectorAll("[name='lon_[]'], #lon_1"); // Last name inputs (including the initial one)
-
-        inputs1.forEach(input => {
-            if (input.value.trim() !== "") {
-              listLat.push(input.value.trim()); // Add to first names list
-            }
-        });
-
-        inputs2.forEach(input => {
-            if (input.value.trim() !== "") {
-              listLon.push(input.value.trim()); // Add to last names list
-            }
-        });
-
-        // Store both first and last names as JSON strings
-        document.getElementById("listLat").value = JSON.stringify(listLat);
-        document.getElementById("listLon").value = JSON.stringify(listLon);
-    }
-
-    // Ensure the list is updated before submitting the form
-    document.getElementById("pointForm").addEventListener("submit", function() {
-        updateGeoList();
-    })
-    </script>
-
-
+    <script src="js/dataproduct-form.js"></script>
 
 
     <h3>Publish Files to Red Oak STAC Catalog</h3><br>
@@ -270,7 +59,7 @@
                 </div>
             </div>
             <div id="addAuthorButtons" class="author-button">
-                <input type="button" value="Add Author" class="button-med d-button-text" onclick="addAuthor('author_box');"/>
+                <input type="button" value="Add Author" class="button-med d-button-text margin-button-add" onclick="addAuthor('author_box');"/>
             </div>
 
             <input type="hidden" id="authorFNames" name="authorFNames" class="input-textbox margin-input-field">
@@ -324,9 +113,7 @@
                   <div id="geo_null_content"></div>
               </div>
           </div>
-          <!-- TODO: Ask Cassie if the IDs or anything else in these divs are used in the form processing. Delete if unused-->
-          <!--<div id="add_button"></div>
-          <div id="upload"></div>-->
+
           </div>
           <input type="hidden" id="listLat" name="listLat" class="input-textbox margin-input-field">
           <input type="hidden" id="listLon" name="listLon" class="input-textbox margin-input-field">
@@ -364,12 +151,8 @@
         <div><input type="submit" class="button-med d-button-text" value="Submit Form"></div>
         <br>
     </form>
-    <script>
-      document.getElementById("pointForm").addEventListener("submit", function () {
-          updateGeoList();
-      });
-      </script>
 
-    <script src="js/publish-dataproduct.js"></script>
+
+    <script src="js/dataproduct-onpageload.js"></script>
 
 {% endblock %}
