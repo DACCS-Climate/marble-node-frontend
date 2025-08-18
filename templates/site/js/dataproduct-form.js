@@ -1,4 +1,4 @@
-
+/*Geometry Functions*/
 function initializePointInputDiv(geometryType, divID) {
     var geoBboxDiv = document.getElementById(divID);
     var geoContentDiv;
@@ -155,9 +155,9 @@ function createInputCoordinatesRow(geometryType, indexNum){
     latitudeContainer.classList.add("latitude-child");
 
     var label1 = document.createElement("label");
-    var input1 = document.createElement("input");
     label1.classList.add("subtitle-1", "margin-input-label");
-    input1.id = "lat1";
+
+    var input1 = document.createElement("input");
     input1.classList.add("input-textbox", "margin-input-field");
 
     var longitudeContainer = document.createElement("div");
@@ -166,9 +166,7 @@ function createInputCoordinatesRow(geometryType, indexNum){
     var label2 = document.createElement("label");
     var input2 = document.createElement("input");
     label2.classList.add("subtitle-1", "margin-input-label");
-    input2.id = "lon1";
     input2.classList.add("input-textbox", "margin-input-field");
-
 
     label1.innerText = "Latitude (Required):";
     label1.setAttribute("for", "lat_" + indexNum);
@@ -183,6 +181,23 @@ function createInputCoordinatesRow(geometryType, indexNum){
     input2.setAttribute("type", "text");
     input2.setAttribute("id", geometryType + "_lon_" + indexNum);
     input2.setAttribute("name", geometryType + "_lon_" + indexNum);
+
+    switch(geometryType){
+        case "point":
+        case "linestring":
+        case "multipoint":
+        case "polygon":
+            setInputFilter(input1, function(value) {
+                return /^\d*\.?\d*$/.test(value); // Allow digits and '.' only, using a RegExp.
+            }, "Only digits and '.' are allowed");
+
+            setInputFilter(input2, function(value) {
+                return /^\d*\.?\d*$/.test(value); // Allow digits and '.' only, using a RegExp.
+            }, "Only digits and '.' are allowed");
+
+           // input1.setAttribute("inputmode", "numeric");
+            //input2.setAttribute("inputmode", "numeric");
+    }
 
     // Create remove button, its container and an additional container parent for positioning
     var removeButtonContainerParent = document.createElement("div");
@@ -319,6 +334,10 @@ function addPoint(geometryType, divElementID) {
     input1.setAttribute("id", geometryType + "_lat_" + autindex);
     input1.setAttribute("name", geometryType + "_lat_[]"); // Make it an array input
 
+    setInputFilter(input1, function(value) {
+        return /^\d*\.?\d*$/.test(value); // Allow digits and '.' only, using a RegExp.
+    }, "Only digits and '.' are allowed");
+
     var label2 = document.createElement("label");
     label2.classList.add("subtitle-1", "margin-input-label");
     label2.innerText = "Longitude:";
@@ -329,6 +348,10 @@ function addPoint(geometryType, divElementID) {
     input2.setAttribute("type", "text");
     input2.setAttribute("id", geometryType + "_lon_" + autindex);
     input2.setAttribute("name", geometryType + "_lon_[]"); // Changed name to array input for last name
+
+    setInputFilter(input2, function(value) {
+        return /^\d*\.?\d*$/.test(value); // Allow digits and '.' only, using a RegExp.
+    }, "Only digits and '.' are allowed");
 
     var removePointButton = document.createElement("input");
     removePointButton.setAttribute("type", "button");
@@ -446,6 +469,39 @@ function geoPolygon2(selected_geometry) {
 
             break;
     }
+}
+
+/*Geometry Input Validation Functions */
+
+/*Set filter on input fields*/
+function setInputFilter(textbox, inputFilter, errMsg) {
+  [ "input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop", "focusout" ].forEach(function(event) {
+    textbox.addEventListener(event, function(e) {
+      if (inputFilter(this.value)) {
+        // Accepted value.
+        if ([ "keydown", "mousedown", "focusout" ].indexOf(e.type) >= 0){
+          this.classList.remove("input-error");
+          this.setCustomValidity("");
+        }
+
+        this.oldValue = this.value;
+        this.oldSelectionStart = this.selectionStart;
+        this.oldSelectionEnd = this.selectionEnd;
+      }
+      else if (this.hasOwnProperty("oldValue")) {
+        // Rejected value: restore the previous one.
+        this.classList.add("input-error");
+        this.setCustomValidity(errMsg);
+        this.reportValidity();
+        this.value = this.oldValue;
+        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+      }
+      else {
+        // Rejected value: nothing to restore.
+        this.value = "";
+      }
+    });
+  });
 }
 
 /*Author functions*/
@@ -649,3 +705,4 @@ function updateIndex(additionalInputArray) {
 
     return inputFieldIndex
 }
+
