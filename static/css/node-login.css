@@ -1841,11 +1841,11 @@ dialog {
 
 .margin-input-label{
     margin-top: 30px;
+
 }
 
 .margin-input-field{
     margin-top: 10px;
-    margin-bottom: 10px;
 }
 
 .btn{
@@ -2037,7 +2037,6 @@ dialog {
     display: flex;
     flex-direction: column;
     justify-content: end;
-    margin-bottom: 10px;
 }
 
 .author-button input:not(:last-child){
@@ -2055,4 +2054,8 @@ dialog {
 .margin-title-underline{
     margin-top : 20px;
     margin-bottom: 30px;
+}
+
+.margin-button-add{
+    margin-top : 10px;
 }
