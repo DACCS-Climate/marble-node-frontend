@@ -10,5 +10,3 @@ document.addEventListener("DOMContentLoaded", function () {
         removeEntry("author_box", "author_1" );
     });
 })
-
-
