@@ -32,9 +32,8 @@ function initializePointInputDiv(geometryType, divID) {
             geojsonUploadDiv = document.createElement("div");
             geojsonUploadDiv.id = divID + "_geojson_upload_div";
 
-            geojsonUploadInput = document.createElement("input");
+            geojsonUploadInput = document.createElement("textarea");
             geojsonUploadInput.id = divID + "_geojson_file";
-            geojsonUploadInput.setAttribute("type", "text");
             geojsonUploadInput.setAttribute("name", divID + "File");
             geojsonUploadInput.classList.add("input-textbox", "margin-input-field");
 
@@ -107,30 +106,26 @@ function initializePointInputDiv(geometryType, divID) {
             }
             break;
 
-        case "geo_multi_linestring":
-        case "geo_multi_polygon":
-        case "geo_geometry_collection":
-            geoContentDiv.appendChild(coordinateInputContainerDiv);
-
-            break;
     }
 }
 
 function initializeUploadDiv(divID){
     var geoContentDiv = document.getElementById(divID + "_content");
     var uploadTitle = document.createElement("h5");
-    var uploadInput = document.createElement("input");
+    var uploadInput = document.createElement("textarea");
     var uploadDiv = document.createElement("div");
 
     uploadDiv.id = "upload_" + divID;
     uploadDiv.classList.add("upload-geojson-child");
 
+
     uploadTitle.innerText = "GeoJSON bounding box";
 
     uploadInput.id = "my_" + divID + "_file";
-    uploadInput.setAttribute("type", "text");
     uploadInput.setAttribute("name", "my_" + divID + "_file");
     uploadInput.classList.add("input-textbox", "margin-input-field")
+    uploadInput.setAttribute("cols", "12");
+    uploadInput.setAttribute("rows", "10");
 
     uploadDiv.appendChild(uploadTitle);
     uploadDiv.appendChild(uploadInput);
@@ -188,9 +183,6 @@ function createInputCoordinatesRow(geometryType, indexNum){
             setInputFilter(input2, function(value) {
                 return /^\d*\.?\d*$/.test(value); // Allow digits and '.' only, using a RegExp.
             }, "Only digits and '.' are allowed");
-
-           // input1.setAttribute("inputmode", "numeric");
-            //input2.setAttribute("inputmode", "numeric");
     }
 
     // Create remove button, its container and an additional container parent for positioning
@@ -702,3 +694,26 @@ function updateIndex(additionalInputArray) {
     return inputFieldIndex
 }
 
+
+/*Submit functions*/
+
+function submitForm(){
+    var submitObject = {};
+    var inputFields = document.querySelectorAll("input");
+    var textAreaFields = document.querySelectorAll("textarea");
+
+    for (input of inputFields){
+        if(!(input.id.includes("lat")) && !(input.id.includes("lon"))){
+            submitObject[input.id] = input.value;
+        }
+
+    }
+
+    for (textarea of textAreaFields){
+        submitObject[textarea.id] = textarea.value;
+    }
+
+    console.log("submitObject")
+    console.log(submitObject)
+
+}
