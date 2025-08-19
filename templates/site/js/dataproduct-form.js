@@ -24,8 +24,6 @@ function initializePointInputDiv(geometryType, divID) {
         geoContentDiv = document.getElementById(divID + "_content");
     }
 
-
-
     //Only create the geojson upload input field and add button for the following geometries
     switch(divID){
         case "geo_multipoint":
@@ -59,10 +57,6 @@ function initializePointInputDiv(geometryType, divID) {
             break;
 
     }
-
-
-
-
 
     switch(divID){
         case "geo_point":
@@ -480,7 +474,6 @@ function setInputFilter(textbox, inputFilter, errMsg) {
       if (inputFilter(this.value)) {
         // Accepted value.
         if ([ "keydown", "mousedown", "focusout" ].indexOf(e.type) >= 0){
-          this.classList.remove("input-error");
           this.setCustomValidity("");
         }
 
@@ -490,7 +483,6 @@ function setInputFilter(textbox, inputFilter, errMsg) {
       }
       else if (this.hasOwnProperty("oldValue")) {
         // Rejected value: restore the previous one.
-        this.classList.add("input-error");
         this.setCustomValidity(errMsg);
         this.reportValidity();
         this.value = this.oldValue;
@@ -577,9 +569,13 @@ function addAuthor(divElementID) {
 
     var input3 = document.createElement("input");
     input3.classList.add("input-textbox", "margin-input-field");
-    input3.setAttribute("type", "text");
+    input3.setAttribute("type", "email");
     input3.setAttribute("id", "email_" + autindex);
     input3.setAttribute("name", "email_[]"); // Make it an array input
+
+    setInputFilter(input3, function(value) {
+        return /^\w*\d*\.*\-*\@?\w*\d*\.?\w*\d*$/.test(value); // Allow digits and '.' only, using a RegExp.
+    }, "Only letters, numbers, '-', '@' and '.' are allowed");
 
     var removeAuthorButton = document.createElement("input");
     removeAuthorButton.setAttribute("type", "button");
