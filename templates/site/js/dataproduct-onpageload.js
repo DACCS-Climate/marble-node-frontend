@@ -9,4 +9,10 @@ document.addEventListener("DOMContentLoaded", function () {
         initialAuthorRemoveButton.addEventListener("click", function() {
         removeEntry("author_box", "author_1" );
     });
+
+    var initialAuthorEmail = document.getElementById("email_1");
+    setInputFilter(initialAuthorEmail, function(value) {
+
+        return /^\w*\d*\.*\-*\@?\w*\d*\.?\w*\d*$/.test(value); // Allow digits and '.' only, using a RegExp.
+    }, "Only letters, numbers, '-', '@' and '.' are allowed");
 })
