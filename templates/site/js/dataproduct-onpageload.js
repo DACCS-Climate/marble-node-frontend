@@ -15,4 +15,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         return /^\w*\d*\.*\-*\@?\w*\d*\.?\w*\d*$/.test(value); // Allow digits and '.' only, using a RegExp.
     }, "Only letters, numbers, '-', '@' and '.' are allowed");
+
+    var submitButton = document.getElementById("submit");
+    submitButton.addEventListener("click", submitForm);
+
 })
