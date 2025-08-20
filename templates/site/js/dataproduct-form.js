@@ -698,22 +698,78 @@ function updateIndex(additionalInputArray) {
 /*Submit functions*/
 
 function submitForm(){
+    // example of how polygon coordinates should be formatted
+    //  [ [ 19.732387792295356,17.362269487080525],[ 15.018600022717294, 11.450658457798042],[29.998879431116166, 6.631460284225298] ]
     var submitObject = {};
-    var inputFields = document.querySelectorAll("input");
-    var textAreaFields = document.querySelectorAll("textarea");
+    var geojsonTemplate =     {
+                "type": "FeatureCollection",
+                "features": [
+            {
+              "type": "Feature",
+              "properties": {},
+              "geometry": {
+                "coordinates": [
 
-    for (input of inputFields){
+                ],
+                "type": ""
+              }
+            }
+          ]
+        }
+
+
+    var textInputFields = document.querySelectorAll("input[type='text']");
+    var dateInputFields = document.querySelectorAll("input[type='datetime-local']")
+    var textAreaFields = document.querySelectorAll("textarea");
+    var geometryType;
+    var visibleGeometry;
+    var geometryContainer;
+
+    var coordinateArray = [];
+
+
+
+    for (input of textInputFields){
+
         if(!(input.id.includes("lat")) && !(input.id.includes("lon"))){
             submitObject[input.id] = input.value;
         }
+        else{
+            if(input.id.includes("lat")){
+                if(input.value != ""){
+                    var coordinate = [];
+                    var inputIDArray = input.id.split("_");
+                    geometryType = inputIDArray[0];
+                    geometryContainer = document.getElementById("geo_" + geometryType);
+
+                    if(geometryContainer.classList.contains("show")){
+                        var longitudeID = geometryType + "_lon_" + inputIDArray[2];
+                        var longitudeInput = document.getElementById(longitudeID);
+                        visibleGeometry = geometryType;
+
+                        coordinate[0] = input.value;
+                        coordinate[1] = longitudeInput.value;
+
+                        coordinateArray.push(coordinate);
+
+                    }
+
+                }
+            }
+
+        }
 
     }
+
+    geojsonTemplate.features[0].geometry.coordinates.push(coordinateArray);
+    geojsonTemplate.features[0].geometry.type = visibleGeometry;
+    submitObject["SubmittedGeometry"] = geojsonTemplate;
+
 
     for (textarea of textAreaFields){
         submitObject[textarea.id] = textarea.value;
     }
 
-    console.log("submitObject")
-    console.log(submitObject)
+
 
 }
