@@ -35,7 +35,9 @@ function initializePointInputDiv(geometryType, divID) {
             geojsonUploadInput = document.createElement("textarea");
             geojsonUploadInput.id = divID + "_geojson_file";
             geojsonUploadInput.setAttribute("name", divID + "File");
-            geojsonUploadInput.classList.add("input-textbox", "margin-input-field");
+            geojsonUploadInput.setAttribute("cols", "40");
+            geojsonUploadInput.setAttribute("rows", "10");
+            geojsonUploadInput.classList.add("margin-input-field");
 
             geoAddButtonDiv = document.createElement("div");
             geoAddButtonDiv.id = divID + "_add_button_div";
@@ -703,52 +705,78 @@ function submitForm(){
     var geojsonTemplate =     {
                 "type": "FeatureCollection",
                 "features": [
-            {
-              "type": "Feature",
-              "properties": {},
-              "geometry": {
-                "coordinates": [
-
-                ],
-                "type": ""
-              }
+                    {
+                        "type": "Feature",
+                        "properties": {},
+                        "geometry": {
+                            "coordinates": [],
+                            "type": ""
+                        }
+                    }
+               ]
             }
-          ]
-        }
 
     var geometryInputFields = document.querySelectorAll("input[id*='_lat_']");
     var authorDivs = document.querySelectorAll("div[id^=author_]");
     var authorArray = [];
-    var dateInputFields = document.querySelectorAll("input[type='datetime-local']")
-    var textAreaFields = document.querySelectorAll("textarea");
     var geometryType;
     var visibleGeometry;
     var geometryContainer;
     var coordinateArray = [];
+    var geometryGeoJSONBBox;
+    var geometryGeoJSONBoundingBoxInput;
+    var dateMetadataFields = document.querySelectorAll("input[type='datetime-local']")
+    var textAreaMetadataFields = document.querySelectorAll("textarea[id^=metadata_]");
+    var metadataObject = {};
+    var csvMetadataArray;
+    var linkedFilesFields = document.querySelectorAll("textarea[id^=linked_]");
+    var linkedFilesObject = {};
 
 //TODO: get geojson fields
+    /*Add Geometry coordinate input to geometryTemplate object*/
+    /*If no coordinates are entered get the input from the geojson textarea*/
     for (input of geometryInputFields) {
-        if (input.value != "") {
-            var coordinate = [];
-            var inputIDArray = input.id.split("_");
-            geometryType = inputIDArray[0];
-            geometryContainer = document.getElementById("geo_" + geometryType);
+        var inputIDArray = input.id.split("_");
+        geometryType = inputIDArray[0];
+        geometryContainer = document.getElementById("geo_" + geometryType);
 
-            if (geometryContainer.classList.contains("show")) {
+        if (geometryContainer.classList.contains("show")) {
+            visibleGeometry = geometryType;
+            var coordinate = [];
+
+            if (input.value != "") {
                 var longitudeID = geometryType + "_lon_" + inputIDArray[2];
                 var longitudeInput = document.getElementById(longitudeID);
-                visibleGeometry = geometryType;
 
                 coordinate[0] = input.value;
                 coordinate[1] = longitudeInput.value;
 
                 coordinateArray.push(coordinate);
-
             }
-
+            else{
+                var geometryGeoJSONBoundingBoxTextarea = document.getElementById("geo_" + geometryType + "_geojson_file");
+                if(geometryGeoJSONBoundingBoxTextarea.value.includes("\n")){
+                    geometryGeoJSONBoundingBoxInput = geometryGeoJSONBoundingBoxTextarea.value.replace("\n", "");
+                }
+                geometryGeoJSONBBox = geometryGeoJSONBoundingBoxInput;
+            }
         }
+
     }
 
+    /*Add Geometry input to GeoJSON template object*/
+    if(coordinateArray.length > 0){
+        geojsonTemplate.features[0].geometry.coordinates.push(coordinateArray);
+        geojsonTemplate.features[0].geometry.type = visibleGeometry;
+
+    }
+    else{
+        geojsonTemplate.features[0].geometry = geometryGeoJSONBBox;
+    }
+
+
+
+    /*Add Author input to authorObject*/
     for(author of authorDivs){
         var authorObject = {};
         var authorIDArray = author.id.split("_");
@@ -766,15 +794,51 @@ function submitForm(){
         }
     }
 
+    /*Add Metadata input to metadataObject*/
+    for (textareaMetadata of textAreaMetadataFields){
+        if(textareaMetadata.id.includes("vars") || textareaMetadata.id.includes("models"))
+        {
 
-    geojsonTemplate.features[0].geometry.coordinates.push(coordinateArray);
-    geojsonTemplate.features[0].geometry.type = visibleGeometry;
+            if(textareaMetadata.value.includes(",")){
+                csvMetadataArray = textareaMetadata.value.split(",");
+            }
+
+            metadataObject[textareaMetadata.id] = csvMetadataArray;
+
+        }
+    }
+
+    for(dateMetadata of dateMetadataFields){
+        console.log("dateMetadata")
+        console.log(dateMetadata)
+        metadataObject[dateMetadata.id] = dateMetadata.value;
+    }
+
+    /*Add Linked Files input to linkedFilesObject*/
+    for(linkedFile of linkedFilesFields){
+        if(linkedFile.value.includes("\n")){
+            var linkedFileArray = linkedFile.value.split("\n");
+            linkedFilesObject[linkedFile.id] = linkedFileArray;
+        }
+        else{
+            linkedFilesObject[linkedFile.id] = linkedFile;
+        }
+    }
+
+
+
     submitObject["SubmittedGeometry"] = geojsonTemplate;
     submitObject["authors"] = authorArray;
+    submitObject["metadata"] = metadataObject;
+    submitObject["LinkedFiles"] = linkedFilesObject;
 
-    for (textarea of textAreaFields){
-        submitObject[textarea.id] = textarea.value;
-    }
+    console.log("geojsonTemplate")
+    console.log(geojsonTemplate)
+
+    console.log("submitObject")
+    console.log(submitObject)
+
+
 
 
 
