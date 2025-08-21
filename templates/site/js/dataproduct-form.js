@@ -696,7 +696,6 @@ function updateIndex(additionalInputArray) {
 
 
 /*Submit functions*/
-
 function submitForm(){
     // example of how polygon coordinates should be formatted
     //  [ [ 19.732387792295356,17.362269487080525],[ 15.018600022717294, 11.450658457798042],[29.998879431116166, 6.631460284225298] ]
@@ -717,54 +716,61 @@ function submitForm(){
           ]
         }
 
-
-    var textInputFields = document.querySelectorAll("input[type='text']");
+    var geometryInputFields = document.querySelectorAll("input[id*='_lat_']");
+    var authorDivs = document.querySelectorAll("div[id^=author_]");
+    var authorArray = [];
     var dateInputFields = document.querySelectorAll("input[type='datetime-local']")
     var textAreaFields = document.querySelectorAll("textarea");
     var geometryType;
     var visibleGeometry;
     var geometryContainer;
-
     var coordinateArray = [];
 
+//TODO: get geojson fields
+    for (input of geometryInputFields) {
+        if (input.value != "") {
+            var coordinate = [];
+            var inputIDArray = input.id.split("_");
+            geometryType = inputIDArray[0];
+            geometryContainer = document.getElementById("geo_" + geometryType);
 
+            if (geometryContainer.classList.contains("show")) {
+                var longitudeID = geometryType + "_lon_" + inputIDArray[2];
+                var longitudeInput = document.getElementById(longitudeID);
+                visibleGeometry = geometryType;
 
-    for (input of textInputFields){
+                coordinate[0] = input.value;
+                coordinate[1] = longitudeInput.value;
 
-        if(!(input.id.includes("lat")) && !(input.id.includes("lon"))){
-            submitObject[input.id] = input.value;
-        }
-        else{
-            if(input.id.includes("lat")){
-                if(input.value != ""){
-                    var coordinate = [];
-                    var inputIDArray = input.id.split("_");
-                    geometryType = inputIDArray[0];
-                    geometryContainer = document.getElementById("geo_" + geometryType);
+                coordinateArray.push(coordinate);
 
-                    if(geometryContainer.classList.contains("show")){
-                        var longitudeID = geometryType + "_lon_" + inputIDArray[2];
-                        var longitudeInput = document.getElementById(longitudeID);
-                        visibleGeometry = geometryType;
-
-                        coordinate[0] = input.value;
-                        coordinate[1] = longitudeInput.value;
-
-                        coordinateArray.push(coordinate);
-
-                    }
-
-                }
             }
 
         }
-
     }
+
+    for(author of authorDivs){
+        var authorObject = {};
+        var authorIDArray = author.id.split("_");
+
+        if(isNaN(Number(authorIDArray[1])) == false ){
+            var authorFirstName = document.getElementById("fname_" + authorIDArray[1]);
+            var authorLastName = document.getElementById("lname_" + authorIDArray[1]);
+            var authorEmail = document.getElementById("email_" + authorIDArray[1]);
+
+            authorObject["first_name"] = authorFirstName.value;
+            authorObject["last_name"] = authorLastName.value;
+            authorObject["email"] = authorEmail.value;
+
+            authorArray.push(authorObject);
+        }
+    }
+
 
     geojsonTemplate.features[0].geometry.coordinates.push(coordinateArray);
     geojsonTemplate.features[0].geometry.type = visibleGeometry;
     submitObject["SubmittedGeometry"] = geojsonTemplate;
-
+    submitObject["authors"] = authorArray;
 
     for (textarea of textAreaFields){
         submitObject[textarea.id] = textarea.value;
