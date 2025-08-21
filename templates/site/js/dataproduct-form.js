@@ -8,7 +8,7 @@ function initializePointInputDiv(geometryType, divID) {
     var geojsonUploadInput;
 
     var geogeojsonUploadTitle = document.createElement("h5");
-    geogeojsonUploadTitle.innerText = "OR: GeoJSON bounding box";
+    geogeojsonUploadTitle.innerText = "OR: Paste GeoJSON From the Link Above";
     geogeojsonUploadTitle.classList.add("margin-unset", "margin-geojson-input-label");
 
 
