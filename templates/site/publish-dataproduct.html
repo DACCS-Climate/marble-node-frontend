@@ -8,7 +8,7 @@
     <h3>Publish Files to Red Oak STAC Catalog</h3><br>
     <p> This form allows you to publish datasets, data products and/or workflows to the Marble STAC catalog. Before filling out this form, ensure that the primary file is hosted on Red Oak in your public folder. Supplementary files such as input data can be included as third party links. After submission, a STAC item and citation will be generated and reviewed by admin before being uploaded to the catalog.</p>
 
-    <form id="pointForm" action="http://localhost:8000/submit" method="post"><br>
+    <form id="pointForm" action=""><br>
 
         <div id="intro" class="border-content-section margin-content-section padding-content-section">
             <label for="username" class="subtitle-1">Red Oak Username:</label><br>
@@ -127,7 +127,7 @@
                 <input id="metadata_start_date" name="start_date" class="input-textbox margin-input-field" required></input>
                 <i class="fa-solid fa-calendar-days icon-metadata-calendar"></i>
             </div>
-        
+
             <label for="metadata_end_date" class="subtitle-1 margin-input-label">End Date:</label>
             <div class="calendar-container">
                 <input id="metadata_end_date" name="end_date" class="input-textbox margin-input-field" required></input>
@@ -184,7 +184,7 @@
             </div>
         </div>
         <br>
-        <div><input type="submit"  id="submit" class="button-med d-button-text" value="Submit Form"></div>
+        <div><input type="button"  id="submit" class="button-med d-button-text" value="Submit Form"></div>
         <br>
     </form>
 
