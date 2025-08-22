@@ -721,7 +721,7 @@ function submitForm(){
     var geometryGeoJSONBBox;
     var geometryGeoJSONBoundingBoxInput;
     var geometryGeoJSONFileInput = document.querySelectorAll("textarea[id^=my_geo]")
-    var dateMetadataFields = document.querySelectorAll("input[type=datetime-local]")
+    var dateMetadataFields = document.querySelectorAll("input[id*=_date]")
     var textAreaMetadataFields = document.querySelectorAll("textarea[id^=metadata_]");
     var metadataObject = {};
     var csvMetadataArray;
@@ -828,7 +828,7 @@ function submitForm(){
 
 
     /*Add items to submit object*/
-   /*Add Geometry input to GeoJSON template object*/
+    /*Add Geometry input to GeoJSON template object*/
     //TODO Check that pasted geojson should be made value of 'geometries' of submitObject, not geojsonTemplate
     if(coordinateArray.length > 0){
         geojsonTemplate.features[0].geometry.coordinates.push(coordinateArray);
