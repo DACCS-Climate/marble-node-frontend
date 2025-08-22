@@ -135,7 +135,7 @@
                     {% include "partials/label.html" %}
                 {% endwith %}
 
-                <textarea id="metadata_vars" name="vars" class="margin-input-field" cols="40" rows="10" value=""></textarea>
+                <textarea id="metadata_vars" name="vars" class="textarea-geojson margin-input-field" value=""></textarea>
             </div>
 
             <h5 class="margin-title margin-content-section"> Models</h5>
@@ -145,7 +145,7 @@
                     {% set tooltip_text = "(eg. CMIP6, EC3)" %}
                     {% include "partials/label.html" %}
                 {% endwith %}
-                <textarea id="metadata_models" type="text" name="models" class="margin-input-field" cols="40" rows="10" value=""></textarea>
+                <textarea id="metadata_models" type="text" name="models" class="textarea-geojson margin-input-field" value=""></textarea>
             </div>
         </div>
         <div id="files" class="border-content-section margin-content-section padding-content-section">
@@ -158,12 +158,12 @@
                     {% set tooltip_text = "Paths should be added one per line" %}
                     {% include "partials/label.html" %}
                 {% endwith %}
-                <textarea id="linked_path" name="path" class="margin-input-field" rows="10" cols="40" value="" required></textarea>
+                <textarea id="linked_path" name="path" class="textarea-geojson margin-input-field" value="" required></textarea>
             </div>
 
             <div class="margin-input-label">
                 <label for="input" class="subtitle-1 margin-input-label">Link to inputs (Link to any input data used, can be RedOak or external link):</label><br>
-                <textarea id="linked_input" name="input" cols="40" rows="10" class="margin-input-field" value=""></textarea>
+                <textarea id="linked_input" name="input" class="textarea-geojson margin-input-field" value=""></textarea>
             </div>
 
 
@@ -173,7 +173,7 @@
                     {% set tooltip_text = "Links should be added one per line" %}
                     {% include "partials/label.html" %}
                 {% endwith %}
-                <textarea id="linked_link" name="link" cols="40" rows="10" class="margin-input-field" value=""></textarea>
+                <textarea id="linked_link" name="link" class="textarea-geojson margin-input-field" value=""></textarea>
             </div>
         </div>
         <br>
