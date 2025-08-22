@@ -2064,3 +2064,14 @@ dialog {
     width: 450px;
     height: 250px;
 }
+
+.calendar-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.icon-metadata-calendar{
+    font-size: 30px;
+    margin-left: 10px;
+}
