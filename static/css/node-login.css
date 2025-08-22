@@ -2059,3 +2059,8 @@ dialog {
 .margin-button-add{
     margin-top : 10px;
 }
+
+.textarea-geojson{
+    width: 450px;
+    height: 250px;
+}
