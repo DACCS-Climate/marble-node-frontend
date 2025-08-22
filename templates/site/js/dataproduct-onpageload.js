@@ -2,6 +2,17 @@ document.addEventListener("DOMContentLoaded", function () {
     /*Initialize Popper.js and Tooltips.js*/
     $('[data-toggle="popover"]').popover();
 
+    /*Initialize flatpickr calendars*/
+    flatpickr("#metadata_start_date", {
+        enableTime: true,
+        dateFormat: "Y-m-d H:i"
+    });
+    flatpickr("#metadata_end_date", {
+        enableTime: true,
+        dateFormat: "Y-m-d H:i"
+    });
+
+
     var geometryDropdown = document.getElementById("geometry");
     geometryDropdown.addEventListener("change", geoPolygon2)
 
