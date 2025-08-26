@@ -48,7 +48,7 @@
                     </div>
                     <div class="author-details">
                         <label for="email_1" class="subtitle-1 margin-input-label">Email:</label><br>
-                        <input type="text" id="email_1" name="email1" class="input-textbox margin-input-field" value="" required><br>
+                        <input type="email" id="email_1" name="email1" class="input-textbox margin-input-field" value="" required><br>
                     </div>
                     <div class="remove-button">
                         <div id="author_remove_container_1" class="display-none">
@@ -160,16 +160,18 @@
             <hr class="margin-title-underline">
             <label for="path" class="subtitle-1"></label><br>
             <div class="margin-input-label">
-                {% with %}
-                    {% set label_text = "Path to File (Primary file to be uploaded to STAC, should be in your public folder):" %}
-                    {% set tooltip_text = "Paths should be added one per line" %}
-                    {% include "partials/label.html" %}
-                {% endwith %}
-                <textarea id="linked_path" name="path" class="textarea-geojson margin-input-field" value="" required></textarea>
+
+                <label for="path" class="subtitle-1 margin-input-label">Path to File (Primary file to be uploaded to STAC, should be in your public folder):</label><br>
+                <input id="linked_path" name="path" class="input-textbox margin-input-field" value="" required></input>
             </div>
 
             <div class="margin-input-label">
-                <label for="input" class="subtitle-1 margin-input-label">Link to inputs (Link to any input data used, can be RedOak or external link):</label><br>
+                {% with %}
+                    {% set label_text = "Link to inputs (Link to any input data used, can be RedOak or external link):" %}
+                    {% set tooltip_text = "Links should be added one per line" %}
+                    {% include "partials/label.html" %}
+                {% endwith %}
+
                 <textarea id="linked_input" name="input" class="textarea-geojson margin-input-field" value=""></textarea>
             </div>
 
@@ -184,7 +186,7 @@
             </div>
         </div>
         <br>
-        <div><input type="button"  id="submit" class="button-med d-button-text" value="Submit Form"></div>
+        <div><input type="submit"  id="submit" class="button-med d-button-text" value="Submit Form"></div>
         <br>
     </form>
 
