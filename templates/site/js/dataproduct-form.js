@@ -12,7 +12,6 @@ function initializePointInputDiv(geometryType, divID) {
     geogeojsonUploadTitle.classList.add("margin-unset", "margin-geojson-input-label");
 
 
-
     //Show the contents of the div with the passed divID
     //If the passed divID belongs to a content div, get the content div
     //If it isn't, add the content div suffix and get the content div
@@ -118,7 +117,6 @@ function initializeUploadDiv(divID){
     uploadDiv.id = "upload_" + divID;
     uploadDiv.classList.add("upload-geojson-child");
 
-
     uploadTitle.innerText = "Paste GeoJSON";
 
     uploadInput.id = "my_" + divID + "_file";
@@ -133,7 +131,6 @@ function initializeUploadDiv(divID){
 
 
 function createInputCoordinatesRow(geometryType, indexNum){
-
     var coordinateInputContainerDiv = document.createElement("div");
     coordinateInputContainerDiv.id = geometryType + "_" + indexNum;
     coordinateInputContainerDiv.classList.add("multipoint-child");
@@ -146,6 +143,10 @@ function createInputCoordinatesRow(geometryType, indexNum){
 
     var input1 = document.createElement("input");
     input1.classList.add("input-textbox", "margin-input-field");
+    input1.setAttribute("type", "number");
+    input1.setAttribute("min", "-90");
+    input1.setAttribute("max", "90");
+    input1.setAttribute("step", "0.00001");
 
     var longitudeContainer = document.createElement("div");
     longitudeContainer.classList.add("longitude-child");
@@ -154,34 +155,26 @@ function createInputCoordinatesRow(geometryType, indexNum){
     var input2 = document.createElement("input");
     label2.classList.add("subtitle-1", "margin-input-label");
     input2.classList.add("input-textbox", "margin-input-field");
+    input2.setAttribute("type", "number");
+    input2.setAttribute("min", "-180");
+    input2.setAttribute("max", "180");
+    input2.setAttribute("step", "0.00001");
 
     label1.innerText = "Latitude (Required):";
     label1.setAttribute("for", "lat_" + indexNum);
 
-    input1.setAttribute("type", "text");
+    input1.setAttribute("type", "number");
+
     input1.setAttribute("id",  geometryType + "_lat_" + indexNum);
     input1.setAttribute("name", geometryType + "_lat_" + indexNum);
 
     label2.innerText = "Longitude (Required):";
     label2.setAttribute("for", geometryType + "_lon_" + indexNum);
 
-    input2.setAttribute("type", "text");
+    input2.setAttribute("type", "number");
     input2.setAttribute("id", geometryType + "_lon_" + indexNum);
     input2.setAttribute("name", geometryType + "_lon_" + indexNum);
 
-    switch(geometryType){
-        case "point":
-        case "linestring":
-        case "multipoint":
-        case "polygon":
-            setInputFilter(input1, function(value) {
-                return /^\d*\.?\d*$/.test(value); // Allow digits and '.' only, using a RegExp.
-            }, "Only digits and '.' are allowed");
-
-            setInputFilter(input2, function(value) {
-                return /^\d*\.?\d*$/.test(value); // Allow digits and '.' only, using a RegExp.
-            }, "Only digits and '.' are allowed");
-    }
 
     // Create remove button, its container and an additional container parent for positioning
     var removeButtonContainerParent = document.createElement("div");
@@ -318,10 +311,6 @@ function addPoint(geometryType, divElementID) {
     input1.setAttribute("id", geometryType + "_lat_" + autindex);
     input1.setAttribute("name", geometryType + "_lat_[]"); // Make it an array input
 
-    setInputFilter(input1, function(value) {
-        return /^\d*\.?\d*$/.test(value); // Allow digits and '.' only, using a RegExp.
-    }, "Only digits and '.' are allowed");
-
     var label2 = document.createElement("label");
     label2.classList.add("subtitle-1", "margin-input-label");
     label2.innerText = "Longitude:";
@@ -332,10 +321,6 @@ function addPoint(geometryType, divElementID) {
     input2.setAttribute("type", "text");
     input2.setAttribute("id", geometryType + "_lon_" + autindex);
     input2.setAttribute("name", geometryType + "_lon_[]"); // Changed name to array input for last name
-
-    setInputFilter(input2, function(value) {
-        return /^\d*\.?\d*$/.test(value); // Allow digits and '.' only, using a RegExp.
-    }, "Only digits and '.' are allowed");
 
     var removePointButton = document.createElement("input");
     removePointButton.setAttribute("type", "button");
@@ -455,37 +440,6 @@ function geoPolygon2(selected_geometry) {
     }
 }
 
-/*Geometry Input Validation Functions */
-
-/*Set filter on input fields*/
-function setInputFilter(textbox, inputFilter, errMsg) {
-  [ "input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop", "focusout" ].forEach(function(event) {
-    textbox.addEventListener(event, function(e) {
-      if (inputFilter(this.value)) {
-        // Accepted value.
-        if ([ "keydown", "mousedown", "focusout" ].indexOf(e.type) >= 0){
-          this.setCustomValidity("");
-        }
-
-        this.oldValue = this.value;
-        this.oldSelectionStart = this.selectionStart;
-        this.oldSelectionEnd = this.selectionEnd;
-      }
-      else if (this.hasOwnProperty("oldValue")) {
-        // Rejected value: restore the previous one.
-        this.setCustomValidity(errMsg);
-        this.reportValidity();
-        this.value = this.oldValue;
-        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
-      }
-      else {
-        // Rejected value: nothing to restore.
-        this.value = "";
-      }
-    });
-  });
-}
-
 /*Author functions*/
 function addAuthor(divElementID) {
 
@@ -562,10 +516,6 @@ function addAuthor(divElementID) {
     input3.setAttribute("type", "email");
     input3.setAttribute("id", "email_" + autindex);
     input3.setAttribute("name", "email_[]"); // Make it an array input
-
-    setInputFilter(input3, function(value) {
-        return /^\w*\d*\.*\-*\@?\w*\d*\.?\w*\d*$/.test(value); // Allow digits and '.' only, using a RegExp.
-    }, "Only letters, numbers, '-', '@' and '.' are allowed");
 
     var removeAuthorButton = document.createElement("input");
     removeAuthorButton.setAttribute("type", "button");
@@ -711,6 +661,9 @@ function submitForm(){
                ]
             }
 
+    var usernameInput = document.getElementById("username");
+    var titleInput = document.getElementById("title");
+    var descriptionInput = document.getElementById("desc");
     var geometryInputFields = document.querySelectorAll("input[id*='_lat_']");
     var authorDivs = document.querySelectorAll("div[id^=author_]");
     var authorArray = [];
@@ -759,7 +712,6 @@ function submitForm(){
                     geometryGeoJSONBBox = geometryGeoJSONBoundingBoxInput;
                 }
             }
-
         }
     }
     else{
@@ -800,9 +752,12 @@ function submitForm(){
     for (textareaMetadata of textAreaMetadataFields){
         if(textareaMetadata.id.includes("vars") || textareaMetadata.id.includes("models"))
         {
-
             if(textareaMetadata.value.includes(",")){
                 csvMetadataArray = textareaMetadata.value.split(",");
+            }
+
+            for(csvMetadataEntry of csvMetadataArray){
+                csvMetadataEntry = csvMetadataEntry.trim();
             }
 
             metadataObject[textareaMetadata.id] = csvMetadataArray;
@@ -810,7 +765,7 @@ function submitForm(){
         }
     }
 
-    //TODO: get date value in
+    /*Add date input to submitObject*/
     for(dateMetadata of dateMetadataFields){
         metadataObject[dateMetadata.id] = dateMetadata.value;
     }
@@ -819,17 +774,19 @@ function submitForm(){
     for(linkedFile of linkedFilesFields){
         if(linkedFile.value.includes("\n")){
             var linkedFileArray = linkedFile.value.split("\n");
+            for(linkedFileEntry of linkedFileArray){
+                linkedFileEntry = linkedFileEntry.trim();
+            }
             linkedFilesObject[linkedFile.id] = linkedFileArray;
         }
         else{
-            linkedFilesObject[linkedFile.id] = linkedFile;
+            linkedFilesObject[linkedFile.id] = linkedFile.value.trim();
         }
     }
 
 
     /*Add items to submit object*/
     /*Add Geometry input to GeoJSON template object*/
-    //TODO Check that pasted geojson should be made value of 'geometries' of submitObject, not geojsonTemplate
     if(coordinateArray.length > 0){
         geojsonTemplate.features[0].geometry.coordinates.push(coordinateArray);
         geojsonTemplate.features[0].geometry.type = visibleGeometry;
@@ -839,7 +796,13 @@ function submitForm(){
         submitObject["SubmittedGeometry"] = geometryGeoJSONBBox;
     }
 
+    submitObject["username"] = usernameInput.value;
+    submitObject["title"] = titleInput.value;
+    submitObject["description"] = descriptionInput.value;
     submitObject["authors"] = authorArray;
     submitObject["metadata"] = metadataObject;
     submitObject["LinkedFiles"] = linkedFilesObject;
+
+    console.log("submitObject")
+    console.log(submitObject)
 }
