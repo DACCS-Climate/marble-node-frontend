@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", function () {
         dateFormat: "Y-m-d H:i"
     });
 
-
     var geometryDropdown = document.getElementById("geometry");
     geometryDropdown.addEventListener("change", geoPolygon2)
 
@@ -21,13 +20,16 @@ document.addEventListener("DOMContentLoaded", function () {
         removeEntry("author_box", "author_1" );
     });
 
-    var initialAuthorEmail = document.getElementById("email_1");
-    setInputFilter(initialAuthorEmail, function(value) {
-
-        return /^\w*\d*\.*\-*\@?\w*\d*\.?\w*\d*$/.test(value); // Allow digits and '.' only, using a RegExp.
-    }, "Only letters, numbers, '-', '@' and '.' are allowed");
-
     var submitButton = document.getElementById("submit");
     submitButton.addEventListener("click", submitForm);
 
+    /*Make Start Date calendar icon clickable and put focus on Start Date input*/
+    document.getElementById("metadata_start_icon").addEventListener("click", () => {
+        document.getElementById("metadata_start_date").focus();
+    });
+
+    /*Make End Date calendar icon clickable and put focus on End Date input*/
+    document.getElementById("metadata_end_icon").addEventListener("click", () => {
+        document.getElementById("metadata_end_date").focus();
+    });
 })
