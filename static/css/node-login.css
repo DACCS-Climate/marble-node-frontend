@@ -2073,16 +2073,39 @@ dialog {
 
 .icon-metadata-calendar{
     font-size: 30px;
+}
+
+.icon-metadata-container{
     margin-left: 10px;
 }
 
+.icon-metadata-container:hover{
+    cursor: pointer;
+}
+
 input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
+input::-webkit-inner-spin-button{
     /* display: none; <- Crashes Chrome on hover */
     -webkit-appearance: none;
     margin: 0;
 }
 
-input[type=number] {
+input[type=number]{
     -moz-appearance:textfield; /* Firefox */
+}
+
+input:invalid{
+    background-color: ivory;
+    border: none;
+    outline: var(--error);
+    border-radius: var(--textbox-border-radius);
+}
+
+input:required{
+    border: var(--border-black);
+    border-radius: var(--textbox-border-radius);
+}
+
+.required-asterisk{
+    color: var(--error);
 }
