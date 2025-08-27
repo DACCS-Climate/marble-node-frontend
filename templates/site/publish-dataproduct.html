@@ -39,15 +39,15 @@
             <!-- Initial author fields -->
                 <div id="author_1" class="author-child">
                     <div class="author-details">
-                        <label for="fname_1" class="subtitle-1 margin-input-label">First Name:</label><br>
+                        <label for="fname_1" class="subtitle-1 margin-input-label">First Name (Required):</label><br>
                         <input type="text" id="fname_1" name="fname1" class="input-textbox margin-input-field" value="" required><br>
                     </div>
                     <div class="author-details">
-                        <label for="lname_1" class="subtitle-1 margin-input-label">Last Name:</label><br>
+                        <label for="lname_1" class="subtitle-1 margin-input-label">Last Name (Required):</label><br>
                         <input type="text" id="lname_1" name="lname1" class="input-textbox margin-input-field" value="" required><br>
                     </div>
                     <div class="author-details">
-                        <label for="email_1" class="subtitle-1 margin-input-label">Email:</label><br>
+                        <label for="email_1" class="subtitle-1 margin-input-label">Email (Required):</label><br>
                         <input type="email" id="email_1" name="email1" class="input-textbox margin-input-field" value="" required><br>
                     </div>
                     <div class="remove-button">
@@ -61,10 +61,6 @@
             <div id="addAuthorButtons" class="author-button">
                 <input type="button" value="Add Author" class="button-med d-button-text margin-button-add" onclick="addAuthor('author_box');"/>
             </div>
-
-            <input type="hidden" id="authorFNames" name="authorFNames" class="input-textbox margin-input-field">
-            <input type="hidden" id="authorLNames" name="authorLNames" class="input-textbox margin-input-field">
-            <input type="hidden" id="authorEmails" name="authorEmails" class="input-textbox margin-input-field">
         </div>
 
         <div id="geometry_class" class="border-content-section margin-content-section padding-content-section">
@@ -115,8 +111,6 @@
           </div>
 
           </div>
-          <input type="hidden" id="listLat" name="listLat" class="input-textbox margin-input-field">
-          <input type="hidden" id="listLon" name="listLon" class="input-textbox margin-input-field">
 
         <div id="metadata" class="border-content-section margin-content-section padding-content-section">
             <h4> Metadata </h4>
