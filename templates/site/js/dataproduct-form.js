@@ -130,7 +130,7 @@ function initializeUploadDiv(divID){
 }
 
 
-function createInputCoordinatesRow(geometryType, indexNum){
+function createInputCoordinatesRow(geometryType, indexNum) {
     var coordinateInputContainerDiv = document.createElement("div");
     coordinateInputContainerDiv.id = geometryType + "_" + indexNum;
     coordinateInputContainerDiv.classList.add("multipoint-child");
@@ -139,39 +139,39 @@ function createInputCoordinatesRow(geometryType, indexNum){
     latitudeContainer.classList.add("latitude-child");
 
     var label1 = document.createElement("label");
+    label1.id = "label_" + geometryType + "_lat_" + indexNum;
     label1.classList.add("subtitle-1", "margin-input-label");
+
+    label1.innerHTML = "Latitude (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
+    label1.setAttribute("for", "lat_" + indexNum);
 
     var input1 = document.createElement("input");
     input1.classList.add("input-textbox", "margin-input-field");
+    input1.setAttribute("required", "required");
     input1.setAttribute("type", "number");
     input1.setAttribute("min", "-90");
     input1.setAttribute("max", "90");
     input1.setAttribute("step", "0.00001");
+    input1.setAttribute("id", geometryType + "_lat_" + indexNum);
+    input1.setAttribute("name", geometryType + "_lat_" + indexNum);
 
     var longitudeContainer = document.createElement("div");
     longitudeContainer.classList.add("longitude-child");
 
     var label2 = document.createElement("label");
-    var input2 = document.createElement("input");
     label2.classList.add("subtitle-1", "margin-input-label");
+    label2.id = "label_" + geometryType + "_lon_" + indexNum;
+    label2.innerHTML = "Latitude (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
+    label2.setAttribute("for", geometryType + "_lon_" + indexNum);
+
+
+    var input2 = document.createElement("input");
     input2.classList.add("input-textbox", "margin-input-field");
+    input2.setAttribute("required", "required");
     input2.setAttribute("type", "number");
     input2.setAttribute("min", "-180");
     input2.setAttribute("max", "180");
     input2.setAttribute("step", "0.00001");
-
-    label1.innerText = "Latitude (Required):";
-    label1.setAttribute("for", "lat_" + indexNum);
-
-    input1.setAttribute("type", "number");
-
-    input1.setAttribute("id",  geometryType + "_lat_" + indexNum);
-    input1.setAttribute("name", geometryType + "_lat_" + indexNum);
-
-    label2.innerText = "Longitude (Required):";
-    label2.setAttribute("for", geometryType + "_lon_" + indexNum);
-
-    input2.setAttribute("type", "number");
     input2.setAttribute("id", geometryType + "_lon_" + indexNum);
     input2.setAttribute("name", geometryType + "_lon_" + indexNum);
 
@@ -189,8 +189,8 @@ function createInputCoordinatesRow(geometryType, indexNum){
     removePointButton.setAttribute("type", "button");
     removePointButton.value = "Remove Point";
     removePointButton.classList.add("button-med", "d-button-text");
-    removePointButton.addEventListener("click", function() {
-        removeEntry("geo_" + geometryType + "_content" , geometryType + "_" + indexNum);
+    removePointButton.addEventListener("click", function () {
+        removeEntry("geo_" + geometryType + "_content", geometryType + "_" + indexNum);
     });
 
     removeButtonContainer.appendChild(removePointButton);
@@ -209,7 +209,7 @@ function createInputCoordinatesRow(geometryType, indexNum){
 }
 
 
-function swapDiv(divID){
+function swapDiv(divID) {
     var geoBBoxDiv = document.getElementById("geo_bbox");
     var currentDiv = document.getElementById(divID);
     var geoNodeList = geoBBoxDiv.querySelectorAll("div#geo_bbox > [id^=geo_]");
@@ -249,7 +249,6 @@ function addPoint(geometryType, divElementID) {
 
     if(pointInputArray.length > 1){
         for (let i = 0; i < pointInputArray.length; i++){
-
             pointInputItem = pointInputArray[i];
             pointInputID = pointInputItem.id;
             pointIDArray = pointInputID.split("_");
@@ -260,7 +259,6 @@ function addPoint(geometryType, divElementID) {
             if(!currentRemoveButton.classList.contains("show")){
                 currentRemoveButton.classList.add("show");
             }
-
         }
     }
     else{
@@ -303,6 +301,7 @@ function addPoint(geometryType, divElementID) {
     var label1 = document.createElement("label");
     label1.classList.add("subtitle-1", "margin-input-label");
     label1.innerText = "Latitude:";
+    label1.id = "label_" + geometryType + "_lat_" + autindex;
     label1.setAttribute("for", geometryType + "_lat_" + autindex);
 
     var input1 = document.createElement("input");
@@ -314,6 +313,7 @@ function addPoint(geometryType, divElementID) {
     var label2 = document.createElement("label");
     label2.classList.add("subtitle-1", "margin-input-label");
     label2.innerText = "Longitude:";
+    label2.id = "label_" + geometryType + "_lon_" + autindex;
     label2.setAttribute("for", geometryType + "_lon_" + autindex);
 
     var input2 = document.createElement("input");
@@ -487,6 +487,7 @@ function addAuthor(divElementID) {
     var label1 = document.createElement("label");
     label1.innerText = "First Name:";
     label1.classList.add("subtitle-1", "margin-input-label");
+    label1.id = "label_fname_" + autindex;
     label1.setAttribute("for", "fname_" + autindex);
 
     var input1 = document.createElement("input");
@@ -498,6 +499,7 @@ function addAuthor(divElementID) {
     var label2 = document.createElement("label");
     label2.innerText = "Last Name:";
     label2.classList.add("subtitle-1", "margin-input-label");
+    label2.id = "label_lname_" + autindex;
     label2.setAttribute("for", "lname_" + autindex);
 
     var input2 = document.createElement("input");
@@ -509,6 +511,7 @@ function addAuthor(divElementID) {
     var label3 = document.createElement("label");
     label3.innerText = "Email:";
     label3.classList.add("subtitle-1", "margin-input-label");
+    label3.id = "label_email_" + autindex;
     label3.setAttribute("for", "email_" + autindex);
 
     var input3 = document.createElement("input");
@@ -565,16 +568,42 @@ function removeEntry(parentElementID, elementID){
             currentInputIndex = currentInputIDArray[1];
             firstRemoveButton = document.getElementById(geometryType + "_remove_container_" + currentInputIndex);
 
+            var firstNameInput = document.getElementById("fname_" + currentInputIndex);
+
             if(!firstRemoveButton.classList.contains("show")){
                 firstRemoveButton.classList.add("show");
             }
             else{
                 firstRemoveButton.classList.remove("show");
             }
+
+            if(firstNameInput.getAttribute("required") == null){
+                var lastNameInput = document.getElementById("lname_" + currentInputIndex);
+                var emailInput = document.getElementById("email_" + currentInputIndex);
+                var firstNameLabel = document.getElementById("label_fname_" + currentInputIndex);
+                var lastNameLabel = document.getElementById("label_lname_" + currentInputIndex);
+                var emailLabel = document.getElementById("label_email_" + currentInputIndex);
+
+
+                firstNameInput.setAttribute("required", "required");
+                lastNameInput.setAttribute("required", "required");
+                emailInput.setAttribute("required", "required");
+
+                var firstNameLabelArray = firstNameLabel.innerText.split(":");
+                var lastNameLabelArray = lastNameLabel.innerText.split(":");
+                var emailLabelArray = emailLabel.innerText.split(":");
+
+                firstNameLabel.innerHTML = firstNameLabelArray[0] + " (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
+                lastNameLabel.innerHTML = lastNameLabelArray[0] + " (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
+                emailLabel.innerHTML = emailLabelArray[0] + " (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
+            }
+
         }
     }
     else{
         var coordinateIDPrefix = geometryType + "_lat_";
+        var labelCoordinateIDPrefix = "label_" + geometryType;
+
         inputArray = document.querySelectorAll(`[id^=${coordinateIDPrefix}]`);
         switch (inputArray.length){
             case 1:
@@ -592,6 +621,19 @@ function removeEntry(parentElementID, elementID){
                     firstRemoveButton.classList.remove("show");
                 }
 
+                if(inputArrayItem.getAttribute("required") == null){
+                    inputArrayItem.setAttribute("required", "required");
+
+                    var latLabel = document.getElementById(labelCoordinateIDPrefix + "_lat_" +  currentInputIndex);
+                    var lonLabel = document.getElementById(labelCoordinateIDPrefix + "_lon_" +  currentInputIndex);
+
+                    var latLabelArray = latLabel.innerText.split(":");
+                    latLabel.innerHTML = latLabelArray[0] + " (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
+
+                    var lonLabelArray = lonLabel.innerText.split(":");
+                    lonLabel.innerHTML = lonLabelArray[0] + " (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
+                }
+
             case 2:
                 if(geometryType == "linestring"){
                     removeButtonPrefix = geometryType + "_remove_container_"
@@ -603,6 +645,23 @@ function removeEntry(parentElementID, elementID){
                         }
                         else{
                             button.classList.remove("show");
+                        }
+                    }
+
+                    for(inputItem of inputArray){
+                        if(inputItem.getAttribute("required") == null){
+                            var inputItemIDArray = inputItem.id.split("_");
+                            var currentInputItemIndex = inputItemIDArray[2];
+                            var latLabel = document.getElementById(labelCoordinateIDPrefix + "_lat_" + currentInputItemIndex);
+                            var lonLabel = document.getElementById(labelCoordinateIDPrefix + "_lon_" + currentInputItemIndex);
+
+                            inputItem.setAttribute("required", "required");
+
+                            var latLabelArray = latLabel.innerText.split(":");
+                            latLabel.innerHTML = latLabelArray[0] + " (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
+
+                            var lonLabelArray = lonLabel.innerText.split(":");
+                            lonLabel.innerHTML = lonLabelArray[0] + " (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
                         }
                     }
                 }
@@ -619,9 +678,25 @@ function removeEntry(parentElementID, elementID){
                             button.classList.remove("show");
                         }
                     }
+
+                    for(inputItem of inputArray){
+                        if(inputItem.getAttribute("required") == null){
+                            var inputItemIDArray = inputItem.id.split("_");
+                            var currentInputItemIndex = inputItemIDArray[2];
+                            var latLabel = document.getElementById(labelCoordinateIDPrefix + "_lat_" + currentInputItemIndex);
+                            var lonLabel = document.getElementById(labelCoordinateIDPrefix + "_lon_" + currentInputItemIndex);
+
+                            inputItem.setAttribute("required", "required");
+
+                            var latLabelArray = latLabel.innerText.split(":");
+                            latLabel.innerHTML = latLabelArray[0] + " (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
+
+                            var lonLabelArray = lonLabel.innerText.split(":");
+                            lonLabel.innerHTML = lonLabelArray[0] + " (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
+                        }
+                    }
                 }
         }
-
     }
 }
 
@@ -677,7 +752,7 @@ function submitForm(){
     var dateMetadataFields = document.querySelectorAll("input[id*=_date]")
     var textAreaMetadataFields = document.querySelectorAll("textarea[id^=metadata_]");
     var metadataObject = {};
-    var csvMetadataArray;
+    var textareaMetadataArray;
     var linkedFilesFields = document.querySelectorAll("textarea[id^=linked_]");
     var linkedFilesObject = {};
 
@@ -748,19 +823,15 @@ function submitForm(){
         }
     }
 
-    /*Add Metadata input to metadataObject*/
+    /*Add Metadata Variables and Models input to metadataObject*/
     for (textareaMetadata of textAreaMetadataFields){
         if(textareaMetadata.id.includes("vars") || textareaMetadata.id.includes("models"))
         {
-            if(textareaMetadata.value.includes(",")){
-                csvMetadataArray = textareaMetadata.value.split(",");
+            if(textareaMetadata.value.indexOf("\n") > -1){
+                textareaMetadataArray = textareaMetadata.value.split("\n");
             }
 
-            for(csvMetadataEntry of csvMetadataArray){
-                csvMetadataEntry = csvMetadataEntry.trim();
-            }
-
-            metadataObject[textareaMetadata.id] = csvMetadataArray;
+            metadataObject[textareaMetadata.id] = textareaMetadataArray;
 
         }
     }
