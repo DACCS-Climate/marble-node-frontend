@@ -27,7 +27,7 @@
                     {% set tooltip_text = "Include any additional details you want to provide about the STAC item. Similar to an abstract." %}
                     {% include "partials/label.html" %}
                 {% endwith %}
-                <input type="text" id="desc" name="desc" class="input-textbox margin-input-field" value=""><br><br>
+                <textarea id="desc" name="desc" class="textarea-geojson margin-input-field"></textarea>
             </div>
         </div>
 
@@ -93,17 +93,11 @@
               <div id="geo_linestring" class="display-none">
                   <div id="geo_linestring_content"></div>
               </div>
-              <div id="geo_multi_linestring" class="display-none">
-                  <div id="geo_multi_linestring_content"></div>
-              </div>
               <div id="geo_polygon" class="display-none">
                   <div id="geo_polygon_content"></div>
               </div>
-              <div id="geo_multi_polygon" class="display-none">
-                  <div id="geo_multi_polygon_content"></div>
-              </div>
-              <div id="geo_geometry_collection" class="display-none">
-                  <div id="geo_geometry_collection_content"></div>
+              <div id="geo_json_upload" class="display-none">
+                  <div id="geo_json_upload_content"></div>
               </div>
               <div id="geo_null" class="display-none">
                   <div id="geo_null_content"></div>
@@ -139,7 +133,7 @@
             <div class="margin-input-label">
                 {% with %}
                     {% set label_text = "Add variables:" %}
-                    {% set tooltip_text = "Each variable should be on its own line" %}
+                    {% set tooltip_text = "Add one per line" %}
                     {% include "partials/label.html" %}
                 {% endwith %}
 
@@ -150,7 +144,7 @@
             <div>
                 {% with %}
                     {% set label_text = "Add relevant climate model data sources:" %}
-                    {% set tooltip_text = "Each relevant climate model source should be on its own line" %}
+                    {% set tooltip_text = "Add one per line" %}
                     {% include "partials/label.html" %}
                 {% endwith %}
                 <textarea id="metadata_models" type="text" name="models" class="textarea-geojson margin-input-field" value=""></textarea>
@@ -173,7 +167,7 @@
             <div class="margin-input-label">
                 {% with %}
                     {% set label_text = "Link to inputs (Link to any input data used, can be RedOak or external link):" %}
-                    {% set tooltip_text = "Links should be added one per line" %}
+                    {% set tooltip_text = "Add one per line" %}
                     {% include "partials/label.html" %}
                 {% endwith %}
 
@@ -184,14 +178,14 @@
             <div class="margin-input-label">
                 {% with %}
                     {% set label_text = "Linked to any additional files (workflow files):" %}
-                    {% set tooltip_text = "Links should be added one per line" %}
+                    {% set tooltip_text = "Add one per line" %}
                     {% include "partials/label.html" %}
                 {% endwith %}
                 <textarea id="linked_link" name="link" class="textarea-geojson margin-input-field" value=""></textarea>
             </div>
         </div>
         <br>
-        <div><input type="submit"  id="submit" class="button-med d-button-text" value="Submit Form"></div>
+        <div><input type="button"  id="submit" class="button-med d-button-text" value="Submit Form"></div>
         <br>
     </form>
 
