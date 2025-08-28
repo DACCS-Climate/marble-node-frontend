@@ -4,18 +4,13 @@ function initializePointInputDiv(geometryType, divID) {
     var geoContentDiv;
     var geoAddButtonDiv;
     var addButton;
-    var geojsonUploadDiv;
-    var geojsonUploadInput;
-
-    var geogeojsonUploadTitle = document.createElement("h5");
-    geogeojsonUploadTitle.innerText = "OR: Paste GeoJSON From the Link Above";
-    geogeojsonUploadTitle.classList.add("margin-unset", "margin-geojson-input-label");
 
 
     //Show the contents of the div with the passed divID
     //If the passed divID belongs to a content div, get the content div
     //If it isn't, add the content div suffix and get the content div
     geoBboxDiv.classList.add("show");
+
     if(divID.includes("_content")){
         geoContentDiv = document.getElementById(divID );
     }
@@ -23,19 +18,11 @@ function initializePointInputDiv(geometryType, divID) {
         geoContentDiv = document.getElementById(divID + "_content");
     }
 
-    //Only create the geojson upload input field and add button for the following geometries
+    //Only create the add button for the following geometries
     switch(divID){
         case "geo_multipoint":
         case "geo_linestring":
         case "geo_polygon":
-            geojsonUploadDiv = document.createElement("div");
-            geojsonUploadDiv.id = divID + "_geojson_upload_div";
-
-            geojsonUploadInput = document.createElement("textarea");
-            geojsonUploadInput.id = divID + "_geojson_file";
-            geojsonUploadInput.setAttribute("name", divID + "File");
-            geojsonUploadInput.classList.add("textarea-geojson", "margin-input-field");
-
             geoAddButtonDiv = document.createElement("div");
             geoAddButtonDiv.id = divID + "_add_button_div";
 
@@ -49,8 +36,6 @@ function initializePointInputDiv(geometryType, divID) {
             });
 
             geoAddButtonDiv.appendChild(addButton);
-            geojsonUploadDiv.appendChild(geogeojsonUploadTitle);
-            geojsonUploadDiv.appendChild(geojsonUploadInput);
 
             break;
 
@@ -70,7 +55,7 @@ function initializePointInputDiv(geometryType, divID) {
             if(document.getElementById("geo_" + geometryType + "_add_button_div") == null &&
                 document.getElementById("geo_" + geometryType + "_geojson_upload_div") == null) {
                 geoBboxDiv.appendChild(geoAddButtonDiv);
-                geoBboxDiv.appendChild(geojsonUploadDiv);
+                //geoBboxDiv.appendChild(geojsonUploadDiv);
             }
 
             break;
@@ -86,7 +71,6 @@ function initializePointInputDiv(geometryType, divID) {
             if(document.getElementById("geo_" + geometryType + "_add_button_div") == null &&
                 document.getElementById("geo_" + geometryType + "_geojson_upload_div") == null) {
                 geoBboxDiv.appendChild(geoAddButtonDiv);
-                geoBboxDiv.appendChild(geojsonUploadDiv);
             }
 
             break;
@@ -101,7 +85,6 @@ function initializePointInputDiv(geometryType, divID) {
             if(document.getElementById("geo_" + geometryType + "_add_button_div") == null &&
                 document.getElementById("geo_" + geometryType + "_geojson_upload_div") == null) {
                 geoBboxDiv.appendChild(geoAddButtonDiv);
-                geoBboxDiv.appendChild(geojsonUploadDiv);
             }
             break;
 
@@ -382,7 +365,7 @@ function geoPolygon2(selected_geometry) {
 
             break;
 
-        case 5:
+        case 4:
             // For Polygon
             if (document.getElementById("geo_polygon_content").querySelector(".multipoint-child") != null
                 || document.getElementById("geo_polygon_content").querySelector(".multipoint-additional-child") != null) {
@@ -394,35 +377,13 @@ function geoPolygon2(selected_geometry) {
 
             break;
 
-        case 4:
-            // For MultiLineString
-            if (document.getElementById("geo_multi_linestring_content").querySelector(".upload-geojson-child") != null) {
-                swapDiv('geo_multi_linestring');
+        case 5:
+            // For GeoJSON Upload (Multi Line String, Multi Polygon, Geometry Collection)
+            if (document.getElementById("geo_json_upload_content").querySelector(".upload-geojson-child") != null) {
+                swapDiv('geo_json_upload');
             } else {
-                swapDiv('geo_multi_linestring');
-                initializeUploadDiv('geo_multi_linestring');
-            }
-
-            break;
-
-        case 6:
-            // For MultiPolygon,
-            if (document.getElementById("geo_multi_polygon_content").querySelector(".upload-geojson-child") != null) {
-                swapDiv('geo_multi_polygon');
-            } else {
-                swapDiv('geo_multi_polygon');
-                initializeUploadDiv('geo_multi_polygon');
-            }
-
-            break;
-
-        case 7:
-            // For GeometryCollection
-            if (document.getElementById("geo_geometry_collection_content").querySelector(".upload-geojson-child") != null) {
-                swapDiv('geo_geometry_collection');
-            } else {
-                swapDiv('geo_geometry_collection');
-                initializeUploadDiv('geo_geometry_collection');
+                swapDiv('geo_json_upload');
+                initializeUploadDiv('geo_json_upload');
             }
 
             break;
@@ -719,7 +680,7 @@ function updateIndex(additionalInputArray) {
 
 /*Submit functions*/
 function submitForm(){
-    // example of how polygon coordinates should be formatted
+    // Example of how polygon coordinates should be formatted
     //  [ [ 19.732387792295356,17.362269487080525],[ 15.018600022717294, 11.450658457798042],[29.998879431116166, 6.631460284225298] ]
     var submitObject = {};
     var geojsonTemplate =     {
@@ -779,17 +740,11 @@ function submitForm(){
 
                     coordinateArray.push(coordinate);
                 }
-                else{
-                    var geometryGeoJSONBoundingBoxTextarea = document.getElementById("geo_" + geometryType + "_geojson_file");
-                    if(geometryGeoJSONBoundingBoxTextarea.value.indexOf("\n") > -1){
-                        geometryGeoJSONBoundingBoxInput = geometryGeoJSONBoundingBoxTextarea.value.replaceAll("\n", "");
-                    }
-                    geometryGeoJSONBBox = geometryGeoJSONBoundingBoxInput;
-                }
             }
         }
     }
-    else{
+
+    if(geometryGeoJSONFileInput.length > 0){
         for(geometryFile of geometryGeoJSONFileInput){
             var firstUnderscoreIndex = geometryFile.id.indexOf('_');
             var lastUnderscoreIndex = geometryFile.id.lastIndexOf('_');
