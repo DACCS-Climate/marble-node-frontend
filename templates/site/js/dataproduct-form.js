@@ -684,18 +684,19 @@ function calendarDatesEqual(checkboxDateEqualID, checkboxNoTemporalID, startDate
     var endDateElement = document.getElementById(endDateID);
 
     if(checkboxDateEqualElement.checked){
-        endDateElement.value = startDateElement.value;
-        startDateElement.setAttribute("disabled", "disabled");
+        startDateElement.removeAttribute("disabled");
         endDateElement.setAttribute("disabled", "disabled");
+
+        if(startDateElement.value != ""){
+            endDateElement.value = startDateElement.value;
+        }
 
         if(checkboxNoTemporalElement.checked){
             checkboxNoTemporalElement.checked = false;
         }
-
     }
     else{
         endDateElement.value = "";
-        startDateElement.removeAttribute("disabled");
         endDateElement.removeAttribute("disabled");
     }
 }
@@ -722,9 +723,31 @@ function calendarDatesNone(checkboxDateEqualID, checkboxNoTemporalID, startDateI
     }
 }
 
+function copyStartDate(startDateElementID, endDateElementID, checkboxDateEqualID){
+    var startDateInput = document.getElementById(startDateElementID);
+    var endDateInput = document.getElementById(endDateElementID);
+    var checkboxEqualDateInput = document.getElementById(checkboxDateEqualID);
+
+    if(checkboxEqualDateInput.checked){
+        endDateInput.value = startDateInput.value;
+    }
+}
+
+
+function checkRequired(){
+    var requiredInputs = document.querySelectorAll('[required]');
+    for(input of requiredInputs){
+        if(!input.classList.contains("required")){
+            input.classList.add("required");
+        }
+    }
+}
+
 
 /*Submit functions*/
 function submitForm(){
+    checkRequired();
+
     // Example of how polygon coordinates should be formatted
     //  [ [ 19.732387792295356,17.362269487080525],[ 15.018600022717294, 11.450658457798042],[29.998879431116166, 6.631460284225298] ]
     var submitObject = {};
@@ -880,7 +903,4 @@ function submitForm(){
     submitObject["authors"] = authorArray;
     submitObject["metadata"] = metadataObject;
     submitObject["LinkedFiles"] = linkedFilesObject;
-
-    console.log("submitObject")
-    console.log(submitObject)
 }
