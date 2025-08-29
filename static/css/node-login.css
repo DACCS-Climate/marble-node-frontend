@@ -2096,11 +2096,14 @@ input[type=number]{
     -moz-appearance:textfield; /* Firefox */
 }
 
-.required-input:invalid{
+input.required:invalid{
     background-color: ivory;
     border: none;
-    outline: var(--error);
+    border-style: solid;
+    border-width: 2px;
+    border-color: var(--error);
     border-radius: var(--textbox-border-radius);
+    outline: var(--error);
 }
 
 input:required{
