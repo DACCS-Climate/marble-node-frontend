@@ -677,6 +677,51 @@ function updateIndex(additionalInputArray) {
     return inputFieldIndex
 }
 
+function calendarDatesEqual(checkboxDateEqualID, checkboxNoTemporalID, startDateID, endDateID){
+    var checkboxDateEqualElement = document.getElementById(checkboxDateEqualID);
+    var checkboxNoTemporalElement = document.getElementById(checkboxNoTemporalID);
+    var startDateElement = document.getElementById(startDateID);
+    var endDateElement = document.getElementById(endDateID);
+
+    if(checkboxDateEqualElement.checked){
+        endDateElement.value = startDateElement.value;
+        startDateElement.setAttribute("disabled", "disabled");
+        endDateElement.setAttribute("disabled", "disabled");
+
+        if(checkboxNoTemporalElement.checked){
+            checkboxNoTemporalElement.checked = false;
+        }
+
+    }
+    else{
+        endDateElement.value = "";
+        startDateElement.removeAttribute("disabled");
+        endDateElement.removeAttribute("disabled");
+    }
+}
+
+function calendarDatesNone(checkboxDateEqualID, checkboxNoTemporalID, startDateID, endDateID){
+    var checkboxNoTemporalElement = document.getElementById(checkboxNoTemporalID);
+    var checkboxDateEqualElement = document.getElementById(checkboxDateEqualID);
+    var startDateElement = document.getElementById(startDateID);
+    var endDateElement = document.getElementById(endDateID);
+
+    if(checkboxNoTemporalElement.checked){
+        endDateElement.value = "";
+        startDateElement.value = "";
+        startDateElement.setAttribute("disabled", "disabled");
+        endDateElement.setAttribute("disabled", "disabled");
+
+        if(checkboxDateEqualElement.checked){
+            checkboxDateEqualElement.checked = false;
+        }
+    }
+    else{
+        startDateElement.removeAttribute("disabled");
+        endDateElement.removeAttribute("disabled");
+    }
+}
+
 
 /*Submit functions*/
 function submitForm(){
@@ -792,8 +837,15 @@ function submitForm(){
     }
 
     /*Add date input to submitObject*/
-    for(dateMetadata of dateMetadataFields){
-        metadataObject[dateMetadata.id] = dateMetadata.value;
+    if(dateMetadataFields[0].value == "" && dateMetadataFields[1].value == ""){
+        for(dateMetadata of dateMetadataFields){
+            metadataObject[dateMetadata.id] = null;
+        }
+    }
+    else{
+        for(dateMetadata of dateMetadataFields){
+            metadataObject[dateMetadata.id] = dateMetadata.value;
+        }
     }
 
     /*Add Linked Files input to linkedFilesObject*/
