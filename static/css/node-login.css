@@ -552,8 +552,6 @@ h6{
 .checkbox-container {
     display: block;
     position: relative;
-    /* height: 25px; */
-    width: 100%;
     padding-left: 35px;
     margin-bottom: 12px;
     cursor: pointer;
@@ -561,8 +559,6 @@ h6{
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    white-space: nowrap;
-    text-wrap: wrap;
 }
 
 /* Hide the browser's default checkbox */
@@ -590,7 +586,6 @@ h6{
 
 /* On mouse-over, add a grey background color */
 .checkbox-container:hover input ~ .checkmark {
-    background-color: inherit;
     box-shadow: var(--d-elevation-2);
 }
 
@@ -613,7 +608,7 @@ h6{
 
 /* Style the checkmark/indicator */
 .checkbox-container .checkmark:after {
-    left: 5px;
+    left: 3px;
     bottom: 3px;
     width: 8px;
     height: 13px;
@@ -2071,6 +2066,13 @@ dialog {
     align-items: center;
 }
 
+.calendar-checkbox-container{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-top: 10px;
+}
+
 .icon-metadata-calendar{
     font-size: 30px;
 }
@@ -2094,7 +2096,7 @@ input[type=number]{
     -moz-appearance:textfield; /* Firefox */
 }
 
-input:invalid{
+.required-input:invalid{
     background-color: ivory;
     border: none;
     outline: var(--error);
