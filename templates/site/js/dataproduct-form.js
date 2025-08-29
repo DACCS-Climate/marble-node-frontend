@@ -38,7 +38,6 @@ function initializePointInputDiv(geometryType, divID) {
             geoAddButtonDiv.appendChild(addButton);
 
             break;
-
     }
 
     switch(divID){
@@ -55,7 +54,6 @@ function initializePointInputDiv(geometryType, divID) {
             if(document.getElementById("geo_" + geometryType + "_add_button_div") == null &&
                 document.getElementById("geo_" + geometryType + "_geojson_upload_div") == null) {
                 geoBboxDiv.appendChild(geoAddButtonDiv);
-                //geoBboxDiv.appendChild(geojsonUploadDiv);
             }
 
             break;
@@ -788,7 +786,7 @@ function submitForm(){
 
     /*Adds Geometry coordinate input to geometryTemplate object*/
     /*If no coordinates are entered get the input from the geojson textarea*/
-    /*If a geometry with no coordinate inputs is selected (eg. multi-polygon) only get input from the geojson textarea*/
+    /*If a geometry with no coordinate inputs is selected (eg. upload geojson) only get input from the geojson textarea*/
     if(geometryInputFields.length > 0){
         for (input of geometryInputFields) {
             var inputIDArray = input.id.split("_");
