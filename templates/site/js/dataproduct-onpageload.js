@@ -12,6 +12,9 @@ document.addEventListener("DOMContentLoaded", function () {
         dateFormat: "Y-m-d H:i"
     });
 
+    var submitButton = document.getElementById("submit");
+    submitButton.addEventListener("click", submitForm);
+
     var geometryDropdown = document.getElementById("geometry");
     geometryDropdown.addEventListener("change", geoPolygon2)
 
@@ -19,9 +22,6 @@ document.addEventListener("DOMContentLoaded", function () {
         initialAuthorRemoveButton.addEventListener("click", function() {
         removeEntry("author_box", "author_1" );
     });
-
-    var submitButton = document.getElementById("submit");
-    submitButton.addEventListener("click", submitForm);
 
     /*Make Start Date calendar icon clickable and put focus on Start Date input*/
     document.getElementById("metadata_start_icon").addEventListener("click", () => {
@@ -32,4 +32,15 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("metadata_end_icon").addEventListener("click", () => {
         document.getElementById("metadata_end_date").focus();
     });
+
+    /*For checkbox to make Start Date same as End Date and read only*/
+    document.getElementById("date_make_equal").addEventListener("change", () => {
+        calendarDatesEqual("date_make_equal", "date_none_needed", "metadata_start_date", "metadata_end_date");
+    });
+
+    /*For checkbox to make Start Date and End Date empty and read only*/
+    document.getElementById("date_none_needed").addEventListener("change", () => {
+        calendarDatesNone("date_make_equal", "date_none_needed", "metadata_start_date", "metadata_end_date");
+    });
+
 })
