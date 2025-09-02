@@ -3,7 +3,6 @@ function initializePointInputDiv(geometryType, divID) {
     var geoBboxDiv = document.getElementById(divID);
     var geoContentDiv;
     var geoAddButtonDiv;
-    var addButton;
 
 
     //Show the contents of the div with the passed divID
@@ -18,28 +17,7 @@ function initializePointInputDiv(geometryType, divID) {
         geoContentDiv = document.getElementById(divID + "_content");
     }
 
-    //Only create the add button for the following geometries
-    switch(divID){
-        case "geo_multipoint":
-        case "geo_linestring":
-        case "geo_polygon":
-            geoAddButtonDiv = document.createElement("div");
-            geoAddButtonDiv.id = divID + "_add_button_div";
-
-            addButton = document.createElement("input");
-            addButton.id = divID + "_add_button";
-            addButton.classList.add("button-med", "d-button-text", "margin-button-add");
-            addButton.setAttribute("type", "button");
-            addButton.setAttribute("value", "Add Point");
-            addButton.addEventListener("click", function(){
-                addPoint(geometryType, divID + "_content");
-            });
-
-            geoAddButtonDiv.appendChild(addButton);
-
-            break;
-    }
-
+    //Only create the add button for geo_multipoint, geo_linestring, geo_polygon
     switch(divID){
         case "geo_point":
             var pointInputRow = createInputCoordinatesRow("point",1);
@@ -48,6 +26,7 @@ function initializePointInputDiv(geometryType, divID) {
             break;
 
         case "geo_multipoint":
+            geoAddButtonDiv = createAddCoordinateRowButton(geometryType, "geo_multipoint");
             var multipointInputRow = createInputCoordinatesRow("multipoint", 1);
             geoContentDiv.appendChild(multipointInputRow);
 
@@ -59,12 +38,12 @@ function initializePointInputDiv(geometryType, divID) {
             break;
 
         case "geo_linestring":
+            geoAddButtonDiv = createAddCoordinateRowButton(geometryType, "geo_linestring");
 
             for (let i = 0; i < 2; i++ ){
                 var linestringInputRow = createInputCoordinatesRow("linestring", i);
                 geoContentDiv.appendChild(linestringInputRow);
             }
-
 
             if(document.getElementById("geo_" + geometryType + "_add_button_div") == null &&
                 document.getElementById("geo_" + geometryType + "_geojson_upload_div") == null) {
@@ -74,18 +53,18 @@ function initializePointInputDiv(geometryType, divID) {
             break;
 
         case "geo_polygon":
+            geoAddButtonDiv = createAddCoordinateRowButton(geometryType, "geo_polygon");
+
             for (let i = 0; i < 3; i++ ){
                 var polygonInputRow = createInputCoordinatesRow("polygon", i);
                 geoContentDiv.appendChild(polygonInputRow);
             }
-
 
             if(document.getElementById("geo_" + geometryType + "_add_button_div") == null &&
                 document.getElementById("geo_" + geometryType + "_geojson_upload_div") == null) {
                 geoBboxDiv.appendChild(geoAddButtonDiv);
             }
             break;
-
     }
 }
 
@@ -189,6 +168,24 @@ function createInputCoordinatesRow(geometryType, indexNum) {
     return coordinateInputContainerDiv;
 }
 
+
+function createAddCoordinateRowButton(geometryType, divID){
+    var geoAddButtonDiv = document.createElement("div");
+    geoAddButtonDiv.id = divID + "_add_button_div";
+
+    var addButton = document.createElement("input");
+    addButton.id = divID + "_add_button";
+    addButton.classList.add("button-med", "d-button-text", "margin-button-add");
+    addButton.setAttribute("type", "button");
+    addButton.setAttribute("value", "Add Point");
+    addButton.addEventListener("click", function(){
+        addPoint(geometryType, divID + "_content");
+    });
+
+    geoAddButtonDiv.appendChild(addButton);
+
+    return geoAddButtonDiv;
+}
 
 function swapDiv(divID) {
     var geoBBoxDiv = document.getElementById("geo_bbox");
@@ -386,7 +383,7 @@ function geoPolygon2(selected_geometry) {
 
             break;
 
-        case 8:
+        case 6:
             // For Non-Spatial
             if (document.getElementById("geo_null_content").querySelector(".multipoint-child") != null) {
                 swapDiv('geo_null');
