@@ -3,7 +3,7 @@
 {% block account_content %}
 
     <script src="js/dataproduct-form.js"></script>
-    
+
     <h3>Publish Files to Red Oak STAC Catalog</h3><br>
     <p> This form allows you to publish datasets, data products and/or workflows to the Marble STAC catalog. Before filling out this form, ensure that the primary file is hosted on Red Oak in your public folder. Supplementary files such as input data can be included as third party links. After submission, a STAC item and citation will be generated and reviewed by admin before being uploaded to the catalog.</p>
 
@@ -72,7 +72,6 @@
             <div id="select">
 
                 {% with %}
-                    {% set dropdown_type = "default_dropdown_list" %}
                     {% set banner_search_dropdown_class = "banner-dropdown-list-container"%}
                     {% set dropdown_button_id = "dropdownListDefaultButton" %}
                     {% set dropdown_button_text_id = "dropdownListDefaultButtonText" %}
@@ -129,7 +128,7 @@
             <div id="calender_checkbox_container" class="calendar-checkbox-container">
                 {% with %}
                     {% set checkbox_id = "date_make_equal" %}
-                    {% set direction_left = true %}
+                    {% set direction_right = true %}
                     {% set checkbox_text_class = "subtitle-1" %}
                     {% set checkbox_label_text = "End Date Same As Start Date" %}
                     {% include "partials/checkbox.html" %}
