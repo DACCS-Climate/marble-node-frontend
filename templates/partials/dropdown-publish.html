@@ -50,7 +50,7 @@
                         var listItem = document.getElementById("{{ item["item_id"] }}");
 
                         listItem.addEventListener('click', function() {
-                            replaceListItem("{{ dropdown_label_text }}", "{{ dropdown_button_text_id }}", "{{ item["item_id"] }}");
+                            replaceListItem("{{ dropdown_button_text_id }}", "{{ item["item_id"] }}");
                         })
                     });
                 </script>
