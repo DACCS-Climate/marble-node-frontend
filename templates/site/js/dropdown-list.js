@@ -1,4 +1,4 @@
-function replaceListItem(placeholderValue, firstItemID, secondItemID){
+function replaceListItem(firstItemID, secondItemID){
     var firstItem = document.getElementById(firstItemID);
     var secondItem = document.getElementById(secondItemID);
 
