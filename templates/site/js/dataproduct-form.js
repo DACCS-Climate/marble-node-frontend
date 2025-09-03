@@ -73,6 +73,7 @@ function initializeUploadDiv(divID){
     var uploadTitle = document.createElement("h5");
     var uploadInput = document.createElement("textarea");
     var uploadDiv = document.createElement("div");
+    var uploadValidationError = document.createElement("p");
 
     uploadDiv.id = "upload_" + divID;
     uploadDiv.classList.add("upload-geojson-child");
@@ -82,9 +83,17 @@ function initializeUploadDiv(divID){
     uploadInput.id = "my_" + divID + "_file";
     uploadInput.setAttribute("name", "my_" + divID + "_file");
     uploadInput.classList.add("textarea-geojson", "margin-input-field")
+    uploadInput.addEventListener("input", () => {
+        validateUploadGeoJSON("my_" + divID + "_file");
+    })
+
+    uploadValidationError.id = "uploadGeoJSONError";
+    uploadValidationError.classList.add("subtitle-1", "error-geojson-validation", "margin-geojson-input-error", "error-not-visible");
+    uploadValidationError.innerText = "GeoJSON Invalid";
 
     uploadDiv.appendChild(uploadTitle);
     uploadDiv.appendChild(uploadInput);
+    uploadDiv.appendChild(uploadValidationError);
 
     geoContentDiv.appendChild(uploadDiv);
 }
@@ -187,7 +196,7 @@ function createAddCoordinateRowButton(geometryType, divID){
     return geoAddButtonDiv;
 }
 
-function swapDiv(divID) {
+function swapDiv(divID, geometryType) {
     var geoBBoxDiv = document.getElementById("geo_bbox");
     var currentDiv = document.getElementById(divID);
     var geoNodeList = geoBBoxDiv.querySelectorAll("div#geo_bbox > [id^=geo_]");
@@ -196,7 +205,38 @@ function swapDiv(divID) {
         if(parentDiv.classList.contains("show")){
             parentDiv.classList.remove("show");
             parentDiv.classList.remove("multipoint-parent");
+
+            var invisibleParentDivIDArray = parentDiv.id.split("_");
+
+            if(invisibleParentDivIDArray[1] != "json" && invisibleParentDivIDArray[1] != "null"){
+                geometryType = invisibleParentDivIDArray[1];
+            }
+
+            var invisibleParentContentDiv = document.getElementById(parentDiv.id + "_content");
+            var coordinateIDPrefixLat = geometryType + "_lat_";
+            var coordinateIDPrefixLon = geometryType + "_lon_";
+            var latList = invisibleParentContentDiv.querySelectorAll(`[id^=${coordinateIDPrefixLat}]`);
+            var lonList = invisibleParentContentDiv.querySelectorAll(`[id^=${coordinateIDPrefixLon}]`);
+
+            for(latInput of latList){
+                if(latInput.getAttribute("required")){
+                    latInput.removeAttribute("required");
+                }
+                else{
+                    latInput.setAttribute("required", "required");
+                }
+            }
+
+            for(lonInput of lonList){
+                if(lonInput.getAttribute("required")){
+                    lonInput.removeAttribute("required");
+                }
+                else{
+                    lonInput.setAttribute("required", "required");
+                }
+            }
         }
+
         currentDiv.classList.add("multipoint-parent");
         currentDiv.classList.add("show");
     }
@@ -328,9 +368,9 @@ function geoPolygon2(selected_geometry) {
     switch (selected_geometry) {
         case 1:
             if (document.getElementById("geo_point_content").querySelector(".multipoint-child") != null) {
-                swapDiv('geo_point');
+                swapDiv('geo_point', 'point');
             } else {
-                swapDiv('geo_point');
+                swapDiv('geo_point', 'point');
                 initializePointInputDiv('point', 'geo_point');
             }
 
@@ -340,9 +380,9 @@ function geoPolygon2(selected_geometry) {
             // For MultiPoint
             if (document.getElementById("geo_multipoint_content").querySelector(".multipoint-child") != null
                 || document.getElementById("geo_multipoint_content").querySelector(".multipoint-additional-child") != null) {
-                swapDiv('geo_multipoint');
+                swapDiv('geo_multipoint', 'multipoint');
             } else {
-                swapDiv('geo_multipoint');
+                swapDiv('geo_multipoint', 'multipoint');
                 initializePointInputDiv('multipoint', 'geo_multipoint');
             }
 
@@ -352,9 +392,9 @@ function geoPolygon2(selected_geometry) {
             // For LineString
             if (document.getElementById("geo_linestring_content").querySelector(".multipoint-child") != null
                 || document.getElementById("geo_linestring_content").querySelector(".multipoint-additional-child") != null) {
-                swapDiv('geo_linestring');
+                swapDiv('geo_linestring', 'linestring');
             } else {
-                swapDiv('geo_linestring');
+                swapDiv('geo_linestring', 'linestring');
                 initializePointInputDiv('linestring', 'geo_linestring');
             }
 
@@ -364,9 +404,9 @@ function geoPolygon2(selected_geometry) {
             // For Polygon
             if (document.getElementById("geo_polygon_content").querySelector(".multipoint-child") != null
                 || document.getElementById("geo_polygon_content").querySelector(".multipoint-additional-child") != null) {
-                swapDiv('geo_polygon');
+                swapDiv('geo_polygon', 'polygon');
             } else {
-                swapDiv('geo_polygon');
+                swapDiv('geo_polygon', 'polygon');
                 initializePointInputDiv('polygon', 'geo_polygon');
             }
 
@@ -563,98 +603,52 @@ function removeEntry(parentElementID, elementID){
         inputArray = document.querySelectorAll(`[id^=${coordinateIDPrefix}]`);
         switch (inputArray.length){
             case 1:
-                var inputArrayItem = inputArray[0]
-                var currentInputFieldID = inputArrayItem.id;
-                var currentInputIDArray = currentInputFieldID.split("_");
-                currentInputIndex = currentInputIDArray[2];
-
-                firstRemoveButton = document.getElementById(geometryType + "_remove_container_" + currentInputIndex);
-
-                if(!firstRemoveButton.classList.contains("show")){
-                    firstRemoveButton.classList.add("show");
-                }
-                else{
-                    firstRemoveButton.classList.remove("show");
-                }
-
-                if(inputArrayItem.getAttribute("required") == null){
-                    inputArrayItem.setAttribute("required", "required");
-
-                    var latLabel = document.getElementById(labelCoordinateIDPrefix + "_lat_" +  currentInputIndex);
-                    var lonLabel = document.getElementById(labelCoordinateIDPrefix + "_lon_" +  currentInputIndex);
-
-                    var latLabelArray = latLabel.innerText.split(":");
-                    latLabel.innerHTML = latLabelArray[0] + " (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
-
-                    var lonLabelArray = lonLabel.innerText.split(":");
-                    lonLabel.innerHTML = lonLabelArray[0] + " (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
-                }
+                makeInputRequired(geometryType, inputArray);
 
             case 2:
                 if(geometryType == "linestring"){
-                    removeButtonPrefix = geometryType + "_remove_container_"
-                    var removeButtonsLastRemaining =  document.querySelectorAll(`[id^=${removeButtonPrefix}]`);
-
-                    for (button of removeButtonsLastRemaining){
-                        if(!button.classList.contains("show")){
-                            button.classList.add("show");
-                        }
-                        else{
-                            button.classList.remove("show");
-                        }
-                    }
-
-                    for(inputItem of inputArray){
-                        if(inputItem.getAttribute("required") == null){
-                            var inputItemIDArray = inputItem.id.split("_");
-                            var currentInputItemIndex = inputItemIDArray[2];
-                            var latLabel = document.getElementById(labelCoordinateIDPrefix + "_lat_" + currentInputItemIndex);
-                            var lonLabel = document.getElementById(labelCoordinateIDPrefix + "_lon_" + currentInputItemIndex);
-
-                            inputItem.setAttribute("required", "required");
-
-                            var latLabelArray = latLabel.innerText.split(":");
-                            latLabel.innerHTML = latLabelArray[0] + " (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
-
-                            var lonLabelArray = lonLabel.innerText.split(":");
-                            lonLabel.innerHTML = lonLabelArray[0] + " (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
-                        }
-                    }
+                    makeInputRequired(geometryType, inputArray);
                 }
             case 3:
                 if(geometryType == "polygon"){
-                    removeButtonPrefix = geometryType + "_remove_container_"
-                    var removeButtonsLastRemaining =  document.querySelectorAll(`[id^=${removeButtonPrefix}]`);
-
-                    for (button of removeButtonsLastRemaining){
-                        if(!button.classList.contains("show")){
-                            button.classList.add("show");
-                        }
-                        else{
-                            button.classList.remove("show");
-                        }
-                    }
-
-                    for(inputItem of inputArray){
-                        if(inputItem.getAttribute("required") == null){
-                            var inputItemIDArray = inputItem.id.split("_");
-                            var currentInputItemIndex = inputItemIDArray[2];
-                            var latLabel = document.getElementById(labelCoordinateIDPrefix + "_lat_" + currentInputItemIndex);
-                            var lonLabel = document.getElementById(labelCoordinateIDPrefix + "_lon_" + currentInputItemIndex);
-
-                            inputItem.setAttribute("required", "required");
-
-                            var latLabelArray = latLabel.innerText.split(":");
-                            latLabel.innerHTML = latLabelArray[0] + " (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
-
-                            var lonLabelArray = lonLabel.innerText.split(":");
-                            lonLabel.innerHTML = lonLabelArray[0] + " (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
-                        }
-                    }
+                    makeInputRequired(geometryType, inputArray);
                 }
         }
     }
 }
+
+function makeInputRequired(geometryType, inputArray){
+    var labelCoordinateIDPrefix = "label_" + geometryType;
+    var removeButtonPrefix = geometryType + "_remove_container_";
+    var removeButtonsLastRemaining =  document.querySelectorAll(`[id^=${removeButtonPrefix}]`);
+
+    for (button of removeButtonsLastRemaining){
+        if(!button.classList.contains("show")){
+            button.classList.add("show");
+        }
+        else{
+            button.classList.remove("show");
+        }
+    }
+
+    for(inputItem of inputArray){
+        if(inputItem.getAttribute("required") == null){
+            var inputItemIDArray = inputItem.id.split("_");
+            var currentInputItemIndex = inputItemIDArray[2];
+            var latLabel = document.getElementById(labelCoordinateIDPrefix + "_lat_" + currentInputItemIndex);
+            var lonLabel = document.getElementById(labelCoordinateIDPrefix + "_lon_" + currentInputItemIndex);
+
+            inputItem.setAttribute("required", "required");
+
+            var latLabelArray = latLabel.innerText.split(":");
+            latLabel.innerHTML = latLabelArray[0] + " (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
+
+            var lonLabelArray = lonLabel.innerText.split(":");
+            lonLabel.innerHTML = lonLabelArray[0] + " (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
+        }
+    }
+}
+
 
 function updateIndex(additionalInputArray) {
     var lastInput = additionalInputArray[additionalInputArray.length - 1]
@@ -738,6 +732,38 @@ function checkRequired(){
     }
 }
 
+function validateUploadGeoJSON(elementID){
+    var uploadGeoJSONInput = document.getElementById(elementID);
+    var uploadGeoJSONError = document.getElementById("uploadGeoJSONError");
+    var parsedGeoJSON;
+    var uploadGeoJSONCleaned;
+
+    if(uploadGeoJSONInput.value != "") {
+        if (uploadGeoJSONInput.value.indexOf("\n") > -1) {
+            uploadGeoJSONCleaned = uploadGeoJSONInput.value.replaceAll("\n", "");
+            uploadGeoJSONCleaned = uploadGeoJSONCleaned.replaceAll(" ", "");
+        } else {
+            uploadGeoJSONCleaned = uploadGeoJSONInput.value
+        }
+
+        try {
+            parsedGeoJSON = JSON.parse(uploadGeoJSONCleaned);
+
+            if (uploadGeoJSONError.classList.contains("error-visible")) {
+                uploadGeoJSONError.classList.remove("error-visible");
+                uploadGeoJSONError.classList.add("error-not-visible");
+            }
+        } catch (e) {
+            uploadGeoJSONError.classList.remove("error-not-visible");
+            uploadGeoJSONError.classList.add("error-visible");
+        }
+
+    }
+
+    return parsedGeoJSON;
+}
+
+
 
 /*Submit functions*/
 function submitForm(){
@@ -746,20 +772,7 @@ function submitForm(){
     // Example of how polygon coordinates should be formatted
     //  [ [ 19.732387792295356,17.362269487080525],[ 15.018600022717294, 11.450658457798042],[29.998879431116166, 6.631460284225298] ]
     var submitObject = {};
-    var geojsonTemplate =     {
-                "type": "FeatureCollection",
-                "features": [
-                    {
-                        "type": "Feature",
-                        "properties": {},
-                        "geometry": {
-                            "coordinates": [],
-                            "type": ""
-                        }
-                    }
-               ]
-            }
-
+    var geojsonTemplate =     { "coordinates": [], "type": ""}
     var usernameInput = document.getElementById("username");
     var titleInput = document.getElementById("title");
     var descriptionInput = document.getElementById("desc");
@@ -771,7 +784,6 @@ function submitForm(){
     var geometryContainer;
     var coordinateArray = [];
     var geometryGeoJSONBBox;
-    var geometryGeoJSONBoundingBoxInput;
     var geometryGeoJSONFileInput = document.querySelectorAll("textarea[id^=my_geo]")
     var dateMetadataFields = document.querySelectorAll("input[id*=_date]")
     var textAreaMetadataFields = document.querySelectorAll("textarea[id^=metadata_]");
@@ -814,10 +826,7 @@ function submitForm(){
             geometryContainer = document.getElementById(geometryFile.id.slice(firstUnderscoreIndex + 1, lastUnderscoreIndex));
 
             if(geometryContainer.classList.contains("show")){
-                if(geometryFile.value.indexOf("\n") > -1){
-                    geometryGeoJSONBoundingBoxInput = geometryFile.value.replaceAll("\n", "");
-                }
-                geometryGeoJSONBBox = geometryGeoJSONBoundingBoxInput;
+                geometryGeoJSONBBox = validateUploadGeoJSON(geometryFile.id);
             }
         }
     }
@@ -884,8 +893,8 @@ function submitForm(){
     /*Add items to submit object*/
     /*Add Geometry input to GeoJSON template object*/
     if(coordinateArray.length > 0){
-        geojsonTemplate.features[0].geometry.coordinates.push(coordinateArray);
-        geojsonTemplate.features[0].geometry.type = visibleGeometry;
+        geojsonTemplate.coordinates.push(coordinateArray);
+        geojsonTemplate.type = visibleGeometry;
         submitObject["SubmittedGeometry"] = geojsonTemplate;
     }
     else{
