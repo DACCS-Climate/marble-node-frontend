@@ -165,6 +165,28 @@
                 {% endwith %}
                 <textarea id="metadata_models" type="text" name="models" class="textarea-geojson margin-input-field" value=""></textarea>
             </div>
+
+            <h5 class="margin-title margin-content-section">Other</h5>
+            <p>Enter any other properties you want associated with this data.</p>
+            <!-- Initial Other fields -->
+            <div id="other_box">
+                <div id="other_1" class="other-child">
+                    <div class="other-details">
+                        <label id="label_other_key_1" for="other_key_1" class="subtitle-1 margin-input-label">Key:</label><br>
+                        <input type="text" id="other_key_1" name="other_key_1" class="input-textbox margin-input-field" value="" ><br>
+                    </div>
+                    <div class="other-details">
+                        <label id="label_other_value_1"  for="other_value_1" class="subtitle-1 margin-input-label">Value:</label><br>
+                        <input type="text" id="other_value_1" name="other_value_1" class="input-textbox margin-input-field" value="" ><br>
+                    </div>
+                </div>
+            </div>
+            <div id="addOtherButtons" class="author-button">
+                <input type="button" value="Add Other" class="button-med d-button-text margin-button-add" onclick="addOther('other_box');"/>
+            </div>
+
+
+
         </div>
         <div id="files" class="border-content-section margin-content-section padding-content-section">
             <h4 class="margin-title"> Linked Files </h4>
