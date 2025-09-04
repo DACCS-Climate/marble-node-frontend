@@ -127,6 +127,7 @@
             </div>
             <div id="calender_checkbox_container" class="calendar-checkbox-container">
                 {% with %}
+                    {# NOTE: The direction_left setting still sets the label on the right of the checkbox for some reason #}
                     {% set checkbox_id = "date_make_equal" %}
                     {% set direction_right = true %}
                     {% set checkbox_text_class = "subtitle-1" %}
