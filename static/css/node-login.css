@@ -1996,12 +1996,12 @@ dialog {
     flex-direction: column;
 }
 
-.author-child, .author-additional-child, .point-child, .multipoint-child, .multipoint-additional-child{
+.author-child, .author-additional-child, .point-child, .multipoint-child, .multipoint-additional-child, .other-child{
     display: flex;
     flex-direction: row;
 }
 
-.point-child div:not(:last-child){
+.point-child div:not(:last-child), .other-child div:not(:last-child){
     margin-right: 60px;
 }
 
