@@ -65,6 +65,7 @@ function initializePointInputDiv(geometryType, divID) {
                 geoBboxDiv.appendChild(geoAddButtonDiv);
             }
             break;
+
     }
 }
 
@@ -82,6 +83,7 @@ function initializeUploadDiv(divID){
 
     uploadInput.id = "my_" + divID + "_file";
     uploadInput.setAttribute("name", "my_" + divID + "_file");
+    uploadInput.setAttribute("required", "required");
     uploadInput.classList.add("textarea-geojson", "margin-input-field")
     uploadInput.addEventListener("input", () => {
         validateUploadGeoJSON("my_" + divID + "_file");
@@ -542,11 +544,81 @@ function addAuthor(divElementID) {
 
 }
 
+function addOther(divElementID){
+    var autindex;
+    var otherDiv = document.getElementById(divElementID);
+    var otherArray = document.querySelectorAll("[id^=other_key]");
+    autindex = updateIndex(otherArray);
+
+    var div_box = document.createElement("div");
+    div_box.id = "other_" + autindex;
+    div_box.classList.add("author-additional-child");
+
+    var divOtherKey = document.createElement("div");
+    divOtherKey.classList.add("author-details");
+
+    var divOtherVal = document.createElement("div");
+    divOtherVal.classList.add("author-details");
+
+    var divRemoveOther = document.createElement("div");
+    divRemoveOther.id = "other_remove_container_" + autindex;
+    divRemoveOther.classList.add("display-none", "show");
+
+    var divRemoveOtherParent = document.createElement("div");
+    divRemoveOtherParent.classList.add("remove-button");
+
+    var label1 = document.createElement("label");
+    label1.innerText = "Key:";
+    label1.classList.add("subtitle-1", "margin-input-label");
+    label1.id = "label_other_key_" + autindex;
+    label1.setAttribute("for", "other_key_" + autindex);
+
+    var input1 = document.createElement("input");
+    input1.classList.add("input-textbox", "margin-input-field");
+    input1.setAttribute("type", "text");
+    input1.setAttribute("id", "other_key_" + autindex);
+    input1.setAttribute("name", "other_key_[]"); // Make it an array input
+
+    var label2 = document.createElement("label");
+    label2.innerText = "Value:";
+    label2.classList.add("subtitle-1", "margin-input-label");
+    label2.id = "label_other_value_" + autindex;
+    label2.setAttribute("for", "other_value_" + autindex);
+
+    var input2 = document.createElement("input");
+    input2.classList.add("input-textbox", "margin-input-field");
+    input2.setAttribute("type", "text");
+    input2.setAttribute("id", "other_value_" + autindex);
+    input2.setAttribute("name", "other_value_[]"); // Changed name to array input for last name
+
+    var removeAuthorButton = document.createElement("input");
+    removeAuthorButton.setAttribute("type", "button");
+    removeAuthorButton.value = "Remove Other";
+    removeAuthorButton.classList.add("button-med", "d-button-text");
+    removeAuthorButton.addEventListener("click", function() {
+        removeEntry("other_box", "other_" + autindex)
+    });
+
+    divOtherKey.appendChild(label1);
+    divOtherKey.appendChild(input1);
+    divOtherVal.appendChild(label2);
+    divOtherVal.appendChild(input2);
+
+    divRemoveOther.appendChild(removeAuthorButton);
+    divRemoveOtherParent.appendChild(divRemoveOther);
+
+    div_box.appendChild(divOtherKey);
+    div_box.appendChild(divOtherVal);
+    div_box.appendChild(divRemoveOtherParent);
+
+    otherDiv.appendChild(div_box);
+}
+
+
 function removeEntry(parentElementID, elementID){
     var inputArray;
     var currentInputIndex;
     var firstRemoveButton;
-    var removeButtonPrefix;
     var elementIDArray = elementID.split("_");
     var geometryType = elementIDArray[0];
     var parentDiv = document.getElementById(parentElementID);
@@ -598,7 +670,6 @@ function removeEntry(parentElementID, elementID){
     }
     else{
         var coordinateIDPrefix = geometryType + "_lat_";
-        var labelCoordinateIDPrefix = "label_" + geometryType;
 
         inputArray = document.querySelectorAll(`[id^=${coordinateIDPrefix}]`);
         switch (inputArray.length){
@@ -784,13 +855,15 @@ function submitForm(){
     var geometryContainer;
     var coordinateArray = [];
     var geometryGeoJSONBBox;
-    var geometryGeoJSONFileInput = document.querySelectorAll("textarea[id^=my_geo]")
-    var dateMetadataFields = document.querySelectorAll("input[id*=_date]")
+    var geometryGeoJSONFileInput = document.querySelectorAll("textarea[id^=my_geo]");
+    var dateMetadataFields = document.querySelectorAll("input[id*=_date]");
     var textAreaMetadataFields = document.querySelectorAll("textarea[id^=metadata_]");
     var metadataObject = {};
     var textareaMetadataArray;
     var linkedFilesFields = document.querySelectorAll("textarea[id^=linked_]");
     var linkedFilesObject = {};
+    var otherMetadataInputFields = document.querySelectorAll("input[id^=other_key_]");
+    var otherMetadataArray = [];
 
 
     /*Adds Geometry coordinate input to geometryTemplate object*/
@@ -850,6 +923,8 @@ function submitForm(){
         }
     }
 
+
+
     /*Add Metadata Variables and Models input to metadataObject*/
     for (textareaMetadata of textAreaMetadataFields){
         if(textareaMetadata.id.includes("vars") || textareaMetadata.id.includes("models"))
@@ -863,17 +938,28 @@ function submitForm(){
         }
     }
 
-    /*Add date input to submitObject*/
-    if(dateMetadataFields[0].value == "" && dateMetadataFields[1].value == ""){
-        for(dateMetadata of dateMetadataFields){
-            metadataObject[dateMetadata.id] = null;
+    /*Add Metadata Other input to metadataObject*/
+    if(otherMetadataInputFields.length > 0){
+        for (otherInput of otherMetadataInputFields) {
+            var otherInputIDArray = otherInput.id.split("_");
+            geometryType = otherInputIDArray[0];
+            geometryContainer = document.getElementById(geometryType + "_box");
+
+            if (otherInput.value != "") {
+                var metadatOtherObject = {"key":"", "value":""};
+                var otherValueID = geometryType + "_value_" + otherInputIDArray[2];
+                var otherValueInput = document.getElementById(otherValueID);
+
+                metadatOtherObject["key"] = otherInput.value;
+                metadatOtherObject["value"] = otherValueInput.value;
+
+                otherMetadataArray.push(metadatOtherObject);
+            }
         }
+        metadataObject["metadata_other"] = otherMetadataArray;
     }
-    else{
-        for(dateMetadata of dateMetadataFields){
-            metadataObject[dateMetadata.id] = dateMetadata.value;
-        }
-    }
+
+
 
     /*Add Linked Files input to linkedFilesObject*/
     for(linkedFile of linkedFilesFields){
@@ -890,6 +976,7 @@ function submitForm(){
     }
 
 
+
     /*Add items to submit object*/
     /*Add Geometry input to GeoJSON template object*/
     if(coordinateArray.length > 0){
@@ -899,6 +986,18 @@ function submitForm(){
     }
     else{
         submitObject["SubmittedGeometry"] = geometryGeoJSONBBox;
+    }
+
+    /*Add Metadata date input to submitObject*/
+    if(dateMetadataFields[0].value == "" && dateMetadataFields[1].value == ""){
+        for(dateMetadata of dateMetadataFields){
+            metadataObject[dateMetadata.id] = null;
+        }
+    }
+    else{
+        for(dateMetadata of dateMetadataFields){
+            metadataObject[dateMetadata.id] = dateMetadata.value;
+        }
     }
 
     submitObject["username"] = usernameInput.value;
