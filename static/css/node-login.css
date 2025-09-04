@@ -2119,6 +2119,21 @@ input:required{
     border-radius: var(--textbox-border-radius);
 }
 
+textarea.required:invalid{
+    background-color: ivory;
+    border: none;
+    border-style: solid;
+    border-width: 2px;
+    border-color: var(--error);
+    border-radius: var(--textbox-border-radius);
+    outline: var(--error);
+}
+
+textarea:required{
+    border: var(--border-black);
+    border-radius: var(--textbox-border-radius);
+}
+
 .required-asterisk{
     color: var(--error);
 }
