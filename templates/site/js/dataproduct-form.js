@@ -939,25 +939,23 @@ function submitForm(){
     }
 
     /*Add Metadata Other input to metadataObject*/
-    if(otherMetadataInputFields.length > 0){
-        for (otherInput of otherMetadataInputFields) {
-            var otherInputIDArray = otherInput.id.split("_");
-            geometryType = otherInputIDArray[0];
-            geometryContainer = document.getElementById(geometryType + "_box");
+    for (otherInput of otherMetadataInputFields) {
+        var otherInputIDArray = otherInput.id.split("_");
+        geometryType = otherInputIDArray[0];
 
-            if (otherInput.value != "") {
-                var metadatOtherObject = {"key":"", "value":""};
-                var otherValueID = geometryType + "_value_" + otherInputIDArray[2];
-                var otherValueInput = document.getElementById(otherValueID);
+        if (otherInput.value != "") {
+            var metadatOtherObject = {"key":"", "value":""};
+            var otherValueID = geometryType + "_value_" + otherInputIDArray[2];
+            var otherValueInput = document.getElementById(otherValueID);
 
-                metadatOtherObject["key"] = otherInput.value;
-                metadatOtherObject["value"] = otherValueInput.value;
+            metadatOtherObject["key"] = otherInput.value;
+            metadatOtherObject["value"] = otherValueInput.value;
 
-                otherMetadataArray.push(metadatOtherObject);
-            }
+            otherMetadataArray.push(metadatOtherObject);
         }
-        metadataObject["metadata_other"] = otherMetadataArray;
     }
+    metadataObject["metadata_other"] = otherMetadataArray;
+
 
 
 
