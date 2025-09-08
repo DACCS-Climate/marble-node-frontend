@@ -1991,22 +1991,24 @@ dialog {
     align-items: center;
 }
 
-.author-parent, .multipoint-parent, .upload-geojson-child{
+.author-parent, .multipoint-parent, .upload-geojson-child, .other-child{
     display: flex;
     flex-direction: column;
 }
 
-.author-child, .author-additional-child, .point-child, .multipoint-child, .multipoint-additional-child, .other-child{
+.author-child, .author-additional-child, .point-child, .multipoint-child, .multipoint-additional-child,
+.other-additional-child {
     display: flex;
     flex-direction: row;
 }
 
-.point-child div:not(:last-child), .other-child div:not(:last-child){
+.point-child div:not(:last-child), .other-child div:not(:last-child), .other-additional-child div:not(:last-child){
     margin-right: 60px;
 }
 
 .author-child div:not(:nth-last-child(2)), .author-additional-child div:not(:nth-last-child(2))
-, .multipoint-child div:not(:nth-last-child(2)), .multipoint-additional-child div:not(:nth-last-child(2)){
+, .multipoint-child div:not(:nth-last-child(2)), .multipoint-additional-child div:not(:nth-last-child(2))
+{
     margin-right: 60px;
 }
 
@@ -2014,7 +2016,7 @@ dialog {
     margin-left: 10px;
 }
 
-.author-details, .latitude-child, .longitude-child{
+.author-details, .latitude-child, .longitude-child, .other-details{
     display: flex;
     flex-direction: column;
 }
@@ -2060,7 +2062,7 @@ dialog {
     height: 250px;
 }
 
-.error-geojson-validation{
+.error-validation{
     color: var(--error);
 }
 
@@ -2091,6 +2093,10 @@ dialog {
 
 .icon-metadata-container:hover{
     cursor: pointer;
+}
+
+.error-other-message-container, .error-other-message{
+    width: 300px;
 }
 
 input::-webkit-outer-spin-button,
