@@ -171,14 +171,31 @@
             <!-- Initial Other fields -->
             <div id="other_box">
                 <div id="other_1" class="other-child">
-                    <div class="other-details">
-                        <label id="label_other_key_1" for="other_key_1" class="subtitle-1 margin-input-label">Key:</label><br>
-                        <input type="text" id="other_key_1" name="other_key_1" class="input-textbox margin-input-field" value="" ><br>
+                    <div class="other-additional-child">
+                        <div class="other-details">
+
+                            <label id="label_other_key_1" for="other_key_1" class="subtitle-1 margin-input-label">Key:</label><br>
+                            <input type="text" id="other_key_1" name="other_key_1" class="input-textbox margin-input-field"><br>
+
+
+                        </div>
+                        <div class="other-details">
+
+                            <label id="label_other_value_1"  for="other_value_1" class="subtitle-1 margin-input-label">Value:</label><br>
+                            <input type="text" id="other_value_1" name="other_value_1" class="input-textbox margin-input-field"><br>
+
+
+                        </div>
                     </div>
-                    <div class="other-details">
-                        <label id="label_other_value_1"  for="other_value_1" class="subtitle-1 margin-input-label">Value:</label><br>
-                        <input type="text" id="other_value_1" name="other_value_1" class="input-textbox margin-input-field" value="" ><br>
+                    <div class="other-additional-child">
+                        <div class="error-other-message-container">
+                            <p id="error_key_1" class="error-validation error-other-message display-none">Key cannot be empty if there is a value</p>
+                        </div>
+                        <div class="error-other-message-container">
+                            <p id="error_value_1" class="error-validation error-other-message display-none">Value cannot be empty if there is a key</p>
+                        </div>
                     </div>
+
                 </div>
             </div>
             <div id="addOtherButtons" class="author-button">
