@@ -90,7 +90,7 @@ function initializeUploadDiv(divID){
     })
 
     uploadValidationError.id = "uploadGeoJSONError";
-    uploadValidationError.classList.add("subtitle-1", "error-geojson-validation", "margin-geojson-input-error", "error-not-visible");
+    uploadValidationError.classList.add("subtitle-1", "error-validation", "margin-geojson-input-error", "error-not-visible");
     uploadValidationError.innerText = "GeoJSON Invalid";
 
     uploadDiv.appendChild(uploadTitle);
@@ -546,19 +546,23 @@ function addAuthor(divElementID) {
 
 function addOther(divElementID){
     var autindex;
+    var inputRow = document.createElement("div");
+    var errorRow = document.createElement("div");
     var otherDiv = document.getElementById(divElementID);
     var otherArray = document.querySelectorAll("[id^=other_key]");
     autindex = updateIndex(otherArray);
 
     var div_box = document.createElement("div");
     div_box.id = "other_" + autindex;
-    div_box.classList.add("author-additional-child");
+
+    inputRow.classList.add("other-additional-child");
+    errorRow.classList.add("other-additional-child");
 
     var divOtherKey = document.createElement("div");
-    divOtherKey.classList.add("author-details");
+    divOtherKey.classList.add("other-details");
 
     var divOtherVal = document.createElement("div");
-    divOtherVal.classList.add("author-details");
+    divOtherVal.classList.add("other-details");
 
     var divRemoveOther = document.createElement("div");
     divRemoveOther.id = "other_remove_container_" + autindex;
@@ -579,6 +583,14 @@ function addOther(divElementID){
     input1.setAttribute("id", "other_key_" + autindex);
     input1.setAttribute("name", "other_key_[]"); // Make it an array input
 
+    var errorKeyContainer = document.createElement("div");
+    errorKeyContainer.classList.add("error-other-message-container");
+
+    var errorKey = document.createElement("p");
+    errorKey.id = "error_key_" + autindex;
+    errorKey.classList.add("error-validation", "error-other-message", "display-none");
+    errorKey.innerText = "Key cannot be empty if there is a value";
+
     var label2 = document.createElement("label");
     label2.innerText = "Value:";
     label2.classList.add("subtitle-1", "margin-input-label");
@@ -591,6 +603,14 @@ function addOther(divElementID){
     input2.setAttribute("id", "other_value_" + autindex);
     input2.setAttribute("name", "other_value_[]"); // Changed name to array input for last name
 
+    var errorValueContainer = document.createElement("div");
+    errorValueContainer.classList.add("error-other-message-container");
+
+    var errorValue = document.createElement("p");
+    errorValue.id = "error_value_" + autindex;
+    errorValue.classList.add("error-validation", "error-other-message", "display-none");
+    errorValue.innerText = "Value cannot be empty if there is a key";
+
     var removeAuthorButton = document.createElement("input");
     removeAuthorButton.setAttribute("type", "button");
     removeAuthorButton.value = "Remove Other";
@@ -601,15 +621,25 @@ function addOther(divElementID){
 
     divOtherKey.appendChild(label1);
     divOtherKey.appendChild(input1);
+
     divOtherVal.appendChild(label2);
     divOtherVal.appendChild(input2);
 
     divRemoveOther.appendChild(removeAuthorButton);
     divRemoveOtherParent.appendChild(divRemoveOther);
 
-    div_box.appendChild(divOtherKey);
-    div_box.appendChild(divOtherVal);
-    div_box.appendChild(divRemoveOtherParent);
+    inputRow.appendChild(divOtherKey);
+    inputRow.appendChild(divOtherVal);
+    inputRow.appendChild(divRemoveOtherParent);
+
+    errorKeyContainer.appendChild(errorKey)
+    errorRow.appendChild(errorKeyContainer);
+
+    errorValueContainer.appendChild(errorValue);
+    errorRow.appendChild(errorValueContainer);
+
+    div_box.appendChild(inputRow);
+    div_box.appendChild(errorRow);
 
     otherDiv.appendChild(div_box);
 }
@@ -938,26 +968,56 @@ function submitForm(){
         }
     }
 
-    /*Add Metadata Other input to metadataObject*/
+    /*If key-value input in Other section, add it to metadataOtherObject, and then add the object to the otherMetadataArray*/
     for (otherInput of otherMetadataInputFields) {
         var otherInputIDArray = otherInput.id.split("_");
         geometryType = otherInputIDArray[0];
+        var currentOtherIndex = otherInputIDArray[2];
+        var otherValueID = geometryType + "_value_" + currentOtherIndex;
+        var otherValueInput = document.getElementById(otherValueID);
+        var errorKeyInput = document.getElementById("error_key_" + currentOtherIndex);
+        var errorValueInput = document.getElementById("error_value_" + currentOtherIndex);
 
-        if (otherInput.value != "") {
-            var metadatOtherObject = {"key":"", "value":""};
-            var otherValueID = geometryType + "_value_" + otherInputIDArray[2];
-            var otherValueInput = document.getElementById(otherValueID);
+        if (otherInput.value != "" && otherValueInput.value != "") {
+            var metadataOtherObject = {"key":"", "value":""};
 
-            metadatOtherObject["key"] = otherInput.value;
-            metadatOtherObject["value"] = otherValueInput.value;
+            metadataOtherObject["key"] = otherInput.value;
+            metadataOtherObject["value"] = otherValueInput.value;
 
-            otherMetadataArray.push(metadatOtherObject);
+            otherMetadataArray.push(metadataOtherObject);
+
+            if(errorKeyInput.classList.contains("show")){
+                errorKeyInput.classList.remove("show");
+            }
+
+            if(errorValueInput.classList.contains("show")){
+                errorValueInput.classList.remove("show");
+            }
+
+
+        }
+
+        if (otherInput.value != "" && otherValueInput.value == "") {
+            errorValueInput.classList.add("show");
+
+            if(errorKeyInput.classList.contains("show")){
+                errorKeyInput.classList.remove("show");
+            }
+        }
+
+        if(otherInput.value == "" && otherValueInput.value != ""){
+            errorKeyInput.classList.add("show");
+
+            if(errorValueInput.classList.contains("show")){
+                errorValueInput.classList.remove("show");
+            }
         }
     }
-    metadataObject["metadata_other"] = otherMetadataArray;
 
-
-
+    /*Create metadata_other entry and add Metadata Other input to metadataObject if user has input key-value*/
+    if(otherMetadataArray.length > 0){
+        metadataObject["metadata_other"] = otherMetadataArray;        
+    }
 
     /*Add Linked Files input to linkedFilesObject*/
     for(linkedFile of linkedFilesFields){
