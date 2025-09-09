@@ -132,7 +132,7 @@ function createInputCoordinatesRow(geometryType, indexNum) {
     var label2 = document.createElement("label");
     label2.classList.add("subtitle-1", "margin-input-label");
     label2.id = "label_" + geometryType + "_lon_" + indexNum;
-    label2.innerHTML = "Latitude (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
+    label2.innerHTML = "Longitude (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
     label2.setAttribute("for", geometryType + "_lon_" + indexNum);
 
 
