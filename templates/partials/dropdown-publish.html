@@ -1,0 +1,65 @@
+{% set list_items = [
+        {
+            "item_label": "Point",
+            "item_id": "geometryPoint"
+        },
+        {
+            "item_label": "Multi-Point",
+            "item_id": "geometryMultiPoint"
+        },
+        {
+            "item_label": "Line String",
+            "item_id": "geometryLineString"
+        },
+        {
+            "item_label": "Polygon",
+            "item_id": "geometryPolygon"
+        },
+        {
+            "item_label": "Upload GeoJSON",
+            "item_id": "geometryUploadGeoJSON"
+        },
+        {
+            "item_label": "Null: Not-spatial file",
+            "item_id": "geometryNull"
+        }
+    ]
+%}
+
+
+
+
+<div id="{{ container_id }}" class="dropdown-list-container {{ banner_search_dropdown_class }}">
+
+    <div id="{{ dropdown_id }}" class="dropdown">
+    <a id="{{ dropdown_button_id }}" class="btn btn-secondary dropdown-toggle padding-unset dropdown-default-list-button dropdown-default-list-icon" role="button" data-bs-toggle="dropdown" data-bs-display="static" data-bs-auto-close="true" aria-expanded="false">
+            <h6 id="{{ dropdown_button_text_id }}" class="dropdown-list-title margin-unset padding-unset">
+                    {{ dropdown_label_text|safe }}
+            </h6>
+        </a>
+        <ul id="{{ dropdown_default_UL_id }}" class="dropdown-menu margin-unset padding-unset dropdown-default-list" aria-labelledby="{{ dropdown_button_id }}">
+            {% for item in list_items %}
+                {% set itemIndex = loop.index %}
+                <li class="dropdown-default-list-item">
+                    <a id="{{ item["item_id"] }}" class="subtitle-1 dropdown-default-list-item-text" role="button" selectedIndex="{{ itemIndex }}" onclick="geoPolygon2({{ itemIndex }})">
+                        {{ item["item_label"]|safe }}
+                    </a>
+                </li>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        var listItem = document.getElementById("{{ item["item_id"] }}");
+
+                        listItem.addEventListener('click', function() {
+                            replaceListItem("{{ dropdown_button_text_id }}", "{{ item["item_id"] }}");
+                        })
+                    });
+                </script>
+
+            {% endfor %}
+
+        </ul>
+    </div>
+</div>
+
+
+<script src="js/dropdown-list.js"></script>

@@ -1,5 +1,12 @@
-<label class="checkbox-container" for="{{ checkbox_id | default('attributeCheckbox') }}">
-    <p>{{ checkbox_label | safe }}</p>
-    <input id="{{ checkbox_id }}" type="checkbox">
-    <span class="checkmark"></span>
-</label>
+<div class="checkbox-buffer">
+    <label class="checkbox-container" for="{{ checkbox_id }}">
+        {% if direction_left %}
+            <p class="{{ checkbox_text_class }} margin-unset">{{ checkbox_label_text }}</p>
+        {% endif %}
+        <input id="{{ checkbox_id }}" type="checkbox" value="{{ checkbox_value }}">
+        <span class="checkmark"></span>
+        {% if direction_right %}
+            <p class="{{ checkbox_text_class }} margin-unset">{{ checkbox_label_text }}</p>
+        {% endif %}
+    </label>
+</div>
