@@ -890,11 +890,12 @@ function submitForm(){
     var textAreaMetadataFields = document.querySelectorAll("textarea[id^=metadata_]");
     var metadataObject = {};
     var textareaMetadataArray;
-    var linkedFilesFields = document.querySelectorAll("textarea[id^=linked_]");
-    var linkedFilesObject = {};
+    var linkedPathField = document.getElementById("linked_path");
+    var linkedInputField = document.getElementById("linked_input");
+    var linkedInputObjectArray = [];
+    var linkedAdditionalFiles = document.getElementById("linked_link");
     var otherMetadataInputFields = document.querySelectorAll("input[id^=other_key_]");
     var otherMetadataArray = [];
-
 
     /*Adds Geometry coordinate input to geometryTemplate object*/
     /*If no coordinates are entered get the input from the geojson textarea*/
@@ -954,17 +955,19 @@ function submitForm(){
     }
 
 
-
     /*Add Metadata Variables and Models input to metadataObject*/
     for (textareaMetadata of textAreaMetadataFields){
-        if(textareaMetadata.id.includes("vars") || textareaMetadata.id.includes("models"))
+        if(textareaMetadata.id.includes("variables") || textareaMetadata.id.includes("models"))
         {
+            var metadataIDArray = textareaMetadata.id.split("_");
+            var metadataType = metadataIDArray[1]
             if(textareaMetadata.value.indexOf("\n") > -1){
                 textareaMetadataArray = textareaMetadata.value.split("\n");
+                metadataObject[metadataType] = textareaMetadataArray;
             }
-
-            metadataObject[textareaMetadata.id] = textareaMetadataArray;
-
+            else{
+                metadataObject[metadataType] = textareaMetadata.value;
+            }
         }
     }
 
@@ -993,8 +996,6 @@ function submitForm(){
             if(errorValueInput.classList.contains("show")){
                 errorValueInput.classList.remove("show");
             }
-
-
         }
 
         if (otherInput.value != "" && otherValueInput.value == "") {
@@ -1016,45 +1017,68 @@ function submitForm(){
 
     /*Create metadata_other entry and add Metadata Other input to metadataObject if user has input key-value*/
     if(otherMetadataArray.length > 0){
-        metadataObject["metadata_other"] = otherMetadataArray;        
+        metadataObject["extra_properties"] = otherMetadataArray;
     }
 
-    /*Add Linked Files input to linkedFilesObject*/
-    for(linkedFile of linkedFilesFields){
-        if(linkedFile.value.includes("\n")){
-            var linkedFileArray = linkedFile.value.split("\n");
-            for(linkedFileEntry of linkedFileArray){
-                linkedFileEntry = linkedFileEntry.trim();
+    /*Add Linked Files input to linkedInputObject*/
+    if(linkedInputField.value != ""){
+        var linkedInputObject = {};
+
+        if(linkedInputField.value.includes("\n")){
+            var linkedInputArray = linkedInputField.value.split("\n");
+
+            for(linkedInputEntry of linkedInputArray){
+                var entryObject = {};
+                linkedInputEntry = linkedInputEntry.trim();
+                entryObject["href"] = linkedInputEntry;
+                linkedInputObjectArray.push(entryObject);
             }
-            linkedFilesObject[linkedFile.id] = linkedFileArray;
         }
         else{
-            linkedFilesObject[linkedFile.id] = linkedFile.value.trim();
+            linkedInputObject["href"] = linkedFile.value.trim();
+            linkedInputObjectArray.push(linkedInputObject);
         }
     }
 
+
+    /*Add Linked Additional Files input to submitObject*/
+    if(linkedAdditionalFiles.value != ""){
+        if(linkedAdditionalFiles.value.includes("\n")){
+            var additionalFileArray = linkedAdditionalFiles.value.split("\n");
+            for(additionalFileEntry of additionalFileArray){
+                additionalFileEntry = additionalFileEntry.trim();
+            }
+            submitObject["additional_paths"] = additionalFileArray;
+        }
+        else{
+            submitObject["additional_paths"] = linkedAdditionalFiles.value.trim();
+        }
+    }
 
 
     /*Add items to submit object*/
+
     /*Add Geometry input to GeoJSON template object*/
     if(coordinateArray.length > 0){
         geojsonTemplate.coordinates.push(coordinateArray);
         geojsonTemplate.type = visibleGeometry;
-        submitObject["SubmittedGeometry"] = geojsonTemplate;
+        submitObject["geometry"] = geojsonTemplate;
+    }
+    else if(geometryGeoJSONBBox && Object.keys(geometryGeoJSONBBox).length > 0){
+        submitObject["geometry"] = geometryGeoJSONBBox;
     }
     else{
-        submitObject["SubmittedGeometry"] = geometryGeoJSONBBox;
+        submitObject["geometry"] = null;
     }
 
     /*Add Metadata date input to submitObject*/
     if(dateMetadataFields[0].value == "" && dateMetadataFields[1].value == ""){
-        for(dateMetadata of dateMetadataFields){
-            metadataObject[dateMetadata.id] = null;
-        }
+        metadataObject["temporal"] = null
     }
     else{
+        metadataObject["temporal"] = []
         for(dateMetadata of dateMetadataFields){
-            metadataObject[dateMetadata.id] = dateMetadata.value;
+            metadataObject["temporal"].push(dateMetadata.value);
         }
     }
 
@@ -1063,5 +1087,6 @@ function submitForm(){
     submitObject["description"] = descriptionInput.value;
     submitObject["authors"] = authorArray;
     submitObject["metadata"] = metadataObject;
-    submitObject["LinkedFiles"] = linkedFilesObject;
+    submitObject["path"] = linkedPathField.value;
+    submitObject["inputs"] = linkedInputObjectArray;
 }
