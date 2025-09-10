@@ -81,12 +81,12 @@ function initializeUploadDiv(divID){
 
     uploadTitle.innerText = "Paste GeoJSON";
 
-    uploadInput.id = "my_" + divID + "_file";
-    uploadInput.setAttribute("name", "my_" + divID + "_file");
+    uploadInput.id = divID + "_file";
+    uploadInput.setAttribute("name", divID + "_file");
     uploadInput.setAttribute("required", "required");
     uploadInput.classList.add("textarea-geojson", "margin-input-field")
     uploadInput.addEventListener("input", () => {
-        validateUploadGeoJSON("my_" + divID + "_file");
+        validateUploadGeoJSON(divID + "_file");
     })
 
     uploadValidationError.id = "uploadGeoJSONError";
@@ -416,11 +416,11 @@ function geoPolygon2(selected_geometry) {
 
         case 5:
             // For GeoJSON Upload (Multi Line String, Multi Polygon, Geometry Collection)
-            if (document.getElementById("geo_json_upload_content").querySelector(".upload-geojson-child") != null) {
-                swapDiv('geo_json_upload');
+            if (document.getElementById("geo_geojson_content").querySelector(".upload-geojson-child") != null) {
+                swapDiv('geo_geojson');
             } else {
-                swapDiv('geo_json_upload');
-                initializeUploadDiv('geo_json_upload');
+                swapDiv('geo_geojson');
+                initializeUploadDiv('geo_geojson');
             }
 
             break;
@@ -839,7 +839,7 @@ function validateUploadGeoJSON(elementID){
     var parsedGeoJSON;
     var uploadGeoJSONCleaned;
 
-    if(uploadGeoJSONInput.value != "") {
+    if(uploadGeoJSONInput && uploadGeoJSONInput.value != "") {
         if (uploadGeoJSONInput.value.indexOf("\n") > -1) {
             uploadGeoJSONCleaned = uploadGeoJSONInput.value.replaceAll("\n", "");
             uploadGeoJSONCleaned = uploadGeoJSONCleaned.replaceAll(" ", "");
@@ -877,15 +877,12 @@ function submitForm(){
     var usernameInput = document.getElementById("username");
     var titleInput = document.getElementById("title");
     var descriptionInput = document.getElementById("desc");
-    var geometryInputFields = document.querySelectorAll("input[id*='_lat_']");
     var authorDivs = document.querySelectorAll("div[id^=author_]");
     var authorArray = [];
     var geometryType;
     var visibleGeometry;
-    var geometryContainer;
     var coordinateArray = [];
     var geometryGeoJSONBBox;
-    var geometryGeoJSONFileInput = document.querySelectorAll("textarea[id^=my_geo]");
     var dateMetadataFields = document.querySelectorAll("input[id*=_date]");
     var textAreaMetadataFields = document.querySelectorAll("textarea[id^=metadata_]");
     var metadataObject = {};
@@ -896,19 +893,37 @@ function submitForm(){
     var linkedAdditionalFiles = document.getElementById("linked_link");
     var otherMetadataInputFields = document.querySelectorAll("input[id^=other_key_]");
     var otherMetadataArray = [];
-
+    var geometryDropdownButtonTitle = document.getElementById("dropdownListDefaultButtonText");
+    var geometrySelection = parseInt(geometryDropdownButtonTitle.getAttribute("selected_index"));
+    var geometryDropdownContent;
     /*Adds Geometry coordinate input to geometryTemplate object*/
     /*If no coordinates are entered get the input from the geojson textarea*/
     /*If a geometry with no coordinate inputs is selected (eg. upload geojson) only get input from the geojson textarea*/
-    if(geometryInputFields.length > 0){
-        for (input of geometryInputFields) {
-            var inputIDArray = input.id.split("_");
-            geometryType = inputIDArray[0];
-            geometryContainer = document.getElementById("geo_" + geometryType);
+    switch(geometrySelection){
+        case 1:
+            geometryDropdownContent = document.getElementById("geo_point_content");
+            var pointLatInput = geometryDropdownContent.getElementById('point_lat_1');
+            var pointLonInput = geometryDropdownContent.getElementById('point_lon_1');
 
-            if (geometryContainer.classList.contains("show")) {
-                visibleGeometry = geometryType;
+            coordinateArray.push(pointLatInput);
+            coordinateArray.push(pointLonInput);
+
+        case 2:
+        case 3:
+        case 4:
+            var geometrySelectionID = geometryDropdownButtonTitle.getAttribute("selected_id");
+            var geometrySelectionIDArray = geometrySelectionID.split("geometry");
+            geometryType = geometrySelectionIDArray[1].toLowerCase();
+            visibleGeometry = geometryType;
+
+            geometryDropdownContent = document.getElementById("geo_" + geometryType + "_content");
+
+            var geometryLatPrefix = geometryType + "_lat_";
+            var geometryLatInputFields = geometryDropdownContent.querySelectorAll(`input[id^=${geometryLatPrefix}]`);
+
+            for (input of geometryLatInputFields) {
                 var coordinate = [];
+                var inputIDArray = input.id.split("_");
 
                 if (input.value != "") {
                     var longitudeID = geometryType + "_lon_" + inputIDArray[2];
@@ -920,20 +935,18 @@ function submitForm(){
                     coordinateArray.push(coordinate);
                 }
             }
-        }
+
+        case 5:
+            var geometrySelectionID = geometryDropdownButtonTitle.getAttribute("selected_id");
+            var geometrySelectionIDArray = geometrySelectionID.split("geometry");
+            geometryType = geometrySelectionIDArray[1].toLowerCase();
+            visibleGeometry = geometryType;
+
+            geometryGeoJSONBBox = validateUploadGeoJSON("geo_" + geometryType + "_file");
     }
 
-    if(geometryGeoJSONFileInput.length > 0){
-        for(geometryFile of geometryGeoJSONFileInput){
-            var firstUnderscoreIndex = geometryFile.id.indexOf('_');
-            var lastUnderscoreIndex = geometryFile.id.lastIndexOf('_');
-            geometryContainer = document.getElementById(geometryFile.id.slice(firstUnderscoreIndex + 1, lastUnderscoreIndex));
 
-            if(geometryContainer.classList.contains("show")){
-                geometryGeoJSONBBox = validateUploadGeoJSON(geometryFile.id);
-            }
-        }
-    }
+
 
 
     /*Add Author input to authorObject*/
