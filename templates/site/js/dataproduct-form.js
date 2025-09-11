@@ -482,8 +482,12 @@ function addAuthor(divElementID) {
     var divRemoveAuthorParent = document.createElement("div");
     divRemoveAuthorParent.classList.add("remove-button");
 
+    var requiredSpan = document.createElement("span");
+    requiredSpan.innerText = " *";
+    requiredSpan.classList.add("subtitle-1", "required-asterisk");
+
     var label1 = document.createElement("label");
-    label1.innerText = "First Name:";
+    label1.innerText = "First Name";
     label1.classList.add("subtitle-1", "margin-input-label");
     label1.id = "label_fname_" + autindex;
     label1.setAttribute("for", "fname_" + autindex);
@@ -495,19 +499,23 @@ function addAuthor(divElementID) {
     input1.setAttribute("name", "fname_[]"); // Make it an array input
 
     var label2 = document.createElement("label");
-    label2.innerText = "Last Name:";
+    label2.innerText = "Last Name/Only Name (Required)";
     label2.classList.add("subtitle-1", "margin-input-label");
     label2.id = "label_lname_" + autindex;
     label2.setAttribute("for", "lname_" + autindex);
+    label2.appendChild(requiredSpan);
+
+
 
     var input2 = document.createElement("input");
     input2.classList.add("input-textbox", "margin-input-field");
     input2.setAttribute("type", "text");
     input2.setAttribute("id", "lname_" + autindex);
     input2.setAttribute("name", "lname_[]"); // Changed name to array input for last name
+    input2.setAttribute("required", "required");
 
     var label3 = document.createElement("label");
-    label3.innerText = "Email:";
+    label3.innerText = "Email";
     label3.classList.add("subtitle-1", "margin-input-label");
     label3.id = "label_email_" + autindex;
     label3.setAttribute("for", "email_" + autindex);
@@ -674,28 +682,6 @@ function removeEntry(parentElementID, elementID){
             else{
                 firstRemoveButton.classList.remove("show");
             }
-
-            if(firstNameInput.getAttribute("required") == null){
-                var lastNameInput = document.getElementById("lname_" + currentInputIndex);
-                var emailInput = document.getElementById("email_" + currentInputIndex);
-                var firstNameLabel = document.getElementById("label_fname_" + currentInputIndex);
-                var lastNameLabel = document.getElementById("label_lname_" + currentInputIndex);
-                var emailLabel = document.getElementById("label_email_" + currentInputIndex);
-
-
-                firstNameInput.setAttribute("required", "required");
-                lastNameInput.setAttribute("required", "required");
-                emailInput.setAttribute("required", "required");
-
-                var firstNameLabelArray = firstNameLabel.innerText.split(":");
-                var lastNameLabelArray = lastNameLabel.innerText.split(":");
-                var emailLabelArray = emailLabel.innerText.split(":");
-
-                firstNameLabel.innerHTML = firstNameLabelArray[0] + " (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
-                lastNameLabel.innerHTML = lastNameLabelArray[0] + " (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
-                emailLabel.innerHTML = emailLabelArray[0] + " (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
-            }
-
         }
     }
     else{
@@ -878,6 +864,7 @@ function submitForm(){
     var titleInput = document.getElementById("title");
     var descriptionInput = document.getElementById("desc");
     var geometryInputFields = document.querySelectorAll("input[id*='_lat_']");
+    var contactEmail = document.getElementById("contact_email");
     var authorDivs = document.querySelectorAll("div[id^=author_]");
     var authorArray = [];
     var geometryType;
@@ -1061,7 +1048,14 @@ function submitForm(){
     submitObject["username"] = usernameInput.value;
     submitObject["title"] = titleInput.value;
     submitObject["description"] = descriptionInput.value;
+    submitObject["contact_email"] = contactEmail.value;
     submitObject["authors"] = authorArray;
     submitObject["metadata"] = metadataObject;
     submitObject["LinkedFiles"] = linkedFilesObject;
+    submitObject["path"] = linkedPathField.value;
+    submitObject["inputs"] = linkedInputObjectArray;
+
+    console.log("submitObject")
+    console.log(submitObject)
+
 }
