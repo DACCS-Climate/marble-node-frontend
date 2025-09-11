@@ -33,8 +33,10 @@
         <div class="author-group border-content-section margin-content-section padding-content-section">
             <h4>Authors</h4>
             <hr class="margin-title-underline">
+
             <label id="label_contact_email" for="contact_email" class="subtitle-1 margin-input-label">Contact Email (Required) <span class="subtitle-1 required-asterisk">*</span></label><br>
-            <input type="email" id="contact_email" name="contact_email" class="input-textbox margin-input-field" value="" required><br>
+            <input type="email" id="contact_email" name="contact_email" class="input-textbox margin-input-field margin-contact-email" value="" required><br>
+
             <p>Citation will list authors in order placed here. First author will be contacted by email regarding any issues in the submission.</p>
             <div id="author_box" class="author-parent">
             <!-- Initial author fields -->
@@ -163,14 +165,41 @@
             </div>
 
             <h5 class="margin-title margin-content-section"> Models</h5>
-            <div>
-                {% with %}
-                    {% set label_text = "Add relevant climate model data sources" %}
-                    {% set tooltip_text = "Add one per line" %}
-                    {% include "partials/label.html" %}
-                {% endwith %}
-                <textarea id="metadata_models" type="text" name="models" class="textarea-geojson margin-input-field" value=""></textarea>
+            {% with %}
+                {% set label_text = "Add relevant climate model data sources" %}
+                {% set tooltip_text = "Add one per line" %}
+                {% include "partials/label.html" %}
+            {% endwith %}
+
+            <div id="model_box">
+                <div id="model_1" class="model-child">
+                    <div class="model-additional-child">
+                        <div class="model-details">
+                            <label id="label_model_name_1" for="model_name_1" class="subtitle-1 margin-input-label">Model Name</label><br>
+                            <input type="text" id="model_name_1" name="model_name_1" class="input-textbox margin-input-field"><br>
+                        </div>
+                        <div class="model-details">
+                            <label id="label_model_link_1"  for="model_link_1" class="subtitle-1 margin-input-label">Link</label><br>
+                            <input type="text" id="model_link_1" name="model_link_1" class="input-textbox margin-input-field"><br>
+                        </div>
+                    </div>
+                    <div class="model-additional-child">
+                        <div class="error-message-container">
+                            <p id="error_name_1" class="error-validation error-message display-none">Model name cannot be empty if there is a link</p>
+                        </div>
+                        <div class="error-message-container">
+                            <p id="error_link_1" class="error-validation error-message display-none">Link cannot be empty if there is a model name</p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
+            <div id="addModelButtons" class="author-button">
+                <input type="button" value="Add Model" class="button-med d-button-text margin-button-add" onclick="addModel('model_box');"/>
+            </div>
+
+
+
 
             <h5 class="margin-title margin-content-section">Other</h5>
             <p>Enter any other properties you want associated with this data.</p>
@@ -179,26 +208,20 @@
                 <div id="other_1" class="other-child">
                     <div class="other-additional-child">
                         <div class="other-details">
-
                             <label id="label_other_key_1" for="other_key_1" class="subtitle-1 margin-input-label">Key</label><br>
                             <input type="text" id="other_key_1" name="other_key_1" class="input-textbox margin-input-field"><br>
-
-
                         </div>
                         <div class="other-details">
-
                             <label id="label_other_value_1"  for="other_value_1" class="subtitle-1 margin-input-label">Value</label><br>
                             <input type="text" id="other_value_1" name="other_value_1" class="input-textbox margin-input-field"><br>
-
-
                         </div>
                     </div>
                     <div class="other-additional-child">
-                        <div class="error-other-message-container">
-                            <p id="error_key_1" class="error-validation error-other-message display-none">Key cannot be empty if there is a value</p>
+                        <div class="error-message-container">
+                            <p id="error_key_1" class="error-validation error-message display-none">Key cannot be empty if there is a value</p>
                         </div>
-                        <div class="error-other-message-container">
-                            <p id="error_value_1" class="error-validation error-other-message display-none">Value cannot be empty if there is a key</p>
+                        <div class="error-message-container">
+                            <p id="error_value_1" class="error-validation error-message display-none">Value cannot be empty if there is a key</p>
                         </div>
                     </div>
 
