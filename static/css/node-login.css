@@ -2059,6 +2059,10 @@ dialog {
     margin-top : 10px;
 }
 
+.margin-contact-email{
+    margin-bottom:30px;
+}
+
 .textarea-geojson{
     width: 450px;
     height: 250px;
