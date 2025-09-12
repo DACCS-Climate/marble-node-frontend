@@ -901,20 +901,28 @@ function submitForm(){
     /*If a geometry with no coordinate inputs is selected (eg. upload geojson) only get input from the geojson textarea*/
     switch(geometrySelection){
         case 1:
-            geometryDropdownContent = document.getElementById("geo_point_content");
-            var pointLatInput = geometryDropdownContent.getElementById('point_lat_1');
-            var pointLonInput = geometryDropdownContent.getElementById('point_lon_1');
+            var geometrySelectionID = geometryDropdownButtonTitle.getAttribute("selected_id");
+            var geometrySelectionIDArray = geometrySelectionID.split("geometry");
 
-            coordinateArray.push(pointLatInput);
-            coordinateArray.push(pointLonInput);
+            visibleGeometry = geometrySelectionIDArray[1];
+            geometryType = geometrySelectionIDArray[1].toLowerCase();
+
+            geometryDropdownContent = document.getElementById("geo_point_content");
+            var pointLatInput = document.getElementById('point_lat_1');
+            var pointLonInput = document.getElementById('point_lon_1');
+
+            coordinateArray.push(pointLatInput.value);
+            coordinateArray.push(pointLonInput.value);
+
+            break;
 
         case 2:
         case 3:
         case 4:
             var geometrySelectionID = geometryDropdownButtonTitle.getAttribute("selected_id");
             var geometrySelectionIDArray = geometrySelectionID.split("geometry");
+            visibleGeometry = geometrySelectionIDArray[1];
             geometryType = geometrySelectionIDArray[1].toLowerCase();
-            visibleGeometry = geometryType;
 
             geometryDropdownContent = document.getElementById("geo_" + geometryType + "_content");
 
@@ -936,13 +944,18 @@ function submitForm(){
                 }
             }
 
+            break;
+
         case 5:
             var geometrySelectionID = geometryDropdownButtonTitle.getAttribute("selected_id");
             var geometrySelectionIDArray = geometrySelectionID.split("geometry");
+            visibleGeometry = geometrySelectionIDArray[1];
             geometryType = geometrySelectionIDArray[1].toLowerCase();
-            visibleGeometry = geometryType;
+
 
             geometryGeoJSONBBox = validateUploadGeoJSON("geo_" + geometryType + "_file");
+
+            break;
     }
 
 
@@ -972,14 +985,19 @@ function submitForm(){
     for (textareaMetadata of textAreaMetadataFields){
         if(textareaMetadata.id.includes("variables") || textareaMetadata.id.includes("models"))
         {
+            var metadataInputArray = [];
             var metadataIDArray = textareaMetadata.id.split("_");
             var metadataType = metadataIDArray[1]
             if(textareaMetadata.value.indexOf("\n") > -1){
                 textareaMetadataArray = textareaMetadata.value.split("\n");
+                for(textareaMetadataEntry of textareaMetadataArray){
+                    textareaMetadataEntry = textareaMetadataEntry.trim();
+                }
                 metadataObject[metadataType] = textareaMetadataArray;
             }
             else{
-                metadataObject[metadataType] = textareaMetadata.value;
+                metadataInputArray.push(textareaMetadata.value);
+                metadataObject[metadataType] = metadataInputArray;
             }
         }
     }
@@ -1048,7 +1066,7 @@ function submitForm(){
             }
         }
         else{
-            linkedInputObject["href"] = linkedFile.value.trim();
+            linkedInputObject["href"] = linkedInputField.value.trim();
             linkedInputObjectArray.push(linkedInputObject);
         }
     }
@@ -1056,6 +1074,7 @@ function submitForm(){
 
     /*Add Linked Additional Files input to submitObject*/
     if(linkedAdditionalFiles.value != ""){
+        var linkedAdditionalFileInputArray = [];
         if(linkedAdditionalFiles.value.includes("\n")){
             var additionalFileArray = linkedAdditionalFiles.value.split("\n");
             for(additionalFileEntry of additionalFileArray){
@@ -1064,24 +1083,24 @@ function submitForm(){
             submitObject["additional_paths"] = additionalFileArray;
         }
         else{
-            submitObject["additional_paths"] = linkedAdditionalFiles.value.trim();
+            linkedAdditionalFileInputArray.push(linkedAdditionalFiles.value.trim());
+            submitObject["additional_paths"] = linkedAdditionalFileInputArray;
         }
     }
 
 
     /*Add items to submit object*/
 
-    /*Add Geometry input to GeoJSON template object*/
+    /*Add Geometry input to submit object*/
+    /*If input was coordinates, add the coordinate array and the geometry type */
+    /*If input was a pasted geojson, add the geojson parsed as a json*/
     if(coordinateArray.length > 0){
         geojsonTemplate.coordinates.push(coordinateArray);
         geojsonTemplate.type = visibleGeometry;
         submitObject["geometry"] = geojsonTemplate;
     }
-    else if(geometryGeoJSONBBox && Object.keys(geometryGeoJSONBBox).length > 0){
-        submitObject["geometry"] = geometryGeoJSONBBox;
-    }
     else{
-        submitObject["geometry"] = null;
+        submitObject["geometry"] = geometryGeoJSONBBox;
     }
 
     /*Add Metadata date input to submitObject*/
