@@ -1,3 +1,9 @@
+/*User Functions*/
+function getUserInfo(){
+     window.session_info.then(json => {
+        return json.user["user_name"];
+    })
+}
 /*Geometry Functions*/
 function initializePointInputDiv(geometryType, divID) {
     var geoBboxDiv = document.getElementById(divID);
@@ -974,7 +980,7 @@ function validateUploadGeoJSON(elementID){
 
 
 /*Submit functions*/
-function submitForm(){
+async function submitForm(){
     checkRequired();
 
     // Example of how polygon coordinates should be formatted
@@ -1218,7 +1224,7 @@ function submitForm(){
         }
     }
 
-    submitObject["username"] = usernameInput.value;
+    submitObject["username"] = await getUserInfo();
     submitObject["title"] = titleInput.value;
     submitObject["description"] = descriptionInput.value;
     submitObject["contact_email"] = contactEmail.value;
