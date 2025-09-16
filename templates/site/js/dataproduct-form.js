@@ -658,128 +658,6 @@ function addOther(divElementID){
     otherDiv.appendChild(div_box);
 }
 
-
-function addModel(divElementID){
-    var autindex;
-    var inputRow = document.createElement("div");
-    var errorRow = document.createElement("div");
-    var modelDiv = document.getElementById(divElementID);
-    var modelArray = document.querySelectorAll("[id^=model_name]");
-    autindex = updateIndex(modelArray);
-
-    var div_box = document.createElement("div");
-    div_box.id = "model_" + autindex;
-
-    inputRow.classList.add("model-additional-child");
-    errorRow.classList.add("model-additional-child");
-
-    var divModelName = document.createElement("div");
-    divModelName.classList.add("model-details");
-
-    var divModelLink = document.createElement("div");
-    divModelLink.classList.add("model-details");
-
-    var divRemoveOther = document.createElement("div");
-    divRemoveOther.id = "model_remove_container_" + autindex;
-    divRemoveOther.classList.add("display-none", "show");
-
-    var divRemoveOtherParent = document.createElement("div");
-    divRemoveOtherParent.classList.add("remove-button");
-
-    var label1 = document.createElement("label");
-    label1.innerText = "Model Name";
-    label1.classList.add("subtitle-1", "margin-input-label");
-    label1.id = "label_model_name_" + autindex;
-    label1.setAttribute("for", "model_name_" + autindex);
-
-    var input1 = document.createElement("input");
-    input1.classList.add("input-textbox", "margin-input-field");
-    input1.setAttribute("type", "text");
-    input1.setAttribute("id", "model_name_" + autindex);
-    input1.setAttribute("name", "model_name_[]"); // Make it an array input
-
-    var errorKeyContainer = document.createElement("div");
-    errorKeyContainer.classList.add("error-message-container");
-
-    var errorKey = document.createElement("p");
-    errorKey.id = "error_name_" + autindex;
-    errorKey.classList.add("error-validation", "error-message", "display-none");
-    errorKey.innerText = "Model name cannot be empty if there is a link";
-
-    var label2 = document.createElement("label");
-    label2.innerText = "Link";
-    label2.classList.add("subtitle-1", "margin-input-label");
-    label2.id = "label_model_link_" + autindex;
-    label2.setAttribute("for", "model_link_" + autindex);
-
-    var input2 = document.createElement("input");
-    input2.classList.add("input-textbox", "margin-input-field");
-    input2.setAttribute("type", "text");
-    input2.setAttribute("id", "model_link_" + autindex);
-    input2.setAttribute("name", "model_link_[]"); // Changed name to array input for last name
-
-    var errorValueContainer = document.createElement("div");
-    errorValueContainer.classList.add("error-message-container");
-
-    var errorValue = document.createElement("p");
-    errorValue.id = "error_link_" + autindex;
-    errorValue.classList.add("error-validation", "error-message", "display-none");
-    errorValue.innerText = "Link cannot be empty if there is a model name";
-
-    var removeAuthorButton = document.createElement("input");
-    removeAuthorButton.setAttribute("type", "button");
-    removeAuthorButton.value = "Remove Model";
-    removeAuthorButton.classList.add("button-med", "d-button-text");
-    removeAuthorButton.addEventListener("click", function() {
-        removeEntry("model_box", "model_" + autindex)
-    });
-
-    divModelName.appendChild(label1);
-    divModelName.appendChild(input1);
-
-    divModelLink.appendChild(label2);
-    divModelLink.appendChild(input2);
-
-    divRemoveOther.appendChild(removeAuthorButton);
-    divRemoveOtherParent.appendChild(divRemoveOther);
-
-    inputRow.appendChild(divModelName);
-    inputRow.appendChild(divModelLink);
-    inputRow.appendChild(divRemoveOtherParent);
-
-    errorKeyContainer.appendChild(errorKey)
-    errorRow.appendChild(errorKeyContainer);
-
-    errorValueContainer.appendChild(errorValue);
-    errorRow.appendChild(errorValueContainer);
-
-    div_box.appendChild(inputRow);
-    div_box.appendChild(errorRow);
-
-    modelDiv.appendChild(div_box);
-}
-
-
-function addEntry(categoryName, parentElementID, inputLabelArray, existingInputID){
-    var rowIndex;
-    var inputRow = document.createElement("div");
-    var errorRow = document.createElement("div");
-    var parentElementDiv = document.getElementById(parentElementID);
-    var existingInputArray = document.querySelectorAll(`[id^=${existingInputID}]`);
-    rowIndex = updateIndex(existingInputArray);
-
-    var div_box = document.createElement("div");
-    div_box.id = categoryName + "_" + autindex;
-
-    inputRow.classList.add("input-additional-child");
-    errorRow.classList.add("input-additional-child");
-
-    for(labelText of inputLabelArray){
-        var labelID = "label_" + labelText.toLowerCase()
-    }
-
-}
-
 function removeEntry(parentElementID, elementID){
     var inputArray;
     var currentInputIndex;
@@ -879,6 +757,38 @@ function updateIndex(additionalInputArray) {
 
     return inputFieldIndex
 }
+
+function showHideModelInput(dropdownIndex, dropdownItemName){
+    var modelInputTextField = document.getElementById("model_other_input");
+    var modelInputLabel = document.getElementById("model_other_input_label");
+    var modelInputError = document.getElementById("model_other_input_error");
+    var dropdownListModelButtonText = document.getElementById("dropdownListModelButtonText");
+
+    dropdownListModelButtonText.setAttribute("selected_index", dropdownIndex);
+
+    switch (dropdownIndex){
+        case 1:
+            if(modelInputTextField.classList.contains("show")){
+                modelInputTextField.classList.remove("show");
+                modelInputLabel.classList.remove("show");
+                modelInputError.classList.remove("show");
+            }
+
+            break;
+
+        case 2:
+        case 3:
+            modelInputLabel.innerText = "Input a value for " + dropdownItemName;
+            if(!modelInputTextField.classList.contains("show")){
+                modelInputTextField.classList.add("show");
+                modelInputLabel.classList.add("show");
+            }
+
+            break;
+    }
+}
+
+
 
 function calendarDatesEqual(checkboxDateEqualID, checkboxNoTemporalID, startDateID, endDateID){
     var checkboxDateEqualElement = document.getElementById(checkboxDateEqualID);
@@ -987,7 +897,6 @@ async function submitForm(){
     //  [ [ 19.732387792295356,17.362269487080525],[ 15.018600022717294, 11.450658457798042],[29.998879431116166, 6.631460284225298] ]
     var submitObject = {};
     var geojsonTemplate =     { "coordinates": [], "type": ""}
-    var usernameInput = document.getElementById("username");
     var titleInput = document.getElementById("title");
     var descriptionInput = document.getElementById("desc");
     var geometryInputFields = document.querySelectorAll("input[id*='_lat_']");
@@ -1001,14 +910,16 @@ async function submitForm(){
     var geometryGeoJSONBBox;
     var geometryGeoJSONFileInput = document.querySelectorAll("textarea[id^=my_geo]");
     var dateMetadataFields = document.querySelectorAll("input[id*=_date]");
-    var textAreaMetadataVariables = document.getElementById("metadata_vars");
+    var textareaMetadataVariables = document.getElementById("metadata_vars");
     var metadataObject = {};
     var textareaMetadataArray;
     var linkedFilesFields = document.querySelectorAll("textarea[id^=linked_]");
     var linkedFilesObject = {};
     var otherMetadataInputFields = document.querySelectorAll("input[id^=other_key_]");
-    var metadataModelsInputFields = document.querySelectorAll("input[id^=model_name_]");
-    var metadataModelsArray = [];
+    var metadataModelDropdownButtonText = document.getElementById("dropdownListModelButtonText");
+    var metadataModelHREF = document.getElementById("metadata_model_href");
+    var metadataModelOtherInput = document.getElementById("model_other_input");
+    var metadataModelOtherInputError = document.getElementById("model_other_input_error");
     var otherMetadataArray = [];
 
 
@@ -1073,60 +984,57 @@ async function submitForm(){
 
     /*Add Metadata Variables to metadataObject*/
 
-    if(textAreaMetadataVariables.value != ""){
-        if(textAreaMetadataVariables.value.indexOf("\n") > -1){
-            textareaMetadataArray = textareaMetadata.value.split("\n");
+    if(textareaMetadataVariables.value != ""){
+        if(textareaMetadataVariables.value.indexOf("\n") > -1){
+            textareaMetadataArray = textareaMetadataVariables.value.split("\n");
         }
-        metadataObject[textareaMetadata.id] = textareaMetadataArray;
+        metadataObject[textareaMetadataVariables.id] = textareaMetadataArray;
     }
 
     /*Add Metadata Models input to metadataObject*/
-    for (modelInput of metadataModelsInputFields) {
-        var modelInputIDArray = modelInput.id.split("_");
-        geometryType = modelInputIDArray[0];
-        var currentModelIndex = modelInputIDArray[2];
-        var modelLinkID = geometryType + "_link_" + currentModelIndex;
-        var modelLinkInput = document.getElementById(modelLinkID);
-        var errorNameInput = document.getElementById("error_name_" + currentModelIndex);
-        var errorLinkInput = document.getElementById("error_link_" + currentModelIndex);
+    var selectedModelIndex = parseInt(metadataModelDropdownButtonText.getAttribute("selected_index"));
+    var selectedModelValue = metadataModelDropdownButtonText.innerText.toLowerCase();
 
+    var metadataModelObject = {"rel": "", "href":"",  "title":""};
+    metadataModelObject["rel"] = selectedModelValue;
+    metadataModelObject["href"] = metadataModelHREF.value;
 
-        if (modelInput.value != "" && modelLinkInput.value != "") {
-            var metadataModelObject = {"name":"", "href":""};
+    switch(selectedModelIndex){
+        case 2:
+            if(!metadataModelOtherInput.value == "") {
+                if(metadataModelOtherInputError.classList.contains("show")){
+                    metadataModelOtherInputError.classList.remove("show");
+                }
 
-            metadataModelObject["name"] = modelInput.value;
-            metadataModelObject["href"] = modelLinkInput.value;
-
-            metadataModelsArray.push(metadataModelObject);
-
-            if(errorNameInput.classList.contains("show")){
-                errorNameInput.classList.remove("show");
+                metadataModelObject["title"] = metadataModelOtherInput.value;
+            }
+            else{
+                if(!metadataModelOtherInputError.classList.contains("show")){
+                    metadataModelOtherInputError.classList.add("show");
+                }
             }
 
-            if(errorLinkInput.classList.contains("show")){
-                errorLinkInput.classList.remove("show");
+            break;
+
+        case 3:
+            if(!metadataModelOtherInput.value == "") {
+                if(metadataModelOtherInputError.classList.contains("show")){
+                    metadataModelOtherInputError.classList.remove("show");
+                }
+
+                metadataModelObject["rel"] = metadataModelOtherInput.value;
+            }
+            else{
+                if(!metadataModelOtherInputError.classList.contains("show")){
+                    metadataModelOtherInputError.classList.add("show");
+                }
             }
 
-
-        }
-
-        if (modelInput.value != "" && modelLinkInput.value == "") {
-            errorLinkInput.classList.add("show");
-
-            if(errorNameInput.classList.contains("show")){
-                errorNameInput.classList.remove("show");
-            }
-        }
-
-        if(modelInput.value == "" && modelLinkInput.value != ""){
-            errorNameInput.classList.add("show");
-
-            if(errorLinkInput.classList.contains("show")){
-                errorLinkInput.classList.remove("show");
-            }
-        }
+            break;
     }
 
+    /*Add the Metadata Model object to the Metadata object under the metadata_model entry*/
+    metadataObject["metadata_model"] = metadataModelObject;
 
     /*If key-value input in Other section, add it to metadataOtherObject, and then add the object to the otherMetadataArray*/
     for (otherInput of otherMetadataInputFields) {
@@ -1153,8 +1061,6 @@ async function submitForm(){
             if(errorValueInput.classList.contains("show")){
                 errorValueInput.classList.remove("show");
             }
-
-
         }
 
         if (otherInput.value != "" && otherValueInput.value == "") {
@@ -1172,11 +1078,6 @@ async function submitForm(){
                 errorValueInput.classList.remove("show");
             }
         }
-    }
-
-    /*Create metadata_model entry and add Metadata Model input to metadataObject if user has input model-link*/
-    if(metadataModelsArray.length > 0){
-        metadataObject["metadata_model"] = metadataModelsArray;
     }
 
 
@@ -1234,6 +1135,4 @@ async function submitForm(){
     //TODO Leave the below commented until changes in "match-backend-indexes" branch are done
     //submitObject["path"] = linkedPathField.value;
     //submitObject["inputs"] = linkedInputObjectArray;
-
-
 }
