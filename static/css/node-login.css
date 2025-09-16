@@ -1997,19 +1997,18 @@ dialog {
 }
 
 .author-child, .author-additional-child, .point-child, .multipoint-child, .multipoint-additional-child,
-.other-additional-child, .model-additional-child, .input-additional-child {
+.other-additional-child, .input-additional-child {
     display: flex;
     flex-direction: row;
 }
 
-.point-child div:not(:last-child), .other-child div:not(:last-child), .other-additional-child div:not(:last-child),
-.model-child div:not(:last-child){
+.point-child div:not(:last-child), .other-child div:not(:last-child), .other-additional-child div:not(:last-child){
     margin-right: 60px;
 }
 
 .author-child div:not(:nth-last-child(2)), .author-additional-child div:not(:nth-last-child(2))
 , .multipoint-child div:not(:nth-last-child(2)), .multipoint-additional-child div:not(:nth-last-child(2)),
-.model-additional-child div:not(:nth-last-child(2)), .input-additional-child div:not(:nth-last-child(2))
+.input-additional-child div:not(:nth-last-child(2))
 {
     margin-right: 60px;
 }
@@ -2018,7 +2017,7 @@ dialog {
     margin-left: 10px;
 }
 
-.author-details, .latitude-child, .longitude-child, .other-details, .model-details{
+.author-details, .latitude-child, .longitude-child, .other-details{
     display: flex;
     flex-direction: column;
 }
@@ -2114,6 +2113,11 @@ input::-webkit-inner-spin-button{
 
 input[type=number]{
     -moz-appearance:textfield; /* Firefox */
+}
+
+.model-url-container, .model-other-container, .model-dropdown-container{
+    display: flex;
+    flex-direction: column;
 }
 
 input.required:invalid{
