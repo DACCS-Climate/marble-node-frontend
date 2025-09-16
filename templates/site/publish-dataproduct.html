@@ -70,7 +70,10 @@
             <div id="select">
 
                 {% with %}
+                    {% set dropdown_type = "geometry_dropdown" %}
                     {% set banner_search_dropdown_class = "banner-dropdown-list-container"%}
+                    {% set container_id = "geometryDropdownContainer" %}
+                    {% set dropdown_id = "geometryDropdown" %}
                     {% set dropdown_button_id = "dropdownListDefaultButton" %}
                     {% set dropdown_button_text_id = "dropdownListDefaultButtonText" %}
                     {% set dropdown_default_UL_id = "geometry" %}
@@ -159,38 +162,42 @@
             </div>
 
             <h5 class="margin-title margin-content-section"> Models</h5>
-            {% with %}
-                {% set label_text = "Add relevant climate model data sources" %}
-                {% set tooltip_text = "Add one per line" %}
-                {% include "partials/label.html" %}
-            {% endwith %}
-
             <div id="model_box">
-                <div id="model_1" class="model-child">
-                    <div class="model-additional-child">
-                        <div class="model-details">
-                            <label id="label_model_name_1" for="model_name_1" class="subtitle-1 margin-input-label">Model Name</label><br>
-                            <input type="text" id="model_name_1" name="model_name_1" class="input-textbox margin-input-field"><br>
-                        </div>
-                        <div class="model-details">
-                            <label id="label_model_link_1"  for="model_link_1" class="subtitle-1 margin-input-label">Link</label><br>
-                            <input type="text" id="model_link_1" name="model_link_1" class="input-textbox margin-input-field"><br>
-                        </div>
-                    </div>
-                    <div class="model-additional-child">
-                        <div class="error-message-container">
-                            <p id="error_name_1" class="error-validation error-message display-none">Model name cannot be empty if there is a link</p>
-                        </div>
-                        <div class="error-message-container">
-                            <p id="error_link_1" class="error-validation error-message display-none">Link cannot be empty if there is a model name</p>
-                        </div>
-                    </div>
+                <div class="model-url-container">
+                    <label id="metadata_model_href_label" for="metadata_model_href" class="subtitle-1">
+                        Add a URL to relevant climate model data sources
+                    </label>
+                    <input id="metadata_model_href" name="metadata_model_href" type="text" class="input-textbox margin-input-field" />
                 </div>
 
+                <div class="model-dropdown-container margin-input-field">
+                    <label id="metadata_model_dropdown_label" class="subtitle-1 margin-input-label">
+                        Designate this is Input, Model, or Other
+                    </label>
+
+                    {% with %}
+                        {% set dropdown_type = "model_dropdown" %}
+                        {% set banner_search_dropdown_class = "banner-dropdown-list-container"%}
+                        {% set container_id = "metadataModelDropdownContainer" %}
+                        {% set dropdown_id = "metadata_model_dropdown" %}
+                        {% set dropdown_button_id = "dropdownListModelButton" %}
+                        {% set dropdown_button_text_id = "dropdownListModelButtonText" %}
+                        {% set dropdown_default_UL_id = "metadata_model_dropdown_UL" %}
+                        {% set dropdown_label_text = "Select one" %}
+                        {% include "partials/dropdown-publish.html" %}
+                    {% endwith %}
+
+                    <div id="model-other-input-container" class="model-other-container">
+                        <label id="model_other_input_label" for="model_other_input" class="subtitle-1 margin-input-field display-none"></label>
+                        <input id="model_other_input" name="model_other_input" type="text" class="input-textbox margin-input-field display-none" />
+                        <p id="model_other_input_error" class="subtitle-1 error-validation display-none">Cannot be empty if Model or Other is chosen</p>
+                    </div>
+
+                </div>
+
+
             </div>
-            <div id="addModelButtons" class="author-button">
-                <input type="button" value="Add Model" class="button-med d-button-text margin-button-add" onclick="addModel('model_box');"/>
-            </div>
+
 
 
 
@@ -263,7 +270,7 @@
             </div>
         </div>
         <br>
-        <div><input type="button"  id="submit" class="button-med d-button-text" value="Submit Form"></div>
+        <div><input type="submit"  id="submit" class="button-med d-button-text" value="Submit Form"></div>
         <br>
     </form>
 
