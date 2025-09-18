@@ -658,6 +658,119 @@ function addOther(divElementID){
     otherDiv.appendChild(div_box);
 }
 
+function addModel(divElementID){
+    var dropdownTemplate = `{{ jinja_dropdown_template_object }};`
+    dropdownTemplate.dropdown_type = "model_dropdown"
+    console.log("typeof dropdownTemplate")
+    console.log(typeof dropdownTemplate)
+    var autindex;
+    var modelBoxDiv = document.getElementById(divElementID);
+    var modelChildDiv = document.createElement("div");
+    var inputRow = document.createElement("div");
+    var divInput1 = document.createElement("div");
+    var divInput2 = document.createElement("div");
+    var divInput3 = document.createElement("div");
+    var errorRow = document.createElement("div");
+    var modelOtherInputContainerDiv = document.createElement("div");
+
+    var modelArray = document.querySelectorAll("input[id^=model_href]");
+    console.log("modelArray")
+    console.log(modelArray)
+    autindex = updateIndex(modelArray);
+
+    inputRow.id = "model_" + autindex;
+    inputRow.classList.add("model-child");
+    divInput1.classList.add("model-details");
+    divInput2.classList.add("model-details");
+    divInput3.classList.add("model-details");
+
+    var divRemoveModel = document.createElement("div");
+    divRemoveModel.id = "metadata_model_container_" + autindex;
+    divRemoveModel.classList.add("display-none", "show");
+
+    var divRemoveModelParent = document.createElement("div");
+    divRemoveModelParent.classList.add("remove-button");
+
+    var label1 = document.createElement("label");
+    label1.innerText = "URL";
+    label1.classList.add("subtitle-1", "margin-input-label");
+    label1.id = "label_model_href_" + autindex;
+    label1.setAttribute("for", "model_href_" + autindex);
+
+    var input1 = document.createElement("input");
+    input1.classList.add("input-textbox", "margin-input-field");
+    input1.setAttribute("type", "text");
+    input1.setAttribute("id", "model_href_" + autindex);
+    input1.setAttribute("name", "model_href_[]"); // Make it an array input
+
+
+
+    var label2 = document.createElement("label");
+    label2.innerText = "Designate this as Input, Model, or Other";
+    label2.classList.add("subtitle-1", "margin-input-label");
+    label2.id = "labelmodel_dropdown_" + autindex;
+    label2.setAttribute("for", "model_dropdown_" + autindex);
+
+    var dropdownDiv = document.createElement("div");
+    var dropdownID = "model_dropdown_" + autindex;
+    var dropdownButtonID = "dropdownListModelButton_" + autindex;
+    var dropdownButtonTextID = "dropdownListModelButtonText_" + autindex;
+    /*dropdownDiv.innerHTML = `{% with %}
+                            {% set dropdown_type = "model_dropdown" %}
+                            {% set banner_search_dropdown_class = "banner-dropdown-list-container"%}
+                            {% set container_id = "metadataModelDropdownContainer" %}
+                            {% set dropdown_id = "` +  dropdownID + `" %}
+                            {% set dropdown_button_id = "` + dropdownButtonID + `" %}
+                            {% set dropdown_button_text_id = "` + dropdownButtonTextID + `" %}
+                            {% set dropdown_default_UL_id = "metadata_model_dropdown_UL" %}
+                            {% set dropdown_label_text = "Select one" %}
+                            {% include "partials/dropdown-publish.html" %}
+                        {% endwith %}`;
+
+*/
+    dropdownDiv.innerHTML = dropdownTemplate;
+    var label3 = document.createElement("label");
+    label3.classList.add("subtitle-1", "margin-input-label", "display-none");
+    label3.id = "label_model_other_input_" + autindex;
+    label3.setAttribute("for", "model_other_" + autindex);
+
+    var input3 = document.createElement("input");
+    input3.classList.add("input-textbox", "margin-input-field", "display-none");
+    input3.setAttribute("type", "text");
+    input3.setAttribute("id", "model_other_" + autindex);
+    input3.setAttribute("name", "model_other_[]"); // Make it an array input
+
+    var removeModelButton = document.createElement("input");
+    removeModelButton.setAttribute("type", "button");
+    removeModelButton.value = "Remove Model";
+    removeModelButton.classList.add("button-med", "d-button-text");
+    removeModelButton.addEventListener("click", function() {
+        removeEntry("model_box", "model_" + autindex)
+    });
+
+    divInput1.appendChild(label1);
+    divInput1.appendChild(input1);
+
+    divInput2.appendChild(label2);
+    divInput2.appendChild(dropdownDiv);
+
+    divInput3.appendChild(label3);
+    divInput3.appendChild(input3);
+
+    divRemoveModelParent.appendChild(removeModelButton);
+    divRemoveModel.appendChild(divRemoveModelParent);
+
+
+    inputRow.appendChild(divInput1);
+    inputRow.appendChild(divInput2);
+    inputRow.appendChild(divInput3);
+    inputRow.appendChild(divRemoveModel);
+
+    modelBoxDiv.appendChild(inputRow);
+}
+
+
+
 function removeEntry(parentElementID, elementID){
     var inputArray;
     var currentInputIndex;
@@ -758,15 +871,16 @@ function updateIndex(additionalInputArray) {
     return inputFieldIndex
 }
 
-function showHideModelInput(dropdownIndex, dropdownItemName){
-    var modelInputTextField = document.getElementById("model_other_input");
-    var modelInputLabel = document.getElementById("model_other_input_label");
-    var modelInputError = document.getElementById("model_other_input_error");
-    var dropdownListModelButtonText = document.getElementById("dropdownListModelButtonText");
+function showHideModelInput(dropdownItemIndex, dropdownItemName, dropdownIndex){
+    var modelOtherInputContainer = document.getElementById("model-other-input-container_" + dropdownIndex)
+    var modelInputTextField = document.getElementById("model_other_" + dropdownIndex);
+    var modelInputLabel = document.getElementById("label_model_other_" + dropdownIndex);
+    var modelInputError = document.getElementById("model_other_error_" + dropdownIndex);
+    var dropdownListModelButtonText = document.getElementById("dropdownListModelButtonText_" + dropdownIndex);
 
-    dropdownListModelButtonText.setAttribute("selected_index", dropdownIndex);
+    dropdownListModelButtonText.setAttribute("selected_index", dropdownItemIndex);
 
-    switch (dropdownIndex){
+    switch (dropdownItemIndex){
         case 1:
             if(modelInputTextField.classList.contains("show")){
                 modelInputTextField.classList.remove("show");
@@ -917,8 +1031,8 @@ async function submitForm(){
     var linkedFilesObject = {};
     var otherMetadataInputFields = document.querySelectorAll("input[id^=other_key_]");
     var metadataModelDropdownButtonText = document.getElementById("dropdownListModelButtonText");
-    var metadataModelHREF = document.getElementById("metadata_model_href");
-    var metadataModelOtherInput = document.getElementById("model_other_input");
+    var metadataModelHREF = document.querySelectorAll("input[id^=metadata_model_href_]");
+    var metadataModelOtherInput = document.querySelectorAll("input[id^=model_other_input_]");
     var metadataModelOtherInputError = document.getElementById("model_other_input_error");
     var otherMetadataArray = [];
 
@@ -1135,4 +1249,7 @@ async function submitForm(){
     //TODO Leave the below commented until changes in "match-backend-indexes" branch are done
     //submitObject["path"] = linkedPathField.value;
     //submitObject["inputs"] = linkedInputObjectArray;
+
+    console.log("submitObject")
+    console.log(submitObject)
 }
