@@ -700,7 +700,7 @@ function addModel(divElementID) {
     divRemoveModel.classList.add("display-none", "show");
 
     var divRemoveModelParent = document.createElement("div");
-    divRemoveModelParent.classList.add("remove-button");
+    divRemoveModelParent.classList.add("model-remove-button");
 
     var label1 = document.createElement("label");
     label1.innerText = "URL";
@@ -1061,8 +1061,6 @@ async function submitForm(){
     var metadataObject = {};
     var textareaMetadataArray;
     var linkedPathField = document.getElementById("linked_path");
-    var linkedInputField = document.getElementById("linked_input");
-    var linkedInputObjectArray = [];
     var linkedAdditionalFiles = document.getElementById("linked_link");
     var otherMetadataInputFields = document.querySelectorAll("input[id^=other_key_]");
     var metadataModelDropdownButtonText = document.querySelectorAll("h6[id^=dropdownListModelButtonText]");
@@ -1071,6 +1069,7 @@ async function submitForm(){
     var geometryDropdownButtonTitle = document.getElementById("dropdownListDefaultButtonText");
     var geometrySelection = parseInt(geometryDropdownButtonTitle.getAttribute("selected_index"));
     var geometryDropdownContent;
+
     /*Adds Geometry coordinate input to geometryTemplate object*/
     /*If no coordinates are entered get the input from the geojson textarea*/
     /*If a geometry with no coordinate inputs is selected (eg. upload geojson) only get input from the geojson textarea*/
@@ -1275,26 +1274,6 @@ async function submitForm(){
         metadataObject["extra_properties"] = otherMetadataArray;
     }
 
-    /*Add Linked Files input to linkedInputObject*/
-    if(linkedInputField.value != ""){
-        var linkedInputObject = {};
-
-        if(linkedInputField.value.includes("\n")){
-            var linkedInputArray = linkedInputField.value.split("\n");
-
-            for(linkedInputEntry of linkedInputArray){
-                var entryObject = {};
-                linkedInputEntry = linkedInputEntry.trim();
-                entryObject["href"] = linkedInputEntry;
-                linkedInputObjectArray.push(entryObject);
-            }
-        }
-        else{
-            linkedInputObject["href"] = linkedInputField.value.trim();
-            linkedInputObjectArray.push(linkedInputObject);
-        }
-    }
-
 
     /*Add Linked Additional Files input to submitObject*/
     if(linkedAdditionalFiles.value != ""){
@@ -1347,5 +1326,4 @@ async function submitForm(){
     submitObject["LinkedFiles"] = linkedFilesObject;
     //TODO Leave the below commented until changes in "match-backend-indexes" branch are done
     //submitObject["path"] = linkedPathField.value;
-    //submitObject["inputs"] = linkedInputObjectArray;
 }
