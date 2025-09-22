@@ -3,7 +3,7 @@ import os
 import shutil
 import argparse
 
-from jinja2 import FileSystemLoader, Environment, select_autoescape, PackageLoader
+from jinja2 import FileSystemLoader, Environment, select_autoescape
 
 try:
     import tomllib
@@ -16,7 +16,6 @@ else:
 
 THIS_DIR = os.path.abspath(os.path.dirname(__file__))
 TEMPLATE_PATH = os.path.join(THIS_DIR, "templates")
-PARTIALS_PATH = os.path.join(TEMPLATE_PATH, "partials")
 SITE_PATH = os.path.join(TEMPLATE_PATH, "site")
 
 def filter_site_templates(template, extensions=("js", "html")):
@@ -76,14 +75,6 @@ def build(build_directory, config_file, clean=False):
     configs = config_data(config_file)
 
 
-
-    template_env = Environment(
-        loader=FileSystemLoader(PARTIALS_PATH), autoescape=select_autoescape()
-    )
-
-    dropdown_template_object = template_env.get_template( "dropdown-publish.html")
-    #rendered_template = dropdown_template.render()
-
     for template in env.list_templates(filter_func=filter_site_templates):
         build_destination = os.path.join(
             build_directory, os.path.relpath(os.path.join(TEMPLATE_PATH, template), SITE_PATH)
@@ -91,9 +82,7 @@ def build(build_directory, config_file, clean=False):
         os.makedirs(os.path.dirname(build_destination), exist_ok=True)
 
         with open(build_destination, "w") as f:
-            f.write(env.get_template(template).render(configs=configs,
-                                                      jinja_dropdown_template_object=dropdown_template_object
-                                                      ))
+            f.write(env.get_template(template).render(configs=configs))
 
 
 if __name__ == "__main__":
