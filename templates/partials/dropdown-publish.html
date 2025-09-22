@@ -70,16 +70,9 @@
                     {% endif %}
 
                     {% if dropdown_type == "model_dropdown" %}
-                        <!--TODO the dropdown_id here isn't getting the value input from the template definition or not getting it correctly-->
-                        <!--The rest of the sets are working properly -->
-                        {% set customDropdownID =  dropdown_id  %}
-                        {% set dropdownIDArray = customDropdownID.split('_') %}
-                        {% set dropdownIndex = dropdownIDArray[3] %}
-
-                        <a id="{{ item["item_id"] }}" class="subtitle-1 dropdown-default-list-item-text" role="button" selected_index="{{ itemIndex }}"  selected_value="{{ item["item_label"].lower() }}" onclick="showHideModelInput({{ itemIndex }}, '{{ item["item_label"] }}', {{ dropdownIndex }})">
+                        <a id="{{ item["item_id"] }}" class="subtitle-1 dropdown-default-list-item-text" role="button" selected_index="{{ itemIndex }}"  selected_value="{{ item["item_label"].lower() }}">
                             {{ item["item_label"]|safe }}
                         </a>
-                        <p>{{ dropdownIDArray }}</p>
                     {% endif %}
                     </li>
                     <script>
