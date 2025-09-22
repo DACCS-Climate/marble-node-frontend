@@ -87,12 +87,12 @@ function initializeUploadDiv(divID){
 
     uploadTitle.innerText = "Paste GeoJSON";
 
-    uploadInput.id = "my_" + divID + "_file";
-    uploadInput.setAttribute("name", "my_" + divID + "_file");
+    uploadInput.id = divID + "_file";
+    uploadInput.setAttribute("name", divID + "_file");
     uploadInput.setAttribute("required", "required");
     uploadInput.classList.add("textarea-geojson", "margin-input-field")
     uploadInput.addEventListener("input", () => {
-        validateUploadGeoJSON("my_" + divID + "_file");
+        validateUploadGeoJSON(divID + "_file");
     })
 
     uploadValidationError.id = "uploadGeoJSONError";
@@ -422,11 +422,11 @@ function geoPolygon2(selected_geometry) {
 
         case 5:
             // For GeoJSON Upload (Multi Line String, Multi Polygon, Geometry Collection)
-            if (document.getElementById("geo_json_upload_content").querySelector(".upload-geojson-child") != null) {
-                swapDiv('geo_json_upload');
+            if (document.getElementById("geo_geojson_content").querySelector(".upload-geojson-child") != null) {
+                swapDiv('geo_geojson');
             } else {
-                swapDiv('geo_json_upload');
-                initializeUploadDiv('geo_json_upload');
+                swapDiv('geo_geojson');
+                initializeUploadDiv('geo_geojson');
             }
 
             break;
@@ -1011,7 +1011,7 @@ function validateUploadGeoJSON(elementID){
     var parsedGeoJSON;
     var uploadGeoJSONCleaned;
 
-    if(uploadGeoJSONInput.value != "") {
+    if(uploadGeoJSONInput && uploadGeoJSONInput.value != "") {
         if (uploadGeoJSONInput.value.indexOf("\n") > -1) {
             uploadGeoJSONCleaned = uploadGeoJSONInput.value.replaceAll("\n", "");
             uploadGeoJSONCleaned = uploadGeoJSONCleaned.replaceAll(" ", "");
@@ -1054,34 +1054,59 @@ async function submitForm(){
     var authorArray = [];
     var geometryType;
     var visibleGeometry;
-    var geometryContainer;
     var coordinateArray = [];
     var geometryGeoJSONBBox;
-    var geometryGeoJSONFileInput = document.querySelectorAll("textarea[id^=my_geo]");
     var dateMetadataFields = document.querySelectorAll("input[id*=_date]");
     var textareaMetadataVariables = document.getElementById("metadata_vars");
     var metadataObject = {};
     var textareaMetadataArray;
-    var linkedFilesFields = document.querySelectorAll("textarea[id^=linked_]");
-    var linkedFilesObject = {};
+    var linkedPathField = document.getElementById("linked_path");
+    var linkedInputField = document.getElementById("linked_input");
+    var linkedInputObjectArray = [];
+    var linkedAdditionalFiles = document.getElementById("linked_link");
     var otherMetadataInputFields = document.querySelectorAll("input[id^=other_key_]");
     var metadataModelDropdownButtonText = document.querySelectorAll("h6[id^=dropdownListModelButtonText]");
     var metadataModelObjectArray = [];
     var otherMetadataArray = [];
-
-
+    var geometryDropdownButtonTitle = document.getElementById("dropdownListDefaultButtonText");
+    var geometrySelection = parseInt(geometryDropdownButtonTitle.getAttribute("selected_index"));
+    var geometryDropdownContent;
     /*Adds Geometry coordinate input to geometryTemplate object*/
     /*If no coordinates are entered get the input from the geojson textarea*/
     /*If a geometry with no coordinate inputs is selected (eg. upload geojson) only get input from the geojson textarea*/
-    if(geometryInputFields.length > 0){
-        for (input of geometryInputFields) {
-            var inputIDArray = input.id.split("_");
-            geometryType = inputIDArray[0];
-            geometryContainer = document.getElementById("geo_" + geometryType);
+    switch(geometrySelection){
+        case 1:
+            var geometrySelectionID = geometryDropdownButtonTitle.getAttribute("selected_id");
+            var geometrySelectionIDArray = geometrySelectionID.split("geometry");
 
-            if (geometryContainer.classList.contains("show")) {
-                visibleGeometry = geometryType;
+            visibleGeometry = geometrySelectionIDArray[1];
+            geometryType = geometrySelectionIDArray[1].toLowerCase();
+
+            geometryDropdownContent = document.getElementById("geo_point_content");
+            var pointLatInput = document.getElementById('point_lat_1');
+            var pointLonInput = document.getElementById('point_lon_1');
+
+            coordinateArray.push(pointLatInput.value);
+            coordinateArray.push(pointLonInput.value);
+
+            break;
+
+        case 2:
+        case 3:
+        case 4:
+            var geometrySelectionID = geometryDropdownButtonTitle.getAttribute("selected_id");
+            var geometrySelectionIDArray = geometrySelectionID.split("geometry");
+            visibleGeometry = geometrySelectionIDArray[1];
+            geometryType = geometrySelectionIDArray[1].toLowerCase();
+
+            geometryDropdownContent = document.getElementById("geo_" + geometryType + "_content");
+
+            var geometryLatPrefix = geometryType + "_lat_";
+            var geometryLatInputFields = geometryDropdownContent.querySelectorAll(`input[id^=${geometryLatPrefix}]`);
+
+            for (input of geometryLatInputFields) {
                 var coordinate = [];
+                var inputIDArray = input.id.split("_");
 
                 if (input.value != "") {
                     var longitudeID = geometryType + "_lon_" + inputIDArray[2];
@@ -1093,20 +1118,23 @@ async function submitForm(){
                     coordinateArray.push(coordinate);
                 }
             }
-        }
+
+            break;
+
+        case 5:
+            var geometrySelectionID = geometryDropdownButtonTitle.getAttribute("selected_id");
+            var geometrySelectionIDArray = geometrySelectionID.split("geometry");
+            visibleGeometry = geometrySelectionIDArray[1];
+            geometryType = geometrySelectionIDArray[1].toLowerCase();
+
+
+            geometryGeoJSONBBox = validateUploadGeoJSON("geo_" + geometryType + "_file");
+
+            break;
     }
 
-    if(geometryGeoJSONFileInput.length > 0){
-        for(geometryFile of geometryGeoJSONFileInput){
-            var firstUnderscoreIndex = geometryFile.id.indexOf('_');
-            var lastUnderscoreIndex = geometryFile.id.lastIndexOf('_');
-            geometryContainer = document.getElementById(geometryFile.id.slice(firstUnderscoreIndex + 1, lastUnderscoreIndex));
 
-            if(geometryContainer.classList.contains("show")){
-                geometryGeoJSONBBox = validateUploadGeoJSON(geometryFile.id);
-            }
-        }
-    }
+
 
 
     /*Add Author input to authorObject*/
@@ -1126,6 +1154,7 @@ async function submitForm(){
             authorArray.push(authorObject);
         }
     }
+
 
 
 
@@ -1243,45 +1272,69 @@ async function submitForm(){
 
     /*Create metadata_other entry and add Metadata Other input to metadataObject if user has input key-value*/
     if(otherMetadataArray.length > 0){
-        metadataObject["metadata_other"] = otherMetadataArray;        
+        metadataObject["extra_properties"] = otherMetadataArray;
     }
 
-    /*Add Linked Files input to linkedFilesObject*/
-    for(linkedFile of linkedFilesFields){
-        if(linkedFile.value.includes("\n")){
-            var linkedFileArray = linkedFile.value.split("\n");
-            for(linkedFileEntry of linkedFileArray){
-                linkedFileEntry = linkedFileEntry.trim();
+    /*Add Linked Files input to linkedInputObject*/
+    if(linkedInputField.value != ""){
+        var linkedInputObject = {};
+
+        if(linkedInputField.value.includes("\n")){
+            var linkedInputArray = linkedInputField.value.split("\n");
+
+            for(linkedInputEntry of linkedInputArray){
+                var entryObject = {};
+                linkedInputEntry = linkedInputEntry.trim();
+                entryObject["href"] = linkedInputEntry;
+                linkedInputObjectArray.push(entryObject);
             }
-            linkedFilesObject[linkedFile.id] = linkedFileArray;
         }
         else{
-            linkedFilesObject[linkedFile.id] = linkedFile.value.trim();
+            linkedInputObject["href"] = linkedInputField.value.trim();
+            linkedInputObjectArray.push(linkedInputObject);
         }
     }
 
+
+    /*Add Linked Additional Files input to submitObject*/
+    if(linkedAdditionalFiles.value != ""){
+        var linkedAdditionalFileInputArray = [];
+        if(linkedAdditionalFiles.value.includes("\n")){
+            var additionalFileArray = linkedAdditionalFiles.value.split("\n");
+            for(additionalFileEntry of additionalFileArray){
+                additionalFileEntry = additionalFileEntry.trim();
+            }
+            submitObject["additional_paths"] = additionalFileArray;
+        }
+        else{
+            linkedAdditionalFileInputArray.push(linkedAdditionalFiles.value.trim());
+            submitObject["additional_paths"] = linkedAdditionalFileInputArray;
+        }
+    }
 
 
     /*Add items to submit object*/
-    /*Add Geometry input to GeoJSON template object*/
+
+    /*Add Geometry input to submit object*/
+    /*If input was coordinates, add the coordinate array and the geometry type */
+    /*If input was a pasted geojson, add the geojson parsed as a json*/
     if(coordinateArray.length > 0){
         geojsonTemplate.coordinates.push(coordinateArray);
         geojsonTemplate.type = visibleGeometry;
-        submitObject["SubmittedGeometry"] = geojsonTemplate;
+        submitObject["geometry"] = geojsonTemplate;
     }
     else{
-        submitObject["SubmittedGeometry"] = geometryGeoJSONBBox;
+        submitObject["geometry"] = geometryGeoJSONBBox;
     }
 
     /*Add Metadata date input to submitObject*/
     if(dateMetadataFields[0].value == "" && dateMetadataFields[1].value == ""){
-        for(dateMetadata of dateMetadataFields){
-            metadataObject[dateMetadata.id] = null;
-        }
+        metadataObject["temporal"] = null
     }
     else{
+        metadataObject["temporal"] = []
         for(dateMetadata of dateMetadataFields){
-            metadataObject[dateMetadata.id] = dateMetadata.value;
+            metadataObject["temporal"].push(dateMetadata.value);
         }
     }
 

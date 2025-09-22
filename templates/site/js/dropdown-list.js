@@ -1,6 +1,12 @@
-function replaceListItem(firstItemID, secondItemID){
-    var firstItem = document.getElementById(firstItemID);
-    var secondItem = document.getElementById(secondItemID);
+function replaceListItem(titleItemID, selectedItemID){
+    var firstItem = document.getElementById(titleItemID);
+    var secondItem = document.getElementById(selectedItemID);
+    var selectedID;
+    var selectedIndex;
 
     firstItem.innerHTML = secondItem.innerHTML;
+    selectedID = secondItem.id;
+    selectedIndex = secondItem.getAttribute("selectedindex");
+    firstItem.setAttribute("selected_index", selectedIndex);
+    firstItem.setAttribute("selected_id", selectedID);
 }
