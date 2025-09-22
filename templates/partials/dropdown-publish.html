@@ -1,49 +1,50 @@
 {% set dropdown_library = {
-    "geometry_dropdown":{
-        "list_items" :[
+        "geometry_dropdown":{
+            "list_items" :[
+                    {
+                        "item_label": "Point",
+                        "item_id": "geometryPoint"
+                    },
+                    {
+                        "item_label": "Multi-Point",
+                        "item_id": "geometryMultiPoint"
+                    },
+                    {
+                        "item_label": "Line String",
+                        "item_id": "geometryLineString"
+                    },
+                    {
+                        "item_label": "Polygon",
+                        "item_id": "geometryPolygon"
+                    },
+                    {
+                        "item_label": "Upload GeoJSON",
+                        "item_id": "geometryUploadGeoJSON"
+                    },
+                    {
+                        "item_label": "Null: Not-spatial file",
+                        "item_id": "geometryNull"
+                    }
+                ]
+        },
+        "model_dropdown":{
+            "list_items":[
                 {
-                    "item_label": "Point",
-                    "item_id": "geometryPoint"
+                    "item_label": "Input",
+                    "item_id": "modelInput"
                 },
                 {
-                    "item_label": "Multi-Point",
-                    "item_id": "geometryMultiPoint"
+                    "item_label": "Model",
+                    "item_id": "modelModel"
                 },
                 {
-                    "item_label": "Line String",
-                    "item_id": "geometryLineString"
-                },
-                {
-                    "item_label": "Polygon",
-                    "item_id": "geometryPolygon"
-                },
-                {
-                    "item_label": "Upload GeoJSON",
-                    "item_id": "geometryUploadGeoJSON"
-                },
-                {
-                    "item_label": "Null: Not-spatial file",
-                    "item_id": "geometryNull"
+                    "item_label": "Other",
+                    "item_id": "modelOther"
                 }
             ]
-    },
-    "model_dropdown":{
-        "list_items":[
-            {
-                "item_label": "Input",
-                "item_id": "modelInput"
-            },
-            {
-                "item_label": "Model",
-                "item_id": "modelModel"
-            },
-            {
-                "item_label": "Other",
-                "item_id": "modelOther"
-            }
-        ]
+        }
     }
-}
+%}
 
 
 
