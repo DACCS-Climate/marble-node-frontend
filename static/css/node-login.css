@@ -2002,20 +2002,36 @@ dialog {
     flex-direction: row;
 }
 
-.point-child div:not(:last-child), .other-child div:not(:last-child), .other-additional-child div:not(:last-child),
-.model-child div:not(:last-child){
+.model-child div:not(:last-child), .model-additional-child > div:not(:nth-last-child(2)){
+    margin-right: 30px;
+}
+
+
+.point-child div:not(:last-child), .other-child div:not(:last-child), .other-additional-child div:not(:last-child)
+{
     margin-right: 60px;
 }
 
 .author-child div:not(:nth-last-child(2)), .author-additional-child div:not(:nth-last-child(2))
 , .multipoint-child div:not(:nth-last-child(2)), .multipoint-additional-child div:not(:nth-last-child(2)),
-.input-additional-child div:not(:nth-last-child(2)), .model-additional-child > div:not(:nth-last-child(2))
+.input-additional-child div:not(:nth-last-child(2))
 {
     margin-right: 60px;
 }
 
 .remove-button{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
     margin-left: 10px;
+}
+
+.model-remove-button{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    margin-left: 10px;
+    margin-bottom: 12px;
 }
 
 .author-details, .latitude-child, .longitude-child, .other-details, .model-details{
@@ -2030,12 +2046,6 @@ dialog {
 
 .margin-author-button{
     margin-top: 10px;
-}
-
-.remove-button{
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
 }
 
 .author-button input:not(:last-child){
