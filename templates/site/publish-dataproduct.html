@@ -164,7 +164,7 @@
             <h5 class="margin-title margin-content-section"> Models</h5>
             <p>Add a URL to relevant Models for climate data sources or to any Input Data used.  </p>
             <p>URLs(links) to Input Data can be from RedOak or an external link.</p>
-            <div id="model_box" class="metadata-model-parent">
+            <div id="model_box" class="metadata-model-parent margin-input-label">
                 <div id="model_1" class="model-child">
                     <div class="model-url-container">
                         <label id="label_model_href_1" for="model_href_1" class="subtitle-1">
@@ -173,7 +173,7 @@
                         <input id="model_href_1" name="model_href_1" type="text" class="input-textbox margin-input-field" />
                     </div>
 
-                    <div class="model-dropdown-container margin-input-field">
+                    <div class="model-dropdown-container">
                         <label id="label_model_dropdown_1" class="subtitle-1">
                             Designate this as Input, Model, or Other
                         </label>
@@ -268,18 +268,6 @@
 
                 <input id="linked_path" name="path" class="input-textbox margin-input-field" value="" required/>
             </div>
-
-            <div class="margin-input-label">
-                {% with %}
-                    {% set label_text = "Link to inputs (Link to any input data used, can be RedOak or external link)" %}
-                    {% set tooltip_text = "Add one per line" %}
-                    {% include "partials/label.html" %}
-                {% endwith %}
-
-                <textarea id="linked_input" name="input" class="textarea-geojson margin-input-field" value=""></textarea>
-            </div>
-
-
             <div class="margin-input-label">
                 {% with %}
                     {% set label_text = "Linked to any additional files (workflow files)" %}
