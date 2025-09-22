@@ -658,28 +658,39 @@ function addOther(divElementID){
     otherDiv.appendChild(div_box);
 }
 
-function addModel(divElementID){
-    var dropdownTemplate = `{{ jinja_dropdown_template_object }};`
-    dropdownTemplate.dropdown_type = "model_dropdown"
-    console.log("typeof dropdownTemplate")
-    console.log(typeof dropdownTemplate)
+function initializeModelDropdown(dropdownID){
+
+    var dropdown = document.getElementById(dropdownID);
+    var anchorTags = dropdown.querySelectorAll("li > a");
+
+    anchorTags.forEach((tag) => {
+        var selectedIndex = tag.getAttribute("selected_index");
+        var selectedValue = tag.getAttribute("selected_value");
+
+        tag.addEventListener("click", function (){
+
+
+            showHideModelInput(parseInt(selectedIndex), selectedValue.charAt(0).toUpperCase() + selectedValue.slice(1), 1);
+        })
+    })
+}
+
+
+function addModel(divElementID) {
+
     var autindex;
     var modelBoxDiv = document.getElementById(divElementID);
-    var modelChildDiv = document.createElement("div");
     var inputRow = document.createElement("div");
     var divInput1 = document.createElement("div");
     var divInput2 = document.createElement("div");
     var divInput3 = document.createElement("div");
-    var errorRow = document.createElement("div");
-    var modelOtherInputContainerDiv = document.createElement("div");
-
+    var dropdownDiv = document.createElement("div");
     var modelArray = document.querySelectorAll("input[id^=model_href]");
-    console.log("modelArray")
-    console.log(modelArray)
+
     autindex = updateIndex(modelArray);
 
     inputRow.id = "model_" + autindex;
-    inputRow.classList.add("model-child");
+    inputRow.classList.add("model-additional-child");
     divInput1.classList.add("model-details");
     divInput2.classList.add("model-details");
     divInput3.classList.add("model-details");
@@ -704,34 +715,51 @@ function addModel(divElementID){
     input1.setAttribute("name", "model_href_[]"); // Make it an array input
 
 
-
     var label2 = document.createElement("label");
     label2.innerText = "Designate this as Input, Model, or Other";
     label2.classList.add("subtitle-1", "margin-input-label");
-    label2.id = "labelmodel_dropdown_" + autindex;
+    label2.id = "label_model_dropdown_" + autindex;
     label2.setAttribute("for", "model_dropdown_" + autindex);
 
-    var dropdownDiv = document.createElement("div");
-    var dropdownID = "model_dropdown_" + autindex;
-    var dropdownButtonID = "dropdownListModelButton_" + autindex;
-    var dropdownButtonTextID = "dropdownListModelButtonText_" + autindex;
-    /*dropdownDiv.innerHTML = `{% with %}
-                            {% set dropdown_type = "model_dropdown" %}
-                            {% set banner_search_dropdown_class = "banner-dropdown-list-container"%}
-                            {% set container_id = "metadataModelDropdownContainer" %}
-                            {% set dropdown_id = "` +  dropdownID + `" %}
-                            {% set dropdown_button_id = "` + dropdownButtonID + `" %}
-                            {% set dropdown_button_text_id = "` + dropdownButtonTextID + `" %}
-                            {% set dropdown_default_UL_id = "metadata_model_dropdown_UL" %}
-                            {% set dropdown_label_text = "Select one" %}
-                            {% include "partials/dropdown-publish.html" %}
-                        {% endwith %}`;
+    var modelDropdownTemplate = document.getElementById("modelDropdownTemplate");
+    const cloneDropdown = modelDropdownTemplate.content.cloneNode(true);
 
-*/
-    dropdownDiv.innerHTML = dropdownTemplate;
+    var templateDropdownContainer = cloneDropdown.getElementById("model_dropdown_container_template_id");
+    templateDropdownContainer.id = "metadataModelDropdownContainer" + autindex;
+
+    var templateDropdown = cloneDropdown.getElementById("model_dropdown_template_id");
+    templateDropdown.id = "model_dropdown_" + autindex;
+
+    var templateDropdownUL = cloneDropdown.getElementById("model_dropdown_default_UL_template_id");
+    templateDropdownUL.id = "metadata_model_dropdown_UL_" + autindex;
+
+    var templateDropdownULItemAnchorLinks = templateDropdownUL.querySelectorAll("li > a");
+
+    var templateDropdownButton = cloneDropdown.getElementById("model_dropdown_button_template_id");
+    templateDropdownButton.id = "dropdownListModelButton_" + autindex;
+
+    var templateDropdownButtonText = cloneDropdown.getElementById("model_dropdown_button_text_template_id");
+    templateDropdownButtonText.id = "dropdownListModelButtonText_" + autindex;
+
+    templateDropdownULItemAnchorLinks.forEach((anchorTag) => {
+        var anchorSelectedIndex = anchorTag.getAttribute("selected_index");
+        var anchorSelectedValue = anchorTag.getAttribute("selected_value");
+
+        var anchorID = "model" + anchorSelectedValue.charAt(0).toUpperCase() + anchorSelectedValue.slice(1) + "_" + autindex;
+        anchorTag.id = anchorID;
+
+        anchorTag.addEventListener('click', function () {
+            replaceListItem("dropdownListModelButtonText_" + autindex, anchorID);
+        });
+
+        anchorTag.addEventListener('click', function () {
+            showHideModelInput(parseInt(anchorSelectedIndex), anchorSelectedValue, autindex);
+        })
+    })
+
     var label3 = document.createElement("label");
     label3.classList.add("subtitle-1", "margin-input-label", "display-none");
-    label3.id = "label_model_other_input_" + autindex;
+    label3.id = "label_model_other_" + autindex;
     label3.setAttribute("for", "model_other_" + autindex);
 
     var input3 = document.createElement("input");
@@ -740,11 +768,16 @@ function addModel(divElementID){
     input3.setAttribute("id", "model_other_" + autindex);
     input3.setAttribute("name", "model_other_[]"); // Make it an array input
 
+    var inputError = document.createElement("p");
+    inputError.id = "model_other_error_" + autindex;
+    inputError.classList.add("subtitle-1", "error-validation", "display-none");
+    inputError.innerText = "Cannot be empty if Model or Other is chosen";
+
     var removeModelButton = document.createElement("input");
     removeModelButton.setAttribute("type", "button");
     removeModelButton.value = "Remove Model";
     removeModelButton.classList.add("button-med", "d-button-text");
-    removeModelButton.addEventListener("click", function() {
+    removeModelButton.addEventListener("click", function () {
         removeEntry("model_box", "model_" + autindex)
     });
 
@@ -752,10 +785,12 @@ function addModel(divElementID){
     divInput1.appendChild(input1);
 
     divInput2.appendChild(label2);
+    dropdownDiv.appendChild(cloneDropdown);
     divInput2.appendChild(dropdownDiv);
 
     divInput3.appendChild(label3);
     divInput3.appendChild(input3);
+    divInput3.appendChild(inputError);
 
     divRemoveModelParent.appendChild(removeModelButton);
     divRemoveModel.appendChild(divRemoveModelParent);
@@ -770,8 +805,7 @@ function addModel(divElementID){
 }
 
 
-
-function removeEntry(parentElementID, elementID){
+function removeEntry(parentElementID, elementID) {
     var inputArray;
     var currentInputIndex;
     var firstRemoveButton;
@@ -872,11 +906,12 @@ function updateIndex(additionalInputArray) {
 }
 
 function showHideModelInput(dropdownItemIndex, dropdownItemName, dropdownIndex){
-    var modelOtherInputContainer = document.getElementById("model-other-input-container_" + dropdownIndex)
+
     var modelInputTextField = document.getElementById("model_other_" + dropdownIndex);
     var modelInputLabel = document.getElementById("label_model_other_" + dropdownIndex);
     var modelInputError = document.getElementById("model_other_error_" + dropdownIndex);
     var dropdownListModelButtonText = document.getElementById("dropdownListModelButtonText_" + dropdownIndex);
+
 
     dropdownListModelButtonText.setAttribute("selected_index", dropdownItemIndex);
 
@@ -1030,10 +1065,8 @@ async function submitForm(){
     var linkedFilesFields = document.querySelectorAll("textarea[id^=linked_]");
     var linkedFilesObject = {};
     var otherMetadataInputFields = document.querySelectorAll("input[id^=other_key_]");
-    var metadataModelDropdownButtonText = document.getElementById("dropdownListModelButtonText");
-    var metadataModelHREF = document.querySelectorAll("input[id^=metadata_model_href_]");
-    var metadataModelOtherInput = document.querySelectorAll("input[id^=model_other_input_]");
-    var metadataModelOtherInputError = document.getElementById("model_other_input_error");
+    var metadataModelDropdownButtonText = document.querySelectorAll("h6[id^=dropdownListModelButtonText]");
+    var metadataModelObjectArray = [];
     var otherMetadataArray = [];
 
 
@@ -1106,49 +1139,62 @@ async function submitForm(){
     }
 
     /*Add Metadata Models input to metadataObject*/
-    var selectedModelIndex = parseInt(metadataModelDropdownButtonText.getAttribute("selected_index"));
-    var selectedModelValue = metadataModelDropdownButtonText.innerText.toLowerCase();
 
-    var metadataModelObject = {"rel": "", "href":"",  "title":""};
-    metadataModelObject["rel"] = selectedModelValue;
-    metadataModelObject["href"] = metadataModelHREF.value;
+    for(dropdownButton of metadataModelDropdownButtonText){
+        var selectedModelIndex = parseInt(dropdownButton.getAttribute("selected_index"));
+        var selectedModelValue = dropdownButton.innerText.toLowerCase();
+        var metadataModelObject = {"rel": "", "href":"",  "title":""};
+        var dropdownButtonIDArray = dropdownButton.id.split("_");
+        var modelIndex = dropdownButtonIDArray[1];
+        var metadataModelOtherInputError = document.getElementById("model_other_error_" + modelIndex);
+        var metadataModelHREF = document.getElementById("model_href_" + modelIndex);
+        var metadataModelOtherInput = document.getElementById("model_other_" + modelIndex);
 
-    switch(selectedModelIndex){
-        case 2:
-            if(!metadataModelOtherInput.value == "") {
-                if(metadataModelOtherInputError.classList.contains("show")){
-                    metadataModelOtherInputError.classList.remove("show");
-                }
+        metadataModelObject["rel"] = selectedModelValue;
+        metadataModelObject["href"] = metadataModelHREF.value;
 
-                metadataModelObject["title"] = metadataModelOtherInput.value;
+            switch(selectedModelIndex){
+                case 2:
+                    if(!metadataModelOtherInput.value == "") {
+                        if(metadataModelOtherInputError.classList.contains("show")){
+                            metadataModelOtherInputError.classList.remove("show");
+                        }
+
+                        metadataModelObject["title"] = metadataModelOtherInput.value;
+                    }
+                    else{
+                        if(!metadataModelOtherInputError.classList.contains("show")){
+                            metadataModelOtherInputError.classList.add("show");
+                        }
+                    }
+
+                    break;
+
+                case 3:
+                    if(!metadataModelOtherInput.value == "") {
+                        if(metadataModelOtherInputError.classList.contains("show")){
+                            metadataModelOtherInputError.classList.remove("show");
+                        }
+
+                        metadataModelObject["rel"] = metadataModelOtherInput.value;
+                    }
+                    else{
+                        if(!metadataModelOtherInputError.classList.contains("show")){
+                            metadataModelOtherInputError.classList.add("show");
+                        }
+                    }
+
+                    break;
             }
-            else{
-                if(!metadataModelOtherInputError.classList.contains("show")){
-                    metadataModelOtherInputError.classList.add("show");
-                }
-            }
 
-            break;
+        metadataModelObjectArray.push(metadataModelObject)
 
-        case 3:
-            if(!metadataModelOtherInput.value == "") {
-                if(metadataModelOtherInputError.classList.contains("show")){
-                    metadataModelOtherInputError.classList.remove("show");
-                }
-
-                metadataModelObject["rel"] = metadataModelOtherInput.value;
-            }
-            else{
-                if(!metadataModelOtherInputError.classList.contains("show")){
-                    metadataModelOtherInputError.classList.add("show");
-                }
-            }
-
-            break;
     }
 
     /*Add the Metadata Model object to the Metadata object under the metadata_model entry*/
-    metadataObject["metadata_model"] = metadataModelObject;
+    metadataObject["metadata_model"] = metadataModelObjectArray;
+
+
 
     /*If key-value input in Other section, add it to metadataOtherObject, and then add the object to the otherMetadataArray*/
     for (otherInput of otherMetadataInputFields) {
@@ -1249,7 +1295,4 @@ async function submitForm(){
     //TODO Leave the below commented until changes in "match-backend-indexes" branch are done
     //submitObject["path"] = linkedPathField.value;
     //submitObject["inputs"] = linkedInputObjectArray;
-
-    console.log("submitObject")
-    console.log(submitObject)
 }
