@@ -174,7 +174,7 @@
                     </div>
 
                     <div class="model-dropdown-container margin-input-field">
-                        <label id="label_model_dropdown_1" class="subtitle-1 margin-input-label">
+                        <label id="label_model_dropdown_1" class="subtitle-1">
                             Designate this as Input, Model, or Other
                         </label>
 
@@ -189,17 +189,28 @@
                             {% set dropdown_label_text = "Select one" %}
                             {% include "partials/dropdown-publish.html" %}
                         {% endwith %}
-
-                        <div id="model-other-input-container_1" class="model-other-container">
-                            <label id="label_model_other_1" for="model_other_1" class="subtitle-1 margin-input-field display-none"></label>
-                            <input id="model_other_1" name="model_other_1" type="text" class="input-textbox margin-input-field display-none" />
-                            <p id="model_other_error_1" class="subtitle-1 error-validation display-none">Cannot be empty if Model or Other is chosen</p>
-                        </div>
-
                     </div>
 
+                    <div id="model-other-input-container_1" class="model-other-container">
+                        <label id="label_model_other_1" for="model_other_1" class="subtitle-1 margin-input-field display-none"></label>
+                        <input id="model_other_1" name="model_other_1" type="text" class="input-textbox margin-input-field display-none" />
+                        <p id="model_other_error_1" class="subtitle-1 error-validation display-none">Cannot be empty if Model or Other is chosen</p>
+                    </div>
                 </div>
 
+            <template id="modelDropdownTemplate">
+                {% with %}
+                    {% set dropdown_type = "model_dropdown" %}
+                    {% set banner_search_dropdown_class = "banner-dropdown-list-container"%}
+                    {% set container_id = "model_dropdown_container_template_id" %}
+                    {% set dropdown_id = "model_dropdown_template_id" %}
+                    {% set dropdown_button_id = "model_dropdown_button_template_id" %}
+                    {% set dropdown_button_text_id = "model_dropdown_button_text_template_id" %}
+                    {% set dropdown_default_UL_id = "model_dropdown_default_UL_template_id" %}
+                    {% set dropdown_label_text = "Select one" %}
+                    {% include "partials/dropdown-publish.html" %}
+                {% endwith %}
+            </template>
 
             </div>
 
