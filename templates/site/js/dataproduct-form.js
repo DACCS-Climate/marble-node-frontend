@@ -1053,7 +1053,6 @@ async function submitForm(){
     var geojsonTemplate =     { "coordinates": [], "type": ""}
     var titleInput = document.getElementById("title");
     var descriptionInput = document.getElementById("desc");
-    var geometryInputFields = document.querySelectorAll("input[id*='_lat_']");
     var contactEmail = document.getElementById("contact_email");
     var authorDivs = document.querySelectorAll("div[id^=author_]");
     var authorArray = [];
@@ -1351,7 +1350,4 @@ async function submitForm(){
     submitObject["authors"] = authorArray;
     submitObject["metadata"] = metadataObject;
     submitObject["path"] = linkedPathField.value;
-    //TODO Leave the below commented until changes in "match-backend-indexes" branch are done
-    //submitObject["LinkedFiles"] = linkedFilesObject;
-
 }
