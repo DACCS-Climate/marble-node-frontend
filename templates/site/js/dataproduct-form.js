@@ -714,6 +714,10 @@ function addModel(divElementID) {
     input1.setAttribute("id", "model_href_" + autindex);
     input1.setAttribute("name", "model_href_[]"); // Make it an array input
 
+    var error1 = document.createElement("p");
+    error1.id = "model_href_error_" + autindex;
+    error1.innerText = "URL cannot be empty if dropdown item selected";
+    error1.classList.add("subtitle-1", "error-validation", "display-none");
 
     var label2 = document.createElement("label");
     label2.innerText = "Designate this as Input, Model, or Other";
@@ -783,6 +787,7 @@ function addModel(divElementID) {
 
     divInput1.appendChild(label1);
     divInput1.appendChild(input1);
+    divInput1.appendChild(error1);
 
     divInput2.appendChild(label2);
     dropdownDiv.appendChild(cloneDropdown);
@@ -1057,7 +1062,7 @@ async function submitForm(){
     var coordinateArray = [];
     var geometryGeoJSONBBox;
     var dateMetadataFields = document.querySelectorAll("input[id*=_date]");
-    var textareaMetadataVariables = document.getElementById("metadata_vars");
+    var textareaMetadataVariables = document.getElementById("metadata_variables");
     var metadataObject = {};
     var textareaMetadataArray;
     var linkedPathField = document.getElementById("linked_path");
@@ -1169,17 +1174,38 @@ async function submitForm(){
     /*Add Metadata Models input to metadataObject*/
 
     for(dropdownButton of metadataModelDropdownButtonText){
-        var selectedModelIndex = parseInt(dropdownButton.getAttribute("selected_index"));
+        var selectedModelIndex;
         var selectedModelValue = dropdownButton.innerText.toLowerCase();
         var metadataModelObject = {"rel": "", "href":"",  "title":""};
         var dropdownButtonIDArray = dropdownButton.id.split("_");
         var modelIndex = dropdownButtonIDArray[1];
         var metadataModelOtherInputError = document.getElementById("model_other_error_" + modelIndex);
         var metadataModelHREF = document.getElementById("model_href_" + modelIndex);
+        var metadataModelHREFError = document.getElementById("model_href_error_" + modelIndex);
         var metadataModelOtherInput = document.getElementById("model_other_" + modelIndex);
 
         metadataModelObject["rel"] = selectedModelValue;
-        metadataModelObject["href"] = metadataModelHREF.value;
+
+
+        if(dropdownButton.getAttribute("selected_index") != null){
+            selectedModelIndex = parseInt(dropdownButton.getAttribute("selected_index"));
+
+            if(metadataModelHREF.value == ""){
+
+                if(!metadataModelHREFError.classList.contains("show")){
+                    metadataModelHREFError.classList.add("show");
+                }
+                else{
+                    metadataModelHREFError.classList.remove("show");
+                }
+            }
+            else{
+                if(metadataModelHREFError.classList.contains("show")){
+                    metadataModelHREFError.classList.remove("show");
+                }
+
+                metadataModelObject["href"] = metadataModelHREF.value;
+            }
 
             switch(selectedModelIndex){
                 case 2:
@@ -1214,8 +1240,9 @@ async function submitForm(){
 
                     break;
             }
+            metadataModelObjectArray.push(metadataModelObject)
+        }
 
-        metadataModelObjectArray.push(metadataModelObject)
 
     }
 
