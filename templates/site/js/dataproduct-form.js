@@ -1350,7 +1350,7 @@ async function submitForm(){
     submitObject["contact_email"] = contactEmail.value;
     submitObject["authors"] = authorArray;
     submitObject["metadata"] = metadataObject;
-    submitObject["LinkedFiles"] = linkedFilesObject;
     //TODO Leave the below commented until changes in "match-backend-indexes" branch are done
+    //submitObject["LinkedFiles"] = linkedFilesObject;
     //submitObject["path"] = linkedPathField.value;
 }
