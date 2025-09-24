@@ -2111,10 +2111,6 @@ dialog {
     cursor: pointer;
 }
 
-.error-message-container, .error-message{
-    width: 300px;
-}
-
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button{
     /* display: none; <- Crashes Chrome on hover */
@@ -2146,7 +2142,7 @@ input:required{
     border-radius: var(--textbox-border-radius);
 }
 
-textarea.required:invalid{
+textarea.required:invalid, .input-invalid:invalid{
     background-color: ivory;
     border: none;
     border-style: solid;
@@ -2161,6 +2157,7 @@ textarea:required{
     border-radius: var(--textbox-border-radius);
 }
 
-.required-asterisk{
+.required-asterisk:after{
+    content:" *";
     color: var(--error);
 }
