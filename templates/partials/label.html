@@ -1,5 +1,5 @@
 <div class="label-container">
-    <p class="subtitle-1">{{ label_text|safe }}</p>
+    <p class="subtitle-1 {{ extra_css_classes }}">{{ label_text|safe }}</p>
     {% if tooltip_text %}
         <a tabindex="0" class="button-more-information" role="button" data-toggle="popover" data-bs-trigger="focus"
                 data-bs-placement="right" data-bs-content="{{ tooltip_text }}">
