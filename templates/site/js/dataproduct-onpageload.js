@@ -54,4 +54,6 @@ document.addEventListener("DOMContentLoaded", function () {
         calendarDatesNone("date_make_equal", "date_none_needed", "metadata_start_date", "metadata_end_date");
     });
 
+    /*For adding the click event listener to the anchor tags in the list items of the first Model dropdown*/
+    initializeModelDropdown("metadata_model_dropdown_UL");
 })

@@ -111,9 +111,8 @@ function createInputCoordinatesRow(geometryType, indexNum) {
 
     var label1 = document.createElement("label");
     label1.id = "label_" + geometryType + "_lat_" + indexNum;
-    label1.classList.add("subtitle-1", "margin-input-label");
-
-    label1.innerHTML = "Latitude (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
+    label1.classList.add("subtitle-1", "margin-input-label", "required-asterisk");
+    label1.innerHTML = "Latitude (Required)";
     label1.setAttribute("for", "lat_" + indexNum);
 
     var input1 = document.createElement("input");
@@ -130,9 +129,9 @@ function createInputCoordinatesRow(geometryType, indexNum) {
     longitudeContainer.classList.add("longitude-child");
 
     var label2 = document.createElement("label");
-    label2.classList.add("subtitle-1", "margin-input-label");
+    label2.classList.add("subtitle-1", "margin-input-label", "required-asterisk");
     label2.id = "label_" + geometryType + "_lon_" + indexNum;
-    label2.innerHTML = "Longitude (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
+    label2.innerHTML = "Longitude (Required)";
     label2.setAttribute("for", geometryType + "_lon_" + indexNum);
 
 
@@ -483,7 +482,7 @@ function addAuthor(divElementID) {
     divRemoveAuthorParent.classList.add("remove-button");
 
     var label1 = document.createElement("label");
-    label1.innerText = "First Name:";
+    label1.innerText = "First Name";
     label1.classList.add("subtitle-1", "margin-input-label");
     label1.id = "label_fname_" + autindex;
     label1.setAttribute("for", "fname_" + autindex);
@@ -495,19 +494,22 @@ function addAuthor(divElementID) {
     input1.setAttribute("name", "fname_[]"); // Make it an array input
 
     var label2 = document.createElement("label");
-    label2.innerText = "Last Name:";
-    label2.classList.add("subtitle-1", "margin-input-label");
+    label2.innerText = "Last Name/Only Name (Required)";
+    label2.classList.add("subtitle-1", "margin-input-label", "required-asterisk");
     label2.id = "label_lname_" + autindex;
     label2.setAttribute("for", "lname_" + autindex);
+
+
 
     var input2 = document.createElement("input");
     input2.classList.add("input-textbox", "margin-input-field");
     input2.setAttribute("type", "text");
     input2.setAttribute("id", "lname_" + autindex);
     input2.setAttribute("name", "lname_[]"); // Changed name to array input for last name
+    input2.setAttribute("required", "required");
 
     var label3 = document.createElement("label");
-    label3.innerText = "Email:";
+    label3.innerText = "Email";
     label3.classList.add("subtitle-1", "margin-input-label");
     label3.id = "label_email_" + autindex;
     label3.setAttribute("for", "email_" + autindex);
@@ -547,7 +549,6 @@ function addAuthor(divElementID) {
 function addOther(divElementID){
     var autindex;
     var inputRow = document.createElement("div");
-    var errorRow = document.createElement("div");
     var otherDiv = document.getElementById(divElementID);
     var otherArray = document.querySelectorAll("[id^=other_key]");
     autindex = updateIndex(otherArray);
@@ -556,7 +557,6 @@ function addOther(divElementID){
     div_box.id = "other_" + autindex;
 
     inputRow.classList.add("other-additional-child");
-    errorRow.classList.add("other-additional-child");
 
     var divOtherKey = document.createElement("div");
     divOtherKey.classList.add("other-details");
@@ -583,14 +583,6 @@ function addOther(divElementID){
     input1.setAttribute("id", "other_key_" + autindex);
     input1.setAttribute("name", "other_key_[]"); // Make it an array input
 
-    var errorKeyContainer = document.createElement("div");
-    errorKeyContainer.classList.add("error-other-message-container");
-
-    var errorKey = document.createElement("p");
-    errorKey.id = "error_key_" + autindex;
-    errorKey.classList.add("error-validation", "error-other-message", "display-none");
-    errorKey.innerText = "Key cannot be empty if there is a value";
-
     var label2 = document.createElement("label");
     label2.innerText = "Value:";
     label2.classList.add("subtitle-1", "margin-input-label");
@@ -602,14 +594,6 @@ function addOther(divElementID){
     input2.setAttribute("type", "text");
     input2.setAttribute("id", "other_value_" + autindex);
     input2.setAttribute("name", "other_value_[]"); // Changed name to array input for last name
-
-    var errorValueContainer = document.createElement("div");
-    errorValueContainer.classList.add("error-other-message-container");
-
-    var errorValue = document.createElement("p");
-    errorValue.id = "error_value_" + autindex;
-    errorValue.classList.add("error-validation", "error-other-message", "display-none");
-    errorValue.innerText = "Value cannot be empty if there is a key";
 
     var removeAuthorButton = document.createElement("input");
     removeAuthorButton.setAttribute("type", "button");
@@ -632,20 +616,152 @@ function addOther(divElementID){
     inputRow.appendChild(divOtherVal);
     inputRow.appendChild(divRemoveOtherParent);
 
-    errorKeyContainer.appendChild(errorKey)
-    errorRow.appendChild(errorKeyContainer);
-
-    errorValueContainer.appendChild(errorValue);
-    errorRow.appendChild(errorValueContainer);
-
     div_box.appendChild(inputRow);
-    div_box.appendChild(errorRow);
 
     otherDiv.appendChild(div_box);
 }
 
+function initializeModelDropdown(dropdownID){
 
-function removeEntry(parentElementID, elementID){
+    var dropdown = document.getElementById(dropdownID);
+    var anchorTags = dropdown.querySelectorAll("li > a");
+
+    anchorTags.forEach((tag) => {
+        var selectedIndex = tag.getAttribute("selected_index");
+        var selectedValue = tag.getAttribute("selected_value");
+
+        tag.addEventListener("click", function (){
+
+
+            showHideModelInput(parseInt(selectedIndex), selectedValue.charAt(0).toUpperCase() + selectedValue.slice(1), 1);
+        })
+    })
+}
+
+
+function addModel(divElementID) {
+
+    var autindex;
+    var modelBoxDiv = document.getElementById(divElementID);
+    var inputRow = document.createElement("div");
+    var divInput1 = document.createElement("div");
+    var divInput2 = document.createElement("div");
+    var divInput3 = document.createElement("div");
+    var dropdownDiv = document.createElement("div");
+    var modelArray = document.querySelectorAll("input[id^=model_href]");
+
+    autindex = updateIndex(modelArray);
+
+    inputRow.id = "model_" + autindex;
+    inputRow.classList.add("model-additional-child");
+    divInput1.classList.add("model-details");
+    divInput2.classList.add("model-details");
+    divInput3.classList.add("model-details");
+
+    var divRemoveModel = document.createElement("div");
+    divRemoveModel.id = "metadata_model_container_" + autindex;
+    divRemoveModel.classList.add("display-none", "show");
+
+    var divRemoveModelParent = document.createElement("div");
+    divRemoveModelParent.classList.add("model-remove-button");
+
+    var label1 = document.createElement("label");
+    label1.innerText = "URL";
+    label1.classList.add("subtitle-1", "margin-input-label");
+    label1.id = "label_model_href_" + autindex;
+    label1.setAttribute("for", "model_href_" + autindex);
+
+    var input1 = document.createElement("input");
+    input1.classList.add("input-textbox", "margin-input-field");
+    input1.setAttribute("type", "text");
+    input1.setAttribute("id", "model_href_" + autindex);
+    input1.setAttribute("name", "model_href_[]"); // Make it an array input
+
+    var label2 = document.createElement("label");
+    label2.innerText = "Designate this as Input, Model, or Other";
+    label2.classList.add("subtitle-1", "margin-input-label");
+    label2.id = "label_model_dropdown_" + autindex;
+    label2.setAttribute("for", "model_dropdown_" + autindex);
+
+    var modelDropdownTemplate = document.getElementById("modelDropdownTemplate");
+    const cloneDropdown = modelDropdownTemplate.content.cloneNode(true);
+
+    var templateDropdownContainer = cloneDropdown.getElementById("model_dropdown_container_template_id");
+    templateDropdownContainer.id = "metadataModelDropdownContainer" + autindex;
+
+    var templateDropdown = cloneDropdown.getElementById("model_dropdown_template_id");
+    templateDropdown.id = "model_dropdown_" + autindex;
+
+    var templateDropdownUL = cloneDropdown.getElementById("model_dropdown_default_UL_template_id");
+    templateDropdownUL.id = "metadata_model_dropdown_UL_" + autindex;
+
+    var templateDropdownULItemAnchorLinks = templateDropdownUL.querySelectorAll("li > a");
+
+    var templateDropdownButton = cloneDropdown.getElementById("model_dropdown_button_template_id");
+    templateDropdownButton.id = "dropdownListModelButton_" + autindex;
+
+    var templateDropdownButtonText = cloneDropdown.getElementById("model_dropdown_button_text_template_id");
+    templateDropdownButtonText.id = "dropdownListModelButtonText_" + autindex;
+
+    templateDropdownULItemAnchorLinks.forEach((anchorTag) => {
+        var anchorSelectedIndex = anchorTag.getAttribute("selected_index");
+        var anchorSelectedValue = anchorTag.getAttribute("selected_value");
+
+        var anchorID = "model" + anchorSelectedValue.charAt(0).toUpperCase() + anchorSelectedValue.slice(1) + "_" + autindex;
+        anchorTag.id = anchorID;
+
+        anchorTag.addEventListener('click', function () {
+            replaceListItem("dropdownListModelButtonText_" + autindex, anchorID);
+        });
+
+        anchorTag.addEventListener('click', function () {
+            showHideModelInput(parseInt(anchorSelectedIndex), anchorSelectedValue, autindex);
+        })
+    })
+
+    var label3 = document.createElement("label");
+    label3.classList.add("subtitle-1", "margin-input-label", "display-none");
+    label3.id = "label_model_other_" + autindex;
+    label3.setAttribute("for", "model_other_" + autindex);
+
+    var input3 = document.createElement("input");
+    input3.classList.add("input-textbox", "margin-input-field", "display-none");
+    input3.setAttribute("type", "text");
+    input3.setAttribute("id", "model_other_" + autindex);
+    input3.setAttribute("name", "model_other_[]"); // Make it an array input
+
+    var removeModelButton = document.createElement("input");
+    removeModelButton.setAttribute("type", "button");
+    removeModelButton.value = "Remove Model";
+    removeModelButton.classList.add("button-med", "d-button-text");
+    removeModelButton.addEventListener("click", function () {
+        removeEntry("model_box", "model_" + autindex)
+    });
+
+    divInput1.appendChild(label1);
+    divInput1.appendChild(input1);
+
+    divInput2.appendChild(label2);
+    dropdownDiv.appendChild(cloneDropdown);
+    divInput2.appendChild(dropdownDiv);
+
+    divInput3.appendChild(label3);
+    divInput3.appendChild(input3);
+
+    divRemoveModelParent.appendChild(removeModelButton);
+    divRemoveModel.appendChild(divRemoveModelParent);
+
+
+    inputRow.appendChild(divInput1);
+    inputRow.appendChild(divInput2);
+    inputRow.appendChild(divInput3);
+    inputRow.appendChild(divRemoveModel);
+
+    modelBoxDiv.appendChild(inputRow);
+}
+
+
+function removeEntry(parentElementID, elementID) {
     var inputArray;
     var currentInputIndex;
     var firstRemoveButton;
@@ -674,28 +790,6 @@ function removeEntry(parentElementID, elementID){
             else{
                 firstRemoveButton.classList.remove("show");
             }
-
-            if(firstNameInput.getAttribute("required") == null){
-                var lastNameInput = document.getElementById("lname_" + currentInputIndex);
-                var emailInput = document.getElementById("email_" + currentInputIndex);
-                var firstNameLabel = document.getElementById("label_fname_" + currentInputIndex);
-                var lastNameLabel = document.getElementById("label_lname_" + currentInputIndex);
-                var emailLabel = document.getElementById("label_email_" + currentInputIndex);
-
-
-                firstNameInput.setAttribute("required", "required");
-                lastNameInput.setAttribute("required", "required");
-                emailInput.setAttribute("required", "required");
-
-                var firstNameLabelArray = firstNameLabel.innerText.split(":");
-                var lastNameLabelArray = lastNameLabel.innerText.split(":");
-                var emailLabelArray = emailLabel.innerText.split(":");
-
-                firstNameLabel.innerHTML = firstNameLabelArray[0] + " (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
-                lastNameLabel.innerHTML = lastNameLabelArray[0] + " (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
-                emailLabel.innerHTML = emailLabelArray[0] + " (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
-            }
-
         }
     }
     else{
@@ -741,11 +835,11 @@ function makeInputRequired(geometryType, inputArray){
 
             inputItem.setAttribute("required", "required");
 
-            var latLabelArray = latLabel.innerText.split(":");
-            latLabel.innerHTML = latLabelArray[0] + " (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
+            latLabel.innerHTML = latLabel.innerText + " (Required)";
+            latLabel.classList.add("required-asterisk");
 
-            var lonLabelArray = lonLabel.innerText.split(":");
-            lonLabel.innerHTML = lonLabelArray[0] + " (Required) <span class='subtitle-1 required-asterisk'>*</span>:";
+            lonLabel.innerHTML = lonLabel.innerText + " (Required)";
+            lonLabel.classList.add("required-asterisk");
         }
     }
 }
@@ -766,6 +860,38 @@ function updateIndex(additionalInputArray) {
 
     return inputFieldIndex
 }
+
+function showHideModelInput(dropdownItemIndex, dropdownItemName, dropdownIndex){
+
+    var modelInputTextField = document.getElementById("model_other_" + dropdownIndex);
+    var modelInputLabel = document.getElementById("label_model_other_" + dropdownIndex);
+    var dropdownListModelButtonText = document.getElementById("dropdownListModelButtonText_" + dropdownIndex);
+
+
+    dropdownListModelButtonText.setAttribute("selected_index", dropdownItemIndex);
+
+    switch (dropdownItemIndex){
+        case 1:
+            if(modelInputTextField.classList.contains("show")){
+                modelInputTextField.classList.remove("show");
+                modelInputLabel.classList.remove("show");
+            }
+
+            break;
+
+        case 2:
+        case 3:
+            modelInputLabel.innerText = "Input a value for " + dropdownItemName;
+            if(!modelInputTextField.classList.contains("show")){
+                modelInputTextField.classList.add("show");
+                modelInputLabel.classList.add("show");
+            }
+
+            break;
+    }
+}
+
+
 
 function calendarDatesEqual(checkboxDateEqualID, checkboxNoTemporalID, startDateID, endDateID){
     var checkboxDateEqualElement = document.getElementById(checkboxDateEqualID);
@@ -867,16 +993,16 @@ function validateUploadGeoJSON(elementID){
 
 
 /*Submit functions*/
-function submitForm(){
+async function submitForm(){
     checkRequired();
 
     // Example of how polygon coordinates should be formatted
     //  [ [ 19.732387792295356,17.362269487080525],[ 15.018600022717294, 11.450658457798042],[29.998879431116166, 6.631460284225298] ]
     var submitObject = {};
     var geojsonTemplate =     { "coordinates": [], "type": ""}
-    var usernameInput = document.getElementById("username");
     var titleInput = document.getElementById("title");
     var descriptionInput = document.getElementById("desc");
+    var contactEmail = document.getElementById("contact_email");
     var authorDivs = document.querySelectorAll("div[id^=author_]");
     var authorArray = [];
     var geometryType;
@@ -884,18 +1010,21 @@ function submitForm(){
     var coordinateArray = [];
     var geometryGeoJSONBBox;
     var dateMetadataFields = document.querySelectorAll("input[id*=_date]");
-    var textAreaMetadataFields = document.querySelectorAll("textarea[id^=metadata_]");
+    var textareaMetadataVariables = document.getElementById("metadata_variables");
     var metadataObject = {};
-    var textareaMetadataArray;
+    var textareaMetadataArray = [];
     var linkedPathField = document.getElementById("linked_path");
-    var linkedInputField = document.getElementById("linked_input");
-    var linkedInputObjectArray = [];
     var linkedAdditionalFiles = document.getElementById("linked_link");
+    var otherMetadataInitialKey = document.getElementById("other_key_1");
+    var otherMetadataInitialValue = document.getElementById("other_value_1");
     var otherMetadataInputFields = document.querySelectorAll("input[id^=other_key_]");
+    var metadataModelDropdownButtonText = document.querySelectorAll("h6[id^=dropdownListModelButtonText]");
+    var metadataModelObjectArray = [];
     var otherMetadataArray = [];
     var geometryDropdownButtonTitle = document.getElementById("dropdownListDefaultButtonText");
     var geometrySelection = parseInt(geometryDropdownButtonTitle.getAttribute("selected_index"));
     var geometryDropdownContent;
+
     /*Adds Geometry coordinate input to geometryTemplate object*/
     /*If no coordinates are entered get the input from the geojson textarea*/
     /*If a geometry with no coordinate inputs is selected (eg. upload geojson) only get input from the geojson textarea*/
@@ -981,106 +1110,211 @@ function submitForm(){
     }
 
 
-    /*Add Metadata Variables and Models input to metadataObject*/
-    for (textareaMetadata of textAreaMetadataFields){
-        if(textareaMetadata.id.includes("variables") || textareaMetadata.id.includes("models"))
-        {
-            var metadataInputArray = [];
-            var metadataIDArray = textareaMetadata.id.split("_");
-            var metadataType = metadataIDArray[1]
-            if(textareaMetadata.value.indexOf("\n") > -1){
-                textareaMetadataArray = textareaMetadata.value.split("\n");
-                for(textareaMetadataEntry of textareaMetadataArray){
-                    textareaMetadataEntry = textareaMetadataEntry.trim();
+
+
+    /*Add Metadata Variables to metadataObject*/
+
+    if(textareaMetadataVariables.value != ""){
+        if(textareaMetadataVariables.value.indexOf("\n") > -1){
+            for(metadataVariable of textareaMetadataVariables.value.split("\n"))
+            {
+                if(metadataVariable != ""){
+                    textareaMetadataArray.push(metadataVariable);
                 }
-                metadataObject[metadataType] = textareaMetadataArray;
+            }
+        }
+        else{
+            textareaMetadataArray.push(textareaMetadataVariables.value)
+        }
+        metadataObject[textareaMetadataVariables.id] = textareaMetadataArray;
+    }
+
+    /*Add Metadata Models input to metadataObject*/
+
+    for(dropdownButton of metadataModelDropdownButtonText){
+        var selectedModelIndex;
+        var selectedModelValue = dropdownButton.innerText.toLowerCase();
+        var metadataModelObject = {"rel": "", "href":"",  "title":""};
+        var dropdownButtonIDArray = dropdownButton.id.split("_");
+        var modelIndex = dropdownButtonIDArray[1];
+        var metadataModelHREF = document.getElementById("model_href_" + modelIndex);
+        var metadataModelOtherInput = document.getElementById("model_other_" + modelIndex);
+
+        metadataModelObject["rel"] = selectedModelValue;
+
+
+        if(dropdownButton.getAttribute("selected_index") != null){
+            selectedModelIndex = parseInt(dropdownButton.getAttribute("selected_index"));
+
+            if(metadataModelHREF.value == ""){
+
+                metadataModelHREF.setCustomValidity("Cannot be empty if dropdown item is selected");
+
+                if(!metadataModelHREF.classList.contains("input-invalid")){
+                    metadataModelHREF.classList.toggle("input-invalid");
+                }
+
             }
             else{
-                metadataInputArray.push(textareaMetadata.value);
-                metadataObject[metadataType] = metadataInputArray;
+
+                metadataModelHREF.setCustomValidity("");
+
+                if(metadataModelHREF.classList.contains("input-invalid")){
+                    metadataModelHREF.classList.toggle("input-invalid");
+                }
+
+                metadataModelObject["href"] = metadataModelHREF.value;
             }
+
+            switch(selectedModelIndex){
+                case 2:
+                    if(!metadataModelOtherInput.value == "") {
+
+                        metadataModelOtherInput.setCustomValidity("");
+
+                        if(metadataModelOtherInput.classList.contains("input-invalid")){
+                            metadataModelOtherInput.classList.toggle("input-invalid");
+                        }
+
+                        metadataModelObject["title"] = metadataModelOtherInput.value;
+                    }
+                    else{
+
+                        metadataModelOtherInput.setCustomValidity("Cannot be empty if Model or Other is chosen");
+
+                        if(!metadataModelOtherInput.classList.contains("input-invalid")){
+                            metadataModelOtherInput.classList.toggle("input-invalid");
+                        }
+                    }
+
+                    break;
+
+                case 3:
+                    if(!metadataModelOtherInput.value == "") {
+
+                        metadataModelOtherInput.setCustomValidity("");
+
+                        if(metadataModelOtherInput.classList.contains("input-invalid")){
+                            metadataModelOtherInput.classList.toggle("input-invalid");
+                        }
+
+                        metadataModelObject["rel"] = metadataModelOtherInput.value;
+                    }
+                    else{
+
+                        metadataModelOtherInput.setCustomValidity("Cannot be empty if Model or Other is chosen");
+
+                        if(!metadataModelOtherInput.classList.contains("input-invalid")){
+                            metadataModelOtherInput.classList.toggle("input-invalid");
+                        }
+                    }
+
+                    break;
+            }
+            metadataModelObjectArray.push(metadataModelObject)
         }
+
+
     }
+
+    /*Add the Metadata Model object to the Metadata object under the metadata_model entry*/
+    metadataObject["metadata_model"] = metadataModelObjectArray;
+
+
 
     /*If key-value input in Other section, add it to metadataOtherObject, and then add the object to the otherMetadataArray*/
-    for (otherInput of otherMetadataInputFields) {
-        var otherInputIDArray = otherInput.id.split("_");
-        geometryType = otherInputIDArray[0];
-        var currentOtherIndex = otherInputIDArray[2];
-        var otherValueID = geometryType + "_value_" + currentOtherIndex;
-        var otherValueInput = document.getElementById(otherValueID);
-        var errorKeyInput = document.getElementById("error_key_" + currentOtherIndex);
-        var errorValueInput = document.getElementById("error_value_" + currentOtherIndex);
+    if(otherMetadataInputFields.length > 0 && otherMetadataInitialKey.value != "" || otherMetadataInputFields.length > 0 && otherMetadataInitialValue.value != ""){
+        for (otherInput of otherMetadataInputFields) {
+            var otherInputIDArray = otherInput.id.split("_");
+            geometryType = otherInputIDArray[0];
+            var currentOtherIndex = otherInputIDArray[2];
+            var otherValueID = geometryType + "_value_" + currentOtherIndex;
+            var otherValueInput = document.getElementById(otherValueID);
 
-        if (otherInput.value != "" && otherValueInput.value != "") {
-            var metadataOtherObject = {"key":"", "value":""};
+            if (otherInput.value != "" && otherValueInput.value != "") {
+                var metadataOtherObject = {"key":"", "value":""};
 
-            metadataOtherObject["key"] = otherInput.value;
-            metadataOtherObject["value"] = otherValueInput.value;
+                otherInput.setCustomValidity("");
+                otherValueInput.setCustomValidity("");
 
-            otherMetadataArray.push(metadataOtherObject);
+                metadataOtherObject["key"] = otherInput.value;
+                metadataOtherObject["value"] = otherValueInput.value;
 
-            if(errorKeyInput.classList.contains("show")){
-                errorKeyInput.classList.remove("show");
+                otherMetadataArray.push(metadataOtherObject);
+
+                if(otherInput.classList.contains("input-invalid")){
+                    otherInput.classList.toggle("input-invalid");
+                }
+
+                if(otherValueInput.classList.contains("input-invalid")){
+                    otherValueInput.classList.toggle("input-invalid");
+                }
+            }
+            else{
+                otherInput.setCustomValidity("Key cannot be empty if there is a value");
+                otherValueInput.setCustomValidity("Value cannot be empty if there is a key");
+
+                if(!otherInput.classList.contains("input-invalid")){
+                    otherInput.classList.toggle("input-invalid");
+                }
+
+                if(!otherValueInput.classList.contains("input-invalid")){
+                    otherValueInput.classList.toggle("input-invalid");
+                }
+
             }
 
-            if(errorValueInput.classList.contains("show")){
-                errorValueInput.classList.remove("show");
+            if (otherInput.value != "" && otherValueInput.value == "") {
+
+                otherValueInput.setCustomValidity("Value cannot be empty if there is a key");
+
+                otherValueInput.classList.add("input-invalid");
+
+                if(otherInput.classList.contains("input-invalid")){
+                    otherInput.classList.toggle("input-invalid");
+                }
             }
-        }
 
-        if (otherInput.value != "" && otherValueInput.value == "") {
-            errorValueInput.classList.add("show");
+            if(otherInput.value == "" && otherValueInput.value != ""){
 
-            if(errorKeyInput.classList.contains("show")){
-                errorKeyInput.classList.remove("show");
-            }
-        }
+                otherInput.setCustomValidity("Key cannot be empty if there is a value");
 
-        if(otherInput.value == "" && otherValueInput.value != ""){
-            errorKeyInput.classList.add("show");
+                otherInput.classList.add("input-invalid");
 
-            if(errorValueInput.classList.contains("show")){
-                errorValueInput.classList.remove("show");
+                if(otherValueInput.classList.contains("input-invalid")){
+                    otherValueInput.classList.toggle("input-invalid");
+                }
             }
         }
     }
+    else{
+        if(otherMetadataInitialKey.classList.contains("input-invalid")){
+            otherMetadataInitialKey.classList.toggle("input-invalid");
+        }
+
+        if(otherMetadataInitialValue.classList.contains("input-invalid")){
+            otherMetadataInitialValue.classList.toggle("input-invalid");
+        }
+    }
+
+
 
     /*Create metadata_other entry and add Metadata Other input to metadataObject if user has input key-value*/
     if(otherMetadataArray.length > 0){
         metadataObject["extra_properties"] = otherMetadataArray;
     }
 
-    /*Add Linked Files input to linkedInputObject*/
-    if(linkedInputField.value != ""){
-        var linkedInputObject = {};
-
-        if(linkedInputField.value.includes("\n")){
-            var linkedInputArray = linkedInputField.value.split("\n");
-
-            for(linkedInputEntry of linkedInputArray){
-                var entryObject = {};
-                linkedInputEntry = linkedInputEntry.trim();
-                entryObject["href"] = linkedInputEntry;
-                linkedInputObjectArray.push(entryObject);
-            }
-        }
-        else{
-            linkedInputObject["href"] = linkedInputField.value.trim();
-            linkedInputObjectArray.push(linkedInputObject);
-        }
-    }
-
 
     /*Add Linked Additional Files input to submitObject*/
     if(linkedAdditionalFiles.value != ""){
         var linkedAdditionalFileInputArray = [];
-        if(linkedAdditionalFiles.value.includes("\n")){
-            var additionalFileArray = linkedAdditionalFiles.value.split("\n");
-            for(additionalFileEntry of additionalFileArray){
-                additionalFileEntry = additionalFileEntry.trim();
+        if(linkedAdditionalFiles.value.indexOf("\n") > -1){
+            for(additionalFileEntry of linkedAdditionalFiles.value.split("\n")){
+                if(additionalFileEntry != ""){
+                    linkedAdditionalFileInputArray.push(additionalFileEntry.trim());
+                }
             }
-            submitObject["additional_paths"] = additionalFileArray;
+            submitObject["additional_paths"] = linkedAdditionalFileInputArray;
         }
         else{
             linkedAdditionalFileInputArray.push(linkedAdditionalFiles.value.trim());
@@ -1114,11 +1348,11 @@ function submitForm(){
         }
     }
 
-    submitObject["username"] = usernameInput.value;
+    submitObject["username"] = (await  window.session_info).user.user_name;
     submitObject["title"] = titleInput.value;
     submitObject["description"] = descriptionInput.value;
+    submitObject["contact_email"] = contactEmail.value;
     submitObject["authors"] = authorArray;
     submitObject["metadata"] = metadataObject;
     submitObject["path"] = linkedPathField.value;
-    submitObject["inputs"] = linkedInputObjectArray;
 }

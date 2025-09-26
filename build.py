@@ -74,6 +74,7 @@ def build(build_directory, config_file, clean=False):
 
     configs = config_data(config_file)
 
+
     for template in env.list_templates(filter_func=filter_site_templates):
         build_destination = os.path.join(
             build_directory, os.path.relpath(os.path.join(TEMPLATE_PATH, template), SITE_PATH)

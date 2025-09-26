@@ -1997,26 +1997,44 @@ dialog {
 }
 
 .author-child, .author-additional-child, .point-child, .multipoint-child, .multipoint-additional-child,
-.other-additional-child {
+.other-additional-child, .input-additional-child, .model-child, .model-additional-child  {
     display: flex;
     flex-direction: row;
 }
 
-.point-child div:not(:last-child), .other-child div:not(:last-child), .other-additional-child div:not(:last-child){
+.model-child div:not(:last-child), .model-additional-child > div:not(:nth-last-child(2)){
+    margin-right: 30px;
+}
+
+
+.point-child div:not(:last-child), .other-child div:not(:last-child), .other-additional-child div:not(:last-child)
+{
     margin-right: 60px;
 }
 
 .author-child div:not(:nth-last-child(2)), .author-additional-child div:not(:nth-last-child(2))
-, .multipoint-child div:not(:nth-last-child(2)), .multipoint-additional-child div:not(:nth-last-child(2))
+, .multipoint-child div:not(:nth-last-child(2)), .multipoint-additional-child div:not(:nth-last-child(2)),
+.input-additional-child div:not(:nth-last-child(2))
 {
     margin-right: 60px;
 }
 
 .remove-button{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
     margin-left: 10px;
 }
 
-.author-details, .latitude-child, .longitude-child, .other-details{
+.model-remove-button{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    margin-left: 10px;
+    margin-bottom: 12px;
+}
+
+.author-details, .latitude-child, .longitude-child, .other-details, .model-details{
     display: flex;
     flex-direction: column;
 }
@@ -2028,12 +2046,6 @@ dialog {
 
 .margin-author-button{
     margin-top: 10px;
-}
-
-.remove-button{
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
 }
 
 .author-button input:not(:last-child){
@@ -2055,6 +2067,10 @@ dialog {
 
 .margin-button-add{
     margin-top : 10px;
+}
+
+.margin-contact-email{
+    margin-bottom:30px;
 }
 
 .textarea-geojson{
@@ -2095,10 +2111,6 @@ dialog {
     cursor: pointer;
 }
 
-.error-other-message-container, .error-other-message{
-    width: 300px;
-}
-
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button{
     /* display: none; <- Crashes Chrome on hover */
@@ -2108,6 +2120,11 @@ input::-webkit-inner-spin-button{
 
 input[type=number]{
     -moz-appearance:textfield; /* Firefox */
+}
+
+.model-url-container, .model-other-container, .model-dropdown-container{
+    display: flex;
+    flex-direction: column;
 }
 
 input.required:invalid{
@@ -2125,7 +2142,7 @@ input:required{
     border-radius: var(--textbox-border-radius);
 }
 
-textarea.required:invalid{
+textarea.required:invalid, .input-invalid:invalid{
     background-color: ivory;
     border: none;
     border-style: solid;
@@ -2140,6 +2157,7 @@ textarea:required{
     border-radius: var(--textbox-border-radius);
 }
 
-.required-asterisk{
+.required-asterisk:after{
+    content:" *";
     color: var(--error);
 }
