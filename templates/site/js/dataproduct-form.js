@@ -656,7 +656,7 @@ function addModel(divElementID) {
     inputRow.classList.add("model-additional-child");
     divInput1.classList.add("model-details");
     divInput2.classList.add("model-details");
-    divInput3.classList.add("model-details");
+    divInput3.classList.add("model-details", "model-input-container");
 
     var divRemoveModel = document.createElement("div");
     divRemoveModel.id = "metadata_model_container_" + autindex;
@@ -881,7 +881,7 @@ function showHideModelInput(dropdownItemIndex, dropdownItemName, dropdownIndex){
 
         case 2:
         case 3:
-            modelInputLabel.innerText = "Input a value for " + dropdownItemName;
+            modelInputLabel.innerText = "Input a value for " + dropdownItemName.charAt(0).toUpperCase() + dropdownItemName.slice(1);
             if(!modelInputTextField.classList.contains("show")){
                 modelInputTextField.classList.add("show");
                 modelInputLabel.classList.add("show");
