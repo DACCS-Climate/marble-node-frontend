@@ -656,7 +656,7 @@ function addModel(divElementID) {
     inputRow.classList.add("model-additional-child");
     divInput1.classList.add("model-details");
     divInput2.classList.add("model-details");
-    divInput3.classList.add("model-details");
+    divInput3.classList.add("model-details", "model-input-container");
 
     var divRemoveModel = document.createElement("div");
     divRemoveModel.id = "metadata_model_container_" + autindex;
@@ -881,7 +881,7 @@ function showHideModelInput(dropdownItemIndex, dropdownItemName, dropdownIndex){
 
         case 2:
         case 3:
-            modelInputLabel.innerText = "Input a value for " + dropdownItemName;
+            modelInputLabel.innerText = "Input a value for " + dropdownItemName.charAt(0).toUpperCase() + dropdownItemName.slice(1);
             if(!modelInputTextField.classList.contains("show")){
                 modelInputTextField.classList.add("show");
                 modelInputLabel.classList.add("show");
@@ -1085,6 +1085,11 @@ async function submitForm(){
             geometryGeoJSONBBox = validateUploadGeoJSON("geo_" + geometryType + "_file");
 
             break;
+
+        case 6:
+            geometryGeoJSONBBox = null;
+
+            break;
     }
 
 
@@ -1126,7 +1131,10 @@ async function submitForm(){
         else{
             textareaMetadataArray.push(textareaMetadataVariables.value)
         }
-        metadataObject[textareaMetadataVariables.id] = textareaMetadataArray;
+        metadataObject["variables"] = textareaMetadataArray;
+    }
+    else{
+        metadataObject["variables"] = [];
     }
 
     /*Add Metadata Models input to metadataObject*/
@@ -1213,12 +1221,10 @@ async function submitForm(){
             }
             metadataModelObjectArray.push(metadataModelObject)
         }
-
-
     }
 
     /*Add the Metadata Model object to the Metadata object under the metadata_model entry*/
-    metadataObject["metadata_model"] = metadataModelObjectArray;
+    metadataObject["links"] = metadataModelObjectArray;
 
 
 
@@ -1303,6 +1309,9 @@ async function submitForm(){
     if(otherMetadataArray.length > 0){
         metadataObject["extra_properties"] = otherMetadataArray;
     }
+    else{
+        metadataObject["extra_properties"] = {};
+    }
 
 
     /*Add Linked Additional Files input to submitObject*/
@@ -1320,6 +1329,9 @@ async function submitForm(){
             linkedAdditionalFileInputArray.push(linkedAdditionalFiles.value.trim());
             submitObject["additional_paths"] = linkedAdditionalFileInputArray;
         }
+    }
+    else{
+        submitObject["additional_paths"] = [];
     }
 
 
@@ -1351,7 +1363,7 @@ async function submitForm(){
     submitObject["username"] = (await  window.session_info).user.user_name;
     submitObject["title"] = titleInput.value;
     submitObject["description"] = descriptionInput.value;
-    submitObject["contact_email"] = contactEmail.value;
+    submitObject["contact"] = contactEmail.value;
     submitObject["authors"] = authorArray;
     submitObject["metadata"] = metadataObject;
     submitObject["path"] = linkedPathField.value;

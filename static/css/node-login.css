@@ -2127,6 +2127,10 @@ input[type=number]{
     flex-direction: column;
 }
 
+.model-input-container{
+    width: 300px;
+}
+
 input.required:invalid{
     background-color: ivory;
     border: none;
