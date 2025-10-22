@@ -1385,7 +1385,7 @@ async function submitForm(){
 
         if (!response.ok) {
             submitErrorElement.innerText = response.statusText;
-            throw new Error(`Response status: ${response.status}`);
+            throw new Error(`Response status: ${result.status_code}`);
         }else{
             submitErrorElement.innerText = result.detail;
         }
