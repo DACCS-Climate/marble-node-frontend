@@ -1367,4 +1367,32 @@ async function submitForm(){
     submitObject["authors"] = authorArray;
     submitObject["metadata"] = metadataObject;
     submitObject["path"] = linkedPathField.value;
+
+    var marbleAPIURL = "{{ configs['node_details']['marble_api_path'] }}";
+    var submitErrorElement = document.getElementById("submitError");
+
+    try {
+        const response = await fetch(marbleAPIURL, {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(submitObject)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            submitErrorElement.innerText = response.statusText;
+            throw new Error(`Response status: ${response.status}`);
+        }else{
+            submitErrorElement.innerText = result.detail;
+        }
+
+    } catch (error) {
+        console.error(error.message);
+    }
+
+
 }
