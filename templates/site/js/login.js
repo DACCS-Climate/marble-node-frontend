@@ -21,7 +21,7 @@ function login(){
         return
     }
 
-    fetch("{{ configs['magpie_path'] }}/signin", {
+    fetch("{{ configs['node_details']['magpie_path'] }}/signin", {
         method: "POST",
         headers: {
             Accept: "application/json, text/plain",

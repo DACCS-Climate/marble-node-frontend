@@ -54,6 +54,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const elem = document.getElementById("services");
         elem.replaceChildren(createServiceRow(json.services));
         let services_title = document.getElementById("servicesTitle");
-        services_title.innerText = "Services by {{ configs['node_name'] }}";
+        services_title.innerText = "Services by {{ configs['node_details']['node_name'] }}";
     })
 })
