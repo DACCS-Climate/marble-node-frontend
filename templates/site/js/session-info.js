@@ -1,4 +1,4 @@
-window.session_info = fetch("{{ configs['node_details']['magpie_path'] }}/session", {
+window.session_info = fetch("{{ configs['magpie_path'] }}/session", {
     method: "GET",
     headers: {
         "Accept": "application/json",

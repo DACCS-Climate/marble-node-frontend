@@ -7,7 +7,7 @@ function displayAccountMenuDetails(){
 }
 
 function signout(){
-    var signoutURLFragment = "{{ configs['node_details']['magpie_path'] }}/signout";
+    var signoutURLFragment = "{{ configs['magpie_path'] }}/signout";
     fetch(signoutURLFragment).then(response => response.json()).then(json => {
         if(json.code && json.code == 200){
             window.location.href = loginHome;
