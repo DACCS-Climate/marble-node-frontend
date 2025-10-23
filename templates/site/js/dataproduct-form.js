@@ -1382,13 +1382,13 @@ async function submitForm(){
         if (response.ok) {
             submitErrorElement.innerText = "Form submitted successfully";
         }else{
-            if("details" in result){
+            if("detail" in result){
                 submitErrorElement.innerText = result.detail;
             }
             else{
                 submitErrorElement.innerText = response.statusText;
             }
-            throw new Error(`Response status: ${result.status_code}`);
+            throw new Error(`Response status: ${response.status}`);
         }
 
     } catch (error) {
