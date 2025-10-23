@@ -1368,7 +1368,7 @@ async function submitForm(){
     submitObject["metadata"] = metadataObject;
     submitObject["path"] = linkedPathField.value;
 
-    var marbleAPIURL = "{{ configs['node_details']['marble_api_path'] }}";
+    var marbleAPIURL = "{{ configs['marble_api_path'] }}/v1/data-requests";
     var submitErrorElement = document.getElementById("submitError");
 
     try {
@@ -1383,11 +1383,16 @@ async function submitForm(){
 
         const result = await response.json();
 
-        if (!response.ok) {
-            submitErrorElement.innerText = response.statusText;
-            throw new Error(`Response status: ${result.status_code}`);
+        if (response.ok) {
+            submitErrorElement.innerText = "Form submitted successfully";
         }else{
-            submitErrorElement.innerText = result.detail;
+            if("details" in result){
+                submitErrorElement.innerText = result.detail;
+            }
+            else{
+                submitErrorElement.innerText = response.statusText;
+            }
+            throw new Error(`Response status: ${result.status_code}`);
         }
 
     } catch (error) {
