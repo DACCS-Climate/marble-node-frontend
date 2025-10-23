@@ -1011,7 +1011,6 @@ async function submitForm(){
     var geometryGeoJSONBBox;
     var dateMetadataFields = document.querySelectorAll("input[id*=_date]");
     var textareaMetadataVariables = document.getElementById("metadata_variables");
-    var metadataObject = {};
     var textareaMetadataArray = [];
     var linkedPathField = document.getElementById("linked_path");
     var linkedAdditionalFiles = document.getElementById("linked_link");
@@ -1117,7 +1116,7 @@ async function submitForm(){
 
 
 
-    /*Add Metadata Variables to metadataObject*/
+    /*Add Metadata Variables to submitObject*/
 
     if(textareaMetadataVariables.value != ""){
         if(textareaMetadataVariables.value.indexOf("\n") > -1){
@@ -1131,14 +1130,13 @@ async function submitForm(){
         else{
             textareaMetadataArray.push(textareaMetadataVariables.value)
         }
-        metadataObject["variables"] = textareaMetadataArray;
+        submitObject["variables"] = textareaMetadataArray;
     }
     else{
-        metadataObject["variables"] = [];
+        submitObject["variables"] = [];
     }
 
-    /*Add Metadata Models input to metadataObject*/
-
+    /*Add Metadata Models input to submitObject*/
     for(dropdownButton of metadataModelDropdownButtonText){
         var selectedModelIndex;
         var selectedModelValue = dropdownButton.innerText.toLowerCase();
@@ -1223,8 +1221,6 @@ async function submitForm(){
         }
     }
 
-    /*Add the Metadata Model object to the Metadata object under the metadata_model entry*/
-    metadataObject["links"] = metadataModelObjectArray;
 
 
 
@@ -1305,12 +1301,12 @@ async function submitForm(){
 
 
 
-    /*Create metadata_other entry and add Metadata Other input to metadataObject if user has input key-value*/
+    /*Create metadata_other entry and add Metadata Other input to submitObject if user has input key-value*/
     if(otherMetadataArray.length > 0){
-        metadataObject["extra_properties"] = otherMetadataArray;
+        submitObject["extra_properties"] = otherMetadataArray;
     }
     else{
-        metadataObject["extra_properties"] = {};
+        submitObject["extra_properties"] = {};
     }
 
 
@@ -1351,22 +1347,22 @@ async function submitForm(){
 
     /*Add Metadata date input to submitObject*/
     if(dateMetadataFields[0].value == "" && dateMetadataFields[1].value == ""){
-        metadataObject["temporal"] = null
+        submitObject["temporal"] = null
     }
     else{
-        metadataObject["temporal"] = []
+        submitObject["temporal"] = []
         for(dateMetadata of dateMetadataFields){
-            metadataObject["temporal"].push(dateMetadata.value);
+            submitObject["temporal"].push(dateMetadata.value);
         }
     }
 
-    submitObject["username"] = (await  window.session_info).user.user_name;
+    submitObject["user"] = (await  window.session_info).user.user_name;
     submitObject["title"] = titleInput.value;
     submitObject["description"] = descriptionInput.value;
-    submitObject["contact"] = contactEmail.value;
     submitObject["authors"] = authorArray;
-    submitObject["metadata"] = metadataObject;
+    submitObject["links"] = metadataModelObjectArray;
     submitObject["path"] = linkedPathField.value;
+    submitObject["contact"] = contactEmail.value;
 
     var marbleAPIURL = "{{ configs['marble_api_path'] }}/v1/data-requests";
     var submitErrorElement = document.getElementById("submitError");
