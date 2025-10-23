@@ -1002,6 +1002,7 @@ async function submitForm(){
     var geojsonTemplate =     { "coordinates": [], "type": ""}
     var titleInput = document.getElementById("title");
     var descriptionInput = document.getElementById("desc");
+    var descriptionInputValue;
     var contactEmail = document.getElementById("contact_email");
     var authorDivs = document.querySelectorAll("div[id^=author_]");
     var authorArray = [];
@@ -1023,6 +1024,13 @@ async function submitForm(){
     var geometryDropdownButtonTitle = document.getElementById("dropdownListDefaultButtonText");
     var geometrySelection = parseInt(geometryDropdownButtonTitle.getAttribute("selected_index"));
     var geometryDropdownContent;
+
+    if(descriptionInput.value == ""){
+        descriptionInputValue = null;
+    }
+    else{
+        descriptionInputValue = descriptionInput.value;
+    }
 
     /*Adds Geometry coordinate input to geometryTemplate object*/
     /*If no coordinates are entered get the input from the geojson textarea*/
@@ -1102,12 +1110,26 @@ async function submitForm(){
 
         if(isNaN(Number(authorIDArray[1])) == false ){
             var authorFirstName = document.getElementById("fname_" + authorIDArray[1]);
+            var authorFirstNameValue;
             var authorLastName = document.getElementById("lname_" + authorIDArray[1]);
             var authorEmail = document.getElementById("email_" + authorIDArray[1]);
+            var authorEmailValue;
 
-            authorObject["first_name"] = authorFirstName.value;
+            if(authorFirstName.value == ""){
+                authorFirstNameValue = null;
+            }else{
+                authorFirstNameValue = authorFirstName.value;
+            }
+
+            if(authorEmail.value == ""){
+                authorEmailValue = null;
+            }else{
+                authorEmailValue = authorEmail.value;
+            }
+
+            authorObject["first_name"] = authorFirstNameValue;
             authorObject["last_name"] = authorLastName.value;
-            authorObject["email"] = authorEmail.value;
+            authorObject["email"] = authorEmailValue;
 
             authorArray.push(authorObject);
         }
@@ -1337,9 +1359,15 @@ async function submitForm(){
     /*If input was coordinates, add the coordinate array and the geometry type */
     /*If input was a pasted geojson, add the geojson parsed as a json*/
     if(coordinateArray.length > 0){
-        geojsonTemplate.coordinates.push(coordinateArray);
-        geojsonTemplate.type = visibleGeometry;
-        submitObject["geometry"] = geojsonTemplate;
+        if(geometrySelection == 1){
+            geojsonTemplate.coordinates = coordinateArray;
+            geojsonTemplate.type = visibleGeometry;
+            submitObject["geometry"] = geojsonTemplate;
+        }else{
+            geojsonTemplate.coordinates.push(coordinateArray);
+            geojsonTemplate.type = visibleGeometry;
+            submitObject["geometry"] = geojsonTemplate;
+        }
     }
     else{
         submitObject["geometry"] = geometryGeoJSONBBox;
@@ -1352,13 +1380,15 @@ async function submitForm(){
     else{
         submitObject["temporal"] = []
         for(dateMetadata of dateMetadataFields){
-            submitObject["temporal"].push(dateMetadata.value);
+            var dateUTC = new Date (dateMetadata.value + " UTC");
+            var dateISOString = dateUTC.toISOString();
+            submitObject["temporal"].push(dateISOString);
         }
     }
 
     submitObject["user"] = (await  window.session_info).user.user_name;
     submitObject["title"] = titleInput.value;
-    submitObject["description"] = descriptionInput.value;
+    submitObject["description"] = descriptionInputValue;
     submitObject["authors"] = authorArray;
     submitObject["links"] = metadataModelObjectArray;
     submitObject["path"] = linkedPathField.value;
