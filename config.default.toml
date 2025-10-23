@@ -2,6 +2,7 @@ node_name = "__required"
 node_admin_email = "__required"
 magpie_path = "/magpie"
 login_home = "login.html"
+marble_api_path = "/marble-api"
 
 [terms_and_conditions]
 

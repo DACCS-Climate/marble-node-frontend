@@ -14,6 +14,11 @@ document.addEventListener("DOMContentLoaded", function () {
         allowInput: true
     });
 
+    /*Stop the submission of form data and have the submitForm function do it instead*/
+    document.getElementById("pointForm").addEventListener("submit", function(event){
+        event.preventDefault();
+    });
+
     var submitButton = document.getElementById("submit");
     submitButton.addEventListener("click", submitForm);
 
