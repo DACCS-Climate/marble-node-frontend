@@ -318,8 +318,8 @@ function addPoint(geometryType, divElementID) {
 
 
     var label1 = document.createElement("label");
-    label1.classList.add("subtitle-1", "margin-input-label");
-    label1.innerText = "Latitude:";
+    label1.classList.add("subtitle-1", "margin-input-label", "required-asterisk");
+    label1.innerText = "Latitude (Required)";
     label1.id = "label_" + geometryType + "_lat_" + autindex;
     label1.setAttribute("for", geometryType + "_lat_" + autindex);
 
@@ -328,10 +328,11 @@ function addPoint(geometryType, divElementID) {
     input1.setAttribute("type", "text");
     input1.setAttribute("id", geometryType + "_lat_" + autindex);
     input1.setAttribute("name", geometryType + "_lat_[]"); // Make it an array input
+    input1.setAttribute("required", "required");
 
     var label2 = document.createElement("label");
-    label2.classList.add("subtitle-1", "margin-input-label");
-    label2.innerText = "Longitude:";
+    label2.classList.add("subtitle-1", "margin-input-label", "required-asterisk");
+    label2.innerText = "Longitude (Required)";
     label2.id = "label_" + geometryType + "_lon_" + autindex;
     label2.setAttribute("for", geometryType + "_lon_" + autindex);
 
@@ -340,6 +341,7 @@ function addPoint(geometryType, divElementID) {
     input2.setAttribute("type", "text");
     input2.setAttribute("id", geometryType + "_lon_" + autindex);
     input2.setAttribute("name", geometryType + "_lon_[]"); // Changed name to array input for last name
+    input2.setAttribute("required", "required");
 
     var removePointButton = document.createElement("input");
     removePointButton.setAttribute("type", "button");
@@ -893,9 +895,8 @@ function showHideModelInput(dropdownItemIndex, dropdownItemName, dropdownIndex){
 
 
 
-function calendarDatesEqual(checkboxDateEqualID, checkboxNoTemporalID, startDateID, endDateID){
+function calendarDatesEqual(checkboxDateEqualID, startDateID, endDateID){
     var checkboxDateEqualElement = document.getElementById(checkboxDateEqualID);
-    var checkboxNoTemporalElement = document.getElementById(checkboxNoTemporalID);
     var startDateElement = document.getElementById(startDateID);
     var endDateElement = document.getElementById(endDateID);
 
@@ -906,35 +907,9 @@ function calendarDatesEqual(checkboxDateEqualID, checkboxNoTemporalID, startDate
         if(startDateElement.value != ""){
             endDateElement.value = startDateElement.value;
         }
-
-        if(checkboxNoTemporalElement.checked){
-            checkboxNoTemporalElement.checked = false;
-        }
     }
     else{
         endDateElement.value = "";
-        endDateElement.removeAttribute("disabled");
-    }
-}
-
-function calendarDatesNone(checkboxDateEqualID, checkboxNoTemporalID, startDateID, endDateID){
-    var checkboxNoTemporalElement = document.getElementById(checkboxNoTemporalID);
-    var checkboxDateEqualElement = document.getElementById(checkboxDateEqualID);
-    var startDateElement = document.getElementById(startDateID);
-    var endDateElement = document.getElementById(endDateID);
-
-    if(checkboxNoTemporalElement.checked){
-        endDateElement.value = "";
-        startDateElement.value = "";
-        startDateElement.setAttribute("disabled", "disabled");
-        endDateElement.setAttribute("disabled", "disabled");
-
-        if(checkboxDateEqualElement.checked){
-            checkboxDateEqualElement.checked = false;
-        }
-    }
-    else{
-        startDateElement.removeAttribute("disabled");
         endDateElement.removeAttribute("disabled");
     }
 }
@@ -1020,7 +995,7 @@ async function submitForm(){
     var otherMetadataInputFields = document.querySelectorAll("input[id^=other_key_]");
     var metadataModelDropdownButtonText = document.querySelectorAll("h6[id^=dropdownListModelButtonText]");
     var metadataModelObjectArray = [];
-    var otherMetadataArray = [];
+    var otherMetadataObject = {};
     var geometryDropdownButtonTitle = document.getElementById("dropdownListDefaultButtonText");
     var geometrySelection = parseInt(geometryDropdownButtonTitle.getAttribute("selected_index"));
     var geometryDropdownContent;
@@ -1047,8 +1022,8 @@ async function submitForm(){
             var pointLatInput = document.getElementById('point_lat_1');
             var pointLonInput = document.getElementById('point_lon_1');
 
-            coordinateArray.push(pointLatInput.value);
             coordinateArray.push(pointLonInput.value);
+            coordinateArray.push(pointLatInput.value);
 
             break;
 
@@ -1073,11 +1048,25 @@ async function submitForm(){
                     var longitudeID = geometryType + "_lon_" + inputIDArray[2];
                     var longitudeInput = document.getElementById(longitudeID);
 
-                    coordinate[0] = input.value;
-                    coordinate[1] = longitudeInput.value;
+                    coordinate[0] = parseFloat(longitudeInput.value);
+                    coordinate[1] = parseFloat(input.value);
 
                     coordinateArray.push(coordinate);
                 }
+            }
+
+            if(geometrySelection == 4){
+                var firstPolygonCoordinate = []
+                var firstPolygonLat = geometryLatInputFields[0];
+                var firstPolygonLatID = firstPolygonLat.id;
+                var firstPolygonLonID = firstPolygonLatID.replace("lat", "lon");
+                var firstPolygonLon = document.getElementById(firstPolygonLonID);
+
+                firstPolygonCoordinate[0] = parseFloat(firstPolygonLon.value);
+                firstPolygonCoordinate[1] = parseFloat(firstPolygonLat.value);
+
+                coordinateArray.push(firstPolygonCoordinate);
+
             }
 
             break;
@@ -1145,12 +1134,12 @@ async function submitForm(){
             for(metadataVariable of textareaMetadataVariables.value.split("\n"))
             {
                 if(metadataVariable != ""){
-                    textareaMetadataArray.push(metadataVariable);
+                    textareaMetadataArray.push(metadataVariable.trim());
                 }
             }
         }
         else{
-            textareaMetadataArray.push(textareaMetadataVariables.value)
+            textareaMetadataArray.push(textareaMetadataVariables.value.trim())
         }
         submitObject["variables"] = textareaMetadataArray;
     }
@@ -1246,7 +1235,7 @@ async function submitForm(){
 
 
 
-    /*If key-value input in Other section, add it to metadataOtherObject, and then add the object to the otherMetadataArray*/
+    /*If key-value input in Other section, add it to metadataOtherRowObject, and then add the object to the otherMetadataObject*/
     if(otherMetadataInputFields.length > 0 && otherMetadataInitialKey.value != "" || otherMetadataInputFields.length > 0 && otherMetadataInitialValue.value != ""){
         for (otherInput of otherMetadataInputFields) {
             var otherInputIDArray = otherInput.id.split("_");
@@ -1256,15 +1245,11 @@ async function submitForm(){
             var otherValueInput = document.getElementById(otherValueID);
 
             if (otherInput.value != "" && otherValueInput.value != "") {
-                var metadataOtherObject = {"key":"", "value":""};
 
                 otherInput.setCustomValidity("");
                 otherValueInput.setCustomValidity("");
 
-                metadataOtherObject["key"] = otherInput.value;
-                metadataOtherObject["value"] = otherValueInput.value;
-
-                otherMetadataArray.push(metadataOtherObject);
+                otherMetadataObject[otherInput.value] = otherValueInput.value ;
 
                 if(otherInput.classList.contains("input-invalid")){
                     otherInput.classList.toggle("input-invalid");
@@ -1324,8 +1309,8 @@ async function submitForm(){
 
 
     /*Create metadata_other entry and add Metadata Other input to submitObject if user has input key-value*/
-    if(otherMetadataArray.length > 0){
-        submitObject["extra_properties"] = otherMetadataArray;
+    if(Object.keys(otherMetadataObject).length > 0){
+        submitObject["extra_properties"] = otherMetadataObject;
     }
     else{
         submitObject["extra_properties"] = {};
@@ -1374,16 +1359,11 @@ async function submitForm(){
     }
 
     /*Add Metadata date input to submitObject*/
-    if(dateMetadataFields[0].value == "" && dateMetadataFields[1].value == ""){
-        submitObject["temporal"] = null
-    }
-    else{
-        submitObject["temporal"] = []
-        for(dateMetadata of dateMetadataFields){
-            var dateUTC = new Date (dateMetadata.value + " UTC");
-            var dateISOString = dateUTC.toISOString();
-            submitObject["temporal"].push(dateISOString);
-        }
+    submitObject["temporal"] = []
+    for(dateMetadata of dateMetadataFields){
+        var dateUTC = new Date (dateMetadata.value + " UTC");
+        var dateISOString = dateUTC.toISOString();
+        submitObject["temporal"].push(dateISOString);
     }
 
     submitObject["user"] = (await  window.session_info).user.user_name;
