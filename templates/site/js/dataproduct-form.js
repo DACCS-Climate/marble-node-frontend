@@ -1055,6 +1055,7 @@ async function submitForm(){
                 }
             }
 
+            /*If Polygon is selected, add the first coordinate into the coordinate array to complete the polygon*/
             if(geometrySelection == 4){
                 var firstPolygonCoordinate = []
                 var firstPolygonLat = geometryLatInputFields[0];
@@ -1066,7 +1067,6 @@ async function submitForm(){
                 firstPolygonCoordinate[1] = parseFloat(firstPolygonLat.value);
 
                 coordinateArray.push(firstPolygonCoordinate);
-
             }
 
             break;
@@ -1344,7 +1344,7 @@ async function submitForm(){
     /*If input was coordinates, add the coordinate array and the geometry type */
     /*If input was a pasted geojson, add the geojson parsed as a json*/
     if(coordinateArray.length > 0){
-        if(geometrySelection == 1){
+        if(geometrySelection != 4){
             geojsonTemplate.coordinates = coordinateArray;
             geojsonTemplate.type = visibleGeometry;
             submitObject["geometry"] = geojsonTemplate;
