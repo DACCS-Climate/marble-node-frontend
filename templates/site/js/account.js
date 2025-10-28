@@ -10,38 +10,4 @@ function displayAccountDetails(){
     })
 }
 
-async function getUploadedDataProduct(){
-    var marbleAPIURL = "{{ configs['marble_api_path'] }}/v1/data-requests";
-
-    try{
-        var response = await fetch(marbleAPIURL,{
-            method: "GET"
-        })
-
-        var result = await response.json()
-
-        var dataRequestDisplayDiv = document.getElementById("submittedDataRequests");
-        //var dataRequestUser = document.getElementById("submittedDataRequstUser");
-
-        for(data_request of result.data_requests){
-            //dataRequestUser.innerText = data_request.user;
-            var dataRequestLink = document.createElement("a");
-            //dataRequestLink.href = marbleAPIURL
-            dataRequestLink.setAttribute("data_request_id", data_request.id);
-            dataRequestLink.innerText = data_request.title;
-            dataRequestDisplayDiv.appendChild(dataRequestLink)
-
-        }
-
-        console.log(result)
-
-    }catch(error){
-        console.error(error.message)
-    }
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-    displayAccountDetails();
-    getUploadedDataProduct()
-
-});
+document.addEventListener("DOMContentLoaded", displayAccountDetails);
