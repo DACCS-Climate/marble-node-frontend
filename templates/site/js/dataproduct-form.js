@@ -1356,7 +1356,8 @@ async function submitForm(){
         }
     }
 
-    submitObject["user"] = (await  window.session_info).user.user_name;
+    //submitObject["user"] = (await  window.session_info).user.user_name;
+    submitObject["user"] = "testuser2"
     submitObject["title"] = titleInput.value;
     submitObject["description"] = descriptionInput.value;
     submitObject["authors"] = authorArray;
