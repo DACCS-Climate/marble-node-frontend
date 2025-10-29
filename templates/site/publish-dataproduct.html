@@ -65,7 +65,7 @@
             <hr class="margin-title-underline">
             <p> Information on geometry types can be found here: <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.1">RFC 7946, section 3.1</a> </p>
             <p> Longitudes should range from -180 to 180 and latitudes from -90 to 90.</p>
-            <p> For complex geometries or sets of points longer than 4, we strongly recommend <a href="https://geojson.io/">generating a geoJSON using this tool</a> and pasting it into the box</p>
+            <p> For complex geometries we strongly recommend <a href="https://geojson.io/">generating a geoJSON using this tool</a> and pasting it into the box</p>
             <label for="geometry" class="subtitle-1 margin-input-label required-asterisk">Choose the geometry type (Required):</label>
             <div id="select">
 
@@ -109,6 +109,7 @@
             <h4> Metadata </h4>
             <hr class="margin-title-underline">
             <h5 class="margin-title"> Temporal Extent</h5>
+            <p>All timestamps will have the time zone set to UTC. </p>
             <label for="metadata_start_date" class="subtitle-1 required-asterisk">Start Date (Required)</label>
             <div class="calendar-container">
                 <input id="metadata_start_date" type="datetime-local" name="start_date" class="input-textbox margin-input-field" required/>
@@ -133,14 +134,6 @@
                     {% set direction_right = true %}
                     {% set checkbox_text_class = "subtitle-1" %}
                     {% set checkbox_label_text = "End Date Same As Start Date" %}
-                    {% include "partials/checkbox.html" %}
-                {% endwith %}
-
-                {% with %}
-                    {% set checkbox_id = "date_none_needed" %}
-                    {% set direction_right = true %}
-                    {% set checkbox_text_class = "subtitle-1" %}
-                    {% set checkbox_label_text = "No Temporal Data" %}
                     {% include "partials/checkbox.html" %}
                 {% endwith %}
             </div>

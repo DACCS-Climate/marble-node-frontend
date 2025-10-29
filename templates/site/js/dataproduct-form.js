@@ -318,8 +318,8 @@ function addPoint(geometryType, divElementID) {
 
 
     var label1 = document.createElement("label");
-    label1.classList.add("subtitle-1", "margin-input-label");
-    label1.innerText = "Latitude:";
+    label1.classList.add("subtitle-1", "margin-input-label", "required-asterisk");
+    label1.innerText = "Latitude (Required)";
     label1.id = "label_" + geometryType + "_lat_" + autindex;
     label1.setAttribute("for", geometryType + "_lat_" + autindex);
 
@@ -328,10 +328,11 @@ function addPoint(geometryType, divElementID) {
     input1.setAttribute("type", "text");
     input1.setAttribute("id", geometryType + "_lat_" + autindex);
     input1.setAttribute("name", geometryType + "_lat_[]"); // Make it an array input
+    input1.setAttribute("required", "required");
 
     var label2 = document.createElement("label");
-    label2.classList.add("subtitle-1", "margin-input-label");
-    label2.innerText = "Longitude:";
+    label2.classList.add("subtitle-1", "margin-input-label", "required-asterisk");
+    label2.innerText = "Longitude (Required)";
     label2.id = "label_" + geometryType + "_lon_" + autindex;
     label2.setAttribute("for", geometryType + "_lon_" + autindex);
 
@@ -340,6 +341,7 @@ function addPoint(geometryType, divElementID) {
     input2.setAttribute("type", "text");
     input2.setAttribute("id", geometryType + "_lon_" + autindex);
     input2.setAttribute("name", geometryType + "_lon_[]"); // Changed name to array input for last name
+    input2.setAttribute("required", "required");
 
     var removePointButton = document.createElement("input");
     removePointButton.setAttribute("type", "button");
@@ -735,7 +737,7 @@ function addModel(divElementID) {
     removeModelButton.value = "Remove Model";
     removeModelButton.classList.add("button-med", "d-button-text");
     removeModelButton.addEventListener("click", function () {
-        removeEntry("model_box", "model_" + autindex)
+        removeEntry("model_box", "model_" + autindex);
     });
 
     divInput1.appendChild(label1);
@@ -893,9 +895,8 @@ function showHideModelInput(dropdownItemIndex, dropdownItemName, dropdownIndex){
 
 
 
-function calendarDatesEqual(checkboxDateEqualID, checkboxNoTemporalID, startDateID, endDateID){
+function calendarDatesEqual(checkboxDateEqualID, startDateID, endDateID){
     var checkboxDateEqualElement = document.getElementById(checkboxDateEqualID);
-    var checkboxNoTemporalElement = document.getElementById(checkboxNoTemporalID);
     var startDateElement = document.getElementById(startDateID);
     var endDateElement = document.getElementById(endDateID);
 
@@ -906,35 +907,9 @@ function calendarDatesEqual(checkboxDateEqualID, checkboxNoTemporalID, startDate
         if(startDateElement.value != ""){
             endDateElement.value = startDateElement.value;
         }
-
-        if(checkboxNoTemporalElement.checked){
-            checkboxNoTemporalElement.checked = false;
-        }
     }
     else{
         endDateElement.value = "";
-        endDateElement.removeAttribute("disabled");
-    }
-}
-
-function calendarDatesNone(checkboxDateEqualID, checkboxNoTemporalID, startDateID, endDateID){
-    var checkboxNoTemporalElement = document.getElementById(checkboxNoTemporalID);
-    var checkboxDateEqualElement = document.getElementById(checkboxDateEqualID);
-    var startDateElement = document.getElementById(startDateID);
-    var endDateElement = document.getElementById(endDateID);
-
-    if(checkboxNoTemporalElement.checked){
-        endDateElement.value = "";
-        startDateElement.value = "";
-        startDateElement.setAttribute("disabled", "disabled");
-        endDateElement.setAttribute("disabled", "disabled");
-
-        if(checkboxDateEqualElement.checked){
-            checkboxDateEqualElement.checked = false;
-        }
-    }
-    else{
-        startDateElement.removeAttribute("disabled");
         endDateElement.removeAttribute("disabled");
     }
 }
@@ -1002,6 +977,7 @@ async function submitForm(){
     var geojsonTemplate =     { "coordinates": [], "type": ""}
     var titleInput = document.getElementById("title");
     var descriptionInput = document.getElementById("desc");
+    var descriptionInputValue;
     var contactEmail = document.getElementById("contact_email");
     var authorDivs = document.querySelectorAll("div[id^=author_]");
     var authorArray = [];
@@ -1019,10 +995,17 @@ async function submitForm(){
     var otherMetadataInputFields = document.querySelectorAll("input[id^=other_key_]");
     var metadataModelDropdownButtonText = document.querySelectorAll("h6[id^=dropdownListModelButtonText]");
     var metadataModelObjectArray = [];
-    var otherMetadataArray = [];
+    var otherMetadataObject = {};
     var geometryDropdownButtonTitle = document.getElementById("dropdownListDefaultButtonText");
     var geometrySelection = parseInt(geometryDropdownButtonTitle.getAttribute("selected_index"));
     var geometryDropdownContent;
+
+    if(descriptionInput.value.trim() == ""){
+        descriptionInputValue = null;
+    }
+    else{
+        descriptionInputValue = descriptionInput.value;
+    }
 
     /*Adds Geometry coordinate input to geometryTemplate object*/
     /*If no coordinates are entered get the input from the geojson textarea*/
@@ -1039,8 +1022,8 @@ async function submitForm(){
             var pointLatInput = document.getElementById('point_lat_1');
             var pointLonInput = document.getElementById('point_lon_1');
 
-            coordinateArray.push(pointLatInput.value);
             coordinateArray.push(pointLonInput.value);
+            coordinateArray.push(pointLatInput.value);
 
             break;
 
@@ -1065,10 +1048,22 @@ async function submitForm(){
                     var longitudeID = geometryType + "_lon_" + inputIDArray[2];
                     var longitudeInput = document.getElementById(longitudeID);
 
-                    coordinate[0] = input.value;
-                    coordinate[1] = longitudeInput.value;
+                    coordinate[0] = parseFloat(longitudeInput.value);
+                    coordinate[1] = parseFloat(input.value);
 
                     coordinateArray.push(coordinate);
+                }
+            }
+
+            /*If Polygon is selected, add the first coordinate into the coordinate array to complete the polygon*/
+            if(geometrySelection == 4){
+                var firstPolygonLat = coordinateArray[0][1];
+                var firstPolygonLon = coordinateArray[0][0];
+                var lastPolygonLat = coordinateArray[coordinateArray.length -1][1];
+                var lastPolygonLon = coordinateArray[coordinateArray.length -1][0];
+
+                if(firstPolygonLat!= lastPolygonLat && firstPolygonLon != lastPolygonLon){
+                    coordinateArray.push(coordinateArray[0]);
                 }
             }
 
@@ -1102,12 +1097,26 @@ async function submitForm(){
 
         if(isNaN(Number(authorIDArray[1])) == false ){
             var authorFirstName = document.getElementById("fname_" + authorIDArray[1]);
+            var authorFirstNameValue;
             var authorLastName = document.getElementById("lname_" + authorIDArray[1]);
             var authorEmail = document.getElementById("email_" + authorIDArray[1]);
+            var authorEmailValue;
 
-            authorObject["first_name"] = authorFirstName.value;
-            authorObject["last_name"] = authorLastName.value;
-            authorObject["email"] = authorEmail.value;
+            if(authorFirstName.value.trim() == ""){
+                authorFirstNameValue = null;
+            }else{
+                authorFirstNameValue = authorFirstName.value;
+            }
+
+            if(authorEmail.value.trim() == ""){
+                authorEmailValue = null;
+            }else{
+                authorEmailValue = authorEmail.value;
+            }
+
+            authorObject["first_name"] = authorFirstNameValue;
+            authorObject["last_name"] = authorLastName.value.trim();
+            authorObject["email"] = authorEmailValue;
 
             authorArray.push(authorObject);
         }
@@ -1118,17 +1127,17 @@ async function submitForm(){
 
     /*Add Metadata Variables to submitObject*/
 
-    if(textareaMetadataVariables.value != ""){
+    if(textareaMetadataVariables.value.trim() != ""){
         if(textareaMetadataVariables.value.indexOf("\n") > -1){
             for(metadataVariable of textareaMetadataVariables.value.split("\n"))
             {
                 if(metadataVariable != ""){
-                    textareaMetadataArray.push(metadataVariable);
+                    textareaMetadataArray.push(metadataVariable.trim());
                 }
             }
         }
         else{
-            textareaMetadataArray.push(textareaMetadataVariables.value)
+            textareaMetadataArray.push(textareaMetadataVariables.value.trim())
         }
         submitObject["variables"] = textareaMetadataArray;
     }
@@ -1152,7 +1161,7 @@ async function submitForm(){
         if(dropdownButton.getAttribute("selected_index") != null){
             selectedModelIndex = parseInt(dropdownButton.getAttribute("selected_index"));
 
-            if(metadataModelHREF.value == ""){
+            if(metadataModelHREF.value.trim() == ""){
 
                 metadataModelHREF.setCustomValidity("Cannot be empty if dropdown item is selected");
 
@@ -1174,7 +1183,7 @@ async function submitForm(){
 
             switch(selectedModelIndex){
                 case 2:
-                    if(!metadataModelOtherInput.value == "") {
+                    if(!metadataModelOtherInput.value.trim() == "") {
 
                         metadataModelOtherInput.setCustomValidity("");
 
@@ -1196,7 +1205,7 @@ async function submitForm(){
                     break;
 
                 case 3:
-                    if(!metadataModelOtherInput.value == "") {
+                    if(!metadataModelOtherInput.value.trim() == "") {
 
                         metadataModelOtherInput.setCustomValidity("");
 
@@ -1224,8 +1233,8 @@ async function submitForm(){
 
 
 
-    /*If key-value input in Other section, add it to metadataOtherObject, and then add the object to the otherMetadataArray*/
-    if(otherMetadataInputFields.length > 0 && otherMetadataInitialKey.value != "" || otherMetadataInputFields.length > 0 && otherMetadataInitialValue.value != ""){
+    /*If key-value input in Other section, add it to metadataOtherRowObject, and then add the object to the otherMetadataObject*/
+    if(otherMetadataInputFields.length > 0 && otherMetadataInitialKey.value.trim() != "" || otherMetadataInputFields.length > 0 && otherMetadataInitialValue.value.trim() != ""){
         for (otherInput of otherMetadataInputFields) {
             var otherInputIDArray = otherInput.id.split("_");
             geometryType = otherInputIDArray[0];
@@ -1233,16 +1242,12 @@ async function submitForm(){
             var otherValueID = geometryType + "_value_" + currentOtherIndex;
             var otherValueInput = document.getElementById(otherValueID);
 
-            if (otherInput.value != "" && otherValueInput.value != "") {
-                var metadataOtherObject = {"key":"", "value":""};
+            if (otherInput.value.trim() != "" && otherValueInput.value.trim() != "") {
 
                 otherInput.setCustomValidity("");
                 otherValueInput.setCustomValidity("");
 
-                metadataOtherObject["key"] = otherInput.value;
-                metadataOtherObject["value"] = otherValueInput.value;
-
-                otherMetadataArray.push(metadataOtherObject);
+                otherMetadataObject[otherInput.value] = otherValueInput.value.trim() ;
 
                 if(otherInput.classList.contains("input-invalid")){
                     otherInput.classList.toggle("input-invalid");
@@ -1266,7 +1271,7 @@ async function submitForm(){
 
             }
 
-            if (otherInput.value != "" && otherValueInput.value == "") {
+            if (otherInput.value.trim() != "" && otherValueInput.value.trim() == "") {
 
                 otherValueInput.setCustomValidity("Value cannot be empty if there is a key");
 
@@ -1277,7 +1282,7 @@ async function submitForm(){
                 }
             }
 
-            if(otherInput.value == "" && otherValueInput.value != ""){
+            if(otherInput.value.trim() == "" && otherValueInput.value.trim() != ""){
 
                 otherInput.setCustomValidity("Key cannot be empty if there is a value");
 
@@ -1302,8 +1307,8 @@ async function submitForm(){
 
 
     /*Create metadata_other entry and add Metadata Other input to submitObject if user has input key-value*/
-    if(otherMetadataArray.length > 0){
-        submitObject["extra_properties"] = otherMetadataArray;
+    if(Object.keys(otherMetadataObject).length > 0){
+        submitObject["extra_properties"] = otherMetadataObject;
     }
     else{
         submitObject["extra_properties"] = {};
@@ -1311,7 +1316,7 @@ async function submitForm(){
 
 
     /*Add Linked Additional Files input to submitObject*/
-    if(linkedAdditionalFiles.value != ""){
+    if(linkedAdditionalFiles.value.trim() != ""){
         var linkedAdditionalFileInputArray = [];
         if(linkedAdditionalFiles.value.indexOf("\n") > -1){
             for(additionalFileEntry of linkedAdditionalFiles.value.split("\n")){
@@ -1337,33 +1342,36 @@ async function submitForm(){
     /*If input was coordinates, add the coordinate array and the geometry type */
     /*If input was a pasted geojson, add the geojson parsed as a json*/
     if(coordinateArray.length > 0){
-        geojsonTemplate.coordinates.push(coordinateArray);
-        geojsonTemplate.type = visibleGeometry;
-        submitObject["geometry"] = geojsonTemplate;
+        if(geometrySelection == 4){
+            geojsonTemplate.coordinates.push(coordinateArray);
+            geojsonTemplate.type = visibleGeometry;
+            submitObject["geometry"] = geojsonTemplate;
+        }else{
+            geojsonTemplate.coordinates = coordinateArray;
+            geojsonTemplate.type = visibleGeometry;
+            submitObject["geometry"] = geojsonTemplate;
+        }
     }
     else{
         submitObject["geometry"] = geometryGeoJSONBBox;
     }
 
     /*Add Metadata date input to submitObject*/
-    if(dateMetadataFields[0].value == "" && dateMetadataFields[1].value == ""){
-        submitObject["temporal"] = null
-    }
-    else{
-        submitObject["temporal"] = []
-        for(dateMetadata of dateMetadataFields){
-            submitObject["temporal"].push(dateMetadata.value);
-        }
+    submitObject["temporal"] = []
+    for(dateMetadata of dateMetadataFields){
+        var dateUTC = new Date (dateMetadata.value + " UTC");
+        var dateISOString = dateUTC.toISOString();
+        submitObject["temporal"].push(dateISOString);
     }
 
     //submitObject["user"] = (await  window.session_info).user.user_name;
     submitObject["user"] = "testuser2"
-    submitObject["title"] = titleInput.value;
-    submitObject["description"] = descriptionInput.value;
+    submitObject["title"] = titleInput.value.trim();
+    submitObject["description"] = descriptionInputValue;
     submitObject["authors"] = authorArray;
     submitObject["links"] = metadataModelObjectArray;
-    submitObject["path"] = linkedPathField.value;
-    submitObject["contact"] = contactEmail.value;
+    submitObject["path"] = linkedPathField.value.trim();
+    submitObject["contact"] = contactEmail.value.trim();
 
     var marbleAPIURL = "{{ configs['marble_api_path'] }}/v1/data-requests";
     var submitErrorElement = document.getElementById("submitError");
