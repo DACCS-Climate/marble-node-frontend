@@ -48,15 +48,9 @@ document.addEventListener("DOMContentLoaded", function () {
         copyStartDate("metadata_start_date", "metadata_end_date", "date_make_equal");
     });
 
-
     /*For checkbox to make Start Date same as End Date and only End Date read only*/
     document.getElementById("date_make_equal").addEventListener("change", () => {
-        calendarDatesEqual("date_make_equal", "date_none_needed", "metadata_start_date", "metadata_end_date");
-    });
-
-    /*For checkbox to make Start Date and End Date empty and read only*/
-    document.getElementById("date_none_needed").addEventListener("change", () => {
-        calendarDatesNone("date_make_equal", "date_none_needed", "metadata_start_date", "metadata_end_date");
+        calendarDatesEqual("date_make_equal", "metadata_start_date", "metadata_end_date");
     });
 
     /*For adding the click event listener to the anchor tags in the list items of the first Model dropdown*/
