@@ -1057,24 +1057,13 @@ async function submitForm(){
 
             /*If Polygon is selected, add the first coordinate into the coordinate array to complete the polygon*/
             if(geometrySelection == 4){
-                var firstPolygonCoordinate = []
-                var firstPolygonLat = geometryLatInputFields[0];
-                var firstPolygonLatID = firstPolygonLat.id;
-                var firstPolygonLonID = firstPolygonLatID.replace("lat", "lon");
-                var firstPolygonLon = document.getElementById(firstPolygonLonID);
+                var firstPolygonLat = coordinateArray[0][1];
+                var firstPolygonLon = coordinateArray[0][0];
+                var lastPolygonLat = coordinateArray[coordinateArray.length -1][1];
+                var lastPolygonLon = coordinateArray[coordinateArray.length -1][0];
 
-                var lastPolygonLat = geometryLatInputFields[geometryLatInputFields.length -1];
-                var lastPolygonLatID = lastPolygonLat.id;
-                var lastPolygonLonID = lastPolygonLatID.replace("lat", "lon");
-                var lastPolygonLon = document.getElementById(lastPolygonLonID);
-
-                if(firstPolygonLat.value.trim() != lastPolygonLat.value.trim() &&
-                    firstPolygonLon.value.trim() != lastPolygonLon.value.trim()){
-
-                    firstPolygonCoordinate[0] = parseFloat(firstPolygonLon.value);
-                    firstPolygonCoordinate[1] = parseFloat(firstPolygonLat.value);
-
-                    coordinateArray.push(firstPolygonCoordinate);
+                if(firstPolygonLat!= lastPolygonLat && firstPolygonLon != lastPolygonLon){
+                    coordinateArray.push(coordinateArray[0]);
                 }
             }
 
