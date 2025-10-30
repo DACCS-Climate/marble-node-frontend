@@ -20,14 +20,14 @@ function initializePointInputDiv(geometryType, divID) {
     //Only create the add button for geo_multipoint, geo_linestring, geo_polygon
     switch(divID){
         case "geo_point":
-            var pointInputRow = createInputCoordinatesRow("point",1);
+            var pointInputRow = createInputCoordinatesRow("point",0);
             geoContentDiv.appendChild(pointInputRow);
 
             break;
 
         case "geo_multipoint":
             geoAddButtonDiv = createAddCoordinateRowButton(geometryType, "geo_multipoint");
-            var multipointInputRow = createInputCoordinatesRow("multipoint", 1);
+            var multipointInputRow = createInputCoordinatesRow("multipoint", 0);
             geoContentDiv.appendChild(multipointInputRow);
 
             if(document.getElementById("geo_" + geometryType + "_add_button_div") == null &&
@@ -961,7 +961,6 @@ function validateUploadGeoJSON(elementID){
         }
 
     }
-
     return parsedGeoJSON;
 }
 
@@ -1019,8 +1018,8 @@ async function submitForm(){
             geometryType = geometrySelectionIDArray[1].toLowerCase();
 
             geometryDropdownContent = document.getElementById("geo_point_content");
-            var pointLatInput = document.getElementById('point_lat_1');
-            var pointLonInput = document.getElementById('point_lon_1');
+            var pointLatInput = document.getElementById('point_lat_0');
+            var pointLonInput = document.getElementById('point_lon_0');
 
             coordinateArray.push(pointLonInput.value);
             coordinateArray.push(pointLatInput.value);
@@ -1074,7 +1073,6 @@ async function submitForm(){
             var geometrySelectionIDArray = geometrySelectionID.split("geometry");
             visibleGeometry = geometrySelectionIDArray[1];
             geometryType = geometrySelectionIDArray[1].toLowerCase();
-
 
             geometryGeoJSONBBox = validateUploadGeoJSON("geo_" + geometryType + "_file");
 
