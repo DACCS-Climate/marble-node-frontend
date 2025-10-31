@@ -42,8 +42,6 @@ async function populateForm(){
 
 
         /*Fill Geometry information*/
-        //TODO Keep commented if statement until backend handling for pasted geojson is done
-     //   if(dataproductJSON.geometry != null){
         var geometryObject = dataproductJSON.geometry;
         var geometryType;
         var geometryTypeDivID;
