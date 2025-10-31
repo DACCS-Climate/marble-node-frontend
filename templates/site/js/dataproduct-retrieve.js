@@ -1,16 +1,11 @@
 async function populateForm(){
-    // 68ffd50a9b020be9e53cbf94
-    //http://localhost:9000/publish-dataproduct.html?id=68ffd50a9b020be9e53cbf94
     var queryString = window.location.search;
     var urlParams = new URLSearchParams(queryString);
     var dataproductFormID;
     var marbleAPIURL;
 
-    console.log(queryString)
-
     if(urlParams.get("id") != null){
         dataproductFormID = urlParams.get("id");
-        console.log(dataproductFormID)
         marbleAPIURL = "{{ configs['marble_api_path'] }}/v1/data-requests/" + dataproductFormID;
     }
 
@@ -21,11 +16,6 @@ async function populateForm(){
         })
 
         var dataproductJSON = await response.json();
-
-        console.log("dataproductJSON")
-        console.log(dataproductJSON)
-
-        //var dataproductJSON = await getUploadedDataProduct();
         var title = document.getElementById("title");
         var description = document.getElementById("desc");
         var contact = document.getElementById("contact_email");
@@ -52,6 +42,7 @@ async function populateForm(){
 
 
         /*Fill Geometry information*/
+        //TODO Keep commented if statement until backend handling for pasted geojson is done
      //   if(dataproductJSON.geometry != null){
         var geometryObject = dataproductJSON.geometry;
         var geometryType;
@@ -61,16 +52,7 @@ async function populateForm(){
         var coordinateArray;
         var firstCoordinate;
         var lastCoordinate;
-        var lastCoordinateIndex;
         var inputRowIndexOffset;
-
-
-         console.log("dataproductJSON.geometry")
-        console.log(dataproductJSON.geometry)
-
-
-                    console.log("typeof(geometryObject)")
-        console.log(typeof(geometryObject))
 
         if(geometryObject == null){
             geometryType = String(null);
@@ -95,17 +77,10 @@ async function populateForm(){
             geometryTypeContentDivID = "geo_" + geometryType + "_content";
 
             initializePointInputDiv(geometryType, geometryTypeDivID);
-            console.log("geometryType")
-            console.log(geometryType)
-
-            console.log("geometryTypeContentDivID")
-            console.log(geometryTypeContentDivID)
-
 
             switch (geometryType){
 
                 case "polygon":
-
                     inputRowIndexOffset = 3;
                     coordinateArray = geometryObject.coordinates[0];
                     firstCoordinate = coordinateArray[0];
@@ -135,15 +110,6 @@ async function populateForm(){
                     break;
             }
 
-                console.log("coordinateArray")
-                console.log(coordinateArray)
-
-                console.log("coordinateArray.length")
-                console.log(coordinateArray.length)
-
-
-
-
 
 
             for(var i = inputRowIndexOffset; i < coordinateArray.length; i++){
@@ -153,25 +119,13 @@ async function populateForm(){
 
 
             coordinateArray.forEach( (coordinate, coordinateArrayIndex) => {
-
-                console.log("coordinate")
-                console.log(coordinate)
-
-                                console.log("coordinateIndex")
-                console.log(coordinateArrayIndex)
-                //var coordinateIndex = coordinateArrayIndex + 1;
                 var latitudeID = geometryType + "_lat_" + coordinateArrayIndex;
                 var longitudeID = geometryType + "_lon_" + coordinateArrayIndex;
-
-                console.log("latitudeID")
-                console.log(latitudeID)
-
                 var latitude = document.getElementById(latitudeID);
                 var longitude = document.getElementById(longitudeID);
 
                 latitude.value = coordinate[1];
                 longitude.value = coordinate[0];
-
             });
         }
 
@@ -248,8 +202,105 @@ async function populateForm(){
         metadataStartDate.value = firstDate.getUTCFullYear() + "-" + startMonth + "-" + startDate + " " + firstDate.getUTCHours() + ":" + startMinutes;
         metadataEndDate.value = secondDate.getUTCFullYear() + "-" + endMonth + "-" + endDate + " " + secondDate.getUTCHours() + ":" + endMinutes;
 
+        /*Fill in Variables*/
+        var variablesText = "";
+        var variablesTextArea = document.getElementById("metadata_variables");
+
+        for(variable of dataproductJSON.variables){
+            variablesText = variablesText + variable + "\n";
+        }
+
+        variablesTextArea.value = variablesText;
+
+        /*Fill in Model/links*/
+        if(dataproductJSON.links.length > 0){
+            for(var i = 1; i < dataproductJSON.links.length; i++){
+                addModel("model_box");
+            }
+
+            dataproductJSON.links.forEach( (link, linkIndex) => {
+                var rowIndex = linkIndex + 1;
+                var selectedDropdownItem;
+                var selectedDropdownItemID;
+                var selectedIndex;
+                var selectedValue;
+                var hrefInputField = document.getElementById("model_href_" + rowIndex);
+                var otherInputField = document.getElementById("model_other_" + rowIndex);
+                var dropdownItemTextID = "dropdownListModelButtonText_" + rowIndex;
+
+                hrefInputField.value = link.href;
+
+                if(link.rel == "input"){
+                    selectedDropdownItemID = "modelInput_" + rowIndex
+
+                    replaceListItem(dropdownItemTextID, selectedDropdownItemID);
+
+                }
+                else if(link.rel == "model"){
+                    selectedDropdownItemID = "modelModel_" + rowIndex;
+                    selectedDropdownItem = document.getElementById(selectedDropdownItemID);
+                    selectedIndex = selectedDropdownItem.getAttribute("selected_index");
+                    selectedValue = selectedDropdownItem.getAttribute("selected_value");
+
+                    replaceListItem(dropdownItemTextID, selectedDropdownItemID);
+
+                    otherInputField.value = link.title;
+
+                    showHideModelInput(parseInt(selectedIndex), selectedValue.charAt(0).toUpperCase() + selectedValue.slice(1), rowIndex);
+                }
+                else{
+                    selectedDropdownItemID = "modelOther_" + rowIndex;
+                    selectedDropdownItem = document.getElementById(selectedDropdownItemID);
+                    selectedIndex = selectedDropdownItem.getAttribute("selected_index");
+                    selectedValue = selectedDropdownItem.getAttribute("selected_value");
+
+                    replaceListItem(dropdownItemTextID, selectedDropdownItemID);
+
+                    otherInputField.value = link.rel;
+
+                    showHideModelInput(parseInt(selectedIndex), selectedValue.charAt(0).toUpperCase() + selectedValue.slice(1), rowIndex);
+                }
+            });
+        }
 
 
+        /*Fill in Other/extra_properties*/
+        if(Object.keys(dataproductJSON.extra_properties).length > 0){
+
+            for(var i = 1; i < Object.keys(dataproductJSON.extra_properties).length; i++){
+                addOther("other_box");
+            }
+
+            Object.keys(dataproductJSON.extra_properties).forEach( (keyName, extra_propertiesArrayIndex) => {
+                var otherRowindex = extra_propertiesArrayIndex + 1;
+                var otherKeyInputField = document.getElementById("other_key_" + otherRowindex);
+                var otherValueInputField = document.getElementById("other_value_" + otherRowindex);
+
+                otherKeyInputField.value = keyName;
+                otherValueInputField.value = dataproductJSON.extra_properties[keyName];
+            });
+        }
+
+        /*Fill in Path to File*/
+        var pathInputField = document.getElementById("linked_path");
+        pathInputField.value = dataproductJSON.extra_properties.path;
+
+        /*Fill in Links to additional files*/
+        if(dataproductJSON.path != ""){
+            pathInputField.value = dataproductJSON.path;
+        }
+
+        /*Fill in Link to Additional Files*/
+        var linkedValue = "";
+        var linkedFilesInputField = document.getElementById("linked_link");
+
+        if(dataproductJSON.additional_paths.length > 0){
+            for(linkedFile of dataproductJSON.additional_paths){
+                linkedValue = linkedValue + linkedFile + "\n";
+            }
+
+            linkedFilesInputField.value = linkedValue;
+        }
     }catch(error){
         console.error(error.message)
     }
@@ -261,5 +312,4 @@ async function populateForm(){
 
 document.addEventListener("DOMContentLoaded", function () {
     populateForm();
-
 });
