@@ -20,14 +20,14 @@ function initializePointInputDiv(geometryType, divID) {
     //Only create the add button for geo_multipoint, geo_linestring, geo_polygon
     switch(divID){
         case "geo_point":
-            var pointInputRow = createInputCoordinatesRow("point",0);
+            var pointInputRow = createInputCoordinatesRow("point",1);
             geoContentDiv.appendChild(pointInputRow);
 
             break;
 
         case "geo_multipoint":
             geoAddButtonDiv = createAddCoordinateRowButton(geometryType, "geo_multipoint");
-            var multipointInputRow = createInputCoordinatesRow("multipoint", 0);
+            var multipointInputRow = createInputCoordinatesRow("multipoint", 1);
             geoContentDiv.appendChild(multipointInputRow);
 
             if(document.getElementById("geo_" + geometryType + "_add_button_div") == null &&
@@ -40,7 +40,7 @@ function initializePointInputDiv(geometryType, divID) {
         case "geo_linestring":
             geoAddButtonDiv = createAddCoordinateRowButton(geometryType, "geo_linestring");
 
-            for (let i = 0; i < 2; i++ ){
+            for (let i = 1; i < 3; i++ ){
                 var linestringInputRow = createInputCoordinatesRow("linestring", i);
                 geoContentDiv.appendChild(linestringInputRow);
             }
@@ -55,7 +55,7 @@ function initializePointInputDiv(geometryType, divID) {
         case "geo_polygon":
             geoAddButtonDiv = createAddCoordinateRowButton(geometryType, "geo_polygon");
 
-            for (let i = 0; i < 3; i++ ){
+            for (let i = 1; i < 4; i++ ){
                 var polygonInputRow = createInputCoordinatesRow("polygon", i);
                 geoContentDiv.appendChild(polygonInputRow);
             }
@@ -267,7 +267,7 @@ function addPoint(geometryType, divElementID) {
     var pointIDArray;
 
     if(pointInputArray.length > 1){
-        for (let i = 0; i < pointInputArray.length; i++){
+        for (let i = 1; i < pointInputArray.length; i++){
             pointInputItem = pointInputArray[i];
             pointInputID = pointInputItem.id;
             pointIDArray = pointInputID.split("_");
@@ -1362,8 +1362,7 @@ async function submitForm(){
         submitObject["temporal"].push(dateISOString);
     }
 
-    //submitObject["user"] = (await  window.session_info).user.user_name;
-    submitObject["user"] = "testuser2"
+    submitObject["user"] = (await  window.session_info).user.user_name;
     submitObject["title"] = titleInput.value.trim();
     submitObject["description"] = descriptionInputValue;
     submitObject["authors"] = authorArray;
