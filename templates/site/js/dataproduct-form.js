@@ -1357,7 +1357,7 @@ async function submitForm(){
     /*Add Metadata date input to submitObject*/
     submitObject["temporal"] = []
     for(dateMetadata of dateMetadataFields){
-        var dateUTC = new Date (dateMetadata.value + " UTC");
+        var dateUTC = dateMetadata._flatpickr.selectedDates[0];
         var dateISOString = dateUTC.toISOString();
         submitObject["temporal"].push(dateISOString);
     }
@@ -1387,12 +1387,29 @@ async function submitForm(){
 
         if (response.ok) {
             submitErrorElement.innerText = "Form submitted successfully";
+            submitErrorElement.classList.remove("submit-error");
+            submitErrorElement.classList.add("submit-success");
         }else{
-            if("detail" in result){
+            submitErrorElement.classList.remove("submit-success");
+            submitErrorElement.classList.add("submit-error");
+
+            if(response.status == 422)
+            {
+                submitErrorElement.innerText = "Error submitting form";
+
+                if("detail" in result) {
+                    console.error(result.detail);
+                }
+            }
+            else if(response.status == 404){
                 submitErrorElement.innerText = result.detail;
             }
             else{
-                submitErrorElement.innerText = response.statusText;
+                submitErrorElement.innerText = "Error submitting form";
+
+                if("detail" in result) {
+                    console.error(result.detail);
+                }
             }
             throw new Error(`Response status: ${response.status}`);
         }
