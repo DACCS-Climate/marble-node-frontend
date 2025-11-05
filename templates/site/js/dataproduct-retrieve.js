@@ -7,6 +7,9 @@ async function populateForm(){
     if(urlParams.get("id")){
         marbleAPIURL = "{{ configs['marble_api_path'] }}/v1/data-requests/" + urlParams.get("id");
 
+        /*Enable submit button if 'id' is set in the querystring*/
+        enableButton("submit");
+
         try{
             var response = await fetch(marbleAPIURL,{
                 method: "GET"
@@ -64,6 +67,7 @@ async function populateForm(){
 
                 }
                 else{
+                    var geojsonTextarea = document.getElementById("geo_geojson_file");
 
                     geometryType = geometryObject.type.toLowerCase();
 
@@ -77,6 +81,7 @@ async function populateForm(){
                             if(geometryObject.coordinates.length > 1){
                                 geometryType = "geojson";
                                 geometryDropdownItemID = "geometryGeoJSON";
+                                geojsonTextarea.value = JSON.stringify(geometryObject);
                             }
                             else{
                                 inputRowIndexOffset = 3;
@@ -116,7 +121,6 @@ async function populateForm(){
                         default:
                             geometryType = "geojson";
                             geometryDropdownItemID = "geometryGeoJSON";
-                            var geojsonTextarea = document.getElementById("geo_geojson_file");
                             geojsonTextarea.value = JSON.stringify(geometryObject);
 
                     }
