@@ -964,6 +964,17 @@ function validateUploadGeoJSON(elementID){
     return parsedGeoJSON;
 }
 
+function disableButton(buttonID){
+    var button = document.getElementById(buttonID);
+    button.classList.add("disabled");
+    button.disabled = true;
+}
+
+function enableButton(buttonID){
+    var button = document.getElementById(buttonID);
+    button.classList.remove("disabled");
+    button.disabled = false;
+}
 
 
 /*Submit functions*/
@@ -1370,12 +1381,28 @@ async function submitForm(){
     submitObject["path"] = linkedPathField.value.trim();
     submitObject["contact"] = contactEmail.value.trim();
 
-    var marbleAPIURL = "{{ configs['marble_api_path'] }}/v1/data-requests";
+    var queryStringParams = new URLSearchParams(window.location.search);
+    var submitMethod = "";
+    //TODO Replace the localhost:9000 path with the production http  server path (delete line 1390 and uncomment line 1389)
+    // This value will come from the config.toml file
+    //var httpServerPath = {{ production_http_path }}
+    var httpServerPath = "http://localhost:9000";
+    var marbleAPIURL = "";
+    var redirectURL = httpServerPath + "/publish-dataproduct.html?id=";
     var submitErrorElement = document.getElementById("submitError");
+
+    if(queryStringParams.get("id")){
+        submitMethod = "PATCH";
+        marbleAPIURL = "{{ configs['marble_api_path'] }}/v1/data-requests/" + queryStringParams.get("id");
+    }
+    else{
+        submitMethod = "POST";
+        marbleAPIURL = "{{ configs['marble_api_path'] }}/v1/data-requests";
+    }
 
     try {
         const response = await fetch(marbleAPIURL, {
-            method: "POST",
+            method: submitMethod,
             headers: {
                 "Accept": "application/json",
                 "Content-Type":"application/json"
@@ -1385,20 +1412,43 @@ async function submitForm(){
 
         const result = await response.json();
 
-        if (response.ok) {
+        if (response.status == 200) {
+            var responseFormID = "";
             submitErrorElement.innerText = "Form submitted successfully";
             submitErrorElement.classList.remove("submit-error");
             submitErrorElement.classList.add("submit-success");
+
+            if(result.id){
+                responseFormID = result.id;
+                disableButton("submit");
+                setTimeout(() => {window.location.href = redirectURL + responseFormID}, 3000);
+            }
         }else{
             submitErrorElement.classList.remove("submit-success");
             submitErrorElement.classList.add("submit-error");
 
             if(response.status == 422)
             {
-                submitErrorElement.innerText = "Error submitting form";
-
                 if("detail" in result) {
+                    var inputErrorStringList = "";
+                    var responseDetails = result.detail;
+                    var detailSet = new Set();
+
+                    for(detail of responseDetails){
+                        if(detail.type == "literal_error" && detail.loc[0] == "body"){
+                            detailSet.add(detail.loc[1]);
+                        }
+                    }
+
+                    for(inputErrorType of detailSet){
+                        inputErrorStringList = inputErrorStringList + inputErrorType + "\n";
+                    }
+
+                    submitErrorElement.innerText = "There are errors in the following inputs:" + "\n" + inputErrorStringList;
+
                     console.error(result.detail);
+                }else{
+                    submitErrorElement.innerText = "Error submitting form";
                 }
             }
             else if(response.status == 404){
