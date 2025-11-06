@@ -121,7 +121,7 @@ function createInputCoordinatesRow(geometryType, indexNum) {
     input1.setAttribute("type", "number");
     input1.setAttribute("min", "-90");
     input1.setAttribute("max", "90");
-    input1.setAttribute("step", "0.00001");
+    input1.setAttribute("step", "any");
     input1.setAttribute("id", geometryType + "_lat_" + indexNum);
     input1.setAttribute("name", geometryType + "_lat_" + indexNum);
 
@@ -141,7 +141,7 @@ function createInputCoordinatesRow(geometryType, indexNum) {
     input2.setAttribute("type", "number");
     input2.setAttribute("min", "-180");
     input2.setAttribute("max", "180");
-    input2.setAttribute("step", "0.00001");
+    input2.setAttribute("step", "any");
     input2.setAttribute("id", geometryType + "_lon_" + indexNum);
     input2.setAttribute("name", geometryType + "_lon_" + indexNum);
 
