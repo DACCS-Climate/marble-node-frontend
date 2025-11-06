@@ -3,7 +3,8 @@ async function populateForm(){
     var urlParams = new URLSearchParams(queryString);
     var marbleAPIURL;
     var retrieveErrorMessage = document.getElementById("retrieveErrorMessage");
-
+    var submitStatus = urlParams.get("submit");
+    
     if(urlParams.get("id")){
         marbleAPIURL = "{{ configs['marble_api_path'] }}/v1/data-requests/" + urlParams.get("id");
 
@@ -16,9 +17,22 @@ async function populateForm(){
             })
 
             if(response.status == 200){
-
-                retrieveErrorMessage.classList.remove("display-flex");
-                retrieveErrorMessage.classList.add("display-none");
+                
+                if(Boolean(submitStatus)){
+                    retrieveErrorMessage.classList.remove("display-none");
+                    retrieveErrorMessage.classList.add("display-flex");
+            
+            
+                    retrieveErrorMessage.classList.add("submit-success")
+                    retrieveErrorMessage.innerText = "Form submitted successfully";
+                }
+                else{
+                    retrieveErrorMessage.classList.add("display-none");
+                    retrieveErrorMessage.classList.remove("display-flex");
+            
+                    retrieveErrorMessage.classList.remove("submit-success")
+                    retrieveErrorMessage.innerText = "";
+                }
 
                 var dataproductJSON = await response.json();
                 var title = document.getElementById("title");
