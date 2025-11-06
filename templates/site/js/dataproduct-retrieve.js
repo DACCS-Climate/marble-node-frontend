@@ -4,12 +4,9 @@ async function populateForm(){
     var marbleAPIURL;
     var retrieveErrorMessage = document.getElementById("retrieveErrorMessage");
     var submitStatus = urlParams.get("submit");
-    
+
     if(urlParams.get("id")){
         marbleAPIURL = "{{ configs['marble_api_path'] }}/v1/data-requests/" + urlParams.get("id");
-
-        /*Enable submit button if 'id' is set in the querystring*/
-        enableButton("submit");
 
         try{
             var response = await fetch(marbleAPIURL,{
@@ -18,20 +15,12 @@ async function populateForm(){
 
             if(response.status == 200){
                 
-                if(Boolean(submitStatus)){
+                if(submitStatus){
                     retrieveErrorMessage.classList.remove("display-none");
                     retrieveErrorMessage.classList.add("display-flex");
             
-            
                     retrieveErrorMessage.classList.add("submit-success")
                     retrieveErrorMessage.innerText = "Form submitted successfully";
-                }
-                else{
-                    retrieveErrorMessage.classList.add("display-none");
-                    retrieveErrorMessage.classList.remove("display-flex");
-            
-                    retrieveErrorMessage.classList.remove("submit-success")
-                    retrieveErrorMessage.innerText = "";
                 }
 
                 var dataproductJSON = await response.json();
