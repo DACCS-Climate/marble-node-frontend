@@ -964,18 +964,11 @@ function validateUploadGeoJSON(elementID){
     return parsedGeoJSON;
 }
 
-function disableButton(buttonID){
+function disableButton(buttonID) {
     var button = document.getElementById(buttonID);
     button.classList.add("disabled");
     button.disabled = true;
 }
-
-function enableButton(buttonID){
-    var button = document.getElementById(buttonID);
-    button.classList.remove("disabled");
-    button.disabled = false;
-}
-
 
 /*Submit functions*/
 async function submitForm(){
