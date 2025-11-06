@@ -1386,6 +1386,7 @@ async function submitForm(){
     var marbleAPIURL = "";
     var redirectURL = window.location.origin  + window.location.pathname + "?id=";
     var submitErrorElement = document.getElementById("submitError");
+    var submitSuccess;
 
     if(queryStringParams.get("id")){
         submitMethod = "PATCH";
@@ -1410,14 +1411,12 @@ async function submitForm(){
 
         if (response.status == 200) {
             var responseFormID = "";
-            submitErrorElement.innerText = "Form submitted successfully";
-            submitErrorElement.classList.remove("submit-error");
-            submitErrorElement.classList.add("submit-success");
+            submitSuccess = true;
 
             if(result.id){
                 responseFormID = result.id;
                 disableButton("submit");
-                setTimeout(() => {window.location.href = redirectURL + responseFormID}, 3000);
+                window.location.href = redirectURL + responseFormID + "&submit=" + submitSuccess;
             }
         }else{
             submitErrorElement.classList.remove("submit-success");
@@ -1431,7 +1430,7 @@ async function submitForm(){
                     var detailSet = new Set();
 
                     for(detail of responseDetails){
-                        if(detail.type == "literal_error" && detail.loc[0] == "body"){
+                        if(detail.loc[0] == "body"){
                             detailSet.add(detail.loc[1]);
                         }
                     }
