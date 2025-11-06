@@ -1383,12 +1383,8 @@ async function submitForm(){
 
     var queryStringParams = new URLSearchParams(window.location.search);
     var submitMethod = "";
-    //TODO Replace the localhost:9000 path with the production http  server path (delete line 1390 and uncomment line 1389)
-    // This value will come from the config.toml file
-    //var httpServerPath = {{ production_http_path }}
-    var httpServerPath = "http://localhost:9000";
     var marbleAPIURL = "";
-    var redirectURL = httpServerPath + "/publish-dataproduct.html?id=";
+    var redirectURL = window.location.origin  + window.location.pathname + "?id=";
     var submitErrorElement = document.getElementById("submitError");
 
     if(queryStringParams.get("id")){
