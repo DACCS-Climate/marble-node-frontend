@@ -75,6 +75,7 @@
     /*Colours for Elements*/
     --surface: #FFFFFF;
     --error: #B20002;
+    --success: #008000;
     --text-on-primary: #FFFFFF;
     --text-on-primary-alt: #536DFE;
     --text-on-secondary: #000000;
@@ -2163,5 +2164,23 @@ textarea:required{
 
 .required-asterisk:after{
     content:" *";
+    color: var(--error);
+}
+
+.div-retrieve-error{
+    display: flex;
+    justify-content: center;
+}
+
+.retrieve-error-message{
+    color: var(--error);
+    text-transform: uppercase;
+}
+
+.submit-success{
+    color: var(--success);
+}
+
+.submit-error{
     color: var(--error);
 }

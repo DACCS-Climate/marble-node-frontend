@@ -40,7 +40,7 @@ function initializePointInputDiv(geometryType, divID) {
         case "geo_linestring":
             geoAddButtonDiv = createAddCoordinateRowButton(geometryType, "geo_linestring");
 
-            for (let i = 0; i < 2; i++ ){
+            for (let i = 1; i < 3; i++ ){
                 var linestringInputRow = createInputCoordinatesRow("linestring", i);
                 geoContentDiv.appendChild(linestringInputRow);
             }
@@ -55,7 +55,7 @@ function initializePointInputDiv(geometryType, divID) {
         case "geo_polygon":
             geoAddButtonDiv = createAddCoordinateRowButton(geometryType, "geo_polygon");
 
-            for (let i = 0; i < 3; i++ ){
+            for (let i = 1; i < 4; i++ ){
                 var polygonInputRow = createInputCoordinatesRow("polygon", i);
                 geoContentDiv.appendChild(polygonInputRow);
             }
@@ -121,7 +121,7 @@ function createInputCoordinatesRow(geometryType, indexNum) {
     input1.setAttribute("type", "number");
     input1.setAttribute("min", "-90");
     input1.setAttribute("max", "90");
-    input1.setAttribute("step", "0.00001");
+    input1.setAttribute("step", "any");
     input1.setAttribute("id", geometryType + "_lat_" + indexNum);
     input1.setAttribute("name", geometryType + "_lat_" + indexNum);
 
@@ -141,7 +141,7 @@ function createInputCoordinatesRow(geometryType, indexNum) {
     input2.setAttribute("type", "number");
     input2.setAttribute("min", "-180");
     input2.setAttribute("max", "180");
-    input2.setAttribute("step", "0.00001");
+    input2.setAttribute("step", "any");
     input2.setAttribute("id", geometryType + "_lon_" + indexNum);
     input2.setAttribute("name", geometryType + "_lon_" + indexNum);
 
@@ -267,7 +267,7 @@ function addPoint(geometryType, divElementID) {
     var pointIDArray;
 
     if(pointInputArray.length > 1){
-        for (let i = 0; i < pointInputArray.length; i++){
+        for (let i = 1; i < pointInputArray.length; i++){
             pointInputItem = pointInputArray[i];
             pointInputID = pointInputItem.id;
             pointIDArray = pointInputID.split("_");
@@ -961,11 +961,14 @@ function validateUploadGeoJSON(elementID){
         }
 
     }
-
     return parsedGeoJSON;
 }
 
-
+function disableButton(buttonID) {
+    var button = document.getElementById(buttonID);
+    button.classList.add("disabled");
+    button.disabled = true;
+}
 
 /*Submit functions*/
 async function submitForm(){
@@ -1019,8 +1022,8 @@ async function submitForm(){
             geometryType = geometrySelectionIDArray[1].toLowerCase();
 
             geometryDropdownContent = document.getElementById("geo_point_content");
-            var pointLatInput = document.getElementById('point_lat_1');
-            var pointLonInput = document.getElementById('point_lon_1');
+            var pointLatInput = document.getElementById('point_lat_0');
+            var pointLonInput = document.getElementById('point_lon_0');
 
             coordinateArray.push(pointLonInput.value);
             coordinateArray.push(pointLatInput.value);
@@ -1074,7 +1077,6 @@ async function submitForm(){
             var geometrySelectionIDArray = geometrySelectionID.split("geometry");
             visibleGeometry = geometrySelectionIDArray[1];
             geometryType = geometrySelectionIDArray[1].toLowerCase();
-
 
             geometryGeoJSONBBox = validateUploadGeoJSON("geo_" + geometryType + "_file");
 
@@ -1359,7 +1361,7 @@ async function submitForm(){
     /*Add Metadata date input to submitObject*/
     submitObject["temporal"] = []
     for(dateMetadata of dateMetadataFields){
-        var dateUTC = new Date (dateMetadata.value + " UTC");
+        var dateUTC = dateMetadata._flatpickr.selectedDates[0];
         var dateISOString = dateUTC.toISOString();
         submitObject["temporal"].push(dateISOString);
     }
@@ -1372,12 +1374,25 @@ async function submitForm(){
     submitObject["path"] = linkedPathField.value.trim();
     submitObject["contact"] = contactEmail.value.trim();
 
-    var marbleAPIURL = "{{ configs['marble_api_path'] }}/v1/data-requests";
+    var queryStringParams = new URLSearchParams(window.location.search);
+    var submitMethod = "";
+    var marbleAPIURL = "";
+    var redirectURL = window.location.origin  + window.location.pathname + "?id=";
     var submitErrorElement = document.getElementById("submitError");
+    var submitSuccess;
+
+    if(queryStringParams.get("id")){
+        submitMethod = "PATCH";
+        marbleAPIURL = "{{ configs['marble_api_path'] }}/v1/data-requests/" + queryStringParams.get("id");
+    }
+    else{
+        submitMethod = "POST";
+        marbleAPIURL = "{{ configs['marble_api_path'] }}/v1/data-requests";
+    }
 
     try {
         const response = await fetch(marbleAPIURL, {
-            method: "POST",
+            method: submitMethod,
             headers: {
                 "Accept": "application/json",
                 "Content-Type":"application/json"
@@ -1387,14 +1402,52 @@ async function submitForm(){
 
         const result = await response.json();
 
-        if (response.ok) {
-            submitErrorElement.innerText = "Form submitted successfully";
+        if (response.status == 200) {
+            var responseFormID = "";
+            submitSuccess = true;
+
+            if(result.id){
+                responseFormID = result.id;
+                disableButton("submit");
+                window.location.href = redirectURL + responseFormID + "&submit=" + submitSuccess;
+            }
         }else{
-            if("detail" in result){
+            submitErrorElement.classList.remove("submit-success");
+            submitErrorElement.classList.add("submit-error");
+
+            if(response.status == 422)
+            {
+                if("detail" in result) {
+                    var inputErrorStringList = "";
+                    var responseDetails = result.detail;
+                    var detailSet = new Set();
+
+                    for(detail of responseDetails){
+                        if(detail.loc[0] == "body"){
+                            detailSet.add(detail.loc[1]);
+                        }
+                    }
+
+                    for(inputErrorType of detailSet){
+                        inputErrorStringList = inputErrorStringList + inputErrorType + "\n";
+                    }
+
+                    submitErrorElement.innerText = "There are errors in the following inputs:" + "\n" + inputErrorStringList;
+
+                    console.error(result.detail);
+                }else{
+                    submitErrorElement.innerText = "Error submitting form";
+                }
+            }
+            else if(response.status == 404){
                 submitErrorElement.innerText = result.detail;
             }
             else{
-                submitErrorElement.innerText = response.statusText;
+                submitErrorElement.innerText = "Error submitting form";
+
+                if("detail" in result) {
+                    console.error(result.detail);
+                }
             }
             throw new Error(`Response status: ${response.status}`);
         }
