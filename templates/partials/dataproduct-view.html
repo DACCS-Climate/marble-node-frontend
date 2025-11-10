@@ -1,0 +1,24 @@
+<div id="viewDataRequests" class="datarequest-overview-content">
+    <div id="dataRequestTop" class="container-datarequest-top"></div>
+
+    <div id="dataRequestBottom">
+        <div id="navButtonContainer" class="container-datarequest-buttons">
+            <div id="prevButtonContainer">
+                {% with %}
+                    {% set button_type = "reg_action_button" %}
+                    {% set button_id = "dataRequestPrevious" %}
+                    {% set button_label = "Previous" %}
+                    {% include "partials/button.html" %}
+                {% endwith %}
+            </div>
+            <div id="nextButtonContainer">
+                {% with %}
+                    {% set button_type = "reg_action_button" %}
+                    {% set button_id = "dataRequestNext" %}
+                    {% set button_label = "Next" %}
+                    {% include "partials/button.html" %}
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+</div>
