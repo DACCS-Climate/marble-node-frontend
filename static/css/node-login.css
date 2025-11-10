@@ -2184,3 +2184,32 @@ textarea:required{
 .submit-error{
     color: var(--error);
 }
+
+/*View Data Requests Styles*/
+
+.container-datarequest-overview, .container-datarequest-top{
+    display: flex;
+    justify-content: center;
+}
+
+.container-datarequest-buttons{
+    display: flex;
+    justify-content: space-between;
+}
+
+.datarequest-overview-content{
+    width: 1008px;
+    height: 446px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 20px;
+    background-color: var(--gray-100);
+    box-shadow: var(--account-overview-elevation);
+    padding-left: 61px;
+    padding-right: 61px;
+}
+
+.datarequest-table tr th:not(:last-child), .datarequest-table tr td:not(:last-child){
+    padding-right: 30px;
+}
