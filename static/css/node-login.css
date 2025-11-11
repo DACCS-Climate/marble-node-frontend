@@ -233,6 +233,11 @@ h6{
     line-height: var(--line-height-normal);
 }
 
+.a-text-style{
+    color: var(--primary);
+    text-decoration: none;
+}
+
 .subtitle-1, .leading-text-1{
     font-family: var(--main-font-family);
     font-weight: var(--med-font-weight);
@@ -778,6 +783,49 @@ h6{
 /*Used in button template partial*/
 .button-lg-delete:hover .image-delete-icon-red{
     background-image: url("../images/button/exclamation_triangle_white.svg");
+}
+
+/*Nav buttons for table*/
+/*Used in button template partial*/
+.button-lg-nav{
+    width: 142px;
+    height: 65px;
+    background-color: var(--gray-100);
+    border: none;
+}
+
+/*Used in button template partial*/
+.button-lg-nav span{
+    color: var(--text-on-surface);
+}
+
+
+/*Used in button template partial*/
+.icon-nav-previous{
+    margin-right: 5px;
+}
+
+.icon-nav-next{
+    margin-left: 5px;
+}
+
+.button-lg-nav .icon-nav-previous, .button-lg-nav .icon-nav-next{
+    color: var(--primary);
+}
+
+/*Used in button template partial*/
+.button-lg-nav:focus, .button-lg-nav:hover, .button-lg-nav:active{
+    background-color: var(--primary);
+    box-shadow: var(--d-elevation-2);
+}
+
+.button-lg-nav:focus span, .button-lg-nav:hover span, .button-lg-nav:active span{
+    color: var(--text-on-dark);
+}
+
+.button-lg-nav:focus .icon-nav-previous, .button-lg-nav:hover .icon-nav-previous, .button-lg-nav:active .icon-nav-previous,
+.button-lg-nav:focus .icon-nav-next, .button-lg-nav:hover .icon-nav-next, .button-lg-nav:active .icon-nav-next {
+    color: var(--white);
 }
 
 /*Used in button template partial*/
@@ -2187,7 +2235,7 @@ textarea:required{
 
 /*View Data Requests Styles*/
 
-.container-datarequest-overview, .container-datarequest-top{
+.container-datarequest-overview{
     display: flex;
     justify-content: center;
 }
@@ -2199,7 +2247,6 @@ textarea:required{
 
 .datarequest-overview-content{
     width: 1008px;
-    height: 446px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -2207,9 +2254,45 @@ textarea:required{
     background-color: var(--gray-100);
     box-shadow: var(--account-overview-elevation);
     padding-left: 61px;
+    padding-top: 18px;
     padding-right: 61px;
+    padding-bottom: 18px;
 }
 
-.datarequest-table tr th:not(:last-child), .datarequest-table tr td:not(:last-child){
+.container-datarequest-top, .container-datarequest-bottom{
+    background-color: var(--white);
+    padding-left: 30px;
     padding-right: 30px;
+}
+
+.container-datarequest-bottom{
+    padding-bottom: 18px;
+}
+
+.table-datarequest{
+    width: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.table-datarequest thead tr{
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--black);
+}
+
+.table-datarequest tbody tr td{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.table-datarequest tr th:not(:last-child), .table-datarequest tr td:not(:last-child){
+    padding-right: 20px;
+}
+
+.table-datarequest tr th span{
+    height: 65px;
+    display: flex;
+    align-items: center;
+    background-color: var(--white);
 }
