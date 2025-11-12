@@ -1,7 +1,11 @@
 async function getUploadedDataProducts(url) {
+    var currentUser = (await  window.session_info).user.user_name;
     var fetchURL = "";
-    var marbleAPIURL = "{{ configs['marble_api_path'] }}/v1/data-requests/";
-    var dataRequestsContainer = document.getElementById("dataRequestTop");
+    var marbleAPIUserURL = "{{ configs['marble_api_path'] }}/v1/users/" + currentUser + "/data-requests/";
+    var dataRequestViewURL = window.location.origin  + "/publish-dataproduct.html?id=";
+    var dataRequestsContainer = document.getElementById("dataRequestTableContainer");
+    var previousLinkButton = document.getElementById("dataRequestPrevious");
+    var nextLinkButton = document.getElementById("dataRequestNext");
 
     dataRequestsContainer.innerHTML = "";
 
@@ -9,7 +13,7 @@ async function getUploadedDataProducts(url) {
         fetchURL = url;
     }
     else{
-        fetchURL = marbleAPIURL;
+        fetchURL = marbleAPIUserURL;
     }
 
     try {
@@ -26,18 +30,23 @@ async function getUploadedDataProducts(url) {
             var dataRequestHeaderRow = document.createElement("tr");
             var userHeaderCell = document.createElement("th");
             var titleHeaderCell = document.createElement("th");
-            var linkHeaderCell = document.createElement("th");
+            var userHeaderSpan = document.createElement("span");
+            var titleHeaderSpan = document.createElement("span");
 
-            userHeaderCell.innerText = "Username";
-            titleHeaderCell.innerText = "Title";
-            linkHeaderCell.innerText = "Link";
+            userHeaderSpan.classList.add("subtitle-1");
+            titleHeaderSpan.classList.add("subtitle-1");
+
+            userHeaderSpan.innerText = "Username";
+            titleHeaderSpan.innerText = "Title";
+
+            userHeaderCell.appendChild(userHeaderSpan);
+            titleHeaderCell.appendChild(titleHeaderSpan);
 
             dataRequestHeaderRow.appendChild(userHeaderCell);
             dataRequestHeaderRow.appendChild(titleHeaderCell);
-            dataRequestHeaderRow.appendChild(linkHeaderCell);
 
             dataRequestTableHead.appendChild(dataRequestHeaderRow);
-            dataRequestTable.classList.add("datarequest-table");
+            dataRequestTable.classList.add("table-datarequest");
 
             dataRequestTable.appendChild(dataRequestTableHead);
             dataRequestTable.appendChild(dataRequestTableBody);
@@ -47,18 +56,21 @@ async function getUploadedDataProducts(url) {
                 var dataRequestRow = document.createElement("tr");
                 var userCell = document.createElement("td");
                 var titleCell = document.createElement("td");
-                var linkCell = document.createElement("td");
                 var linkAnchor = document.createElement("a");
+                var userCellSpan = document.createElement("span");
 
-                userCell.innerText = request.user;
-                titleCell.innerText = request.title;
-                linkAnchor.href = marbleAPIURL + "?id=" + request.id;
-                linkAnchor.innerText = marbleAPIURL + "?id=" + request.id;
-                linkCell.appendChild(linkAnchor);
+                userCellSpan.classList.add("body-1");
+                linkAnchor.classList.add("body-1", "a-text-style");
+
+                userCellSpan.innerText = request.user;
+                linkAnchor.href = dataRequestViewURL + request.id;
+                linkAnchor.innerText = request.title;
+
+                userCell.appendChild(userCellSpan);
+                titleCell.appendChild(linkAnchor);
 
                 dataRequestRow.appendChild(userCell);
                 dataRequestRow.appendChild(titleCell);
-                dataRequestRow.appendChild(linkCell);
 
                 dataRequestTableBody.appendChild(dataRequestRow);
             }
@@ -81,7 +93,7 @@ async function getUploadedDataProducts(url) {
 
                     for(link of marbleResult.links){
                         if(link.rel === "prev"){
-                            var previousLinkButton = document.getElementById("dataRequestPrevious");
+                            previousLinkButton = document.getElementById("dataRequestPrevious");
                             var oldPreviousButton = previousLinkButton;
                             var newPreviousButton = oldPreviousButton.cloneNode(true);
 
@@ -97,7 +109,7 @@ async function getUploadedDataProducts(url) {
 
                         if(link.rel === "next"){
 
-                            var nextLinkButton = document.getElementById("dataRequestNext");
+                            nextLinkButton = document.getElementById("dataRequestNext");
                             var oldNextButton = nextLinkButton;
                             var newNextButton = oldNextButton.cloneNode(true);
 
@@ -112,12 +124,12 @@ async function getUploadedDataProducts(url) {
                         }
                     }
                 }
-                else{
+                else if (marbleResult.links.length == 1){
                     if(marbleResult.links[0].rel == "prev"){
                         previousLink = marbleResult.links[0];
 
-                        var previousLinkButton = document.getElementById("dataRequestPrevious");
-                        var nextLinkButton = document.getElementById("dataRequestNext");
+                        previousLinkButton = document.getElementById("dataRequestPrevious");
+                        nextLinkButton = document.getElementById("dataRequestNext");
 
                         previousLinkButton.addEventListener("click", function(){
                             getUploadedDataProducts(previousLink.href);
@@ -131,8 +143,8 @@ async function getUploadedDataProducts(url) {
                      if(marbleResult.links[0].rel == "next"){
                          nextLink = marbleResult.links[0];
 
-                         var previousLinkButton = document.getElementById("dataRequestPrevious");
-                         var nextLinkButton = document.getElementById("dataRequestNext");
+                         previousLinkButton = document.getElementById("dataRequestPrevious");
+                         nextLinkButton = document.getElementById("dataRequestNext");
 
                          nextLinkButton.addEventListener("click", function(){
                              getUploadedDataProducts(nextLink.href);
@@ -142,7 +154,21 @@ async function getUploadedDataProducts(url) {
                         previousLinkButton.classList.add("disabled");
                     }
                 }
+                else{
+                    previousLinkButton.setAttribute("disabled", "disabled");
+                    previousLinkButton.classList.add("disabled");
+
+                    nextLinkButton.setAttribute("disabled", "disabled");
+                    nextLinkButton.classList.add("disabled");
+                }
             }
+        }
+        else{
+            previousLinkButton.setAttribute("disabled", "disabled");
+            previousLinkButton.classList.add("disabled");
+
+            nextLinkButton.setAttribute("disabled", "disabled");
+            nextLinkButton.classList.add("disabled");
         }
     } catch (error) {
         console.error(error.message);
