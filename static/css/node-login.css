@@ -2254,13 +2254,16 @@ textarea:required{
     background-color: var(--gray-100);
     box-shadow: var(--account-overview-elevation);
     padding-left: 61px;
-    padding-top: 18px;
     padding-right: 61px;
-    padding-bottom: 18px;
 }
 
+.container-datarequest-view {
+    margin-top: 18px;
+    margin-bottom: 18px;
+    padding-top: 18px;
+    padding-bottom: 18px;
+}
 .container-datarequest-top, .container-datarequest-bottom{
-    background-color: var(--white);
     padding-left: 30px;
     padding-right: 30px;
 }
@@ -2286,6 +2289,22 @@ textarea:required{
     padding-bottom: 10px;
 }
 
+.table-datarequest tbody tr:first-of-type td{
+    padding-top: 20px;
+}
+
+.table-datarequest tbody tr:last-of-type td{
+    padding-bottom: 20px;
+}
+
+.table-datarequest tbody tr td:first-of-type{
+    padding-left: 50px;
+}
+
+.table-datarequest tbody tr td:last-of-type{
+    padding-right: 50px;
+}
+
 .table-datarequest tr th:not(:last-child), .table-datarequest tr td:not(:last-child){
     padding-right: 20px;
 }
@@ -2294,5 +2313,4 @@ textarea:required{
     height: 65px;
     display: flex;
     align-items: center;
-    background-color: var(--white);
 }
