@@ -3,6 +3,13 @@
 {% block account_content %}
 
 <div id="dataRequestContainer" class="container-datarequest-overview">
+    <div id="dataRequestIntro" class="div-datarequest-intro">
+        <h3>Uploaded Data Products</h3>
+        <p>Datasets, data products and/or workflows uploaded to the Marble STAC Catalog are listed here.</p>
+        <p>Clicking the link in the "Title" column will take you to the Data Product Publishing Form with the fields
+        filled out.  There, you can choose to modify what you've uploaded and resubmit it again.</p>
+    </div>
+
     {% include "partials/dataproduct-view.html" %}
 </div>
 
