@@ -6,8 +6,12 @@ async function getUploadedDataProducts(url) {
     var dataRequestsContainer = document.getElementById("dataRequestTableContainer");
     var previousLinkButton = document.getElementById("dataRequestPrevious");
     var nextLinkButton = document.getElementById("dataRequestNext");
+    var errorMessageContainer = document.getElementById("dataRequestErrorContainer");
+    var errorMessage = document.getElementById("dataRequestErrorMessage");
 
     dataRequestsContainer.innerHTML = "";
+    errorMessageContainer.classList.remove("display-flex");
+    errorMessageContainer.classList.add("display-none");
 
     if(url){
         fetchURL = url;
@@ -164,6 +168,11 @@ async function getUploadedDataProducts(url) {
             }
         }
         else{
+            errorMessage.innerHTML = "Server error <br>  Data Products cannot be retrieved";
+
+            errorMessageContainer.classList.remove("display-none");
+            errorMessageContainer.classList.add("display-flex");
+
             previousLinkButton.setAttribute("disabled", "disabled");
             previousLinkButton.classList.add("disabled");
 
