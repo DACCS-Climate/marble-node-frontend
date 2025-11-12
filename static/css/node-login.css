@@ -2237,7 +2237,12 @@ textarea:required{
 
 .container-datarequest-overview{
     display: flex;
+    flex-direction: column;
     justify-content: center;
+}
+
+.div-datarequest-intro{
+    margin-bottom: 30px;
 }
 
 .container-datarequest-buttons{
@@ -2270,6 +2275,12 @@ textarea:required{
 
 .container-datarequest-bottom{
     padding-bottom: 18px;
+}
+
+.container-datarequest-error{
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 
 .table-datarequest{
