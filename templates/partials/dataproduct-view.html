@@ -1,23 +1,31 @@
 <div id="viewDataRequests" class="datarequest-overview-content">
-    <div id="dataRequestTop" class="container-datarequest-top"></div>
+    <div id="dataRequestViewContainer" class="container-datarequest-view">
+        <div id="dataRequestTop" class="container-datarequest-top">
+            <div id="dataRequestTableContainer" class="div-container-datarequest"></div>
+        </div>
 
-    <div id="dataRequestBottom">
-        <div id="navButtonContainer" class="container-datarequest-buttons">
-            <div id="prevButtonContainer">
-                {% with %}
-                    {% set button_type = "reg_action_button" %}
-                    {% set button_id = "dataRequestPrevious" %}
-                    {% set button_label = "Previous" %}
-                    {% include "partials/button.html" %}
-                {% endwith %}
-            </div>
-            <div id="nextButtonContainer">
-                {% with %}
-                    {% set button_type = "reg_action_button" %}
-                    {% set button_id = "dataRequestNext" %}
-                    {% set button_label = "Next" %}
-                    {% include "partials/button.html" %}
-                {% endwith %}
+        <div id="dataRequestBottom" class="container-datarequest-bottom">
+            <div id="navButtonContainer" class="container-datarequest-buttons">
+                <div id="prevButtonContainer">
+                    {% with %}
+                        {% set button_type = "reg_action_button" %}
+                        {% set button_id = "dataRequestPrevious" %}
+                        {% set user_content_position = "start" %}
+                        {% set button_content = '<i class="fa-solid fa-angles-left icon-nav-previous"></i>' %}
+                        {% set button_label = "Previous" %}
+                        {% include "partials/button.html" %}
+                    {% endwith %}
+                </div>
+                <div id="nextButtonContainer">
+                    {% with %}
+                        {% set button_type = "reg_action_button" %}
+                        {% set button_id = "dataRequestNext" %}
+                        {% set user_content_position = "end" %}
+                        {% set button_content = '<i class="fa-solid fa-angles-right icon-nav-next"></i>' %}
+                        {% set button_label = "Next" %}
+                        {% include "partials/button.html" %}
+                    {% endwith %}
+                </div>
             </div>
         </div>
     </div>
