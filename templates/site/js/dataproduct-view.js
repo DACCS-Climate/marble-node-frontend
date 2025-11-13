@@ -2,7 +2,7 @@ async function getUploadedDataProducts(url) {
     var currentUser = (await  window.session_info).user.user_name;
     var fetchURL = "";
     var marbleAPIUserURL = "{{ configs['marble_api_path'] }}/v1/users/" + currentUser + "/data-requests/";
-    var dataRequestViewURL = "/publish-dataproduct.html?id=";
+    var dataRequestViewURL = "publish-dataproduct.html?id=";
     var dataRequestsContainer = document.getElementById("dataRequestTableContainer");
     var previousLinkButton = document.getElementById("dataRequestPrevious");
     var nextLinkButton = document.getElementById("dataRequestNext");
