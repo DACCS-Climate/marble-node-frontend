@@ -1383,11 +1383,11 @@ async function submitForm(){
 
     if(queryStringParams.get("id")){
         submitMethod = "PATCH";
-        marbleAPIURL = "{{ configs['marble_api_path'] }}/v1/users/"+ submitObject["user"] +"/data-requests/" + queryStringParams.get("id");
+        marbleAPIURL = "/v1/users/"+ submitObject["user"] +"/data-requests/" + queryStringParams.get("id");
     }
     else{
         submitMethod = "POST";
-        marbleAPIURL = "{{ configs['marble_api_path'] }}/v1/users/"+ submitObject["user"] +"/data-requests";
+        marbleAPIURL = "/v1/users/"+ submitObject["user"] +"/data-requests";
     }
 
     try {
