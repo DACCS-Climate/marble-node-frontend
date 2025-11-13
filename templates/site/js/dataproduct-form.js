@@ -905,9 +905,7 @@ function calendarDatesEqual(checkboxDateEqualID, startDateID, endDateID){
         endDateElement.setAttribute("disabled", "disabled");
 
         if(startDateElement.value != ""){
-            var firstDate = new Date(startDateElement._flatpickr.selectedDates[0])
-            endDateElement._flatpickr.selectedDates[0] = startDateElement._flatpickr.setDate(firstDate);
-            endDateElement._flatpickr.setDate(firstDate);
+            endDateElement._flatpickr.setDate(startDateElement._flatpickr.selectedDates[0]);
         }
     }
     else{
