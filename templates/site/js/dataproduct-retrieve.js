@@ -7,7 +7,7 @@ async function populateForm(){
     var submitStatus = urlParams.get("submit");
 
     if(urlParams.get("id")){
-        marbleAPIURL = "/v1/users/"+ currentUser +"/data-requests/" + urlParams.get("id");
+        marbleAPIURL = "{{ configs['marble_api_path'] }}/v1/users/"+ currentUser +"/data-requests/" + urlParams.get("id");
 
         try{
             var response = await fetch(marbleAPIURL,{
