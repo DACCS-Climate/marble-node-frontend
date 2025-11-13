@@ -2295,6 +2295,14 @@ textarea:required{
     border-bottom-color: var(--black);
 }
 
+.table-datarequest thead tr th:first-of-type{
+    padding-left: 18px;
+}
+
+.table-datarequest thead tr th:last-of-type{
+    padding-right: 18px;
+}
+
 .table-datarequest tbody tr td{
     padding-top: 10px;
     padding-bottom: 10px;
