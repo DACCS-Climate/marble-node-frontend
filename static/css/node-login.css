@@ -785,49 +785,6 @@ h6{
     background-image: url("../images/button/exclamation_triangle_white.svg");
 }
 
-/*Nav buttons for table*/
-/*Used in button template partial*/
-.button-lg-nav{
-    width: 142px;
-    height: 65px;
-    background-color: var(--gray-100);
-    border: none;
-}
-
-/*Used in button template partial*/
-.button-lg-nav span{
-    color: var(--text-on-surface);
-}
-
-
-/*Used in button template partial*/
-.icon-nav-previous{
-    margin-right: 5px;
-}
-
-.icon-nav-next{
-    margin-left: 5px;
-}
-
-.button-lg-nav .icon-nav-previous, .button-lg-nav .icon-nav-next{
-    color: var(--primary);
-}
-
-/*Used in button template partial*/
-.button-lg-nav:focus, .button-lg-nav:hover, .button-lg-nav:active{
-    background-color: var(--primary);
-    box-shadow: var(--d-elevation-2);
-}
-
-.button-lg-nav:focus span, .button-lg-nav:hover span, .button-lg-nav:active span{
-    color: var(--text-on-dark);
-}
-
-.button-lg-nav:focus .icon-nav-previous, .button-lg-nav:hover .icon-nav-previous, .button-lg-nav:active .icon-nav-previous,
-.button-lg-nav:focus .icon-nav-next, .button-lg-nav:hover .icon-nav-next, .button-lg-nav:active .icon-nav-next {
-    color: var(--white);
-}
-
 /*Used in button template partial*/
 .button-med{
     width: 150px;
