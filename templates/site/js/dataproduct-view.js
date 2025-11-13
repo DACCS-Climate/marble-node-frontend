@@ -1,7 +1,7 @@
 async function getUploadedDataProducts(url) {
     var currentUser = (await  window.session_info).user.user_name;
     var fetchURL = "";
-    var marbleAPIUserURL = "{{ configs['marble_api_path'] }}/v1/users/" + currentUser + "/data-requests/";
+    var marbleAPIUserURL = "/v1/users/" + currentUser + "/data-requests/";
     var dataRequestViewURL = window.location.origin  + "/publish-dataproduct.html?id=";
     var dataRequestsContainer = document.getElementById("dataRequestTableContainer");
     var previousLinkButton = document.getElementById("dataRequestPrevious");
@@ -12,6 +12,11 @@ async function getUploadedDataProducts(url) {
     dataRequestsContainer.innerHTML = "";
     errorMessageContainer.classList.remove("display-flex");
     errorMessageContainer.classList.add("display-none");
+
+    previousLinkButton.setAttribute("disabled", "disabled");
+    previousLinkButton.classList.add("disabled");
+    nextLinkButton.setAttribute("disabled", "disabled");
+    nextLinkButton.classList.add("disabled");
 
     if(url){
         fetchURL = url;
@@ -83,87 +88,38 @@ async function getUploadedDataProducts(url) {
                 var nextLink;
                 var previousLink;
 
-                if(marbleResult.links.length > 1){
-
-                    if(marbleResult.links[0].rel == "next"){
-                        nextLink = marbleResult.links[0];
-                        previousLink = marbleResult.links[1];
-                    }
-                    else
-                    {
-                        nextLink = marbleResult.links[1];
-                        previousLink = marbleResult.links[0];
-                    }
-
-                    for(link of marbleResult.links){
-                        if(link.rel === "prev"){
-                            previousLinkButton = document.getElementById("dataRequestPrevious");
-                            var oldPreviousButton = previousLinkButton;
-                            var newPreviousButton = oldPreviousButton.cloneNode(true);
-
-                            newPreviousButton.addEventListener("click", function(){
-                                getUploadedDataProducts(previousLink.href);
-                            });
-
-                            newPreviousButton.removeAttribute("disabled");
-                            newPreviousButton.classList.remove("disabled");
-
-                            oldPreviousButton.parentNode.replaceChild(newPreviousButton, oldPreviousButton);
-                        }
-
-                        if(link.rel === "next"){
-
-                            nextLinkButton = document.getElementById("dataRequestNext");
-                            var oldNextButton = nextLinkButton;
-                            var newNextButton = oldNextButton.cloneNode(true);
-
-                            newNextButton.addEventListener("click", function(){
-                                getUploadedDataProducts(nextLink.href);
-                            });
-
-                            newNextButton.removeAttribute("disabled");
-                            newNextButton.classList.remove("disabled");
-
-                            oldNextButton.parentNode.replaceChild(newNextButton, oldNextButton);
-                        }
-                    }
-                }
-                else if (marbleResult.links.length == 1){
-                    if(marbleResult.links[0].rel == "prev"){
-                        previousLink = marbleResult.links[0];
-
+                for(link of marbleResult.links){
+                    if(link.rel === "prev"){
+                        previousLink = link.href;
                         previousLinkButton = document.getElementById("dataRequestPrevious");
-                        nextLinkButton = document.getElementById("dataRequestNext");
+                        var oldPreviousButton = previousLinkButton;
+                        var newPreviousButton = oldPreviousButton.cloneNode(true);
 
-                        previousLinkButton.addEventListener("click", function(){
-                            getUploadedDataProducts(previousLink.href);
+                        newPreviousButton.addEventListener("click", function(){
+                            getUploadedDataProducts(previousLink);
                         });
 
-                        nextLinkButton.setAttribute("disabled", "disabled");
-                        nextLinkButton.classList.add("disabled");
+                        newPreviousButton.removeAttribute("disabled");
+                        newPreviousButton.classList.remove("disabled");
 
+                        oldPreviousButton.parentNode.replaceChild(newPreviousButton, oldPreviousButton);
                     }
 
-                     if(marbleResult.links[0].rel == "next"){
-                         nextLink = marbleResult.links[0];
+                    if(link.rel === "next"){
+                        nextLink = link.href
+                        nextLinkButton = document.getElementById("dataRequestNext");
+                        var oldNextButton = nextLinkButton;
+                        var newNextButton = oldNextButton.cloneNode(true);
 
-                         previousLinkButton = document.getElementById("dataRequestPrevious");
-                         nextLinkButton = document.getElementById("dataRequestNext");
+                        newNextButton.addEventListener("click", function(){
+                            getUploadedDataProducts(nextLink);
+                        });
 
-                         nextLinkButton.addEventListener("click", function(){
-                             getUploadedDataProducts(nextLink.href);
-                         });
+                        newNextButton.removeAttribute("disabled");
+                        newNextButton.classList.remove("disabled");
 
-                        previousLinkButton.setAttribute("disabled", "disabled");
-                        previousLinkButton.classList.add("disabled");
+                        oldNextButton.parentNode.replaceChild(newNextButton, oldNextButton);
                     }
-                }
-                else{
-                    previousLinkButton.setAttribute("disabled", "disabled");
-                    previousLinkButton.classList.add("disabled");
-
-                    nextLinkButton.setAttribute("disabled", "disabled");
-                    nextLinkButton.classList.add("disabled");
                 }
             }
         }
