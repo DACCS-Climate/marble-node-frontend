@@ -30,9 +30,8 @@ async function getUploadedDataProducts(url) {
             method: "GET"
         });
 
-        var marbleResult = await marbleResponse.json();
-
         if(marbleResponse.status == 200){
+            var marbleResult = await marbleResponse.json();
             var dataRequestTable = document.createElement("table");
             var dataRequestTableHead = document.createElement("thead");
             var dataRequestTableBody = document.createElement("tbody");
@@ -128,12 +127,6 @@ async function getUploadedDataProducts(url) {
 
             errorMessageContainer.classList.remove("display-none");
             errorMessageContainer.classList.add("display-flex");
-
-            previousLinkButton.setAttribute("disabled", "disabled");
-            previousLinkButton.classList.add("disabled");
-
-            nextLinkButton.setAttribute("disabled", "disabled");
-            nextLinkButton.classList.add("disabled");
         }
     } catch (error) {
         console.error(error.message);
