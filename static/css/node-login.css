@@ -2296,11 +2296,11 @@ textarea:required{
 }
 
 .table-datarequest thead tr th:first-of-type{
-    padding-left: 18px;
+    padding-left: 9px;
 }
 
 .table-datarequest thead tr th:last-of-type{
-    padding-right: 18px;
+    padding-right: 9px;
 }
 
 .table-datarequest tbody tr td{
