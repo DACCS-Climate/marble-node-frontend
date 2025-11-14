@@ -67,6 +67,7 @@
 %}
 
 {% set button = button_library[button_type] %}
+{% set content_position = user_content_position or button_library[button_type]['content_position'] %}
 
 {% if button_type != "dropdown" %}
     <a class="undecorated-link button-anchor-tag {{ button['a_class'] }} {{ disabled }}">
@@ -77,8 +78,8 @@
             type="button"
             {% if button_value %} value="{{ button_value }}" {% endif %}
             {{ button["additional_attributes"] }}>
-        {% if button['content_position']|default("start") == "start" %}
-            {{ button['content']|safe }}
+        {% if content_position|default("start") == "start" %}
+            {{ button_content | default(button['content']) | safe }}
         {% endif %}
         {% if button_image %}
             <img class="button-med-action-alt-image" src="{{ button_image|safe }}"/>
@@ -86,8 +87,8 @@
         <span id="{{ button['label_id'] }}">
             {{ button_label | default(button['button_label']) | safe }}
         </span>
-        {% if button['content_position']|default("start") == "end" %}
-            {{ button['content']|safe }}
+        {% if content_position|default("start") == "end"%}
+            {{ button_content | default(button['content']) | safe }}
         {% endif %}
     </button>
 

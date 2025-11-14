@@ -1,4 +1,5 @@
 async function populateForm(){
+    var currentUser = (await  window.session_info).user.user_name;
     var queryString = window.location.search;
     var urlParams = new URLSearchParams(queryString);
     var marbleAPIURL;
@@ -6,7 +7,7 @@ async function populateForm(){
     var submitStatus = urlParams.get("submit");
 
     if(urlParams.get("id")){
-        marbleAPIURL = "{{ configs['marble_api_path'] }}/v1/data-requests/" + urlParams.get("id");
+        marbleAPIURL = "{{ configs['marble_api_path'] }}/v1/users/"+ currentUser +"/data-requests/" + urlParams.get("id");
 
         try{
             var response = await fetch(marbleAPIURL,{

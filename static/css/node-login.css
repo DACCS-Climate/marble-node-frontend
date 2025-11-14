@@ -233,6 +233,11 @@ h6{
     line-height: var(--line-height-normal);
 }
 
+.a-text-style{
+    color: var(--primary);
+    text-decoration: none;
+}
+
 .subtitle-1, .leading-text-1{
     font-family: var(--main-font-family);
     font-weight: var(--med-font-weight);
@@ -2183,4 +2188,105 @@ textarea:required{
 
 .submit-error{
     color: var(--error);
+}
+
+/*View Data Requests Styles*/
+
+.container-datarequest-overview{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.div-datarequest-intro{
+    margin-bottom: 30px;
+}
+
+.container-datarequest-buttons{
+    display: flex;
+    justify-content: space-between;
+}
+
+.datarequest-overview-content{
+    width: 1008px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 20px;
+    background-color: var(--gray-100);
+    box-shadow: var(--account-overview-elevation);
+    padding-left: 61px;
+    padding-right: 61px;
+}
+
+.container-datarequest-view {
+    margin-top: 18px;
+    margin-bottom: 18px;
+    padding-top: 18px;
+    padding-bottom: 18px;
+}
+.container-datarequest-top, .container-datarequest-bottom{
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.container-datarequest-bottom{
+    padding-bottom: 18px;
+}
+
+.container-datarequest-error{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.table-datarequest{
+    width: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.table-datarequest thead tr{
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--black);
+}
+
+.table-datarequest thead tr th:first-of-type{
+    padding-left: 9px;
+}
+
+.table-datarequest thead tr th:last-of-type{
+    padding-right: 9px;
+}
+
+.table-datarequest tbody tr td{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.table-datarequest tbody tr:first-of-type td{
+    padding-top: 20px;
+}
+
+.table-datarequest tbody tr:last-of-type td{
+    padding-bottom: 20px;
+}
+
+.table-datarequest tbody tr td:first-of-type{
+    padding-left: 50px;
+}
+
+.table-datarequest tbody tr td:last-of-type{
+    padding-right: 50px;
+}
+
+.table-datarequest tr th:not(:last-child), .table-datarequest tr td:not(:last-child){
+    padding-right: 20px;
+}
+
+.table-datarequest tr th span{
+    height: 65px;
+    display: flex;
+    align-items: center;
 }
