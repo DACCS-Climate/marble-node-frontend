@@ -48,20 +48,24 @@
 
 
 
-{% if dropdown_type == "geometry_dropdown" or dropdown_type == "model_dropdown" %}
+{% if dropdown_type == "geometry_dropdown" or dropdown_type == "model_dropdown" or dropdown_type == "timezone_dropdown"%}
     <div id="{{ container_id }}" class="dropdown-list-container {{ banner_search_dropdown_class }}">
 
         <div id="{{ dropdown_id }}" class="dropdown">
-        <a id="{{ dropdown_button_id }}" class="btn btn-secondary dropdown-toggle padding-unset dropdown-default-list-button dropdown-default-list-icon" role="button" data-bs-toggle="dropdown" data-bs-display="static" data-bs-auto-close="true" aria-expanded="false">
+            <a id="{{ dropdown_button_id }}" class="btn btn-secondary dropdown-toggle padding-unset dropdown-default-list-button dropdown-default-list-icon" role="button" data-bs-toggle="dropdown" data-bs-display="static" data-bs-auto-close="true" aria-expanded="false">
                 <h6 id="{{ dropdown_button_text_id }}" class="dropdown-list-title margin-unset padding-unset">
                         {{ dropdown_label_text|safe }}
                 </h6>
             </a>
-            <ul id="{{ dropdown_default_UL_id }}" class="dropdown-menu margin-unset padding-unset dropdown-default-list" aria-labelledby="{{ dropdown_button_id }}">
+            {% if dropdown_type == "geometry_dropdown" or dropdown_type == "model_dropdown" %}
+                <ul id="{{ dropdown_default_UL_id }}" class="dropdown-menu margin-unset padding-unset dropdown-default-list" aria-labelledby="{{ dropdown_button_id }}">
+
                 {% set dropdown_list_items = dropdown_library[dropdown_type]["list_items"] %}
+
                 {% for item in dropdown_list_items %}
                     {% set itemIndex = loop.index %}
                     <li class="dropdown-default-list-item">
+
                     {% if dropdown_type == "geometry_dropdown" %}
                         <a id="{{ item["item_id"] }}" class="subtitle-1 dropdown-default-list-item-text" role="button" selected_index="{{ itemIndex }}" onclick="geoPolygon2({{ itemIndex }})">
                             {{ item["item_label"]|safe }}
@@ -85,6 +89,62 @@
                     </script>
 
                 {% endfor %}
+
+             {% endif %}
+
+            {% if dropdown_type == "timezone_dropdown" %}
+                <ul id="{{ dropdown_default_UL_id }}" class="dropdown-menu margin-unset padding-unset dropdown-default-list dropdown-list-overflow-y" aria-labelledby="{{ dropdown_button_id }}">
+
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        var stickiedTimezoneList = ["GMT", "UTC"];
+                        var timezoneList = Intl.supportedValuesOf("timeZone");
+                        var dropdownULElement = document.getElementById("{{ dropdown_default_UL_id }}");
+
+                        timezoneList.forEach( (timezoneListItem, timezoneListIndex) => {
+                            stickiedTimezoneList.forEach( (stickiedTimezone, stickiedTimezoneIndex) => {
+                                if(timezoneListItem === stickiedTimezone || timezoneListItem.includes(stickiedTimezone)){
+                                    timezoneList.splice(0,0, timezoneListItem);
+                                    timezoneList.splice(timezoneListIndex + 1,1);
+                                }
+                            });
+                        });
+
+                        timezoneList.forEach((timezone, timezoneIndex) => {
+                            var timezoneName = "";
+                            var dropdownLIElement = document.createElement("li");
+                            var dropdownAnchorElement = document.createElement("a");
+                            var dropdownAnchorID = "{{ dropdown_default_UL_id }}" + "_" + timezone.replace("/","_");
+
+                            if(timezone.includes("Etc/")){
+                                timezoneName =  timezone.replace("Etc/", "");
+                            }
+                            else if(timezone.includes("_")){
+                               timezoneName =  timezone.replaceAll("_", " ");
+                            }
+                            else{
+                                timezoneName = timezone;
+                            }
+
+                            dropdownLIElement.classList.add("dropdown-default-list-item");
+
+                            dropdownAnchorElement.classList.add("subtitle-1","dropdown-default-list-item-text");
+                            dropdownAnchorElement.setAttribute("role", "button");
+                            dropdownAnchorElement.setAttribute("selected_index", timezone);
+                            dropdownAnchorElement.id = dropdownAnchorID;
+                            dropdownAnchorElement.innerText = timezoneName;
+                            dropdownAnchorElement.addEventListener('click', function() {
+                                replaceListItem("{{ dropdown_button_text_id }}", dropdownAnchorID);
+                                applyTimezoneToCalendar(timezone);
+                            });
+
+                            dropdownLIElement.appendChild(dropdownAnchorElement);
+                            dropdownULElement.appendChild(dropdownLIElement);
+                        });
+                    });
+
+                </script>
+            {% endif %}
 
             </ul>
         </div>
