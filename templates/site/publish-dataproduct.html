@@ -120,6 +120,7 @@
                     <i class="fa-solid fa-calendar-days icon-metadata-calendar"></i>
                 </div>
 
+
             </div>
 
             <label for="metadata_end_date" class="subtitle-1 margin-input-label required-asterisk">End Date (Required)</label>
@@ -128,7 +129,6 @@
                 <div id="metadata_end_icon" class="icon-metadata-container">
                     <i class="fa-solid fa-calendar-days icon-metadata-calendar"></i>
                 </div>
-
             </div>
             <div id="calender_checkbox_container" class="calendar-checkbox-container">
                 {% with %}
@@ -138,6 +138,20 @@
                     {% set checkbox_text_class = "subtitle-1" %}
                     {% set checkbox_label_text = "End Date Same As Start Date" %}
                     {% include "partials/checkbox.html" %}
+                {% endwith %}
+            </div>
+
+            <div id="metadata_start_timezone">
+                {% with %}
+                    {% set dropdown_type = "timezone_dropdown" %}
+                    {% set banner_search_dropdown_class = "banner-dropdown-list-container"%}
+                    {% set container_id = "temporalStartDropdownContainer" %}
+                    {% set dropdown_id = "temporalStartDropdown" %}
+                    {% set dropdown_button_id = "dropdownListTemporalStartButton" %}
+                    {% set dropdown_button_text_id = "dropdownListTemporalStartButtonText" %}
+                    {% set dropdown_default_UL_id = "timezoneStart" %}
+                    {% set dropdown_label_text = "Select Timezone" %}
+                    {% include "partials/dropdown-publish.html" %}
                 {% endwith %}
             </div>
 
