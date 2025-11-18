@@ -1997,6 +1997,11 @@ dialog {
     align-items: center;
 }
 
+.dropdown-list-overflow-y{
+    max-height: 200px;
+    overflow-y: auto;
+}
+
 .author-parent, .multipoint-parent, .upload-geojson-child, .other-child{
     display: flex;
     flex-direction: column;
