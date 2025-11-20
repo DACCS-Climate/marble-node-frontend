@@ -893,7 +893,57 @@ function showHideModelInput(dropdownItemIndex, dropdownItemName, dropdownIndex){
     }
 }
 
+//Add selected timezone to the selected start date time and end date time without converting the date time value
+//Returns date time in ISO format with the selected timezone offset
+function addTimezoneToSelectedTime(timezone){
+    var startDateElement = document.getElementById("metadata_start_date");
+    var endDateElement = document.getElementById("metadata_end_date");
+    var startDate = startDateElement._flatpickr.selectedDates[0];
+    var endDate = endDateElement._flatpickr.selectedDates[0];
 
+    var dateFormatter = new Intl.DateTimeFormat("en-GB", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        timeZoneName: "longOffset",
+        timeZone: timezone,
+    });
+
+    console.log("startDate")
+    console.log(startDate)
+
+    console.log("startDate.getTimezoneOffset()")
+    console.log(startDate.getTimezoneOffset())
+
+    console.log("startDate calculate utc")
+    console.log(startDate - startDate.getTimezoneOffset() * 60000);
+
+    //Converts the date-time to ISO string with timezone at UTC while preserving the time value.
+    var startDateConvertedUTCPreserveTime = new Date(startDate - startDate.getTimezoneOffset() * 60000).toISOString();
+    var startDateConvertedUTCPreserveTimeArray = startDateConvertedUTCPreserveTime.split("Z");
+
+    var endDateConvertedUTCPreserveTime = new Date(endDate - endDate.getTimezoneOffset() * 60000).toISOString();
+    var endDateConvertedUTCPreserveTimeArray = endDateConvertedUTCPreserveTime.split("Z");
+
+    var formattedStartDate = dateFormatter.format(startDate);
+    var formattedEndDate = dateFormatter.format(endDate);
+
+    var startDateSplitTimezoneArray = formattedStartDate.split("GMT");
+    var startDateTimezoneOffset = startDateSplitTimezoneArray[1];
+    var serverStartDate = startDateConvertedUTCPreserveTimeArray[0] + startDateTimezoneOffset;
+
+    var endDateSplitTimezoneArray = formattedEndDate.split("GMT");
+    var endDateTimezoneOffset = endDateSplitTimezoneArray[1];
+    var serverEndDate = endDateConvertedUTCPreserveTimeArray[0] + endDateTimezoneOffset;
+
+    var timezoneArray = [serverStartDate, serverEndDate];
+    console.log(timezoneArray)
+    return timezoneArray;
+
+
+}
 
 function calendarDatesEqual(checkboxDateEqualID, startDateID, endDateID){
     var checkboxDateEqualElement = document.getElementById(checkboxDateEqualID);
@@ -988,7 +1038,10 @@ async function submitForm(){
     var visibleGeometry;
     var coordinateArray = [];
     var geometryGeoJSONBBox;
-    var dateMetadataFields = document.querySelectorAll("input[id*=_date]");
+    //var dateMetadataFields = document.querySelectorAll("input[id*=_date]");
+    var timezoneDropdownLabel = document.getElementById("dropdownListTemporalStartButtonText");
+    var timezone = timezoneDropdownLabel.getAttribute("selected_index");
+    var temporalExtentArray = [];
     var textareaMetadataVariables = document.getElementById("metadata_variables");
     var textareaMetadataArray = [];
     var linkedPathField = document.getElementById("linked_path");
@@ -1359,14 +1412,20 @@ async function submitForm(){
     }
 
     /*Add Metadata date input to submitObject*/
-    submitObject["temporal"] = []
-    for(dateMetadata of dateMetadataFields){
-        var dateUTC = dateMetadata._flatpickr.selectedDates[0];
-        var dateISOString = dateUTC.toISOString();
-        submitObject["temporal"].push(dateISOString);
-    }
 
-    submitObject["user"] = (await  window.session_info).user.user_name;
+    submitObject["temporal"] = [];
+    submitObject["timezone"] = timezone;
+    temporalExtentArray = addTimezoneToSelectedTime(timezone);
+
+    for(dateMetadata of temporalExtentArray){
+        //var dateUTC = dateMetadata._flatpickr.selectedDates[0];
+        //var dateISOString = dateUTC.toISOString();
+        submitObject["temporal"].push(dateMetadata);
+    }
+    console.log()
+
+    //submitObject["user"] = (await  window.session_info).user.user_name;
+    submitObject["user"] = "testuser";
     submitObject["title"] = titleInput.value.trim();
     submitObject["description"] = descriptionInputValue;
     submitObject["authors"] = authorArray;
@@ -1456,5 +1515,7 @@ async function submitForm(){
         console.error(error.message);
     }
 
+    console.log("submitObject")
+    console.log(submitObject)
 
 }
