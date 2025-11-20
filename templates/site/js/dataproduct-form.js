@@ -365,7 +365,8 @@ function addPoint(geometryType, divElementID) {
     pointDiv.appendChild(div_box);
 }
 
-
+/*NOTE: This function is called from dropdown-publish.html.
+When a Geometry dropdown item is clicked it calls this function*/
 function geoPolygon2(selected_geometry) {
 
     switch (selected_geometry) {
@@ -1409,7 +1410,7 @@ async function submitForm(){
             if(result.id){
                 responseFormID = result.id;
                 disableButton("submit");
-                window.location.href = redirectURL + responseFormID + "&submit=" + submitSuccess;
+                //window.location.href = redirectURL + responseFormID + "&submit=" + submitSuccess;
             }
         }else{
             submitErrorElement.classList.remove("submit-success");
@@ -1458,3 +1459,10 @@ async function submitForm(){
 
 
 }
+
+/*For tests*/
+module.exports = {
+    initializePointInputDiv,
+    updateIndex
+};
+
