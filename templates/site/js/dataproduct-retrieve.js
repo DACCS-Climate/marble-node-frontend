@@ -1,5 +1,6 @@
 async function populateForm(){
-    var currentUser = (await  window.session_info).user.user_name;
+    //var currentUser = (await  window.session_info).user.user_name;
+    var currentUser = "testuser"
     var queryString = window.location.search;
     var urlParams = new URLSearchParams(queryString);
     var marbleAPIURL;
@@ -157,6 +158,31 @@ async function populateForm(){
                 var dateEqualCheckbox = document.getElementById("date_make_equal");
                 var firstDateString = new Date(dataproductJSON.temporal[0]);
                 var secondDateString = new Date(dataproductJSON.temporal[1]);
+
+
+
+                console.log("firstDateString")
+                console.log(firstDateString)
+
+
+                console.log("firstDateString.getTimezoneOffset()")
+                console.log(firstDateString.getTimezoneOffset())
+                /*
+                var dateFormatter = new Intl.DateTimeFormat("en-GB", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    timeZoneName: "longOffset",
+                    timeZone: timezone,
+                });*/
+
+                var convertedFirstDate = new Date(firstDateString + firstDateString.getTimezoneOffset() * 60000).toISOString()
+
+
+                console.log("convertedFirstDate")
+                console.log(convertedFirstDate)
 
                 metadataStartDate._flatpickr.setDate(firstDateString);
                 metadataEndDate._flatpickr.setDate(secondDateString);
