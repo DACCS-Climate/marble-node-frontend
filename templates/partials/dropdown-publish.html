@@ -135,7 +135,7 @@
                             dropdownAnchorElement.innerText = timezoneName;
                             dropdownAnchorElement.addEventListener('click', function() {
                                 replaceListItem("{{ dropdown_button_text_id }}", dropdownAnchorID);
-                                applyTimezoneToCalendar(timezone);
+                                addTimezoneToSelectedTime(timezone);
                             });
 
                             dropdownLIElement.appendChild(dropdownAnchorElement);
