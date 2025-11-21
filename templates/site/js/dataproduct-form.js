@@ -911,15 +911,6 @@ function addTimezoneToSelectedTime(timezone){
         timeZone: timezone,
     });
 
-    console.log("startDate")
-    console.log(startDate)
-
-    console.log("startDate.getTimezoneOffset()")
-    console.log(startDate.getTimezoneOffset())
-
-    console.log("startDate calculate utc")
-    console.log(startDate - startDate.getTimezoneOffset() * 60000);
-
     //Converts the date-time to ISO string with timezone at UTC while preserving the time value.
     var startDateConvertedUTCPreserveTime = new Date(startDate - startDate.getTimezoneOffset() * 60000).toISOString();
     var startDateConvertedUTCPreserveTimeArray = startDateConvertedUTCPreserveTime.split("Z");
@@ -939,10 +930,38 @@ function addTimezoneToSelectedTime(timezone){
     var serverEndDate = endDateConvertedUTCPreserveTimeArray[0] + endDateTimezoneOffset;
 
     var timezoneArray = [serverStartDate, serverEndDate];
-    console.log(timezoneArray)
+
     return timezoneArray;
+}
 
+function generateTimezoneWithOffset(){
+    const timezonesWithOffsetsList = Intl.supportedValuesOf('timeZone').map(timeZone => {
+        // Create a date object to get the offset for a specific point in time
+        const now = new Date();
 
+        // Create a DateTimeFormat object for the specific timezone and locale
+        const formatter = new Intl.DateTimeFormat('en-US', {
+            timeZone: timeZone,
+            timeZoneName: 'longOffset'
+        });
+
+        // Extract the offset from the formatted parts
+        const parts = formatter.formatToParts(now);
+        const offsetPart = parts.find(part => part.type === 'timeZoneName');
+
+        if(offsetPart){
+            offset = offsetPart.value
+        }
+
+        var timezoneOffsets = {
+            id: timeZone,
+            offset: offset
+        }
+
+        return timezoneOffsets;
+    });
+
+    return timezonesWithOffsetsList;
 }
 
 function calendarDatesEqual(checkboxDateEqualID, startDateID, endDateID){
