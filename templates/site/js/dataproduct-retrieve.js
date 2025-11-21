@@ -1,5 +1,6 @@
 async function populateForm(){
-    var currentUser = (await  window.session_info).user.user_name;
+    //var currentUser = (await  window.session_info).user.user_name;
+    var currentUser = "testuser"
     var queryString = window.location.search;
     var urlParams = new URLSearchParams(queryString);
     var marbleAPIURL;
@@ -151,19 +152,40 @@ async function populateForm(){
 
 
 
-                /*Fill in Date*/
+                /*Fill in Date and Timezone*/
                 var metadataStartDate = document.getElementById("metadata_start_date");
                 var metadataEndDate = document.getElementById("metadata_end_date");
                 var dateEqualCheckbox = document.getElementById("date_make_equal");
-                var firstDateString = new Date(dataproductJSON.temporal[0]);
-                var secondDateString = new Date(dataproductJSON.temporal[1]);
+                var timezoneDropdown = document.getElementById("timezoneDropdown");
+                var timezoneAnchorList = timezoneDropdown.querySelectorAll("li>a");
+                var serverTimezoneOffset;
+                var serverStartDate = dataproductJSON.temporal[0];
+                var serverEndDate = dataproductJSON.temporal[1];
+                var indexOfLastColon = serverStartDate.lastIndexOf(":");
+                var offsetIndicator = serverStartDate.charAt(indexOfLastColon - 3);
+                var serverTimezoneArray = serverStartDate.split(offsetIndicator);
 
-                metadataStartDate._flatpickr.setDate(firstDateString);
-                metadataEndDate._flatpickr.setDate(secondDateString);
+                if(offsetIndicator == "-"){
+                    serverTimezoneOffset = "GMT" + offsetIndicator +  serverTimezoneArray[3];
+                }else{
+                    serverTimezoneOffset = "GMT" + offsetIndicator +  serverTimezoneArray[1];
+                }
+
+                timezoneAnchorList.forEach( (anchorTag, anchorTagIndex) => {
+                    var selectedOffset = anchorTag.getAttribute("selected_offset");
+                    if(selectedOffset == serverTimezoneOffset){
+                        replaceListItem("dropdownListTemporalStartButtonText", anchorTag.id);
+                    }
+                });
+
+                metadataStartDate._flatpickr.setDate(serverStartDate.replace("T", " "));
+                metadataEndDate._flatpickr.setDate(serverEndDate.replace("T", " "));
 
                 if(dataproductJSON.temporal[0] == dataproductJSON.temporal[1]){
                     dateEqualCheckbox.checked = true;
                 }
+
+
 
                 /*Fill in Variables*/
                 var variablesText = "";
