@@ -1463,6 +1463,7 @@ async function submitForm(){
 /*For tests*/
 module.exports = {
     initializePointInputDiv,
+    initializeUploadDiv,
     updateIndex
 };
 
