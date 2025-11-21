@@ -164,4 +164,4 @@ cython_debug/
 
 # Project specific
 config.toml
-/tests/
+/tests/node_modules
