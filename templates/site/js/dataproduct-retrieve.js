@@ -172,7 +172,7 @@ async function populateForm(){
                 }
 
                 timezoneAnchorList.forEach( (anchorTag, anchorTagIndex) => {
-                    var selectedOffset = anchorTag.getAttribute("selected_offset");
+                    var selectedOffset = anchorTag.getAttribute("selected_index");
                     if(selectedOffset == serverTimezoneOffset){
                         replaceListItem("dropdownListTemporalStartButtonText", anchorTag.id);
                     }
