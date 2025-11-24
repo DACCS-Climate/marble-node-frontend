@@ -97,45 +97,38 @@
 
                 <script>
                     document.addEventListener("DOMContentLoaded", function () {
-                        var timezonesWithOffsetsList = [];
-                        var stickiedTimezoneList = ["GMT", "UTC"];
+                        var timezoneSet = new Set();
+                        var timezoneSetArray;
                         var dropdownULElement = document.getElementById("{{ dropdown_default_UL_id }}");
                         var generatedTimezonesList = generateTimezoneWithOffset();
 
                         //Make a new list with only UTC and GMT timezone identifiers
                         generatedTimezonesList.forEach( (generatedTimezoneListItem, generatedTimezoneListIndex) => {
-                            stickiedTimezoneList.forEach( (stickiedTimezone, stickiedTimezoneIndex) => {
-                                if(generatedTimezoneListItem.id === stickiedTimezone || generatedTimezoneListItem.id.includes(stickiedTimezone)){
-                                    timezonesWithOffsetsList.splice(0,0, generatedTimezoneListItem);
-                                }
-                            });
+                           timezoneSet.add(generatedTimezoneListItem.offset);
                         });
 
-                        //Remove 'Etc/' from the timezone identifier name and use it as the dropdown item label
+                        //Sort timezones
+                        timezoneSetArray = [...timezoneSet];
+                        timezoneSetArray.sort();
+
                         //Put the timezone offset as an attribute in the anchor tag.  Use it to select the list item
                         //when filling out the form with server data.
-                        timezonesWithOffsetsList.forEach((timezone, timezoneIndex) => {
+                        timezoneSetArray.forEach( (timezoneSetArrayItem, timezoneSetArrayIndex) => {
                             var timezoneName = "";
                             var dropdownLIElement = document.createElement("li");
                             var dropdownAnchorElement = document.createElement("a");
-                            var dropdownAnchorID = "{{ dropdown_default_UL_id }}" + "_" + timezone.id.replace("/","_");
+                            var dropdownAnchorID = "{{ dropdown_default_UL_id }}" + "_" + timezoneSetArrayItem;
+                            var timezoneOffsetArray = timezoneSetArrayItem.split("GMT");
+                            var timezoneOffset = timezoneOffsetArray[1];
 
-                            if(timezone.id.includes("Etc/")){
-                                timezoneName =  timezone.id.replace("Etc/", "");
-                            }
-                            else if(timezone.id.includes("_")){
-                               timezoneName =  timezone.id.replaceAll("_", " ");
-                            }
-                            else{
-                                timezoneName = timezone.id;
-                            }
+                            timezoneName = timezoneSetArrayItem;
 
                             dropdownLIElement.classList.add("dropdown-default-list-item");
 
                             dropdownAnchorElement.classList.add("subtitle-1","dropdown-default-list-item-text");
                             dropdownAnchorElement.setAttribute("role", "button");
-                            dropdownAnchorElement.setAttribute("selected_index", timezone.id);
-                            dropdownAnchorElement.setAttribute("selected_offset", timezone.offset);
+                            dropdownAnchorElement.setAttribute("selected_index", timezoneName);
+                            dropdownAnchorElement.setAttribute("selected_offset", timezoneOffset);
                             dropdownAnchorElement.id = dropdownAnchorID;
                             dropdownAnchorElement.innerText = timezoneName;
                             dropdownAnchorElement.addEventListener('click', function() {
