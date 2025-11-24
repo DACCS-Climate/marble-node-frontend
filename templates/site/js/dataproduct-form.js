@@ -895,12 +895,13 @@ function showHideModelInput(dropdownItemIndex, dropdownItemName, dropdownIndex){
 
 //Add selected timezone to the selected start date time and end date time without converting the date time value
 //Returns date time in ISO format with the selected timezone offset
-function addTimezoneToSelectedTime(timezone){
+function addTimezoneToSelectedTime(timezoneOffset){
     var startDateElement = document.getElementById("metadata_start_date");
     var endDateElement = document.getElementById("metadata_end_date");
     var startDate = startDateElement._flatpickr.selectedDates[0];
     var endDate = endDateElement._flatpickr.selectedDates[0];
 
+    //Format the date using the timezone offset value/identifier, not the timezone identifier name
     var dateFormatter = new Intl.DateTimeFormat("en-GB", {
         year: "numeric",
         month: "2-digit",
@@ -908,7 +909,7 @@ function addTimezoneToSelectedTime(timezone){
         hour: "2-digit",
         minute: "2-digit",
         timeZoneName: "longOffset",
-        timeZone: timezone,
+        timeZone: timezoneOffset,
     });
 
     //Converts the date-time to ISO string with timezone at UTC while preserving the time value.
@@ -936,6 +937,7 @@ function addTimezoneToSelectedTime(timezone){
 
 function generateTimezoneWithOffset(){
     const timezonesWithOffsetsList = Intl.supportedValuesOf('timeZone').map(timeZone => {
+        var offset = "";
         // Create a date object to get the offset for a specific point in time
         const now = new Date();
 
@@ -950,17 +952,15 @@ function generateTimezoneWithOffset(){
         const offsetPart = parts.find(part => part.type === 'timeZoneName');
 
         if(offsetPart){
-            offset = offsetPart.value
+            offset = offsetPart.value;
         }
 
         var timezoneOffsets = {
             id: timeZone,
             offset: offset
         }
-
         return timezoneOffsets;
     });
-
     return timezonesWithOffsetsList;
 }
 
@@ -1057,10 +1057,8 @@ async function submitForm(){
     var visibleGeometry;
     var coordinateArray = [];
     var geometryGeoJSONBBox;
-    //var dateMetadataFields = document.querySelectorAll("input[id*=_date]");
     var timezoneDropdownLabel = document.getElementById("dropdownListTemporalStartButtonText");
-    var timezone = timezoneDropdownLabel.getAttribute("selected_index");
-    var temporalExtentArray = [];
+    var timezoneOffset = timezoneDropdownLabel.getAttribute("selected_offset");
     var textareaMetadataVariables = document.getElementById("metadata_variables");
     var textareaMetadataArray = [];
     var linkedPathField = document.getElementById("linked_path");
@@ -1431,20 +1429,10 @@ async function submitForm(){
     }
 
     /*Add Metadata date input to submitObject*/
-
     submitObject["temporal"] = [];
-    submitObject["timezone"] = timezone;
-    temporalExtentArray = addTimezoneToSelectedTime(timezone);
+    submitObject["temporal"] = addTimezoneToSelectedTime(timezoneOffset);
 
-    for(dateMetadata of temporalExtentArray){
-        //var dateUTC = dateMetadata._flatpickr.selectedDates[0];
-        //var dateISOString = dateUTC.toISOString();
-        submitObject["temporal"].push(dateMetadata);
-    }
-    console.log()
-
-    //submitObject["user"] = (await  window.session_info).user.user_name;
-    submitObject["user"] = "testuser";
+    submitObject["user"] = (await  window.session_info).user.user_name;
     submitObject["title"] = titleInput.value.trim();
     submitObject["description"] = descriptionInputValue;
     submitObject["authors"] = authorArray;
@@ -1533,8 +1521,4 @@ async function submitForm(){
     } catch (error) {
         console.error(error.message);
     }
-
-    console.log("submitObject")
-    console.log(submitObject)
-
 }
