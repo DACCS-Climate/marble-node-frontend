@@ -67,13 +67,13 @@
                     <li class="dropdown-default-list-item">
 
                     {% if dropdown_type == "geometry_dropdown" %}
-                        <a id="{{ item["item_id"] }}" class="subtitle-1 dropdown-default-list-item-text" role="button" selected_index="{{ itemIndex }}" onclick="geoPolygon2({{ itemIndex }})">
+                        <a id="{{ item["item_id"] }}" class="subtitle-1 dropdown-default-list-item-text" role="button" data-selected_index="{{ itemIndex }}" onclick="geoPolygon2({{ itemIndex }})">
                             {{ item["item_label"]|safe }}
                         </a>
                     {% endif %}
 
                     {% if dropdown_type == "model_dropdown" %}
-                        <a id="{{ item["item_id"] }}" class="subtitle-1 dropdown-default-list-item-text" role="button" selected_index="{{ itemIndex }}"  selected_value="{{ item["item_label"].lower() }}">
+                        <a id="{{ item["item_id"] }}" class="subtitle-1 dropdown-default-list-item-text" role="button" data-selected_index="{{ itemIndex }}"  selected_value="{{ item["item_label"].lower() }}">
                             {{ item["item_label"]|safe }}
                         </a>
                     {% endif %}
@@ -97,49 +97,8 @@
 
                 <script>
                     document.addEventListener("DOMContentLoaded", function () {
-                        var timezoneSet = new Set();
-                        var timezoneSetArray;
-                        var dropdownULElement = document.getElementById("{{ dropdown_default_UL_id }}");
-                        var generatedTimezonesList = generateTimezoneWithOffset();
-
-                        //Make a new list with only UTC and GMT timezone identifiers
-                        generatedTimezonesList.forEach( (generatedTimezoneListItem, generatedTimezoneListIndex) => {
-                           timezoneSet.add(generatedTimezoneListItem.offset);
-                        });
-
-                        //Sort timezones
-                        timezoneSetArray = [...timezoneSet];
-                        timezoneSetArray.sort();
-
-                        //Put the timezone offset as an attribute in the anchor tag.  Use it to select the list item
-                        //when filling out the form with server data.
-                        timezoneSetArray.forEach( (timezoneSetArrayItem, timezoneSetArrayIndex) => {
-                            var timezoneName = "";
-                            var dropdownLIElement = document.createElement("li");
-                            var dropdownAnchorElement = document.createElement("a");
-                            var dropdownAnchorID = "{{ dropdown_default_UL_id }}" + "_" + timezoneSetArrayItem;
-                            var timezoneOffsetArray = timezoneSetArrayItem.split("GMT");
-                            var timezoneOffset = timezoneOffsetArray[1];
-
-                            timezoneName = timezoneSetArrayItem;
-
-                            dropdownLIElement.classList.add("dropdown-default-list-item");
-
-                            dropdownAnchorElement.classList.add("subtitle-1","dropdown-default-list-item-text");
-                            dropdownAnchorElement.setAttribute("role", "button");
-                            dropdownAnchorElement.setAttribute("selected_index", timezoneName);
-                            dropdownAnchorElement.setAttribute("selected_offset", timezoneOffset);
-                            dropdownAnchorElement.id = dropdownAnchorID;
-                            dropdownAnchorElement.innerText = timezoneName;
-                            dropdownAnchorElement.addEventListener('click', function() {
-                                replaceListItem("{{ dropdown_button_text_id }}", dropdownAnchorID);
-                            });
-
-                            dropdownLIElement.appendChild(dropdownAnchorElement);
-                            dropdownULElement.appendChild(dropdownLIElement);
-                        });
+                        generateTimezoneDropdownListItems();
                     });
-
                 </script>
             {% endif %}
 
