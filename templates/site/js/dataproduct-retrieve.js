@@ -1,6 +1,5 @@
 async function populateForm(){
-    //var currentUser = (await  window.session_info).user.user_name;
-    var currentUser = "testuser"
+    var currentUser = (await  window.session_info).user.user_name;
     var queryString = window.location.search;
     var urlParams = new URLSearchParams(queryString);
     var marbleAPIURL;
@@ -153,33 +152,34 @@ async function populateForm(){
 
 
                 /*Fill in Date and Timezone*/
+                var serverTimezoneOffset;
                 var metadataStartDate = document.getElementById("metadata_start_date");
                 var metadataEndDate = document.getElementById("metadata_end_date");
                 var dateEqualCheckbox = document.getElementById("date_make_equal");
                 var timezoneDropdown = document.getElementById("timezoneDropdown");
                 var timezoneAnchorList = timezoneDropdown.querySelectorAll("li>a");
-                var serverTimezoneOffset;
                 var serverStartDate = dataproductJSON.temporal[0];
                 var serverEndDate = dataproductJSON.temporal[1];
                 var indexOfLastColon = serverStartDate.lastIndexOf(":");
-                var offsetIndicator = serverStartDate.charAt(indexOfLastColon - 3);
-                var serverTimezoneArray = serverStartDate.split(offsetIndicator);
+                var offsetIndicator = "";
 
-                if(offsetIndicator == "-"){
-                    serverTimezoneOffset = "GMT" + offsetIndicator +  serverTimezoneArray[3];
+                if(serverEndDate.includes("Z")){
+                    serverTimezoneOffset = "00:00";
                 }else{
-                    serverTimezoneOffset = "GMT" + offsetIndicator +  serverTimezoneArray[1];
+                    offsetIndicator = serverStartDate.charAt(indexOfLastColon - 3);
                 }
 
+                serverTimezoneOffset = "GMT" + offsetIndicator +  serverStartDate.slice(indexOfLastColon - 2, serverStartDate.length);
+
                 timezoneAnchorList.forEach( (anchorTag, anchorTagIndex) => {
-                    var selectedOffset = anchorTag.getAttribute("selected_index");
+                    var selectedOffset = anchorTag.getAttribute("data-selected_index");
                     if(selectedOffset == serverTimezoneOffset){
                         replaceListItem("dropdownListTemporalStartButtonText", anchorTag.id);
                     }
                 });
 
-                metadataStartDate._flatpickr.setDate(serverStartDate.replace("T", " "));
-                metadataEndDate._flatpickr.setDate(serverEndDate.replace("T", " "));
+                metadataStartDate._flatpickr.setDate(serverStartDate);
+                metadataEndDate._flatpickr.setDate(serverEndDate);
 
                 if(dataproductJSON.temporal[0] == dataproductJSON.temporal[1]){
                     dateEqualCheckbox.checked = true;
@@ -224,7 +224,7 @@ async function populateForm(){
                         else if(link.rel == "model"){
                             selectedDropdownItemID = "modelModel_" + rowIndex;
                             selectedDropdownItem = document.getElementById(selectedDropdownItemID);
-                            selectedIndex = selectedDropdownItem.getAttribute("selected_index");
+                            selectedIndex = selectedDropdownItem.getAttribute("data-selected_index");
                             selectedValue = selectedDropdownItem.getAttribute("selected_value");
 
                             replaceListItem(dropdownItemTextID, selectedDropdownItemID);
@@ -236,7 +236,7 @@ async function populateForm(){
                         else{
                             selectedDropdownItemID = "modelOther_" + rowIndex;
                             selectedDropdownItem = document.getElementById(selectedDropdownItemID);
-                            selectedIndex = selectedDropdownItem.getAttribute("selected_index");
+                            selectedIndex = selectedDropdownItem.getAttribute("data-selected_index");
                             selectedValue = selectedDropdownItem.getAttribute("selected_value");
 
                             replaceListItem(dropdownItemTextID, selectedDropdownItemID);
