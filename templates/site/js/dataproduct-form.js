@@ -629,7 +629,7 @@ function initializeModelDropdown(dropdownID){
     var anchorTags = dropdown.querySelectorAll("li > a");
 
     anchorTags.forEach((tag) => {
-        var selectedIndex = tag.getAttribute("selected_index");
+        var selectedIndex = tag.getAttribute("data-selected_index");
         var selectedValue = tag.getAttribute("selected_value");
 
         tag.addEventListener("click", function (){
@@ -706,7 +706,7 @@ function addModel(divElementID) {
     templateDropdownButtonText.id = "dropdownListModelButtonText_" + autindex;
 
     templateDropdownULItemAnchorLinks.forEach((anchorTag) => {
-        var anchorSelectedIndex = anchorTag.getAttribute("selected_index");
+        var anchorSelectedIndex = anchorTag.getAttribute("data-selected_index");
         var anchorSelectedValue = anchorTag.getAttribute("selected_value");
 
         var anchorID = "model" + anchorSelectedValue.charAt(0).toUpperCase() + anchorSelectedValue.slice(1) + "_" + autindex;
@@ -870,7 +870,7 @@ function showHideModelInput(dropdownItemIndex, dropdownItemName, dropdownIndex){
     var dropdownListModelButtonText = document.getElementById("dropdownListModelButtonText_" + dropdownIndex);
 
 
-    dropdownListModelButtonText.setAttribute("selected_index", dropdownItemIndex);
+    dropdownListModelButtonText.setAttribute("data-selected_index", dropdownItemIndex);
 
     switch (dropdownItemIndex){
         case 1:
@@ -902,12 +902,7 @@ function addTimezoneToSelectedTime(timezoneOffset){
     var endDate = endDateElement._flatpickr.selectedDates[0];
 
     //Format the date using the timezone offset value/identifier, not the timezone identifier name
-    var dateFormatter = new Intl.DateTimeFormat("en-GB", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
+    var dateFormatter = new Intl.DateTimeFormat("en-US", {
         timeZoneName: "longOffset",
         timeZone: timezoneOffset,
     });
@@ -919,14 +914,17 @@ function addTimezoneToSelectedTime(timezoneOffset){
     var endDateConvertedUTCPreserveTime = new Date(endDate - endDate.getTimezoneOffset() * 60000).toISOString();
     var endDateConvertedUTCPreserveTimeArray = endDateConvertedUTCPreserveTime.split("Z");
 
-    var formattedStartDate = dateFormatter.format(startDate);
-    var formattedEndDate = dateFormatter.format(endDate);
+    var formattedStartDateParts = dateFormatter.formatToParts(startDate);
+    var formattedEndDateParts = dateFormatter.formatToParts(endDate);
 
-    var startDateSplitTimezoneArray = formattedStartDate.split("GMT");
+    const formattedStartDateOffsetPart = formattedStartDateParts.find(part => part.type === 'timeZoneName');
+    const formattedEndDateOffsetPart = formattedEndDateParts.find(part => part.type === 'timeZoneName');
+
+    var startDateSplitTimezoneArray = formattedStartDateOffsetPart.value.split("GMT");
     var startDateTimezoneOffset = startDateSplitTimezoneArray[1];
     var serverStartDate = startDateConvertedUTCPreserveTimeArray[0] + startDateTimezoneOffset;
 
-    var endDateSplitTimezoneArray = formattedEndDate.split("GMT");
+    var endDateSplitTimezoneArray = formattedEndDateOffsetPart.value.split("GMT");
     var endDateTimezoneOffset = endDateSplitTimezoneArray[1];
     var serverEndDate = endDateConvertedUTCPreserveTimeArray[0] + endDateTimezoneOffset;
 
@@ -1058,7 +1056,7 @@ async function submitForm(){
     var coordinateArray = [];
     var geometryGeoJSONBBox;
     var timezoneDropdownLabel = document.getElementById("dropdownListTemporalStartButtonText");
-    var timezoneOffset = timezoneDropdownLabel.getAttribute("selected_offset");
+    var timezoneOffset = timezoneDropdownLabel.getAttribute("data-selected_offset");
     var textareaMetadataVariables = document.getElementById("metadata_variables");
     var textareaMetadataArray = [];
     var linkedPathField = document.getElementById("linked_path");
@@ -1070,7 +1068,7 @@ async function submitForm(){
     var metadataModelObjectArray = [];
     var otherMetadataObject = {};
     var geometryDropdownButtonTitle = document.getElementById("dropdownListDefaultButtonText");
-    var geometrySelection = parseInt(geometryDropdownButtonTitle.getAttribute("selected_index"));
+    var geometrySelection = parseInt(geometryDropdownButtonTitle.getAttribute("data-selected_index"));
     var geometryDropdownContent;
 
     if(descriptionInput.value.trim() == ""){
@@ -1230,8 +1228,8 @@ async function submitForm(){
         metadataModelObject["rel"] = selectedModelValue;
 
 
-        if(dropdownButton.getAttribute("selected_index") != null){
-            selectedModelIndex = parseInt(dropdownButton.getAttribute("selected_index"));
+        if(dropdownButton.getAttribute("data-selected_index") != null){
+            selectedModelIndex = parseInt(dropdownButton.getAttribute("data-selected_index"));
 
             if(metadataModelHREF.value.trim() == ""){
 
