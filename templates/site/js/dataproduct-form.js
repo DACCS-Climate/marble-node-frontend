@@ -896,6 +896,10 @@ function showHideModelInput(dropdownItemIndex, dropdownItemName, dropdownIndex){
 //Add selected timezone to the selected start date time and end date time without converting the date time value
 //Returns date time in ISO format with the selected timezone offset
 function addTimezoneToSelectedTime(timezoneOffset){
+    var startDateTimezoneOffset;
+    var startDateSplitTimezoneArray;
+    var endDateSplitTimezoneArray;
+    var endDateTimezoneOffset;
     var startDateElement = document.getElementById("metadata_start_date");
     var endDateElement = document.getElementById("metadata_end_date");
     var startDate = startDateElement._flatpickr.selectedDates[0];
@@ -920,12 +924,21 @@ function addTimezoneToSelectedTime(timezoneOffset){
     const formattedStartDateOffsetPart = formattedStartDateParts.find(part => part.type === 'timeZoneName');
     const formattedEndDateOffsetPart = formattedEndDateParts.find(part => part.type === 'timeZoneName');
 
-    var startDateSplitTimezoneArray = formattedStartDateOffsetPart.value.split("GMT");
-    var startDateTimezoneOffset = startDateSplitTimezoneArray[1];
-    var serverStartDate = startDateConvertedUTCPreserveTimeArray[0] + startDateTimezoneOffset;
+    if(formattedStartDateOffsetPart.value === "GMT"){
+        startDateTimezoneOffset = "+00:00";
+    }else{
+        startDateSplitTimezoneArray = formattedStartDateOffsetPart.value.split("GMT");
+        startDateTimezoneOffset = startDateSplitTimezoneArray[1];
+    }
 
-    var endDateSplitTimezoneArray = formattedEndDateOffsetPart.value.split("GMT");
-    var endDateTimezoneOffset = endDateSplitTimezoneArray[1];
+    if(formattedEndDateOffsetPart.value === "GMT"){
+        endDateTimezoneOffset = "+00:00";
+    }else{
+        endDateSplitTimezoneArray = formattedEndDateOffsetPart.value.split("GMT");
+        endDateTimezoneOffset = endDateSplitTimezoneArray[1];
+    }
+
+    var serverStartDate = startDateConvertedUTCPreserveTimeArray[0] + startDateTimezoneOffset;
     var serverEndDate = endDateConvertedUTCPreserveTimeArray[0] + endDateTimezoneOffset;
 
     var timezoneArray = [serverStartDate, serverEndDate];
@@ -950,7 +963,11 @@ function generateTimezoneWithOffset(){
         const offsetPart = parts.find(part => part.type === 'timeZoneName');
 
         if(offsetPart){
-            offset = offsetPart.value;
+            if(offsetPart.value == "GMT"){
+                offset = "GMT+00:00";
+            }else{
+                offset = offsetPart.value;
+            }
         }
 
         var timezoneOffsets = {
