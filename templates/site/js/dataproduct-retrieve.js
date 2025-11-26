@@ -151,19 +151,41 @@ async function populateForm(){
 
 
 
-                /*Fill in Date*/
+                /*Fill in Date and Timezone*/
+                var serverTimezoneOffset;
                 var metadataStartDate = document.getElementById("metadata_start_date");
                 var metadataEndDate = document.getElementById("metadata_end_date");
                 var dateEqualCheckbox = document.getElementById("date_make_equal");
-                var firstDateString = new Date(dataproductJSON.temporal[0]);
-                var secondDateString = new Date(dataproductJSON.temporal[1]);
+                var timezoneDropdown = document.getElementById("timezoneDropdown");
+                var timezoneAnchorList = timezoneDropdown.querySelectorAll("li>a");
+                var serverStartDate = dataproductJSON.temporal[0];
+                var serverEndDate = dataproductJSON.temporal[1];
+                var indexOfLastColon = serverStartDate.lastIndexOf(":");
+                var offsetIndicator = "";
 
-                metadataStartDate._flatpickr.setDate(firstDateString);
-                metadataEndDate._flatpickr.setDate(secondDateString);
+                if(serverEndDate.includes("Z")){
+                    serverTimezoneOffset = "00:00";
+                }else{
+                    offsetIndicator = serverStartDate.charAt(indexOfLastColon - 3);
+                }
+
+                serverTimezoneOffset = "GMT" + offsetIndicator +  serverStartDate.slice(indexOfLastColon - 2, serverStartDate.length);
+
+                timezoneAnchorList.forEach( (anchorTag, anchorTagIndex) => {
+                    var selectedOffset = anchorTag.getAttribute("data-selected_index");
+                    if(selectedOffset == serverTimezoneOffset){
+                        replaceListItem("dropdownListTemporalStartButtonText", anchorTag.id);
+                    }
+                });
+
+                metadataStartDate._flatpickr.setDate(serverStartDate);
+                metadataEndDate._flatpickr.setDate(serverEndDate);
 
                 if(dataproductJSON.temporal[0] == dataproductJSON.temporal[1]){
                     dateEqualCheckbox.checked = true;
                 }
+
+
 
                 /*Fill in Variables*/
                 var variablesText = "";
@@ -202,7 +224,7 @@ async function populateForm(){
                         else if(link.rel == "model"){
                             selectedDropdownItemID = "modelModel_" + rowIndex;
                             selectedDropdownItem = document.getElementById(selectedDropdownItemID);
-                            selectedIndex = selectedDropdownItem.getAttribute("selected_index");
+                            selectedIndex = selectedDropdownItem.getAttribute("data-selected_index");
                             selectedValue = selectedDropdownItem.getAttribute("selected_value");
 
                             replaceListItem(dropdownItemTextID, selectedDropdownItemID);
@@ -214,7 +236,7 @@ async function populateForm(){
                         else{
                             selectedDropdownItemID = "modelOther_" + rowIndex;
                             selectedDropdownItem = document.getElementById(selectedDropdownItemID);
-                            selectedIndex = selectedDropdownItem.getAttribute("selected_index");
+                            selectedIndex = selectedDropdownItem.getAttribute("data-selected_index");
                             selectedValue = selectedDropdownItem.getAttribute("selected_value");
 
                             replaceListItem(dropdownItemTextID, selectedDropdownItemID);

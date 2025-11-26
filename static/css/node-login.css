@@ -1997,6 +1997,11 @@ dialog {
     align-items: center;
 }
 
+.dropdown-list-overflow-y{
+    max-height: 200px;
+    overflow-y: auto;
+}
+
 .author-parent, .multipoint-parent, .upload-geojson-child, .other-child{
     display: flex;
     flex-direction: column;
@@ -2152,7 +2157,7 @@ input:required{
     border-radius: var(--textbox-border-radius);
 }
 
-textarea.required:invalid, .input-invalid:invalid{
+textarea.required:invalid, .input-invalid:invalid, .dropdown-invalid{
     background-color: ivory;
     border: none;
     border-style: solid;
@@ -2165,6 +2170,14 @@ textarea.required:invalid, .input-invalid:invalid{
 textarea:required{
     border: var(--border-black);
     border-radius: var(--textbox-border-radius);
+}
+
+.dropdown-hidden-inputfield{
+    background-color: unset;
+    border: unset;
+    outline: unset;
+    width: 0px;
+    height: 0px;
 }
 
 .required-asterisk:after{
