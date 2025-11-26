@@ -1072,6 +1072,8 @@ async function submitForm(){
     var visibleGeometry;
     var coordinateArray = [];
     var geometryGeoJSONBBox;
+    var timezoneDropdownContainer =  document.getElementById("temporalStartDropdownContainer");
+    var timezoneHiddenInput = document.getElementById("hiddenTimezoneDropdown");
     var timezoneDropdownLabel = document.getElementById("dropdownListTemporalStartButtonText");
     var timezoneOffset = timezoneDropdownLabel.getAttribute("data-selected_offset");
     var textareaMetadataVariables = document.getElementById("metadata_variables");
@@ -1445,7 +1447,16 @@ async function submitForm(){
 
     /*Add Metadata date input to submitObject*/
     submitObject["temporal"] = [];
-    submitObject["temporal"] = addTimezoneToSelectedTime(timezoneOffset);
+    if(timezoneOffset){
+        timezoneDropdownContainer.classList.remove("dropdown-invalid");
+        timezoneHiddenInput.setCustomValidity("");
+        submitObject["temporal"] = addTimezoneToSelectedTime(timezoneOffset);
+    }
+    else{
+        timezoneDropdownContainer.classList.add("dropdown-invalid");
+        timezoneHiddenInput.setCustomValidity("Timezone needs a value.");
+    }
+
 
     submitObject["user"] = (await  window.session_info).user.user_name;
     submitObject["title"] = titleInput.value.trim();
