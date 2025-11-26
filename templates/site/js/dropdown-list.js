@@ -17,11 +17,21 @@ function replaceListItem(titleItemID, selectedItemID){
     }
 }
 
-function generateTimezoneDropdownListItems(dropdownID, dropdownButtonTextID){
+function generateTimezoneDropdownListItems(dropdownContainerID, dropdownID, dropdownButtonTextID){
     var timezoneSet = new Set();
     var timezoneSetArray;
+    var dropdownTitleLabel = document.getElementById(dropdownButtonTextID);
     var dropdownULElement = document.getElementById(dropdownID);
     var generatedTimezonesList = generateTimezoneWithOffset();
+    var dropdownContainer = document.getElementById(dropdownContainerID);
+    var hiddenSelectDropdownInputField = document.createElement("input");
+
+    dropdownTitleLabel.setAttribute("data-selected_offset", "");
+
+    hiddenSelectDropdownInputField.id = "hiddenTimezoneDropdown";
+    hiddenSelectDropdownInputField.classList.add("dropdown-hidden-inputfield");
+
+    dropdownContainer.appendChild(hiddenSelectDropdownInputField);
 
     //Make a new list with only UTC and GMT timezone identifiers
     generatedTimezonesList.forEach( (generatedTimezoneListItem) => {
