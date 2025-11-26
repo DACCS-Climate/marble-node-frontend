@@ -2157,7 +2157,7 @@ input:required{
     border-radius: var(--textbox-border-radius);
 }
 
-textarea.required:invalid, .input-invalid:invalid{
+textarea.required:invalid, .input-invalid:invalid, .dropdown-invalid{
     background-color: ivory;
     border: none;
     border-style: solid;
@@ -2170,6 +2170,14 @@ textarea.required:invalid, .input-invalid:invalid{
 textarea:required{
     border: var(--border-black);
     border-radius: var(--textbox-border-radius);
+}
+
+.dropdown-hidden-inputfield{
+    background-color: unset;
+    border: unset;
+    outline: unset;
+    width: 0px;
+    height: 0px;
 }
 
 .required-asterisk:after{
