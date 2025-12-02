@@ -629,7 +629,7 @@ function initializeModelDropdown(dropdownID){
     var anchorTags = dropdown.querySelectorAll("li > a");
 
     anchorTags.forEach((tag) => {
-        var selectedIndex = tag.getAttribute("selected_index");
+        var selectedIndex = tag.getAttribute("data-selected_index");
         var selectedValue = tag.getAttribute("selected_value");
 
         tag.addEventListener("click", function (){
@@ -706,7 +706,7 @@ function addModel(divElementID) {
     templateDropdownButtonText.id = "dropdownListModelButtonText_" + autindex;
 
     templateDropdownULItemAnchorLinks.forEach((anchorTag) => {
-        var anchorSelectedIndex = anchorTag.getAttribute("selected_index");
+        var anchorSelectedIndex = anchorTag.getAttribute("data-selected_index");
         var anchorSelectedValue = anchorTag.getAttribute("selected_value");
 
         var anchorID = "model" + anchorSelectedValue.charAt(0).toUpperCase() + anchorSelectedValue.slice(1) + "_" + autindex;
@@ -870,7 +870,7 @@ function showHideModelInput(dropdownItemIndex, dropdownItemName, dropdownIndex){
     var dropdownListModelButtonText = document.getElementById("dropdownListModelButtonText_" + dropdownIndex);
 
 
-    dropdownListModelButtonText.setAttribute("selected_index", dropdownItemIndex);
+    dropdownListModelButtonText.setAttribute("data-selected_index", dropdownItemIndex);
 
     switch (dropdownItemIndex){
         case 1:
@@ -893,7 +893,91 @@ function showHideModelInput(dropdownItemIndex, dropdownItemName, dropdownIndex){
     }
 }
 
+//Add selected timezone to the selected start date time and end date time without converting the date time value
+//Returns date time in ISO format with the selected timezone offset
+function addTimezoneToSelectedTime(timezoneOffset){
+    var startDateTimezoneOffset;
+    var startDateSplitTimezoneArray;
+    var endDateSplitTimezoneArray;
+    var endDateTimezoneOffset;
+    var startDateElement = document.getElementById("metadata_start_date");
+    var endDateElement = document.getElementById("metadata_end_date");
+    var startDate = startDateElement._flatpickr.selectedDates[0];
+    var endDate = endDateElement._flatpickr.selectedDates[0];
 
+    //Format the date using the timezone offset value/identifier, not the timezone identifier name
+    var dateFormatter = new Intl.DateTimeFormat("en-US", {
+        timeZoneName: "longOffset",
+        timeZone: timezoneOffset,
+    });
+
+    //Converts the date-time to ISO string with timezone at UTC while preserving the time value.
+    var startDateConvertedUTCPreserveTime = new Date(startDate - startDate.getTimezoneOffset() * 60000).toISOString();
+    var startDateConvertedUTCPreserveTimeArray = startDateConvertedUTCPreserveTime.split("Z");
+
+    var endDateConvertedUTCPreserveTime = new Date(endDate - endDate.getTimezoneOffset() * 60000).toISOString();
+    var endDateConvertedUTCPreserveTimeArray = endDateConvertedUTCPreserveTime.split("Z");
+
+    var formattedStartDateParts = dateFormatter.formatToParts(startDate);
+    var formattedEndDateParts = dateFormatter.formatToParts(endDate);
+
+    const formattedStartDateOffsetPart = formattedStartDateParts.find(part => part.type === 'timeZoneName');
+    const formattedEndDateOffsetPart = formattedEndDateParts.find(part => part.type === 'timeZoneName');
+
+    if(formattedStartDateOffsetPart.value === "GMT"){
+        startDateTimezoneOffset = "+00:00";
+    }else{
+        startDateSplitTimezoneArray = formattedStartDateOffsetPart.value.split("GMT");
+        startDateTimezoneOffset = startDateSplitTimezoneArray[1];
+    }
+
+    if(formattedEndDateOffsetPart.value === "GMT"){
+        endDateTimezoneOffset = "+00:00";
+    }else{
+        endDateSplitTimezoneArray = formattedEndDateOffsetPart.value.split("GMT");
+        endDateTimezoneOffset = endDateSplitTimezoneArray[1];
+    }
+
+    var serverStartDate = startDateConvertedUTCPreserveTimeArray[0] + startDateTimezoneOffset;
+    var serverEndDate = endDateConvertedUTCPreserveTimeArray[0] + endDateTimezoneOffset;
+
+    var timezoneArray = [serverStartDate, serverEndDate];
+
+    return timezoneArray;
+}
+
+function generateTimezoneWithOffset(){
+    const timezonesWithOffsetsList = Intl.supportedValuesOf('timeZone').map(timeZone => {
+        var offset = "";
+        // Create a date object to get the offset for a specific point in time
+        const now = new Date();
+
+        // Create a DateTimeFormat object for the specific timezone and locale
+        const formatter = new Intl.DateTimeFormat('en-US', {
+            timeZone: timeZone,
+            timeZoneName: 'longOffset'
+        });
+
+        // Extract the offset from the formatted parts
+        const parts = formatter.formatToParts(now);
+        const offsetPart = parts.find(part => part.type === 'timeZoneName');
+
+        if(offsetPart){
+            if(offsetPart.value == "GMT"){
+                offset = "GMT+00:00";
+            }else{
+                offset = offsetPart.value;
+            }
+        }
+
+        var timezoneOffsets = {
+            id: timeZone,
+            offset: offset
+        }
+        return timezoneOffsets;
+    });
+    return timezonesWithOffsetsList;
+}
 
 function calendarDatesEqual(checkboxDateEqualID, startDateID, endDateID){
     var checkboxDateEqualElement = document.getElementById(checkboxDateEqualID);
@@ -988,7 +1072,10 @@ async function submitForm(){
     var visibleGeometry;
     var coordinateArray = [];
     var geometryGeoJSONBBox;
-    var dateMetadataFields = document.querySelectorAll("input[id*=_date]");
+    var timezoneDropdownContainer =  document.getElementById("temporalStartDropdownContainer");
+    var timezoneHiddenInput = document.getElementById("hiddenTimezoneDropdown");
+    var timezoneDropdownLabel = document.getElementById("dropdownListTemporalStartButtonText");
+    var timezoneOffset = timezoneDropdownLabel.getAttribute("data-selected_offset");
     var textareaMetadataVariables = document.getElementById("metadata_variables");
     var textareaMetadataArray = [];
     var linkedPathField = document.getElementById("linked_path");
@@ -1000,7 +1087,7 @@ async function submitForm(){
     var metadataModelObjectArray = [];
     var otherMetadataObject = {};
     var geometryDropdownButtonTitle = document.getElementById("dropdownListDefaultButtonText");
-    var geometrySelection = parseInt(geometryDropdownButtonTitle.getAttribute("selected_index"));
+    var geometrySelection = parseInt(geometryDropdownButtonTitle.getAttribute("data-selected_index"));
     var geometryDropdownContent;
 
     if(descriptionInput.value.trim() == ""){
@@ -1160,8 +1247,8 @@ async function submitForm(){
         metadataModelObject["rel"] = selectedModelValue;
 
 
-        if(dropdownButton.getAttribute("selected_index") != null){
-            selectedModelIndex = parseInt(dropdownButton.getAttribute("selected_index"));
+        if(dropdownButton.getAttribute("data-selected_index") != null){
+            selectedModelIndex = parseInt(dropdownButton.getAttribute("data-selected_index"));
 
             if(metadataModelHREF.value.trim() == ""){
 
@@ -1359,12 +1446,17 @@ async function submitForm(){
     }
 
     /*Add Metadata date input to submitObject*/
-    submitObject["temporal"] = []
-    for(dateMetadata of dateMetadataFields){
-        var dateUTC = dateMetadata._flatpickr.selectedDates[0];
-        var dateISOString = dateUTC.toISOString();
-        submitObject["temporal"].push(dateISOString);
+    submitObject["temporal"] = [];
+    if(timezoneOffset){
+        timezoneDropdownContainer.classList.remove("dropdown-invalid");
+        timezoneHiddenInput.setCustomValidity("");
+        submitObject["temporal"] = addTimezoneToSelectedTime(timezoneOffset);
     }
+    else{
+        timezoneDropdownContainer.classList.add("dropdown-invalid");
+        timezoneHiddenInput.setCustomValidity("Timezone needs a value.");
+    }
+
 
     submitObject["user"] = (await  window.session_info).user.user_name;
     submitObject["title"] = titleInput.value.trim();
@@ -1455,6 +1547,4 @@ async function submitForm(){
     } catch (error) {
         console.error(error.message);
     }
-
-
 }
