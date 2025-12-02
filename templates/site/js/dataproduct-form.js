@@ -1464,6 +1464,10 @@ async function submitForm(){
 module.exports = {
     initializePointInputDiv,
     initializeUploadDiv,
+    createInputCoordinatesRow,
+    createAddCoordinateRowButton,
+    addPoint,
+    removeEntry,
     updateIndex
 };
 
