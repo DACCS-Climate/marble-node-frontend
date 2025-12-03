@@ -1,7 +1,11 @@
 /*Geometry Functions*/
+//TODO: Strategy 1: change the call to createCoordinateInputsRow so it passes the ID or divID needed instead of just the index
+// Maybe even change the call the addPoint instead -> call addPoint multiple times
+// In addPoint maybe do a check to see if that particular lat-lon input field / input field array exists before adding the row
 function initializePointInputDiv(geometryType, divID) {
     var geoBboxDiv = document.getElementById(divID);
     var geoContentDiv;
+    var geoContentDivID;
     var geoAddButtonDiv;
 
 
@@ -11,24 +15,28 @@ function initializePointInputDiv(geometryType, divID) {
     geoBboxDiv.classList.add("show");
 
     if(divID.includes("_content")){
-        geoContentDiv = document.getElementById(divID );
+        geoContentDivID = divID;
+        geoContentDiv = document.getElementById(divID);
     }
     else{
-        geoContentDiv = document.getElementById(divID + "_content");
+        geoContentDivID = divID + "_content";
+        geoContentDiv = document.getElementById(geoContentDivID);
     }
 
     //Only create the add button for geo_multipoint, geo_linestring, geo_polygon
     switch(divID){
         case "geo_point":
-            var pointInputRow = createInputCoordinatesRow("point",1);
-            geoContentDiv.appendChild(pointInputRow);
+            //var pointInputRow = createInputCoordinatesRow("point",1);
+            //geoContentDiv.appendChild(pointInputRow);
+            addPoint("point", geoContentDivID);
 
             break;
 
         case "geo_multipoint":
             geoAddButtonDiv = createAddCoordinateRowButton(geometryType, "geo_multipoint");
-            var multipointInputRow = createInputCoordinatesRow("multipoint", 1);
-            geoContentDiv.appendChild(multipointInputRow);
+            //var multipointInputRow = createInputCoordinatesRow("multipoint", 1);
+            //geoContentDiv.appendChild(multipointInputRow);
+            addPoint("multipoint", geoContentDivID);
 
             if(document.getElementById("geo_" + geometryType + "_add_button_div") == null &&
                 document.getElementById("geo_" + geometryType + "_geojson_upload_div") == null) {
@@ -41,8 +49,9 @@ function initializePointInputDiv(geometryType, divID) {
             geoAddButtonDiv = createAddCoordinateRowButton(geometryType, "geo_linestring");
 
             for (let i = 1; i < 3; i++ ){
-                var linestringInputRow = createInputCoordinatesRow("linestring", i);
-                geoContentDiv.appendChild(linestringInputRow);
+                //var linestringInputRow = createInputCoordinatesRow("linestring", i);
+                //geoContentDiv.appendChild(linestringInputRow);
+                addPoint("linestring", geoContentDivID);
             }
 
             if(document.getElementById("geo_" + geometryType + "_add_button_div") == null &&
@@ -56,8 +65,9 @@ function initializePointInputDiv(geometryType, divID) {
             geoAddButtonDiv = createAddCoordinateRowButton(geometryType, "geo_polygon");
 
             for (let i = 1; i < 4; i++ ){
-                var polygonInputRow = createInputCoordinatesRow("polygon", i);
-                geoContentDiv.appendChild(polygonInputRow);
+                //var polygonInputRow = createInputCoordinatesRow("polygon", i);
+                //geoContentDiv.appendChild(polygonInputRow);
+                addPoint("polygon", geoContentDivID);
             }
 
             if(document.getElementById("geo_" + geometryType + "_add_button_div") == null &&
@@ -256,48 +266,68 @@ function getCoordinateInputArray(geometryType){
         inputArray = document.querySelectorAll(`[id^=${coordinateIDPrefix}]`);
     }
 
-    return inputArray
+    if(inputArray.length >0){
+        return inputArray;
+    }
+    else{
+        inputArray = false;
+        return inputArray;
+    }
 }
 
+//TODO: Find out why addPoint is adding Remove Buttons to the default input field rows
+// For example, Polygon has 3 coordinates by default and should not have Remove Buttons shown if there are 3 coordinate rows left
 function addPoint(geometryType, divElementID) {
     var pointInputArray = getCoordinateInputArray(geometryType);
     var currentPointIndex;
     var pointInputItem;
     var pointInputID;
     var pointIDArray;
+    var autindex;
 
-    if(pointInputArray.length > 1){
-        for (let i = 1; i < pointInputArray.length; i++){
-            pointInputItem = pointInputArray[i];
-            pointInputID = pointInputItem.id;
-            pointIDArray = pointInputID.split("_");
-            currentPointIndex = pointIDArray[2];
+    console.log("pointInputArray")
+    console.log(pointInputArray)
+    if(pointInputArray){
+        autindex = updateIndex(pointInputArray);
+        if(pointInputArray.length > 1){
+            for (let i = 1; i < pointInputArray.length; i++){
+                pointInputItem = pointInputArray[i];
+                pointInputID = pointInputItem.id;
+                pointIDArray = pointInputID.split("_");
+                currentPointIndex = pointIDArray[2];
 
-            var currentRemoveButton = document.getElementById(geometryType + "_remove_container_" + currentPointIndex);
+                var currentRemoveButton = document.getElementById(geometryType + "_remove_container_" + currentPointIndex);
 
-            if(!currentRemoveButton.classList.contains("show")){
-                currentRemoveButton.classList.add("show");
+                if(!currentRemoveButton.classList.contains("show")){
+                    currentRemoveButton.classList.add("show");
+                }
+            }
+        }
+        else{
+            var firstPointInputItem = pointInputArray[0];
+            var currentPointID = firstPointInputItem.id;
+            var currentPointIDArray = currentPointID.split("_");
+            currentPointIndex = currentPointIDArray[2];
+
+             var firstRemoveButton = document.getElementById(geometryType + "_remove_container_" + currentPointIndex);
+
+            if(!firstRemoveButton.classList.contains("show")){
+                firstRemoveButton.classList.add("show");
             }
         }
     }
     else{
-        var firstPointInputItem = pointInputArray[0];
-        var currentPointID = firstPointInputItem.id;
-        var currentPointIDArray = currentPointID.split("_");
-        currentPointIndex = currentPointIDArray[2];
-
-         var firstRemoveButton = document.getElementById(geometryType + "_remove_container_" + currentPointIndex);
-
-        if(!firstRemoveButton.classList.contains("show")){
-            firstRemoveButton.classList.add("show");
-        }
+        autindex = 0;
     }
 
 
-    var pointDiv = document.getElementById(divElementID);
-    var pointArray = getCoordinateInputArray(geometryType);
 
-    var autindex = updateIndex(pointArray);
+
+
+    var pointDiv = document.getElementById(divElementID);
+    //var pointInputArray = getCoordinateInputArray(geometryType);
+
+
 
     var div_box = document.createElement("div");
     div_box.classList.add("multipoint-additional-child");
@@ -325,7 +355,10 @@ function addPoint(geometryType, divElementID) {
 
     var input1 = document.createElement("input");
     input1.classList.add("input-textbox", "margin-input-field");
-    input1.setAttribute("type", "text");
+    input1.setAttribute("type", "number");
+    input1.setAttribute("min", "-90");
+    input1.setAttribute("max", "90");
+    input1.setAttribute("step", "any");
     input1.setAttribute("id", geometryType + "_lat_" + autindex);
     input1.setAttribute("name", geometryType + "_lat_[]"); // Make it an array input
     input1.setAttribute("required", "required");
@@ -338,7 +371,10 @@ function addPoint(geometryType, divElementID) {
 
     var input2 = document.createElement("input");
     input2.classList.add("input-textbox", "margin-input-field");
-    input2.setAttribute("type", "text");
+    input2.setAttribute("type", "number");
+    input2.setAttribute("min", "-180");
+    input2.setAttribute("max", "180");
+    input2.setAttribute("step", "any");
     input2.setAttribute("id", geometryType + "_lon_" + autindex);
     input2.setAttribute("name", geometryType + "_lon_[]"); // Changed name to array input for last name
     input2.setAttribute("required", "required");
@@ -1461,13 +1497,22 @@ async function submitForm(){
 }
 
 /*For tests*/
+/*
+const addPointTest = {
+    addPoint(geometryType, divElementID){
+        return true;
+    }
+}
+
+
 module.exports = {
     initializePointInputDiv,
     initializeUploadDiv,
     createInputCoordinatesRow,
     createAddCoordinateRowButton,
     addPoint,
+    addPointTest,
     removeEntry,
     updateIndex
-};
+};*/
 
