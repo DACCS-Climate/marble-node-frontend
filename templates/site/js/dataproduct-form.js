@@ -1394,21 +1394,15 @@ async function submitForm(){
 }
 
 /*For tests*/
-/*
-const addPointTest = {
-    addPoint(geometryType, divElementID){
-        return true;
-    }
-}
-
-
 module.exports = {
     initializePointInputDiv,
     initializeUploadDiv,
-
     createAddCoordinateRowButton,
     addPoint,
-    addPointTest,
+    geoPolygon2,
+    addAuthor,
+    addModel,
+    addOther,
     removeEntry,
     updateIndex
-};*/
+};
