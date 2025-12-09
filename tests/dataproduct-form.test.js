@@ -263,30 +263,69 @@ describe("DOM Manipulator functions", () => {
         var modelDropdownTemplateContainer = document.createElement("template");
         modelDropdownTemplateContainer.id = "modelDropdownTemplate";
 
-        modelDropdownTemplateContainer
+        /*Set up the data and template string for nunjucks*/
+        var dropdown_library = {
+            "dropdown_type": "model_dropdown",
+            "banner_search_dropdown_class": "banner-dropdown-list-container",
+            "container_id": "model_dropdown_container_template_id",
+            "dropdown_id": "model_dropdown_template_id",
+            "dropdown_button_id": "model_dropdown_button_template_id",
+            "dropdown_button_text_id": "model_dropdown_button_text_template_id",
+            "dropdown_default_UL_id": "model_dropdown_default_UL_template_id",
+            "dropdown_label_text": "Select one",
+            "model_dropdown": {
+                "list_items": [
+                    {
+                        "item_label": "Input",
+                        "item_id": "modelInput_1"
+                    },
+                    {
+                        "item_label": "Model",
+                        "item_id": "modelModel_1"
+                    },
+                    {
+                        "item_label": "Other",
+                        "item_id": "modelOther_1"
+                    }
+                ]
+            }
+        }
 
-        modelDropdownTemplateContainer.innerText = '{% with %}\n' +
-            '            {% set dropdown_type = "model_dropdown" %}\n' +
-            '            {% set banner_search_dropdown_class = "banner-dropdown-list-container"%}\n' +
-            '            {% set container_id = "model_dropdown_container_template_id" %}\n' +
-            '            {% set dropdown_id = "model_dropdown_template_id" %}\n' +
-            '            {% set dropdown_button_id = "model_dropdown_button_template_id" %}\n' +
-            '            {% set dropdown_button_text_id = "model_dropdown_button_text_template_id" %}\n' +
-            '            {% set dropdown_default_UL_id = "model_dropdown_default_UL_template_id" %}\n' +
-            '            {% set dropdown_label_text = "Select one" %}\n' +
-            '            {% include "partials/dropdown-publish.html" %}\n' +
-            '            {% endwith %}'
+        var modelDropdownTemplate = ` 
+            <div id="{{ container_id }}" class="dropdown-list-container {{ banner_search_dropdown_class }}">
+                <div id="{{ dropdown_id }}" class="dropdown">
+                    <a id="{{ dropdown_button_id }}" class="btn btn-secondary dropdown-toggle padding-unset dropdown-default-list-button dropdown-default-list-icon" role="button" data-bs-toggle="dropdown" data-bs-display="static" data-bs-auto-close="true" aria-expanded="false">
+                        <h6 id="{{ dropdown_button_text_id }}" class="dropdown-list-title margin-unset padding-unset">
+                                {{ dropdown_label_text|safe }}
+                        </h6>
+                    </a>
+            
+                    <ul id="{{ dropdown_default_UL_id }}" class="dropdown-menu margin-unset padding-unset dropdown-default-list" aria-labelledby="{{ dropdown_button_id }}">
+                        {% set dropdown_list_items = dropdown_library[dropdown_type]["list_items"] %}
+                        {% for item in dropdown_list_items %}
+                            {% set itemIndex = loop.index %}
+                            <li class="dropdown-default-list-item">
+                                <a id="{{ item["item_id"] }}" class="subtitle-1 dropdown-default-list-item-text" role="button" selected_index="{{ itemIndex }}"  selected_value="{{ item["item_label"].lower() }}">
+                                    {{ item["item_label"]|safe }}
+                                </a>
+                            </li>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function () {
+                                    var listItem = document.getElementById("{{ item["item_id"] }}");
+        
+                                    listItem.addEventListener('click', function() {
+                                        replaceListItem("{{ dropdown_button_text_id }}", "{{ item["item_id"] }}");
+                                    })
+                                });
+                            </script>
+                            {% endfor %}
+                    </ul>
+                </div>
+                <script src="js/dropdown-list.js"></script>
+            </div> `
 
-
-
-
-       // var modelDropdownTemplate = document.getElementById("modelDropdownTemplate");
-
-
-
-
-
-
+        /*Render jinja template using nunjucks*/
+        modelDropdownTemplateContainer.innerHTML = nunjucks.renderString(modelDropdownTemplate, dropdown_library);
 
         var modelOtherInputContainer = document.createElement("div");
         modelOtherInputContainer.id = "model-other-input-container_1";
@@ -320,6 +359,7 @@ describe("DOM Manipulator functions", () => {
         modelRowContainer.appendChild(modelOtherInputContainer);
 
         modelBox.appendChild(modelRowContainer);
+        modelBox.appendChild(modelDropdownTemplateContainer);
 
         document.body.appendChild(modelBox);
         document.body.appendChild(modelAddButtonContainer);
@@ -510,9 +550,8 @@ describe("DOM Manipulator functions", () => {
             expect(authorRows.length).toBe(2);
         });
 
+        
 
-
-        /*
         test("Test addModel function" +
             "This function is called when the Add Model button is clicked." +
             "This function will add an additional row of inputs to the Model section in the Metadata section" +
@@ -531,7 +570,7 @@ describe("DOM Manipulator functions", () => {
 
             expect(modelRows.length).toBe(2);
         });
-        */
+
 
 
         test("Test addOther function" +
