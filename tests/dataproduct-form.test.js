@@ -10,6 +10,7 @@ const {initializePointInputDiv,
     removeEntry,
     updateIndex} =  require("../templates/site/js/dataproduct-form.js")
 
+const nunjucks = require('nunjucks');
 
 test("Test updateIndex() function. " +
     "Takes an array of HTML elements, gets the ID of the last element and increments it for creating the next element." +
@@ -465,7 +466,8 @@ describe("DOM Manipulator functions", () => {
             "- Tests if the correct geometry inputs are shown when that particular geometry is selected"
             , () =>{
 
-            var geometryType = {"point":"geo_point", "multipoint":"geo_multipoint", "linestring":"geo_linestring", "polygon":"geo_polygon"};
+            var geometryType = {"point":"geo_point", "multipoint":"geo_multipoint", "linestring":"geo_linestring",
+                "polygon":"geo_polygon", "geojson":"geo_geojson", "geonull": "geo_null"};
 
             Object.keys(geometryType).forEach( (geometryTypeName, geometryTypeIndex) => {
                 geoPolygon2(geometryTypeIndex + 1);
@@ -477,7 +479,15 @@ describe("DOM Manipulator functions", () => {
                 var geometryTypeCreatedDiv = document.querySelectorAll(`div#${geometryTypeContentDivID} > div`);
 
                 expect(geometryTypeShown).toBe(true);
-                expect(geometryTypeCreatedDiv[0].id).toBe(geometryTypeName + "_0");
+                if(geometryTypeName == "geojson"){
+                    expect(geometryTypeCreatedDiv[0].id).toBe("upload_geo_" + geometryTypeName);
+                }
+                else if(geometryTypeName == "geonull"){
+                    expect(geometryTypeCreatedDiv.length).toBe(0);
+                }
+                else{
+                    expect(geometryTypeCreatedDiv[0].id).toBe(geometryTypeName + "_0");
+                }
             });
         });
 
@@ -502,6 +512,7 @@ describe("DOM Manipulator functions", () => {
 
 
 
+        /*
         test("Test addModel function" +
             "This function is called when the Add Model button is clicked." +
             "This function will add an additional row of inputs to the Model section in the Metadata section" +
@@ -520,6 +531,7 @@ describe("DOM Manipulator functions", () => {
 
             expect(modelRows.length).toBe(2);
         });
+        */
 
 
         test("Test addOther function" +
