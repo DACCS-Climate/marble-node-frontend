@@ -7,10 +7,19 @@ const {initializePointInputDiv,
     addAuthor,
     addModel,
     addOther,
+    initializeModelDropdown,
     removeEntry,
     updateIndex} =  require("../templates/site/js/dataproduct-form.js")
 
 const nunjucks = require('nunjucks');
+//const fs = require('fs');
+//const path = require('path');
+//const dataproductForm = fs.readFileSync(path.resolve(__dirname, '../build/publish-dataproduct.html'), 'utf8');
+
+
+//require("../build/js/dataproduct-form.js");
+//require("../build/js/dataproduct-onpageload.js");
+//require("../build/js/dataproduct-retrieve.js")
 
 test("Test updateIndex() function. " +
     "Takes an array of HTML elements, gets the ID of the last element and increments it for creating the next element." +
@@ -28,8 +37,78 @@ test("Test updateIndex() function. " +
 describe("DOM Manipulator functions", () => {
 
     beforeEach(() => {
+        /*
+        const jsdomOptions = {
+            resources: 'usable',
+            runScripts: 'dangerously'
+        };
 
-        /*Create Author input area*/
+        const dom = new JSDOM(dataproductForm, jsdomOptions);
+
+        await new Promise(resolve => {
+            dom.window.addEventListener('load', resolve);
+        })
+
+        window = dom.window;
+        document = window.document
+        */
+
+        //document.body.innerHTML = dataproductForm;
+
+        function dropdownTemplate(dropdown_library, containerID){
+            /*
+            var dropdownTemplatePath = "../templates/partials/";
+            var dropdownPartialFile = "dropdown-publish.html";
+            nunjucks.configure(dropdownTemplatePath, { autoescape: true });
+            var dropdownContainerDiv = document.createElement("div");
+            dropdownContainerDiv.classList.add("model-dropdown-container");
+            dropdownContainerDiv.id = containerID;
+            */
+
+
+            /*var dropdown_library = {
+                "dropdown_type": "model_dropdown",
+                "banner_search_dropdown_class": "banner-dropdown-list-container",
+                "container_id": "model_dropdown_container_template_id",
+                "dropdown_id": "model_dropdown_template_id",
+                "dropdown_button_id": "model_dropdown_button_template_id",
+                "dropdown_button_text_id": "model_dropdown_button_text_template_id",
+                "dropdown_default_UL_id": "model_dropdown_default_UL_template_id",
+                "dropdown_label_text": "Select one",
+                "model_dropdown": {
+                    "list_items": [
+                        {
+                            "item_label": "Input",
+                            "item_id": "modelInput_1"
+                        },
+                        {
+                            "item_label": "Model",
+                            "item_id": "modelModel_1"
+                        },
+                        {
+                            "item_label": "Other",
+                            "item_id": "modelOther_1"
+                        }
+                    ]
+                }
+            }*/
+
+        //Copy the modelDropdownTemplate variable and content here if you want to use the dropdown_library above
+
+        //Render jinja template using nunjucks
+        /*
+        var renderedDropdownTemplateString = nunjucks.renderString(modelDropdownTemplate, dropdown_library);
+        var renderedDropdownTemplate = nunjucks.compile(renderedDropdownTemplateString);
+        renderedDropdownTemplate.render(dropdown_library);
+
+        dropdownContainerDiv.appendChild(renderedDropdownTemplate);
+
+        return dropdownContainerDiv
+        */
+
+        }
+
+        //Create Author input area
         var authorBox = document.createElement("div");
         authorBox.id = "author_box";
         authorBox.classList.add("author-parent");
@@ -96,6 +175,9 @@ describe("DOM Manipulator functions", () => {
         authorRemoveButton.id = "author_remove_1";
         authorRemoveButton.classList.add("button-med", "d-button-text", "author-remove-button");
         authorRemoveButton.setAttribute("type", "button");
+        authorRemoveButton.addEventListener('click', () => {
+           removeEntry("author_box", "author_1" );
+        });
 
         authorRemoveButtonContainer1.appendChild(authorRemoveButton);
         authorRemove1.appendChild(authorRemoveButtonContainer1);
@@ -125,7 +207,7 @@ describe("DOM Manipulator functions", () => {
         document.body.appendChild(authorAddButtonContainer);
 
 
-        /*Create Geometry input area*/
+        //Create Geometry input area
         var geoBBoxDiv = document.createElement("div");
         geoBBoxDiv.id = "geo_bbox";
 
@@ -182,7 +264,7 @@ describe("DOM Manipulator functions", () => {
 
         document.body.appendChild(geoBBoxDiv)
 
-        /*Create Metadata Other input area*/
+        //Create Metadata Other input area
         var otherBox = document.createElement("div");
         otherBox.id = "other_box";
 
@@ -239,8 +321,7 @@ describe("DOM Manipulator functions", () => {
         document.body.appendChild(addOtherButtonContainer);
 
 
-        /*Create Metadata Model section*/
-        //TODO: render the jinja template here or manually recreate it here
+        //Create Metadata Model section
         var modelBox = document.createElement("div");
         modelBox.id = "model_box";
 
@@ -256,15 +337,40 @@ describe("DOM Manipulator functions", () => {
         modelHREFInput.id = "model_href_1";
         modelHREFInput.setAttribute("type", "text");
 
-        var modelDropdownContainer = document.createElement("div");
-        modelDropdownContainer.id = "modelDropdownContainer";
+
+        var initial_dropdown_library = {
+            "dropdown_type": "model_dropdown",
+            "banner_search_dropdown_class": "banner-dropdown-list-container",
+            "container_id": "metadataModelDropdownContainer",
+            "dropdown_id": "model_dropdown_1",
+            "dropdown_button_id": "dropdownListModelButton",
+            "dropdown_button_text_id": "dropdownListModelButtonText_1",
+            "dropdown_default_UL_id": "metadata_model_dropdown_UL",
+            "dropdown_label_text": "Select one",
+            "model_dropdown": {
+                "list_items": [
+                    {
+                        "item_label": "Input",
+                        "item_id": "modelInput_1"
+                    },
+                    {
+                        "item_label": "Model",
+                        "item_id": "modelModel_1"
+                    },
+                    {
+                        "item_label": "Other",
+                        "item_id": "modelOther_1"
+                    }
+                ]
+            }
+        };
+
+        //var initialModelDropdownContainer = dropdownTemplate(initial_dropdown_library, "initialModelDropdown");
 
 
-        var modelDropdownTemplateContainer = document.createElement("template");
-        modelDropdownTemplateContainer.id = "modelDropdownTemplate";
 
-        /*Set up the data and template string for nunjucks*/
-        var dropdown_library = {
+        //Set up the data and template string for nunjucks
+        var template_dropdown_library = {
             "dropdown_type": "model_dropdown",
             "banner_search_dropdown_class": "banner-dropdown-list-container",
             "container_id": "model_dropdown_container_template_id",
@@ -289,7 +395,7 @@ describe("DOM Manipulator functions", () => {
                     }
                 ]
             }
-        }
+        };
 
         var modelDropdownTemplate = ` 
             <div id="{{ container_id }}" class="dropdown-list-container {{ banner_search_dropdown_class }}">
@@ -324,8 +430,16 @@ describe("DOM Manipulator functions", () => {
                 <script src="js/dropdown-list.js"></script>
             </div> `
 
-        /*Render jinja template using nunjucks*/
-        modelDropdownTemplateContainer.innerHTML = nunjucks.renderString(modelDropdownTemplate, dropdown_library);
+        var initialModelDropdownContainer = document.createElement("div");
+        initialModelDropdownContainer.innerHTML = nunjucks.renderString(modelDropdownTemplate, initial_dropdown_library);
+
+        var modelDropdownTemplateContainer = document.createElement("div");
+        modelDropdownTemplateContainer.innerHTML = nunjucks.renderString(modelDropdownTemplate, template_dropdown_library);
+
+
+
+
+
 
         var modelOtherInputContainer = document.createElement("div");
         modelOtherInputContainer.id = "model-other-input-container_1";
@@ -355,7 +469,7 @@ describe("DOM Manipulator functions", () => {
         modelOtherInputContainer.appendChild(modelOtherInput);
 
         modelRowContainer.appendChild(modelURLContainer);
-        modelRowContainer.appendChild(modelDropdownContainer);
+        modelRowContainer.appendChild(initialModelDropdownContainer);
         modelRowContainer.appendChild(modelOtherInputContainer);
 
         modelBox.appendChild(modelRowContainer);
@@ -443,6 +557,7 @@ describe("DOM Manipulator functions", () => {
                 "polygon": "geo_polygon"
             };
             var defaultRow = false;
+            var testAddButtonNodeList;
             var testAddButton;
 
             Object.keys(geometryType).forEach( (geometryTypeName) => {
@@ -455,7 +570,10 @@ describe("DOM Manipulator functions", () => {
                 var addButtonNodeList = document.querySelectorAll(`div#${addButtonDivID} > input`);
 
                 /*Set the Add Point button up to test the click event*/
+                //var testAddButtonContainer = document.getElementById("addAuthorButtons");
+                //testAddButtonNodeList = testAddButtonContainer.querySelectorAll('input');
                 testAddButton = document.getElementById(geometryType[geometryTypeName] + "_add_button");
+                //var testAddButton = testAddButtonNodeList[0];
 
                 if (testAddButton) {
                    testAddButton.addEventListener('click', () => {
@@ -540,18 +658,25 @@ describe("DOM Manipulator functions", () => {
             , () =>{
             var testAddAuthorButton = document.getElementById("addAuthorButton");
 
+
             if (testAddAuthorButton) {
-               testAddAuthorButton.click();
+                testAddAuthorButton.click();
             }
+
+
 
             var parentAuthorBox = document.getElementById("author_box");
             var authorRows = parentAuthorBox.querySelectorAll(":scope > div");
 
             expect(authorRows.length).toBe(2);
+            expect(authorRows[1].id).toBe("author_2");
         });
 
-        
 
+        //TODO: Test this using an integration test instead of a unit test
+        // This requires the dropdown in the Model input row to be created and initialized.  Nunjucks currently
+        //  doesn't support rendering a template as an html node
+        /*
         test("Test addModel function" +
             "This function is called when the Add Model button is clicked." +
             "This function will add an additional row of inputs to the Model section in the Metadata section" +
@@ -569,7 +694,10 @@ describe("DOM Manipulator functions", () => {
             var modelRows = parentModelBox.querySelectorAll(":scope > div");
 
             expect(modelRows.length).toBe(2);
+            expect(modelRows[1].id).toBe("model_2");
         });
+        */
+
 
 
 
@@ -590,6 +718,118 @@ describe("DOM Manipulator functions", () => {
             var otherRows = parentOtherBox.querySelectorAll(":scope > div");
 
             expect(otherRows.length).toBe(2);
+            expect(otherRows[1].id).toBe("other_2");
         });
+
+        //TODO: May need to be tested with integration test
+        /*
+        test("Test initializeModelDropdown function." +
+            "This function is called on page load to add the 'click' event listener to each dropdown item in the Model " +
+            "dropdown", () => {
+            const mockModelDropdownClick = {addEventListener: jest.fn()}
+            initializeModelDropdown("metadata_model_dropdown_UL");
+
+            var model1Container = document.getElementById("model_1");
+            var modelDropdownFirstAnchor = model1Container.querySelectorAll('div#model_dropdown_1 > ul > li > a#modelInput_1');
+
+        });
+        */
+
+
+    test("Test removeEntry function and makeInputRequired function" +
+        "This function removes a row from the Author, Geometry when the Remove button" +
+        "on that row is clicked." +
+        "The removeEntry function also calls the makeInputRequired function, so this tests checks the " +
+        "makeInputRequired functionality as well." +
+        "NOTE: This does not test removing a row from the Model or Other section.  Those section require dropdowns" +
+        "to be made from a template in each row and the test setup doesn't support that." +
+        "" +
+        "- tests if Remove button responds to a click event" +
+        "- tests if the removeEntry function will remove the row from the Author section and the particular " +
+        "Geometry section" +
+        "- tests if the makeInputRequired function adds the 'required' attribute to the newly added input field", () => {
+
+        //Test removing an Author
+        var newAuthorRow;
+        var removeAuthorButton;
+        var authorBox = document.getElementById("author_box");
+        var testAddAuthorButton = document.getElementById("addAuthorButton");
+
+        testAddAuthorButton.click();
+
+        newAuthorRow = document.getElementById("author_2");
+
+        if(newAuthorRow){
+            removeAuthorButton = document.getElementById("author_remove_2");
+        }
+
+        removeAuthorButton.click();
+
+        var authorRows = authorBox.querySelectorAll(":scope > div[id^=author_]");
+
+        expect(authorRows.length).toBe(1);
+
+        //Test removing a Geometry (removeEntry function)
+        //and
+        //Test making an input field required (makeInputRequired function)
+        // NOTE: Point, GeoJSON, and Null don't have add buttons
+        var geometryType = {"multipoint":"geo_multipoint", "linestring":"geo_linestring", "polygon":"geo_polygon"};
+        var newGeometryRow;
+        var newGeometryInput;
+        var geometryRemoveButton;
+
+            Object.keys(geometryType).forEach( (geometryTypeName, geometryTypeIndex) => {
+                //Initializes the Geometry section only for geometries that have Remove buttons
+                geoPolygon2(geometryTypeIndex + 2);
+
+                var geometryTypeContentDivID = geometryType[geometryTypeName] + "_content";
+                var geometryAddButton = document.getElementById(geometryType[geometryTypeName] + "_add_button");
+
+                geometryAddButton.click();
+
+                if(geometryTypeName == "multipoint"){
+                    newGeometryRow = document.getElementById(geometryTypeName + "_1");
+                    newGeometryInput = document.getElementById(geometryTypeName + "_lat_1");
+                    geometryRemoveButton = document.getElementById(geometryTypeName + "_remove_button_1");
+
+                    var inputRequired = newGeometryInput.getAttribute("required")
+                    expect(inputRequired).toBe("required");
+
+                    geometryRemoveButton.click();
+
+                    var geometryTypeInputRows = document.querySelectorAll(`div#${geometryTypeContentDivID} > div`);
+
+                    expect(geometryTypeInputRows.length).toBe(1);
+                }
+                else if(geometryTypeName == "linestring"){
+                    newGeometryRow = document.getElementById(geometryTypeName + "_2");
+                    newGeometryInput = document.getElementById(geometryTypeName + "_lat_2");
+                    geometryRemoveButton = document.getElementById(geometryTypeName + "_remove_button_2");
+
+                    geometryRemoveButton.click();
+
+                    var geometryTypeInputRows = document.querySelectorAll(`div#${geometryTypeContentDivID} > div`);
+
+                    expect(geometryTypeInputRows.length).toBe(2);
+                }
+                else{
+                    newGeometryRow = document.getElementById(geometryTypeName + "_3");
+                    newGeometryInput = document.getElementById(geometryTypeName + "_lat_3");
+                    geometryRemoveButton = document.getElementById(geometryTypeName + "_remove_button_3");
+
+                    geometryRemoveButton.click();
+
+                    var geometryTypeInputRows = document.querySelectorAll(`div#${geometryTypeContentDivID} > div`);
+
+                    expect(geometryTypeInputRows.length).toBe(3);
+                }
+            });
+    });
+
+    //TODO: May need integration testing
+    test("Test showHideModelInput function", () => {
+
+    });
+
 });
 
