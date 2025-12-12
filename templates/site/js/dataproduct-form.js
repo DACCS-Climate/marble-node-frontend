@@ -277,6 +277,7 @@ function addPoint(geometryType, divElementID, defaultInputRow) {
     input2.setAttribute("required", "required");
 
     var removePointButton = document.createElement("input");
+    removePointButton.id = geometryType + "_remove_button_" + autindex
     removePointButton.setAttribute("type", "button");
     removePointButton.value = "Remove Point";
     removePointButton.classList.add("button-med", "d-button-text");
