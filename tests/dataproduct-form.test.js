@@ -772,7 +772,7 @@ describe("DOM Manipulator functions", () => {
         //Test removing a Geometry (removeEntry function)
         //and
         //Test making an input field required (makeInputRequired function)
-        // NOTE: Point, GeoJSON, and Null don't have add buttons
+        // NOTE: Point, GeoJSON, and Null don't have add or remove buttons
         var geometryType = {"multipoint":"geo_multipoint", "linestring":"geo_linestring", "polygon":"geo_polygon"};
         var newGeometryRow;
         var newGeometryInput;
