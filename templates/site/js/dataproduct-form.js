@@ -457,6 +457,7 @@ function addAuthor(divElementID) {
     input3.setAttribute("name", "email_[]"); // Make it an array input
 
     var removeAuthorButton = document.createElement("input");
+    removeAuthorButton.id = "author_remove_" + autindex;
     removeAuthorButton.setAttribute("type", "button");
     removeAuthorButton.value = "Remove Author";
     removeAuthorButton.classList.add("button-med", "d-button-text");
@@ -557,6 +558,7 @@ function addOther(divElementID){
     otherDiv.appendChild(div_box);
 }
 
+/*Used in dataproduct-onpageload.js*/
 function initializeModelDropdown(dropdownID){
 
     var dropdown = document.getElementById(dropdownID);
@@ -1403,6 +1405,7 @@ module.exports = {
     addAuthor,
     addModel,
     addOther,
+    initializeModelDropdown,
     removeEntry,
     updateIndex
 };
