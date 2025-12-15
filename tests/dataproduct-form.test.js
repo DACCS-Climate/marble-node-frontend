@@ -1,3 +1,4 @@
+//import flatpickr from "flatpickr";
 const {initializePointInputDiv,
     initializeUploadDiv,
 
@@ -9,9 +10,12 @@ const {initializePointInputDiv,
     addOther,
     initializeModelDropdown,
     removeEntry,
-    updateIndex} =  require("../templates/site/js/dataproduct-form.js")
+    updateIndex,
+    calendarDatesEqual,
+    showHideModelInput} =  require("../templates/site/js/dataproduct-form.js")
 
 const nunjucks = require('nunjucks');
+//const flatpickr  = require("flatpickr") ;
 //const fs = require('fs');
 //const path = require('path');
 //const dataproductForm = fs.readFileSync(path.resolve(__dirname, '../build/publish-dataproduct.html'), 'utf8');
@@ -319,6 +323,55 @@ describe("DOM Manipulator functions", () => {
 
         document.body.appendChild(otherBox);
         document.body.appendChild(addOtherButtonContainer);
+
+        //Create Metadata Temporal Extent section
+        /*
+        var flatpickrCSS = document.createElement("link");
+        flatpickrCSS.setAttribute("rel", "stylesheet");
+        flatpickrCSS.setAttribute("href", "https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css");
+
+        var flatpickrSource = document.createElement("script");
+        flatpickrSource.setAttribute("src", "https://cdn.jsdelivr.net/npm/flatpickr");
+    */
+        //<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+        //<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+        //document.body.appendChild(flatpickrCSS);
+        //document.body.appendChild(flatpickrSource);
+
+
+        var startDateInput = document.createElement("input");
+        startDateInput.id = "metadata_start_date";
+
+        var endDateInput = document.createElement("input");
+        endDateInput.id = "metadata_end_date";
+
+        var dateEqualCheckbox = document.createElement("input");
+        dateEqualCheckbox.setAttribute("type", "checkbox");
+        dateEqualCheckbox.id = "dateCheckbox";
+
+        document.body.appendChild(startDateInput);
+        document.body.appendChild(endDateInput);
+        document.body.appendChild(dateEqualCheckbox);
+
+        document.addEventListener("DOMContentLoaded", function () {
+            /*Initialize flatpickr calendars*/
+            flatpickr("#metadata_start_date", {
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                allowInput: true
+            });
+            flatpickr("#metadata_end_date", {
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                allowInput: true
+            });
+        })
+
+        var testDate = new Date(Date.now());
+        //startDateInput._flatpickr.setDate(testDate);
+
+        dateEqualCheckbox.checked = true;
 
 
         //Create Metadata Model section
@@ -826,8 +879,34 @@ describe("DOM Manipulator functions", () => {
             });
     });
 
-    //TODO: May need integration testing
-    test("Test showHideModelInput function", () => {
+
+    test("Test showHideModelInput function" +
+        "This function shows the additional input field when the user picks 'Model' or 'Other' from the dropdown" +
+        "and hides it when the user picks 'Input' ", () => {
+        var modelOtherInputField = document.getElementById("model_other_1");
+        showHideModelInput(2, "Model", 1);
+
+        var showClassStatusForModel = modelOtherInputField.classList.contains("show");
+
+        expect(showClassStatusForModel).toBe(true);
+
+    });
+
+    //TODO: May need integration testing because the calendar uses Flatpickr and the checkbox is created from a template
+    test("Test calendarDatesEqual function", () => {
+        /*
+        var dateCheckbox = document.getElementById("dateCheckbox");
+        var startDate = document.getElementById("metadata_start_date");
+        var endDate = document.getElementById("metadata_end_date");
+        var testDate = new Date.now();
+
+        dateCheckbox.checked = true;*/
+       // calendarDatesEqual("dateCheckbox", "metadata_start_date", "metadata_end_date")
+
+    });
+
+    //TODO: May need integration testing because the calendar uses Flatpickr
+    test("Test checkRequired function", () => {
 
     });
 
