@@ -44,10 +44,6 @@ document.addEventListener("DOMContentLoaded", function () {
     * Start Date to End Date.
     * For the case where the checkbox is checked and the Start Date needs to be modified.
     * */
-    document.getElementById("metadata_start_date").addEventListener("change", () => {
-        copyStartDate("metadata_start_date", "metadata_end_date", "date_make_equal");
-    });
-
     /*For checkbox to make Start Date same as End Date and only End Date read only*/
     document.getElementById("date_make_equal").addEventListener("change", () => {
         calendarDatesEqual("date_make_equal", "metadata_start_date", "metadata_end_date");
