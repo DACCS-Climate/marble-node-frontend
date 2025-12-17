@@ -2142,7 +2142,8 @@ input[type=number]{
     width: 300px;
 }
 
-input.required:invalid{
+
+input:required:invalid{
     background-color: ivory;
     border: none;
     border-style: solid;
@@ -2151,6 +2152,17 @@ input.required:invalid{
     border-radius: var(--textbox-border-radius);
     outline: var(--error);
 }
+
+/*
+input.required:invalid{
+    background-color: ivory;
+    border: none;
+    border-style: solid;
+    border-width: 2px;
+    border-color: var(--error);
+    border-radius: var(--textbox-border-radius);
+    outline: var(--error);
+}*/
 
 input:required{
     border: var(--border-black);
@@ -2168,6 +2180,7 @@ textarea.required:invalid, .input-invalid:invalid, .dropdown-invalid{
 }
 
 textarea:required{
+    background-color: var(--white);
     border: var(--border-black);
     border-radius: var(--textbox-border-radius);
 }

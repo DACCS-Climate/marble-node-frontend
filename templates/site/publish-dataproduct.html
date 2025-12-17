@@ -2,7 +2,7 @@
 
 {% block account_content %}
 
-    <script src="js/dataproduct-form.js"></script>
+<script src="js/dataproduct-form.js"></script>
 
     <h3>Publish Files to Red Oak STAC Catalog</h3><br>
     <p> This form allows you to publish datasets, data products and/or workflows to the Marble STAC catalog. Before filling out this form, ensure that the primary file is hosted on Red Oak in your public folder. Supplementary files such as input data can be included as third party links. After submission, a STAC item and citation will be generated and reviewed by admin before being uploaded to the catalog.</p>
@@ -207,19 +207,19 @@
                     </div>
                 </div>
 
-            <template id="modelDropdownTemplate">
-                {% with %}
-                    {% set dropdown_type = "model_dropdown" %}
-                    {% set banner_search_dropdown_class = "banner-dropdown-list-container"%}
-                    {% set container_id = "model_dropdown_container_template_id" %}
-                    {% set dropdown_id = "model_dropdown_template_id" %}
-                    {% set dropdown_button_id = "model_dropdown_button_template_id" %}
-                    {% set dropdown_button_text_id = "model_dropdown_button_text_template_id" %}
-                    {% set dropdown_default_UL_id = "model_dropdown_default_UL_template_id" %}
-                    {% set dropdown_label_text = "Select one" %}
-                    {% include "partials/dropdown-publish.html" %}
-                {% endwith %}
-            </template>
+                <template id="modelDropdownTemplate">
+                    {% with %}
+                        {% set dropdown_type = "model_dropdown" %}
+                        {% set banner_search_dropdown_class = "banner-dropdown-list-container"%}
+                        {% set container_id = "model_dropdown_container_template_id" %}
+                        {% set dropdown_id = "model_dropdown_template_id" %}
+                        {% set dropdown_button_id = "model_dropdown_button_template_id" %}
+                        {% set dropdown_button_text_id = "model_dropdown_button_text_template_id" %}
+                        {% set dropdown_default_UL_id = "model_dropdown_default_UL_template_id" %}
+                        {% set dropdown_label_text = "Select one" %}
+                        {% include "partials/dropdown-publish.html" %}
+                    {% endwith %}
+                </template>
 
             </div>
 
