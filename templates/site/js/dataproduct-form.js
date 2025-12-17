@@ -533,11 +533,12 @@ function addOther(divElementID){
     input2.setAttribute("id", "other_value_" + autindex);
     input2.setAttribute("name", "other_value_[]"); // Changed name to array input for last name
 
-    var removeAuthorButton = document.createElement("input");
-    removeAuthorButton.setAttribute("type", "button");
-    removeAuthorButton.value = "Remove Other";
-    removeAuthorButton.classList.add("button-med", "d-button-text");
-    removeAuthorButton.addEventListener("click", function() {
+    var removeOtherButton = document.createElement("input");
+    removeOtherButton.setAttribute("type", "button");
+    removeOtherButton.id = "other_remove_" +  autindex;
+    removeOtherButton.value = "Remove Other";
+    removeOtherButton.classList.add("button-med", "d-button-text");
+    removeOtherButton.addEventListener("click", function() {
         removeEntry("other_box", "other_" + autindex)
     });
 
@@ -547,7 +548,7 @@ function addOther(divElementID){
     divOtherVal.appendChild(label2);
     divOtherVal.appendChild(input2);
 
-    divRemoveOther.appendChild(removeAuthorButton);
+    divRemoveOther.appendChild(removeOtherButton);
     divRemoveOtherParent.appendChild(divRemoveOther);
 
     inputRow.appendChild(divOtherKey);
@@ -830,8 +831,6 @@ function showHideModelInput(dropdownItemIndex, dropdownItemName, dropdownIndex){
     }
 }
 
-
-
 function calendarDatesEqual(checkboxDateEqualID, startDateID, endDateID){
     var checkboxDateEqualElement = document.getElementById(checkboxDateEqualID);
     var startDateElement = document.getElementById(startDateID);
@@ -848,26 +847,6 @@ function calendarDatesEqual(checkboxDateEqualID, startDateID, endDateID){
     else{
         endDateElement.value = "";
         endDateElement.removeAttribute("disabled");
-    }
-}
-
-function copyStartDate(startDateElementID, endDateElementID, checkboxDateEqualID){
-    var startDateInput = document.getElementById(startDateElementID);
-    var endDateInput = document.getElementById(endDateElementID);
-    var checkboxEqualDateInput = document.getElementById(checkboxDateEqualID);
-
-    if(checkboxEqualDateInput.checked){
-        endDateInput.value = startDateInput.value;
-    }
-}
-
-
-function checkRequired(){
-    var requiredInputs = document.querySelectorAll('[required]');
-    for(input of requiredInputs){
-        if(!input.classList.contains("required")){
-            input.classList.add("required");
-        }
     }
 }
 
@@ -909,504 +888,492 @@ function disableButton(buttonID) {
 
 /*Submit functions*/
 async function submitForm(){
-    checkRequired();
 
-    // Example of how polygon coordinates should be formatted
-    //  [ [ 19.732387792295356,17.362269487080525],[ 15.018600022717294, 11.450658457798042],[29.998879431116166, 6.631460284225298] ]
-    var submitObject = {};
-    var geojsonTemplate =     { "coordinates": [], "type": ""}
-    var titleInput = document.getElementById("title");
-    var descriptionInput = document.getElementById("desc");
-    var descriptionInputValue;
-    var contactEmail = document.getElementById("contact_email");
-    var authorDivs = document.querySelectorAll("div[id^=author_]");
-    var authorArray = [];
-    var geometryType;
-    var visibleGeometry;
-    var coordinateArray = [];
-    var geometryGeoJSONBBox;
-    var dateMetadataFields = document.querySelectorAll("input[id*=_date]");
-    var textareaMetadataVariables = document.getElementById("metadata_variables");
-    var textareaMetadataArray = [];
-    var linkedPathField = document.getElementById("linked_path");
-    var linkedAdditionalFiles = document.getElementById("linked_link");
-    var otherMetadataInitialKey = document.getElementById("other_key_1");
-    var otherMetadataInitialValue = document.getElementById("other_value_1");
-    var otherMetadataInputFields = document.querySelectorAll("input[id^=other_key_]");
-    var metadataModelDropdownButtonText = document.querySelectorAll("h6[id^=dropdownListModelButtonText]");
-    var metadataModelObjectArray = [];
-    var otherMetadataObject = {};
-    var geometryDropdownButtonTitle = document.getElementById("dropdownListDefaultButtonText");
-    var geometrySelection = parseInt(geometryDropdownButtonTitle.getAttribute("selected_index"));
-    var geometryDropdownContent;
-
-    if(descriptionInput.value.trim() == ""){
-        descriptionInputValue = null;
-    }
-    else{
-        descriptionInputValue = descriptionInput.value;
-    }
-
-    /*Adds Geometry coordinate input to geometryTemplate object*/
-    /*If no coordinates are entered get the input from the geojson textarea*/
-    /*If a geometry with no coordinate inputs is selected (eg. upload geojson) only get input from the geojson textarea*/
-    switch(geometrySelection){
-        case 1:
-            var geometrySelectionID = geometryDropdownButtonTitle.getAttribute("selected_id");
-            var geometrySelectionIDArray = geometrySelectionID.split("geometry");
-
-            visibleGeometry = geometrySelectionIDArray[1];
-            geometryType = geometrySelectionIDArray[1].toLowerCase();
-
-            geometryDropdownContent = document.getElementById("geo_point_content");
-            var pointLatInput = document.getElementById('point_lat_0');
-            var pointLonInput = document.getElementById('point_lon_0');
-
-            coordinateArray.push(pointLonInput.value);
-            coordinateArray.push(pointLatInput.value);
-
-            break;
-
-        case 2:
-        case 3:
-        case 4:
-            var geometrySelectionID = geometryDropdownButtonTitle.getAttribute("selected_id");
-            var geometrySelectionIDArray = geometrySelectionID.split("geometry");
-            visibleGeometry = geometrySelectionIDArray[1];
-            geometryType = geometrySelectionIDArray[1].toLowerCase();
-
-            geometryDropdownContent = document.getElementById("geo_" + geometryType + "_content");
-
-            var geometryLatPrefix = geometryType + "_lat_";
-            var geometryLatInputFields = geometryDropdownContent.querySelectorAll(`input[id^=${geometryLatPrefix}]`);
-
-            for (input of geometryLatInputFields) {
-                var coordinate = [];
-                var inputIDArray = input.id.split("_");
-
-                if (input.value != "") {
-                    var longitudeID = geometryType + "_lon_" + inputIDArray[2];
-                    var longitudeInput = document.getElementById(longitudeID);
-
-                    coordinate[0] = parseFloat(longitudeInput.value);
-                    coordinate[1] = parseFloat(input.value);
-
-                    coordinateArray.push(coordinate);
-                }
-            }
-
-            /*If Polygon is selected, add the first coordinate into the coordinate array to complete the polygon*/
-            if(geometrySelection == 4){
-                var firstPolygonLat = coordinateArray[0][1];
-                var firstPolygonLon = coordinateArray[0][0];
-                var lastPolygonLat = coordinateArray[coordinateArray.length -1][1];
-                var lastPolygonLon = coordinateArray[coordinateArray.length -1][0];
-
-                if(firstPolygonLat!= lastPolygonLat && firstPolygonLon != lastPolygonLon){
-                    coordinateArray.push(coordinateArray[0]);
-                }
-            }
-
-            break;
-
-        case 5:
-            var geometrySelectionID = geometryDropdownButtonTitle.getAttribute("selected_id");
-            var geometrySelectionIDArray = geometrySelectionID.split("geometry");
-            visibleGeometry = geometrySelectionIDArray[1];
-            geometryType = geometrySelectionIDArray[1].toLowerCase();
-
-            geometryGeoJSONBBox = validateUploadGeoJSON("geo_" + geometryType + "_file");
-
-            break;
-
-        case 6:
-            geometryGeoJSONBBox = null;
-
-            break;
-    }
-
-
-
-
-
-    /*Add Author input to authorObject*/
-    for(author of authorDivs){
-        var authorObject = {};
-        var authorIDArray = author.id.split("_");
-
-        if(isNaN(Number(authorIDArray[1])) == false ){
-            var authorFirstName = document.getElementById("fname_" + authorIDArray[1]);
-            var authorFirstNameValue;
-            var authorLastName = document.getElementById("lname_" + authorIDArray[1]);
-            var authorEmail = document.getElementById("email_" + authorIDArray[1]);
-            var authorEmailValue;
-
-            if(authorFirstName.value.trim() == ""){
-                authorFirstNameValue = null;
-            }else{
-                authorFirstNameValue = authorFirstName.value;
-            }
-
-            if(authorEmail.value.trim() == ""){
-                authorEmailValue = null;
-            }else{
-                authorEmailValue = authorEmail.value;
-            }
-
-            authorObject["first_name"] = authorFirstNameValue;
-            authorObject["last_name"] = authorLastName.value.trim();
-            authorObject["email"] = authorEmailValue;
-
-            authorArray.push(authorObject);
-        }
-    }
-
-
-
-
-    /*Add Metadata Variables to submitObject*/
-
-    if(textareaMetadataVariables.value.trim() != ""){
-        if(textareaMetadataVariables.value.indexOf("\n") > -1){
-            for(metadataVariable of textareaMetadataVariables.value.split("\n"))
-            {
-                if(metadataVariable != ""){
-                    textareaMetadataArray.push(metadataVariable.trim());
-                }
-            }
-        }
-        else{
-            textareaMetadataArray.push(textareaMetadataVariables.value.trim())
-        }
-        submitObject["variables"] = textareaMetadataArray;
-    }
-    else{
-        submitObject["variables"] = [];
-    }
-
-    /*Add Metadata Models input to submitObject*/
-    for(dropdownButton of metadataModelDropdownButtonText){
-        var selectedModelIndex;
-        var selectedModelValue = dropdownButton.innerText.toLowerCase();
-        var metadataModelObject = {"rel": "", "href":"",  "title":""};
-        var dropdownButtonIDArray = dropdownButton.id.split("_");
-        var modelIndex = dropdownButtonIDArray[1];
-        var metadataModelHREF = document.getElementById("model_href_" + modelIndex);
-        var metadataModelOtherInput = document.getElementById("model_other_" + modelIndex);
-
-        metadataModelObject["rel"] = selectedModelValue;
-
-
-        if(dropdownButton.getAttribute("selected_index") != null){
-            selectedModelIndex = parseInt(dropdownButton.getAttribute("selected_index"));
-
-            if(metadataModelHREF.value.trim() == ""){
-
-                metadataModelHREF.setCustomValidity("Cannot be empty if dropdown item is selected");
-
-                if(!metadataModelHREF.classList.contains("input-invalid")){
-                    metadataModelHREF.classList.toggle("input-invalid");
-                }
-
-            }
-            else{
-
-                metadataModelHREF.setCustomValidity("");
-
-                if(metadataModelHREF.classList.contains("input-invalid")){
-                    metadataModelHREF.classList.toggle("input-invalid");
-                }
-
-                metadataModelObject["href"] = metadataModelHREF.value;
-            }
-
-            switch(selectedModelIndex){
-                case 2:
-                    if(!metadataModelOtherInput.value.trim() == "") {
-
-                        metadataModelOtherInput.setCustomValidity("");
-
-                        if(metadataModelOtherInput.classList.contains("input-invalid")){
-                            metadataModelOtherInput.classList.toggle("input-invalid");
-                        }
-
-                        metadataModelObject["title"] = metadataModelOtherInput.value;
-                    }
-                    else{
-
-                        metadataModelOtherInput.setCustomValidity("Cannot be empty if Model or Other is chosen");
-
-                        if(!metadataModelOtherInput.classList.contains("input-invalid")){
-                            metadataModelOtherInput.classList.toggle("input-invalid");
-                        }
-                    }
-
-                    break;
-
-                case 3:
-                    if(!metadataModelOtherInput.value.trim() == "") {
-
-                        metadataModelOtherInput.setCustomValidity("");
-
-                        if(metadataModelOtherInput.classList.contains("input-invalid")){
-                            metadataModelOtherInput.classList.toggle("input-invalid");
-                        }
-
-                        metadataModelObject["rel"] = metadataModelOtherInput.value;
-                    }
-                    else{
-
-                        metadataModelOtherInput.setCustomValidity("Cannot be empty if Model or Other is chosen");
-
-                        if(!metadataModelOtherInput.classList.contains("input-invalid")){
-                            metadataModelOtherInput.classList.toggle("input-invalid");
-                        }
-                    }
-
-                    break;
-            }
-            metadataModelObjectArray.push(metadataModelObject)
-        }
-    }
-
-
-
-
-    /*If key-value input in Other section, add it to metadataOtherRowObject, and then add the object to the otherMetadataObject*/
-    if(otherMetadataInputFields.length > 0 && otherMetadataInitialKey.value.trim() != "" || otherMetadataInputFields.length > 0 && otherMetadataInitialValue.value.trim() != ""){
-        for (otherInput of otherMetadataInputFields) {
-            var otherInputIDArray = otherInput.id.split("_");
-            geometryType = otherInputIDArray[0];
-            var currentOtherIndex = otherInputIDArray[2];
-            var otherValueID = geometryType + "_value_" + currentOtherIndex;
-            var otherValueInput = document.getElementById(otherValueID);
-
-            if (otherInput.value.trim() != "" && otherValueInput.value.trim() != "") {
-
-                otherInput.setCustomValidity("");
-                otherValueInput.setCustomValidity("");
-
-                otherMetadataObject[otherInput.value] = otherValueInput.value.trim() ;
-
-                if(otherInput.classList.contains("input-invalid")){
-                    otherInput.classList.toggle("input-invalid");
-                }
-
-                if(otherValueInput.classList.contains("input-invalid")){
-                    otherValueInput.classList.toggle("input-invalid");
-                }
-            }
-            else{
-                otherInput.setCustomValidity("Key cannot be empty if there is a value");
-                otherValueInput.setCustomValidity("Value cannot be empty if there is a key");
-
-                if(!otherInput.classList.contains("input-invalid")){
-                    otherInput.classList.toggle("input-invalid");
-                }
-
-                if(!otherValueInput.classList.contains("input-invalid")){
-                    otherValueInput.classList.toggle("input-invalid");
-                }
-
-            }
-
-            if (otherInput.value.trim() != "" && otherValueInput.value.trim() == "") {
-
-                otherValueInput.setCustomValidity("Value cannot be empty if there is a key");
-
-                otherValueInput.classList.add("input-invalid");
-
-                if(otherInput.classList.contains("input-invalid")){
-                    otherInput.classList.toggle("input-invalid");
-                }
-            }
-
-            if(otherInput.value.trim() == "" && otherValueInput.value.trim() != ""){
-
-                otherInput.setCustomValidity("Key cannot be empty if there is a value");
-
-                otherInput.classList.add("input-invalid");
-
-                if(otherValueInput.classList.contains("input-invalid")){
-                    otherValueInput.classList.toggle("input-invalid");
-                }
-            }
-        }
-    }
-    else{
-        if(otherMetadataInitialKey.classList.contains("input-invalid")){
-            otherMetadataInitialKey.classList.toggle("input-invalid");
-        }
-
-        if(otherMetadataInitialValue.classList.contains("input-invalid")){
-            otherMetadataInitialValue.classList.toggle("input-invalid");
-        }
-    }
-
-
-
-    /*Create metadata_other entry and add Metadata Other input to submitObject if user has input key-value*/
-    if(Object.keys(otherMetadataObject).length > 0){
-        submitObject["extra_properties"] = otherMetadataObject;
-    }
-    else{
-        submitObject["extra_properties"] = {};
-    }
-
-
-    /*Add Linked Additional Files input to submitObject*/
-    if(linkedAdditionalFiles.value.trim() != ""){
-        var linkedAdditionalFileInputArray = [];
-        if(linkedAdditionalFiles.value.indexOf("\n") > -1){
-            for(additionalFileEntry of linkedAdditionalFiles.value.split("\n")){
-                if(additionalFileEntry != ""){
-                    linkedAdditionalFileInputArray.push(additionalFileEntry.trim());
-                }
-            }
-            submitObject["additional_paths"] = linkedAdditionalFileInputArray;
-        }
-        else{
-            linkedAdditionalFileInputArray.push(linkedAdditionalFiles.value.trim());
-            submitObject["additional_paths"] = linkedAdditionalFileInputArray;
-        }
-    }
-    else{
-        submitObject["additional_paths"] = [];
-    }
-
-
-    /*Add items to submit object*/
-
-    /*Add Geometry input to submit object*/
-    /*If input was coordinates, add the coordinate array and the geometry type */
-    /*If input was a pasted geojson, add the geojson parsed as a json*/
-    if(coordinateArray.length > 0){
-        if(geometrySelection == 4){
-            geojsonTemplate.coordinates.push(coordinateArray);
-            geojsonTemplate.type = visibleGeometry;
-            submitObject["geometry"] = geojsonTemplate;
-        }else{
-            geojsonTemplate.coordinates = coordinateArray;
-            geojsonTemplate.type = visibleGeometry;
-            submitObject["geometry"] = geojsonTemplate;
-        }
-    }
-    else{
-        submitObject["geometry"] = geometryGeoJSONBBox;
-    }
-
-    /*Add Metadata date input to submitObject*/
-    submitObject["temporal"] = []
-    for(dateMetadata of dateMetadataFields){
-        var dateUTC = dateMetadata._flatpickr.selectedDates[0];
-        var dateISOString = dateUTC.toISOString();
-        submitObject["temporal"].push(dateISOString);
-    }
-
-    submitObject["user"] = (await  window.session_info).user.user_name;
-    submitObject["title"] = titleInput.value.trim();
-    submitObject["description"] = descriptionInputValue;
-    submitObject["authors"] = authorArray;
-    submitObject["links"] = metadataModelObjectArray;
-    submitObject["path"] = linkedPathField.value.trim();
-    submitObject["contact"] = contactEmail.value.trim();
-
-    var queryStringParams = new URLSearchParams(window.location.search);
-    var submitMethod = "";
-    var marbleAPIURL = "";
-    var redirectURL = window.location.origin  + window.location.pathname + "?id=";
+    var form = document.getElementById("pointForm");
     var submitErrorElement = document.getElementById("submitError");
-    var submitSuccess;
 
-    if(queryStringParams.get("id")){
-        submitMethod = "PATCH";
-        marbleAPIURL = "{{ configs['marble_api_path'] }}/v1/users/"+ submitObject["user"] +"/data-requests/" + queryStringParams.get("id");
-    }
-    else{
-        submitMethod = "POST";
-        marbleAPIURL = "{{ configs['marble_api_path'] }}/v1/users/"+ submitObject["user"] +"/data-requests";
-    }
+    if(form.checkValidity()) {
+        submitErrorElement.innerText = "";
 
-    try {
-        const response = await fetch(marbleAPIURL, {
-            method: submitMethod,
-            headers: {
-                "Accept": "application/json",
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify(submitObject)
-        });
+        // Example of how polygon coordinates should be formatted
+        //  [ [ 19.732387792295356,17.362269487080525],[ 15.018600022717294, 11.450658457798042],[29.998879431116166, 6.631460284225298] ]
+        var submitObject = {};
+        var geojsonTemplate = {"coordinates": [], "type": ""}
+        var titleInput = document.getElementById("title");
+        var descriptionInput = document.getElementById("desc");
+        var descriptionInputValue;
+        var contactEmail = document.getElementById("contact_email");
+        var authorDivs = document.querySelectorAll("div[id^=author_]");
+        var authorArray = [];
+        var geometryType;
+        var visibleGeometry;
+        var coordinateArray = [];
+        var geometryGeoJSONBBox;
+        var dateMetadataFields = document.querySelectorAll("input[id*=_date]");
+        var textareaMetadataVariables = document.getElementById("metadata_variables");
+        var textareaMetadataArray = [];
+        var linkedPathField = document.getElementById("linked_path");
+        var linkedAdditionalFiles = document.getElementById("linked_link");
+        var otherMetadataInitialKey = document.getElementById("other_key_1");
+        var otherMetadataInitialValue = document.getElementById("other_value_1");
+        var otherMetadataInputFields = document.querySelectorAll("input[id^=other_key_]");
+        var metadataModelDropdownButtonText = document.querySelectorAll("h6[id^=dropdownListModelButtonText]");
+        var metadataModelObjectArray = [];
+        var otherMetadataObject = {};
+        var geometryDropdownButtonTitle = document.getElementById("dropdownListDefaultButtonText");
+        var geometrySelection = parseInt(geometryDropdownButtonTitle.getAttribute("selected_index"));
+        var geometryDropdownContent;
 
-        const result = await response.json();
-
-        if (response.status == 200) {
-            var responseFormID = "";
-            submitSuccess = true;
-
-            if(result.id){
-                responseFormID = result.id;
-                disableButton("submit");
-                window.location.href = redirectURL + responseFormID + "&submit=" + submitSuccess;
-            }
-        }else{
-            submitErrorElement.classList.remove("submit-success");
-            submitErrorElement.classList.add("submit-error");
-
-            if(response.status == 422)
-            {
-                if("detail" in result) {
-                    var inputErrorStringList = "";
-                    var responseDetails = result.detail;
-                    var detailSet = new Set();
-
-                    for(detail of responseDetails){
-                        if(detail.loc[0] == "body"){
-                            detailSet.add(detail.loc[1]);
-                        }
-                    }
-
-                    for(inputErrorType of detailSet){
-                        inputErrorStringList = inputErrorStringList + inputErrorType + "\n";
-                    }
-
-                    submitErrorElement.innerText = "There are errors in the following inputs:" + "\n" + inputErrorStringList;
-
-                    console.error(result.detail);
-                }else{
-                    submitErrorElement.innerText = "Error submitting form";
-                }
-            }
-            else if(response.status == 404){
-                submitErrorElement.innerText = result.detail;
-            }
-            else{
-                submitErrorElement.innerText = "Error submitting form";
-
-                if("detail" in result) {
-                    console.error(result.detail);
-                }
-            }
-            throw new Error(`Response status: ${response.status}`);
+        if (descriptionInput.value.trim() == "") {
+            descriptionInputValue = null;
+        } else {
+            descriptionInputValue = descriptionInput.value;
         }
 
-    } catch (error) {
-        console.error(error.message);
+        /*Adds Geometry coordinate input to geometryTemplate object*/
+        /*If no coordinates are entered get the input from the geojson textarea*/
+        /*If a geometry with no coordinate inputs is selected (eg. upload geojson) only get input from the geojson textarea*/
+        switch (geometrySelection) {
+            case 1:
+                var geometrySelectionID = geometryDropdownButtonTitle.getAttribute("selected_id");
+                var geometrySelectionIDArray = geometrySelectionID.split("geometry");
+
+                visibleGeometry = geometrySelectionIDArray[1];
+                geometryType = geometrySelectionIDArray[1].toLowerCase();
+
+                geometryDropdownContent = document.getElementById("geo_point_content");
+                var pointLatInput = document.getElementById('point_lat_0');
+                var pointLonInput = document.getElementById('point_lon_0');
+
+                coordinateArray.push(pointLonInput.value);
+                coordinateArray.push(pointLatInput.value);
+
+                break;
+
+            case 2:
+            case 3:
+            case 4:
+                var geometrySelectionID = geometryDropdownButtonTitle.getAttribute("selected_id");
+                var geometrySelectionIDArray = geometrySelectionID.split("geometry");
+                visibleGeometry = geometrySelectionIDArray[1];
+                geometryType = geometrySelectionIDArray[1].toLowerCase();
+
+                geometryDropdownContent = document.getElementById("geo_" + geometryType + "_content");
+
+                var geometryLatPrefix = geometryType + "_lat_";
+                var geometryLatInputFields = geometryDropdownContent.querySelectorAll(`input[id^=${geometryLatPrefix}]`);
+
+                for (input of geometryLatInputFields) {
+                    var coordinate = [];
+                    var inputIDArray = input.id.split("_");
+
+                    if (input.value != "") {
+                        var longitudeID = geometryType + "_lon_" + inputIDArray[2];
+                        var longitudeInput = document.getElementById(longitudeID);
+
+                        coordinate[0] = parseFloat(longitudeInput.value);
+                        coordinate[1] = parseFloat(input.value);
+
+                        coordinateArray.push(coordinate);
+                    }
+                }
+
+                /*If Polygon is selected, add the first coordinate into the coordinate array to complete the polygon*/
+                if (geometrySelection == 4) {
+                    var firstPolygonLat = coordinateArray[0][1];
+                    var firstPolygonLon = coordinateArray[0][0];
+                    var lastPolygonLat = coordinateArray[coordinateArray.length - 1][1];
+                    var lastPolygonLon = coordinateArray[coordinateArray.length - 1][0];
+
+                    if (firstPolygonLat != lastPolygonLat && firstPolygonLon != lastPolygonLon) {
+                        coordinateArray.push(coordinateArray[0]);
+                    }
+                }
+
+                break;
+
+            case 5:
+                var geometrySelectionID = geometryDropdownButtonTitle.getAttribute("selected_id");
+                var geometrySelectionIDArray = geometrySelectionID.split("geometry");
+                visibleGeometry = geometrySelectionIDArray[1];
+                geometryType = geometrySelectionIDArray[1].toLowerCase();
+
+                geometryGeoJSONBBox = validateUploadGeoJSON("geo_" + geometryType + "_file");
+
+                break;
+
+            case 6:
+                geometryGeoJSONBBox = null;
+
+                break;
+        }
+
+
+        /*Add Author input to authorObject*/
+        for (author of authorDivs) {
+            var authorObject = {};
+            var authorIDArray = author.id.split("_");
+
+            if (isNaN(Number(authorIDArray[1])) == false) {
+                var authorFirstName = document.getElementById("fname_" + authorIDArray[1]);
+                var authorFirstNameValue;
+                var authorLastName = document.getElementById("lname_" + authorIDArray[1]);
+                var authorEmail = document.getElementById("email_" + authorIDArray[1]);
+                var authorEmailValue;
+
+                if (authorFirstName.value.trim() == "") {
+                    authorFirstNameValue = null;
+                } else {
+                    authorFirstNameValue = authorFirstName.value;
+                }
+
+                if (authorEmail.value.trim() == "") {
+                    authorEmailValue = null;
+                } else {
+                    authorEmailValue = authorEmail.value;
+                }
+
+                authorObject["first_name"] = authorFirstNameValue;
+                authorObject["last_name"] = authorLastName.value.trim();
+                authorObject["email"] = authorEmailValue;
+
+                authorArray.push(authorObject);
+            }
+        }
+
+
+        /*Add Metadata Variables to submitObject*/
+
+        if (textareaMetadataVariables.value.trim() != "") {
+            if (textareaMetadataVariables.value.indexOf("\n") > -1) {
+                for (metadataVariable of textareaMetadataVariables.value.split("\n")) {
+                    if (metadataVariable != "") {
+                        textareaMetadataArray.push(metadataVariable.trim());
+                    }
+                }
+            } else {
+                textareaMetadataArray.push(textareaMetadataVariables.value.trim())
+            }
+            submitObject["variables"] = textareaMetadataArray;
+        } else {
+            submitObject["variables"] = [];
+        }
+
+        /*Add Metadata Models input to submitObject*/
+        for (dropdownButton of metadataModelDropdownButtonText) {
+            var selectedModelIndex;
+            var selectedModelValue = dropdownButton.innerText.toLowerCase();
+            var metadataModelObject = {"rel": "", "href": "", "title": ""};
+            var dropdownButtonIDArray = dropdownButton.id.split("_");
+            var modelIndex = dropdownButtonIDArray[1];
+            var metadataModelHREF = document.getElementById("model_href_" + modelIndex);
+            var metadataModelOtherInput = document.getElementById("model_other_" + modelIndex);
+
+            metadataModelObject["rel"] = selectedModelValue;
+
+
+            if (dropdownButton.getAttribute("selected_index") != null) {
+                selectedModelIndex = parseInt(dropdownButton.getAttribute("selected_index"));
+
+                if (metadataModelHREF.value.trim() == "") {
+
+                    metadataModelHREF.setCustomValidity("Cannot be empty if dropdown item is selected");
+
+                    if (!metadataModelHREF.classList.contains("input-invalid")) {
+                        metadataModelHREF.classList.toggle("input-invalid");
+                    }
+
+                } else {
+
+                    metadataModelHREF.setCustomValidity("");
+
+                    if (metadataModelHREF.classList.contains("input-invalid")) {
+                        metadataModelHREF.classList.toggle("input-invalid");
+                    }
+
+                    metadataModelObject["href"] = metadataModelHREF.value;
+                }
+
+                switch (selectedModelIndex) {
+                    case 2:
+                        if (!metadataModelOtherInput.value.trim() == "") {
+
+                            metadataModelOtherInput.setCustomValidity("");
+
+                            if (metadataModelOtherInput.classList.contains("input-invalid")) {
+                                metadataModelOtherInput.classList.toggle("input-invalid");
+                            }
+
+                            metadataModelObject["title"] = metadataModelOtherInput.value;
+                        } else {
+
+                            metadataModelOtherInput.setCustomValidity("Cannot be empty if Model or Other is chosen");
+
+                            if (!metadataModelOtherInput.classList.contains("input-invalid")) {
+                                metadataModelOtherInput.classList.toggle("input-invalid");
+                            }
+                        }
+
+                        break;
+
+                    case 3:
+                        if (!metadataModelOtherInput.value.trim() == "") {
+
+                            metadataModelOtherInput.setCustomValidity("");
+
+                            if (metadataModelOtherInput.classList.contains("input-invalid")) {
+                                metadataModelOtherInput.classList.toggle("input-invalid");
+                            }
+
+                            metadataModelObject["rel"] = metadataModelOtherInput.value;
+                        } else {
+
+                            metadataModelOtherInput.setCustomValidity("Cannot be empty if Model or Other is chosen");
+
+                            if (!metadataModelOtherInput.classList.contains("input-invalid")) {
+                                metadataModelOtherInput.classList.toggle("input-invalid");
+                            }
+                        }
+
+                        break;
+                }
+                metadataModelObjectArray.push(metadataModelObject)
+            }
+        }
+
+
+        /*If key-value input in Other section, add it to metadataOtherRowObject, and then add the object to the otherMetadataObject*/
+        if (otherMetadataInputFields.length > 0 && otherMetadataInitialKey.value.trim() != "" || otherMetadataInputFields.length > 0 && otherMetadataInitialValue.value.trim() != "") {
+            for (otherInput of otherMetadataInputFields) {
+                var otherInputIDArray = otherInput.id.split("_");
+                geometryType = otherInputIDArray[0];
+                var currentOtherIndex = otherInputIDArray[2];
+                var otherValueID = geometryType + "_value_" + currentOtherIndex;
+                var otherValueInput = document.getElementById(otherValueID);
+
+                if (otherInput.value.trim() != "" && otherValueInput.value.trim() != "") {
+
+                    otherInput.setCustomValidity("");
+                    otherValueInput.setCustomValidity("");
+
+                    otherMetadataObject[otherInput.value] = otherValueInput.value.trim();
+
+                    if (otherInput.classList.contains("input-invalid")) {
+                        otherInput.classList.toggle("input-invalid");
+                    }
+
+                    if (otherValueInput.classList.contains("input-invalid")) {
+                        otherValueInput.classList.toggle("input-invalid");
+                    }
+                }
+
+                if (otherInput.value.trim() == "" && otherValueInput.value.trim() == "") {
+                    otherInput.setCustomValidity("Key cannot be empty if there is a value");
+                    otherValueInput.setCustomValidity("Value cannot be empty if there is a key");
+
+                    if (!otherInput.classList.contains("input-invalid")) {
+                        otherInput.classList.toggle("input-invalid");
+                    }
+
+                    if (!otherValueInput.classList.contains("input-invalid")) {
+                        otherValueInput.classList.toggle("input-invalid");
+                    }
+                }
+
+                if (otherInput.value.trim() != "" && otherValueInput.value.trim() == "") {
+
+                    otherValueInput.setCustomValidity("Value cannot be empty if there is a key");
+
+                    otherValueInput.classList.add("input-invalid");
+
+                    if (otherInput.classList.contains("input-invalid")) {
+                        otherInput.classList.toggle("input-invalid");
+                    }
+                }
+
+                if (otherInput.value.trim() == "" && otherValueInput.value.trim() != "") {
+
+                    otherInput.setCustomValidity("Key cannot be empty if there is a value");
+
+                    otherInput.classList.add("input-invalid");
+
+                    if (otherValueInput.classList.contains("input-invalid")) {
+                        otherValueInput.classList.toggle("input-invalid");
+                    }
+                }
+            }
+        } else {
+            if (otherMetadataInitialKey.classList.contains("input-invalid")) {
+                otherMetadataInitialKey.classList.toggle("input-invalid");
+            }
+
+            if (otherMetadataInitialValue.classList.contains("input-invalid")) {
+                otherMetadataInitialValue.classList.toggle("input-invalid");
+            }
+        }
+
+
+        /*Create metadata_other entry and add Metadata Other input to submitObject if user has input key-value*/
+        if (Object.keys(otherMetadataObject).length > 0) {
+            submitObject["extra_properties"] = otherMetadataObject;
+        } else {
+            submitObject["extra_properties"] = {};
+        }
+
+
+        /*Add Linked Additional Files input to submitObject*/
+        if (linkedAdditionalFiles.value.trim() != "") {
+            var linkedAdditionalFileInputArray = [];
+            if (linkedAdditionalFiles.value.indexOf("\n") > -1) {
+                for (additionalFileEntry of linkedAdditionalFiles.value.split("\n")) {
+                    if (additionalFileEntry != "") {
+                        linkedAdditionalFileInputArray.push(additionalFileEntry.trim());
+                    }
+                }
+                submitObject["additional_paths"] = linkedAdditionalFileInputArray;
+            } else {
+                linkedAdditionalFileInputArray.push(linkedAdditionalFiles.value.trim());
+                submitObject["additional_paths"] = linkedAdditionalFileInputArray;
+            }
+        } else {
+            submitObject["additional_paths"] = [];
+        }
+
+
+        /*Add items to submit object*/
+
+        /*Add Geometry input to submit object*/
+        /*If input was coordinates, add the coordinate array and the geometry type */
+        /*If input was a pasted geojson, add the geojson parsed as a json*/
+        if (coordinateArray.length > 0) {
+            if (geometrySelection == 4) {
+                geojsonTemplate.coordinates.push(coordinateArray);
+                geojsonTemplate.type = visibleGeometry;
+                submitObject["geometry"] = geojsonTemplate;
+            } else {
+                geojsonTemplate.coordinates = coordinateArray;
+                geojsonTemplate.type = visibleGeometry;
+                submitObject["geometry"] = geojsonTemplate;
+            }
+        } else {
+            submitObject["geometry"] = geometryGeoJSONBBox;
+        }
+
+        /*Add Metadata date input to submitObject*/
+        submitObject["temporal"] = []
+        for (dateMetadata of dateMetadataFields) {
+            var dateUTC = dateMetadata._flatpickr.selectedDates[0];
+            var dateISOString = dateUTC.toISOString();
+            submitObject["temporal"].push(dateISOString);
+        }
+
+        submitObject["user"] = (await  window.session_info).user.user_name;
+        submitObject["title"] = titleInput.value.trim();
+        submitObject["description"] = descriptionInputValue;
+        submitObject["authors"] = authorArray;
+        submitObject["links"] = metadataModelObjectArray;
+        submitObject["path"] = linkedPathField.value.trim();
+        submitObject["contact"] = contactEmail.value.trim();
+
+        var queryStringParams = new URLSearchParams(window.location.search);
+        var submitMethod = "";
+        var marbleAPIURL = "";
+        var redirectURL = window.location.origin + window.location.pathname + "?id=";
+
+        var submitSuccess;
+
+        if (queryStringParams.get("id")) {
+            submitMethod = "PATCH";
+            marbleAPIURL = "{{ configs['marble_api_path'] }}/v1/users/" + submitObject["user"] + "/data-requests/" + queryStringParams.get("id");
+        } else {
+            submitMethod = "POST";
+            marbleAPIURL = "{{ configs['marble_api_path'] }}/v1/users/" + submitObject["user"] + "/data-requests";
+        }
+
+        try {
+            const response = await fetch(marbleAPIURL, {
+                method: submitMethod,
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(submitObject)
+            });
+
+            const result = await response.json();
+
+            if (response.status == 200) {
+                var responseFormID = "";
+                submitSuccess = true;
+
+                if (result.id) {
+                    responseFormID = result.id;
+                    disableButton("submit");
+                    window.location.href = redirectURL + responseFormID + "&submit=" + submitSuccess;
+                }
+            } else {
+                submitErrorElement.classList.remove("submit-success");
+                submitErrorElement.classList.add("submit-error");
+
+                if (response.status == 422) {
+                    if ("detail" in result) {
+                        var inputErrorStringList = "";
+                        var responseDetails = result.detail;
+                        var detailSet = new Set();
+
+                        for (detail of responseDetails) {
+                            if (detail.loc[0] == "body") {
+                                detailSet.add(detail.loc[1]);
+                            }
+                        }
+
+                        for (inputErrorType of detailSet) {
+                            inputErrorStringList = inputErrorStringList + inputErrorType + "\n";
+                        }
+
+                        submitErrorElement.innerText = "There are errors in the following inputs:" + "\n" + inputErrorStringList;
+
+                        console.error(result.detail);
+                    } else {
+                        submitErrorElement.innerText = "Error submitting form";
+                    }
+                } else if (response.status == 404) {
+                    submitErrorElement.innerText = result.detail;
+                } else {
+                    submitErrorElement.innerText = "Error submitting form";
+
+                    if ("detail" in result) {
+                        console.error(result.detail);
+                    }
+                }
+                throw new Error(`Response status: ${response.status}`);
+            }
+
+        } catch (error) {
+            console.error(error.message);
+        }
     }
-
-
+    else{
+        submitErrorElement.innerText = "Error submitting form";
+    }
 }
 
 /*For tests*/
-module.exports = {
-    initializePointInputDiv,
-    initializeUploadDiv,
-    createAddCoordinateRowButton,
-    addPoint,
-    geoPolygon2,
-    addAuthor,
-    addModel,
-    addOther,
-    initializeModelDropdown,
-    removeEntry,
-    updateIndex
-};
+if(typeof  module != "undefined"){
+    module.exports = {
+        initializePointInputDiv,
+        initializeUploadDiv,
+        createAddCoordinateRowButton,
+        addPoint,
+        geoPolygon2,
+        addAuthor,
+        addModel,
+        addOther,
+        initializeModelDropdown,
+        removeEntry,
+        updateIndex,
+        calendarDatesEqual,
+        showHideModelInput
+    };
+}
+
