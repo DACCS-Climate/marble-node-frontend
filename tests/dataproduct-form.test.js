@@ -1,4 +1,3 @@
-//import flatpickr from "flatpickr";
 const {initializePointInputDiv,
     initializeUploadDiv,
 
@@ -15,15 +14,8 @@ const {initializePointInputDiv,
     showHideModelInput} =  require("../templates/site/js/dataproduct-form.js")
 
 const nunjucks = require('nunjucks');
-//const flatpickr  = require("flatpickr") ;
-//const fs = require('fs');
-//const path = require('path');
-//const dataproductForm = fs.readFileSync(path.resolve(__dirname, '../build/publish-dataproduct.html'), 'utf8');
+const flatpickr  = require("flatpickr") ;
 
-
-//require("../build/js/dataproduct-form.js");
-//require("../build/js/dataproduct-onpageload.js");
-//require("../build/js/dataproduct-retrieve.js")
 
 test("Test updateIndex() function. " +
     "Takes an array of HTML elements, gets the ID of the last element and increments it for creating the next element." +
@@ -41,76 +33,6 @@ test("Test updateIndex() function. " +
 describe("DOM Manipulator functions", () => {
 
     beforeEach(() => {
-        /*
-        const jsdomOptions = {
-            resources: 'usable',
-            runScripts: 'dangerously'
-        };
-
-        const dom = new JSDOM(dataproductForm, jsdomOptions);
-
-        await new Promise(resolve => {
-            dom.window.addEventListener('load', resolve);
-        })
-
-        window = dom.window;
-        document = window.document
-        */
-
-        //document.body.innerHTML = dataproductForm;
-
-        function dropdownTemplate(dropdown_library, containerID){
-            /*
-            var dropdownTemplatePath = "../templates/partials/";
-            var dropdownPartialFile = "dropdown-publish.html";
-            nunjucks.configure(dropdownTemplatePath, { autoescape: true });
-            var dropdownContainerDiv = document.createElement("div");
-            dropdownContainerDiv.classList.add("model-dropdown-container");
-            dropdownContainerDiv.id = containerID;
-            */
-
-
-            /*var dropdown_library = {
-                "dropdown_type": "model_dropdown",
-                "banner_search_dropdown_class": "banner-dropdown-list-container",
-                "container_id": "model_dropdown_container_template_id",
-                "dropdown_id": "model_dropdown_template_id",
-                "dropdown_button_id": "model_dropdown_button_template_id",
-                "dropdown_button_text_id": "model_dropdown_button_text_template_id",
-                "dropdown_default_UL_id": "model_dropdown_default_UL_template_id",
-                "dropdown_label_text": "Select one",
-                "model_dropdown": {
-                    "list_items": [
-                        {
-                            "item_label": "Input",
-                            "item_id": "modelInput_1"
-                        },
-                        {
-                            "item_label": "Model",
-                            "item_id": "modelModel_1"
-                        },
-                        {
-                            "item_label": "Other",
-                            "item_id": "modelOther_1"
-                        }
-                    ]
-                }
-            }*/
-
-        //Copy the modelDropdownTemplate variable and content here if you want to use the dropdown_library above
-
-        //Render jinja template using nunjucks
-        /*
-        var renderedDropdownTemplateString = nunjucks.renderString(modelDropdownTemplate, dropdown_library);
-        var renderedDropdownTemplate = nunjucks.compile(renderedDropdownTemplateString);
-        renderedDropdownTemplate.render(dropdown_library);
-
-        dropdownContainerDiv.appendChild(renderedDropdownTemplate);
-
-        return dropdownContainerDiv
-        */
-
-        }
 
         //Create Author input area
         var authorBox = document.createElement("div");
@@ -325,21 +247,6 @@ describe("DOM Manipulator functions", () => {
         document.body.appendChild(addOtherButtonContainer);
 
         //Create Metadata Temporal Extent section
-        /*
-        var flatpickrCSS = document.createElement("link");
-        flatpickrCSS.setAttribute("rel", "stylesheet");
-        flatpickrCSS.setAttribute("href", "https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css");
-
-        var flatpickrSource = document.createElement("script");
-        flatpickrSource.setAttribute("src", "https://cdn.jsdelivr.net/npm/flatpickr");
-    */
-        //<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-        //<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
-        //document.body.appendChild(flatpickrCSS);
-        //document.body.appendChild(flatpickrSource);
-
-
         var startDateInput = document.createElement("input");
         startDateInput.id = "metadata_start_date";
 
@@ -354,22 +261,20 @@ describe("DOM Manipulator functions", () => {
         document.body.appendChild(endDateInput);
         document.body.appendChild(dateEqualCheckbox);
 
-        document.addEventListener("DOMContentLoaded", function () {
-            /*Initialize flatpickr calendars*/
-            flatpickr("#metadata_start_date", {
-                enableTime: true,
-                dateFormat: "Y-m-d H:i",
-                allowInput: true
-            });
-            flatpickr("#metadata_end_date", {
-                enableTime: true,
-                dateFormat: "Y-m-d H:i",
-                allowInput: true
-            });
-        })
+        /*Initialize flatpickr calendars*/
+        flatpickr("#metadata_start_date", {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+            allowInput: true
+        });
+        flatpickr("#metadata_end_date", {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+            allowInput: true
+        });
 
         var testDate = new Date(Date.now());
-        //startDateInput._flatpickr.setDate(testDate);
+        startDateInput._flatpickr.setDate(testDate);
 
         dateEqualCheckbox.checked = true;
 
@@ -417,9 +322,6 @@ describe("DOM Manipulator functions", () => {
                 ]
             }
         };
-
-        //var initialModelDropdownContainer = dropdownTemplate(initial_dropdown_library, "initialModelDropdown");
-
 
 
         //Set up the data and template string for nunjucks
@@ -488,11 +390,6 @@ describe("DOM Manipulator functions", () => {
 
         var modelDropdownTemplateContainer = document.createElement("div");
         modelDropdownTemplateContainer.innerHTML = nunjucks.renderString(modelDropdownTemplate, template_dropdown_library);
-
-
-
-
-
 
         var modelOtherInputContainer = document.createElement("div");
         modelOtherInputContainer.id = "model-other-input-container_1";
@@ -610,7 +507,7 @@ describe("DOM Manipulator functions", () => {
                 "polygon": "geo_polygon"
             };
             var defaultRow = false;
-            var testAddButtonNodeList;
+
             var testAddButton;
 
             Object.keys(geometryType).forEach( (geometryTypeName) => {
@@ -623,10 +520,7 @@ describe("DOM Manipulator functions", () => {
                 var addButtonNodeList = document.querySelectorAll(`div#${addButtonDivID} > input`);
 
                 /*Set the Add Point button up to test the click event*/
-                //var testAddButtonContainer = document.getElementById("addAuthorButtons");
-                //testAddButtonNodeList = testAddButtonContainer.querySelectorAll('input');
                 testAddButton = document.getElementById(geometryType[geometryTypeName] + "_add_button");
-                //var testAddButton = testAddButtonNodeList[0];
 
                 if (testAddButton) {
                    testAddButton.addEventListener('click', () => {
@@ -717,7 +611,6 @@ describe("DOM Manipulator functions", () => {
             }
 
 
-
             var parentAuthorBox = document.getElementById("author_box");
             var authorRows = parentAuthorBox.querySelectorAll(":scope > div");
 
@@ -789,17 +682,14 @@ describe("DOM Manipulator functions", () => {
         */
 
 
-    test("Test removeEntry function and makeInputRequired function" +
+    test("Test removeEntry function and makeInputRequired function for an Author input" +
         "This function removes a row from the Author, Geometry when the Remove button" +
         "on that row is clicked." +
         "The removeEntry function also calls the makeInputRequired function, so this tests checks the " +
         "makeInputRequired functionality as well." +
-        "NOTE: This does not test removing a row from the Model or Other section.  Those section require dropdowns" +
-        "to be made from a template in each row and the test setup doesn't support that." +
         "" +
         "- tests if Remove button responds to a click event" +
-        "- tests if the removeEntry function will remove the row from the Author section and the particular " +
-        "Geometry section" +
+        "- tests if the removeEntry function will remove the row from the Author section" +
         "- tests if the makeInputRequired function adds the 'required' attribute to the newly added input field", () => {
 
         //Test removing an Author
@@ -821,11 +711,22 @@ describe("DOM Manipulator functions", () => {
         var authorRows = authorBox.querySelectorAll(":scope > div[id^=author_]");
 
         expect(authorRows.length).toBe(1);
+    });
 
-        //Test removing a Geometry (removeEntry function)
-        //and
-        //Test making an input field required (makeInputRequired function)
-        // NOTE: Point, GeoJSON, and Null don't have add or remove buttons
+
+
+        test("Test removeEntry function and makeInputRequired function for a Geometry input" +
+        "This function removes a row from the Author, Geometry when the Remove button" +
+        "on that row is clicked." +
+        "The removeEntry function also calls the makeInputRequired function, so this tests checks the " +
+        "makeInputRequired functionality as well." +
+        "" +
+        "- tests if Remove button responds to a click event" +
+        "- tests if the removeEntry function will remove the row from the particular " +
+        "Geometry section" +
+        "- tests if the makeInputRequired function adds the 'required' attribute to the newly added input field" +
+        "NOTE: Point, GeoJSON, and Null don't have add or remove buttons", () => {
+
         var geometryType = {"multipoint":"geo_multipoint", "linestring":"geo_linestring", "polygon":"geo_polygon"};
         var newGeometryRow;
         var newGeometryInput;
@@ -877,37 +778,58 @@ describe("DOM Manipulator functions", () => {
                     expect(geometryTypeInputRows.length).toBe(3);
                 }
             });
+        });
+
+
+    test("Test removeEntry function for an Other input" +
+        "This function removes a row from the Other when the Remove button" +
+        "on that row is clicked." +
+
+        "- tests if Remove button responds to a click event" +
+        "- tests if the removeEntry function will remove the row from the Other section"
+        , () => {
+
+        //Test removing an Other
+        var newOtherRow;
+        var removeOtherButton;
+        var otherBox = document.getElementById("other_box");
+        var testAddOtherButton = document.getElementById("addOtherButton");
+
+        testAddOtherButton.click();
+
+        newOtherRow = document.getElementById("other_2");
+
+        if(newOtherRow){
+            removeOtherButton = document.getElementById("other_remove_2");
+        }
+
+        removeOtherButton.click();
+
+        var otherRows = otherBox.querySelectorAll(":scope > div[id^=other_]");
+
+        expect(otherRows.length).toBe(1);
     });
+
 
 
     test("Test showHideModelInput function" +
         "This function shows the additional input field when the user picks 'Model' or 'Other' from the dropdown" +
-        "and hides it when the user picks 'Input' ", () => {
+        "and hides it when the user picks 'Input' " +
+        "" +
+        "- tests if the input field for 'Model' and 'Input' is shown/contains the 'show' class", () => {
         var modelOtherInputField = document.getElementById("model_other_1");
         showHideModelInput(2, "Model", 1);
 
         var showClassStatusForModel = modelOtherInputField.classList.contains("show");
 
         expect(showClassStatusForModel).toBe(true);
-
     });
 
-    //TODO: May need integration testing because the calendar uses Flatpickr and the checkbox is created from a template
     test("Test calendarDatesEqual function", () => {
-        /*
         var dateCheckbox = document.getElementById("dateCheckbox");
-        var startDate = document.getElementById("metadata_start_date");
-        var endDate = document.getElementById("metadata_end_date");
-        var testDate = new Date.now();
 
-        dateCheckbox.checked = true;*/
-       // calendarDatesEqual("dateCheckbox", "metadata_start_date", "metadata_end_date")
-
-    });
-
-    //TODO: May need integration testing because the calendar uses Flatpickr
-    test("Test checkRequired function", () => {
-
+        dateCheckbox.checked = true;
+        calendarDatesEqual("dateCheckbox", "metadata_start_date", "metadata_end_date")
     });
 
 });
