@@ -854,18 +854,10 @@ function validateUploadGeoJSON(elementID){
     var uploadGeoJSONInput = document.getElementById(elementID);
     var uploadGeoJSONError = document.getElementById("uploadGeoJSONError");
     var parsedGeoJSON;
-    var uploadGeoJSONCleaned;
 
     if(uploadGeoJSONInput && uploadGeoJSONInput.value != "") {
-        if (uploadGeoJSONInput.value.indexOf("\n") > -1) {
-            uploadGeoJSONCleaned = uploadGeoJSONInput.value.replaceAll("\n", "");
-            uploadGeoJSONCleaned = uploadGeoJSONCleaned.replaceAll(" ", "");
-        } else {
-            uploadGeoJSONCleaned = uploadGeoJSONInput.value
-        }
-
         try {
-            parsedGeoJSON = JSON.parse(uploadGeoJSONCleaned);
+            parsedGeoJSON = JSON.parse(uploadGeoJSONInput.value);
 
             if (uploadGeoJSONError.classList.contains("error-visible")) {
                 uploadGeoJSONError.classList.remove("error-visible");
@@ -875,7 +867,6 @@ function validateUploadGeoJSON(elementID){
             uploadGeoJSONError.classList.remove("error-not-visible");
             uploadGeoJSONError.classList.add("error-visible");
         }
-
     }
     return parsedGeoJSON;
 }
