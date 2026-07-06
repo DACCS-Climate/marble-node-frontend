@@ -1,0 +1,17 @@
+.content-block {
+    width: 80vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    box-shadow: var(--d-elevation-1);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}

@@ -1,0 +1,12 @@
+{% extends "layouts/no-login.html" %}
+{% set page_title = "Ts & Cs" %}
+{% set page_name = "terms-and-conditions" %}
+
+{% block content %}
+<div class="content-block">
+    <div id="terms-and-conditions">
+        <h3>Terms and Conditions:</h3>
+        {{ configs["terms_and_conditions"]["text"] | safe }}
+    </div>
+</div>
+{% endblock %}

@@ -3,8 +3,12 @@ node_admin_email = "__required"
 magpie_path = "/magpie"
 login_home = "login.html"
 marble_api_path = "/marble-api"
+services_path = "/services"
+version_path = "/version"
 
 [terms_and_conditions]
+
+[node_info]
 
 [login_providers]
 enable = true

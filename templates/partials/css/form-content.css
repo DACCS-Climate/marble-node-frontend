@@ -1,0 +1,182 @@
+.form {
+    height: fit-content;
+    width: fit-content;
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+.form-input {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-input label {
+    font-weight: var(--med-font-weight);
+}
+
+.form-input:has(input[required],select[required]) > label::after {
+    content: " *";
+    color: var(--error);
+}
+
+.form-input input[type=text], 
+.form-input input[type=password],
+.form-input input[type=email],
+.form-input select,
+.form-input textarea{
+    border: var(--border-black);
+    border-radius: var(--form-elem-border-radius);
+    border-width: var(--form-elem-border-width);
+    width: var(--form-elem-width);
+    height: var(--form-elem-height);
+    padding: var(--form-elem-padding);
+}
+
+.form-input select {
+    height: calc(var(--form-elem-height) + var(--form-elem-padding) * 2 + var(--form-elem-border-width) * 2)
+}
+
+.form-input textarea {
+    width: calc(100% - var(--form-elem-padding) * 2 - var(--form-elem-border-width) * 2);
+}
+
+.select-wrapper {
+    display: grid;
+    grid-template-areas: "select";
+    align-items: center;
+    /* adjust width to align with text inputs */
+    width: calc(var(--form-elem-width) + (var(--form-elem-padding) * 2) + (var(--form-elem-border-width) * 2));
+}
+
+.select-wrapper select {
+    /* resets for browser consistency */
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background-color: transparent;
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: inherit;
+    line-height: inherit;
+    outline: none;
+    grid-area: select;
+    /* adjust width to align with text inputs */
+    width: 100%;
+}
+
+.select-wrapper::after {
+    content: "";
+    width: 0.8em;
+    height: 0.5em;
+    background-color: var(--primary);
+    clip-path: polygon(100% 0%, 0% 0%, 50% 100%);
+    grid-area: select;
+    justify-self: end;
+    margin-right: var(--form-elem-padding);
+}
+
+.select-wrapper:has(select:open)::after {
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.password-show-toggle {
+    width: var(--form-elem-icon-size);
+    height: var(--form-elem-icon-size);
+    mask-size: var(--form-elem-icon-size) var(--form-elem-icon-size);
+    mask-repeat: no-repeat;
+    mask-position: center;
+    background-color: var(--gray-600);
+    position: relative;
+    z-index: 99;
+    top: var(--form-elem-padding);
+    right: calc(var(--form-elem-padding) + var(--form-elem-icon-size));
+    margin-right: calc(0px - var(--form-elem-icon-size));
+}
+
+.form-input-wrapper {
+    display: flex;
+}
+
+.form-input-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: var(--form-elem-width);
+}
+
+.form-multi-input-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.password[type=password] + .password-show-toggle {
+    mask-image: var(--icon-eye-slash);
+}
+
+.password[type=text] + .password-show-toggle {
+    mask-image: var(--icon-eye);
+}
+
+input[type=checkbox] {
+    appearance: none;
+    -webkit-appearance: none;
+    margin: 0;
+    font: inherit;
+    color: var(--white);
+    background-color: var(--white);
+    width: 1.15em;
+    height: 1.15em;
+    border: 0.15em solid var(--primary);
+    transform: translateY(-0.075em);
+    display: inline-grid;
+    place-content: center;
+}
+
+input[type=checkbox]::before {
+    content: "";
+    width: 0.65em;
+    height: 0.65em;
+    transform: scale(0);
+    box-shadow: inset 1em 1em var(--primary);   
+    background-color: CanvasText; /* for high contrast mode where box-shadow is removed */
+    transform-origin: bottom left;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+input[type=checkbox]:checked::before {
+    transform: scale(1);
+}
+
+button.med-button[type=submit] { /*adds to the .med-button definition in buttons.css */
+    width: 150px;
+    color: var(--primary);
+    border-color: var(--primary);
+    box-shadow: var(--d-elevation-1);
+}
+
+#error-message {
+    color: var(--error);
+    text-wrap: wrap;
+    width: calc(var(--form-elem-width) + var(--form-elem-padding) * 2);
+}
+
+.dragging .drop-target {
+    height: 10px;
+    background-color: var(--secondary);
+    border-radius: 2px;
+}
+
+.dragging .drop-target.drag-over {
+    background-color: var(--secondary-variant);
+}
+
+.is-dragging, .is-dragging + .drop-target {
+    display: none;
+}
+

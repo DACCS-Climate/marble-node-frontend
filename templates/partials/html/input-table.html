@@ -1,0 +1,44 @@
+<div class="form-input">
+    <label for="{{ data_type }}">{{ data_label }}</label>
+    <div id="{{ data_type }}-section" class="list-section" data-min-rows="{{data_min_rows}}">
+        <div class="drop-target"></div>
+        <template>
+            <div class="form-multi-input-row list-row" draggable="true">
+                <button class="list-remove sm-sq-button" type="button"></button>
+                {% for row in data %}
+                    <div class="form-input">
+                        <label>
+                            {{ row.label }}
+                            {% if row.info_href %}
+                                <a class="info-icon" target="_blank" href="{{ row.info_href }}"></a>
+                            {% endif %}
+                        </label>
+                        {% if row.type == "textarea" %}
+                            <textarea name="{{ row.name }}" 
+                                      class="list-input" 
+                                      {{ "required" if row.required else "" }} 
+                                      placeholder="{{ row.placeholder }}"
+                                      {{ "data-unique=true" if row.unique else "" }}></textarea>
+                        {% else %}
+                            <input type="{{ row.type | default('text') }}" 
+                                   class="list-input" name="{{ row.name }}" 
+                                   {{ "required" if row.required else "" }} 
+                                   placeholder="{{ row.placeholder }}"
+                                   {{ "data-unique=true" if row.unique else "" }}>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="drop-target"></div>
+        </template>
+        <button class="list-add sm-button" type="button"></button>
+    </div>
+</div>
+{% if data_min_rows %}
+<style>
+#{{ data_type }}-section .list-row:nth-child(-n+{{ data_min_rows }} of .list-row) .list-remove { /* at least {{data_min_rows}} rows are required */
+    visibility: hidden;
+    pointer-events: none;
+}
+</style>
+{% endif %}

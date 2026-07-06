@@ -1,0 +1,42 @@
+.med-button {
+    width: 170px;
+    height: 62px;
+    color: var(--text-on-background);
+    background-color: var(--white);
+    border-style: solid;
+    border-width: 2px;
+    border-color: var(--black);
+    padding: 0 20px 0 20px;
+}
+
+.sm-button {
+    min-width: 93px;
+    height: 30px;
+    color: var(--primary);
+    background-color: var(--white);
+    border-style: solid;
+    border-width: 0.5px;
+    border-radius: 10px;
+    padding: 8px 35px 8px 35px;
+    display: inline-grid;
+    place-content: center;
+}
+
+.sm-sq-button {
+    width: 40px;
+    height: 40px;
+    color: var(--primary);
+    background-color: var(--white);
+    border-style: solid;
+    border-width: 0.5px;
+    border-radius: 10px;
+    padding: 8px 8px 8px 8px;
+    display: inline-grid;
+    place-content: center;    
+}
+
+a.med-button, a.sm-button, a.sm-sq-button {
+    display: inline-grid;
+    place-items: center;
+    text-decoration: none;
+}

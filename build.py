@@ -3,7 +3,7 @@ import os
 import shutil
 import argparse
 
-from jinja2 import FileSystemLoader, Environment, select_autoescape
+from jinja2 import BaseLoader, FileSystemLoader, Environment, select_autoescape, meta
 
 try:
     import tomllib
@@ -18,7 +18,13 @@ THIS_DIR = os.path.abspath(os.path.dirname(__file__))
 TEMPLATE_PATH = os.path.join(THIS_DIR, "templates")
 SITE_PATH = os.path.join(TEMPLATE_PATH, "site")
 
-def filter_site_templates(template, extensions=("js", "html")):
+INCLUDE_PREFIX="""
+{% for file in included %}
+{% include file %}
+{% endfor %}
+"""
+
+def filter_site_templates(template, extensions=("js", "html", "css")):
     abs_filepath = os.path.join(TEMPLATE_PATH, template)
     basename = os.path.basename(template)
     return (SITE_PATH == os.path.commonpath((abs_filepath, SITE_PATH)) and
@@ -61,9 +67,31 @@ def config_data(config_file):
         raise Exception(f"The following missing configuration options are required: {missing}")
     return final_configs
 
+def get_referenced_templates(env, template):
+    templates = [template]
+    for reference in meta.find_referenced_templates(env.parse(env.loader.get_source(env, template)[0])):
+        templates.extend(get_referenced_templates(env, reference))
+    return list(dict.fromkeys(templates)) # remove duplicates while preserving order
+
+def translate_included(references, filetype):
+    included = []
+    for reference in references:
+        base, _ = os.path.splitext(reference)
+        root, *subs, basename = base.split(os.sep)
+        if root == "layouts":
+            path = os.path.join("partials", filetype, "layouts", *(subs + [f"{basename}.{filetype}"]))
+        elif root == "partials":
+            path = os.path.join("partials", filetype, *(subs[1:] + [f"{basename}.{filetype}"]))
+        else:
+            raise RuntimeError(
+                "included or extended templates must be part of templates/layouts or templates/partials, "
+                f"found: {reference} {root}")
+        if os.path.isfile(os.path.join(TEMPLATE_PATH, path)):
+            included.append(path)
+
+    return included
 
 def build(build_directory, config_file, clean=False):
-
     if clean:
         shutil.rmtree(build_directory, ignore_errors=True)
     env = Environment(
@@ -74,15 +102,29 @@ def build(build_directory, config_file, clean=False):
 
     configs = config_data(config_file)
 
-
-    for template in env.list_templates(filter_func=filter_site_templates):
+    templates = env.list_templates(filter_func=filter_site_templates)
+    included = {}
+    for template in templates:
+        base, ext = os.path.splitext(template)
+        root, *subs, basename = base.split(os.sep)
+        if ext == ".html":
+            references = list(get_referenced_templates(env, template))
+            included[os.path.join(root, "js", *(subs + [f"{basename}.js"]))] = translate_included(references[1:], "js")
+            included[os.path.join(root, "css", *(subs + [f"{basename}.css"]))] = translate_included(references[1:], "css")
+    for template in templates:
         build_destination = os.path.join(
             build_directory, os.path.relpath(os.path.join(TEMPLATE_PATH, template), SITE_PATH)
         )
         os.makedirs(os.path.dirname(build_destination), exist_ok=True)
-
         with open(build_destination, "w") as f:
-            f.write(env.get_template(template).render(configs=configs))
+            if template in included:
+                with open(os.path.join(TEMPLATE_PATH, template)) as tf:
+                    file_content = tf.read()
+                content = env.from_string(INCLUDE_PREFIX + file_content).render(configs=configs, 
+                                                                                included=included[template])
+            else:
+                content = env.get_template(template).render(configs=configs, included=[])
+            f.write(content)
 
 
 if __name__ == "__main__":

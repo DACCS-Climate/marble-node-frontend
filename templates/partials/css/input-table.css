@@ -1,0 +1,49 @@
+.list-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.list-add {
+    content: var(--icon-plus);
+    background-color: var(--teal-200);
+    padding: 0;
+}
+
+.list-remove {
+    content: var(--icon-minus);
+    background-color: var(--deep-orange-200);
+    padding: 0;
+    align-self: end;
+    margin-bottom: calc((var(--form-elem-padding) + 10px) / 2);
+}
+
+.list-row label {
+    visibility: hidden;
+    display: none;
+    text-wrap: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+}
+
+.list-row:nth-child(1 of .list-row) label {
+    visibility: visible;
+    display: inline;
+}
+
+.list-row .form-input {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.list-row {
+    flex-wrap: nowrap !important;
+}
+
+.list-row input {
+    width: unset !important;
+}
+
+.list-row .info-icon::after {
+    content: var(--icon-info);
+}
