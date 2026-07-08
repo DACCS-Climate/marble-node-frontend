@@ -1,0 +1,15 @@
+{# 
+    This page will redirect the user to the login page set by configs["login_home"]. 
+    It is intended to be used by external sites that link to the login page for Marble.
+    Pages within this site should create links directly to the page set by configs["login_home"] instead of using this page.
+#}
+
+{% extends "layouts/no-login.html" %}
+{% set page_title = "Login Redirect" %}
+{% set page_name = "login_redirect" %}
+
+{% block content %}
+You will be redirected to the <a href="{{configs['login_home']}}">login page</a> for Marble node: {{configs["node_name"]}}.
+<br/>
+If you are not automatically redirected please click the link above.
+{% endblock %}

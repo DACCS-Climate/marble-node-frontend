@@ -1,0 +1,16 @@
+#register-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.select-other.hidden {
+    display: none;
+}
+
+{% include "partials/css/form-content.css" %}
+
+.form {
+    width: 100%;
+    padding: 0 10% 0 10%;
+}

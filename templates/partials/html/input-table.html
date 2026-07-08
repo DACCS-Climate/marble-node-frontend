@@ -1,5 +1,7 @@
 <div class="form-input">
-    <label for="{{ data_type }}">{{ data_label }}</label>
+    {% if data_label %}
+        <label for="{{ data_type }}">{{ data_label }}</label>
+    {% endif %}
     <div id="{{ data_type }}-section" class="list-section" data-min-rows="{{data_min_rows}}">
         <div class="drop-target"></div>
         <template>

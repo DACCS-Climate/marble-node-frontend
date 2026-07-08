@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => { 
     document.getElementById("login").addEventListener("submit", (e) => {
-        e.submitter.setAttribute("disabled", true)
+        e.submitter.setAttribute("disabled", true);
         e.preventDefault();
         const isMarbleLogin = document.getElementById("login-panel").classList.contains("marble");
         const formData = new FormData(e.target);
@@ -50,6 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("external-login").click();
     }
     {% endif %}
+    // hide login link when already on login page
+    document.getElementById("login-button").classList.add("hidden");
 });
 
 {% include "partials/js/form-content.js" %}

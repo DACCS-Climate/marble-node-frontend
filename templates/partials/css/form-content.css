@@ -18,7 +18,8 @@
     font-weight: var(--med-font-weight);
 }
 
-.form-input:has(input[required],select[required]) > label::after {
+.form-input:has(input[required],select[required]) :nth-child(1 of label)::after,
+label.required::after { /* label.required is a hack to show the asterisk where the actual requirement is enforced by javascript instead */
     content: " *";
     color: var(--error);
 }
@@ -107,6 +108,7 @@
     align-items: center;
     gap: 10px;
     min-width: var(--form-elem-width);
+    flex-wrap: wrap;
 }
 
 .form-multi-input-row {
@@ -160,10 +162,23 @@ button.med-button[type=submit] { /*adds to the .med-button definition in buttons
     box-shadow: var(--d-elevation-1);
 }
 
-#error-message {
-    color: var(--error);
+#error-message,
+#success-message {
     text-wrap: wrap;
     width: calc(var(--form-elem-width) + var(--form-elem-padding) * 2);
+}
+
+#error-message:empty,
+#success-message:empty {
+    display: none;
+}
+
+#error-message {
+    color: var(--error);
+}
+
+#success-message {
+    color: var(--success);
 }
 
 .dragging .drop-target {

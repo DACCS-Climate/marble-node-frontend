@@ -16,9 +16,6 @@ node_admin_email = "admin@example.com"
 # Path to the page used to log in to this node.
 #login_home = "login.html"
 
-# URL where users can request an account on the node
-#registration_url = ""
-
 # additional information about the node to display on the landing page
 [node_info]
 
