@@ -54,7 +54,6 @@ MARBLE_FRONTEND_CONFIG__TERMS_AND_CONDITIONS__URL=http://example.com
 This is how the files are arranged in this repo and how to update them in order to develop this website.
 
 - Files in the `static/` directory will be copied to the build directory without modification.
-- Files in the `templates/site/js` directory will be copied to the build directory without modification.
 - Files in the `templates/site/` directory will be copied to the build directory after being updated by the template engine
 - All other directories in the `templates/` directory will not be copied to the build directory but will be used by the templating engine
 - Files in the `templates/layouts/` directory contains files that should be extended by other template files

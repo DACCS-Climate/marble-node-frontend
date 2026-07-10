@@ -1,0 +1,37 @@
+{% extends "layouts/no-login.html" %}
+{% set page_title = "Create an Account" %}
+{% set page_name = "register" %}
+
+{% block content %}
+<div class="content-block">
+    <div id="register-form">
+        <h3>Create an Account</h3>
+        <form class="form">
+            <div class="form-input">
+                <label for="user-email">Username</label>
+                <input id="username" type="text" name="user_name" required>
+            </div>
+            <div class="form-input">
+                <label for="email">Email</label>
+                <input id="email" type="email" name="email" required>
+            </div>
+            <div class="form-input">
+                <label for="user-password">Password</label>
+                <div class="form-input-row">
+                    <div class="form-input-wrapper">
+                        <input id="user-password" class="password" type="password" name="password" required>
+                        <div class="password-show-toggle"></div>
+                    </div>
+                    <div class="form-input-wrapper">
+                        <input id="user-password-confirmation" class="password" type="password" name="password" placeholder="Confirm Password" required>
+                        <div class="password-show-toggle"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="error-message"></div>
+            <div id="success-message"></div>
+            <button class="med-button" type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,8 @@
+#node-info-list {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+}
+
+#node-info-list dt {
+    font-weight: bold;
+}

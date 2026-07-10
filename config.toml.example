@@ -7,11 +7,18 @@ node_admin_email = "admin@example.com"
 # Path to access the magpie api (magpie MUST be run on the same host as this application)
 #magpie_path = "/magpie"
 
+# Path to access services information
+#services_path = "/services"
+
+# Path to access version information
+#version_path = "/version"
+
 # Path to the page used to log in to this node.
 #login_home = "login.html"
 
-# URL where users can request an account on the node
-#registration_url = ""
+# additional information about the node to display on the landing page
+[node_info]
+
 
 [login_providers]
 

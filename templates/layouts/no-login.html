@@ -1,0 +1,13 @@
+{% set require_login = False %}
+{% extends "layouts/base.html" %}
+
+{% block body %}
+<div id="no-login-header">
+    <h3>{{ configs["node_name"] }}</h3>
+    <div id="login-register">
+        <a id="login-button" class="sm-button" href="{{ configs['login_home'] }}">Login</a>
+        <a id="register-button" class="sm-button" href="register.html">Create an Account</a>
+    </div>
+</div>
+{% block content %}{% endblock %}
+{% endblock %}

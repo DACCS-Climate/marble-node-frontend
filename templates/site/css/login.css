@@ -1,0 +1,51 @@
+#login-page {
+    display: flex;
+    width: 80vw;
+    box-shadow: var(--login-elevation-1)
+}
+
+#login-panel, #login-selector-panel {
+    width: 50%;
+    height: 800px;
+}
+
+#login-panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#login-panel.marble #provider-select {
+    display: none;
+    visibility: hidden;
+}
+
+#login-panel.external #password-input {
+    display: none;
+    visibility: hidden;
+}
+
+#login-selector-panel {
+    background-image: url("../images/background/background-login-provider.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#login-panel.marble + #login-selector-panel #marble-login {
+    display: none;
+    visibility: hidden;
+}
+
+#login-panel.external + #login-selector-panel #external-login {
+    display: none;
+    visibility: hidden;
+}
+
+#no-login-header button {
+    display: none;
+}
+
+{% include "partials/css/form-content.css" %}

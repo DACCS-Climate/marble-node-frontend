@@ -1,0 +1,12 @@
+#terms-and-conditions {
+    width: 100%;
+    padding: var(--form-elem-padding)
+}
+
+#no-login-block {
+    flex-direction: column;
+}
+
+h3 {
+    margin-top: 0px;
+}

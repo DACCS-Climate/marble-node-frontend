@@ -1,0 +1,54 @@
+{% extends "layouts/login-required.html" %}
+{% set page_title = "Account Settings" %}
+{% set page_name = "account-settings" %}
+
+{% block content %}
+<div id="account-settings-page">
+    <div id="account-settings-panel">
+        <h3 class="user-settings">Update User Settings</h3>
+        <h3 class="group-settings">Update Public Group Membership</h3>
+        <h3 class="network-settings">Update Network Node Membership</h3>
+        <div class="form user-settings">
+            <div class="form-input">
+                <label for="user-email">Email</label>
+                <div class="form-input-row">
+                    <input id="user-email" type="text" name="email">
+                    <button id="user-email-update" class="sm-sq-button update"></button>
+                </div>
+            </div>
+            <div class="form-input" id="password-input">
+                <label for="user-password">Password</label>
+                <div class="form-input-row">
+                    <div class="form-input-wrapper">
+                        <input id="user-password" class="password" type="password" name="password">
+                        <div class="password-show-toggle"></div>
+                    </div>
+                    <button id="user-password-update" class="sm-sq-button update"></button>
+                </div>
+            </div>
+        </div>
+        <div id="group-settings-container" class="form group-settings">
+            <template id="group-template">
+                <div class="form-input group-container">
+                    <div class="form-input-row">
+                        <span class="group-name"></span>
+                        <div>
+                            <button class="group-join sm-sq-button"></button>
+                            <button class="group-leave sm-sq-button"></button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+        <form class="form network-settings">
+
+        </form>
+        <div id="error-message"></div>
+    </div>
+    <div id="account-settings-selector-panel">
+        <button class="med-button" id="user-settings">User Settings</button>
+        <button class="med-button" id="group-settings">Group Settings</button>
+        <button class="med-button" id="network-settings">Network Settings</button>
+    </div>
+</div>
+{% endblock %}

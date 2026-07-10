@@ -1,0 +1,14 @@
+<div class="content-block">
+    <dl id="node-info-list">
+        <dt>Version</dt>
+        <dd id="version"></dd>
+        <dt>Release Time</dt>
+        <dd id="release-time"></dd>
+        <dt>Support Email</dt>
+        <dd>{{ configs["node_admin_email"] }}</dd>
+        {% for key, value in configs["node_info"].items() %}
+            <dt>{{ key | title }}</dt>
+            <dd>{{ value | safe }}</dd>
+        {% endfor %}
+    </dl>
+</div>

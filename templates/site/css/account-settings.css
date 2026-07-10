@@ -1,0 +1,118 @@
+#account-settings-page {
+    display: flex;
+    width: 80vw;
+    box-shadow: var(--login-elevation-1)
+}
+
+#account-settings-panel, #account-settings-selector-panel {
+    width: 50%;
+    height: 800px;
+}
+
+#account-settings-panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#account-settings-page .user-settings,
+#account-settings-page .group-settings,
+#account-settings-page .network-settings {
+    display: none;
+    visibility: hidden;
+}
+
+#account-settings-page[data-form=user] .user-settings,
+#account-settings-page[data-form=group] .group-settings,
+#account-settings-page[data-form=network] .network-settings {
+    display: flex;
+    visibility: visible;
+}
+
+#account-settings-page[data-form=user] #user-settings,
+#account-settings-page[data-form=group] #group-settings,
+#account-settings-page[data-form=network] #network-settings {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+#account-settings-selector-panel {
+    background-image: url("../images/background/background-settings.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+button.update {
+    pointer-events: none;
+}
+
+button.update[data-state=pristine] {
+    content: var(--icon-upload);
+    opacity: 0.3;
+    background-color: var(--gray-300);
+}
+
+button.update[data-state=dirty] {
+    content: var(--icon-upload);
+    pointer-events: auto;
+}
+
+button.update[data-state=loading] {
+    content: var(--icon-loading);
+}
+
+button.update[data-state=uploaded] {
+    content: var(--icon-check);
+    background-color: var(--success);
+}
+
+button.update[data-state=error] {
+    content: var(--icon-x);
+    background-color: var(--error);
+}
+
+button.group-join {
+    content: var(--icon-add-person);
+    background-color: var(--teal-200);
+}
+
+button.group-leave {
+    content: var(--icon-remove-person);
+    background-color: var(--deep-orange-200);
+}
+
+.group-container {
+    display: flex;
+    align-items: stretch;
+}
+
+.group-container[data-member=true] button.group-join,
+.group-container[data-member=false] button.group-leave {
+    display: none;
+}
+
+.group-container .group-name {
+    flex-grow: 6;
+    word-wrap: anywhere;
+}
+
+.group-container .form-input-row {
+    width: var(--form-elem-width);
+    padding-right: var(--form-elem-padding);
+}
+
+.form.group-settings {
+    gap: 10px;
+}
+
+#error-message {
+    height: 100px;
+}
+
+{% include "partials/css/form-content.css" %}

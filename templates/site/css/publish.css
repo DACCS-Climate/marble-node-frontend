@@ -1,0 +1,67 @@
+#publish-panel {
+    flex-direction: column;
+    align-items: center;
+}
+
+#publish-panel .new-request,
+#publish-panel .edit-request {
+    display: none;
+    visibility: hidden;
+}
+
+#publish-panel[data-form=new] .new-request,
+#publish-panel[data-form=edit] .edit-request {
+    display: flex;
+    visibility: visible;
+}
+
+#request-panel {
+    width: 100%;
+}
+
+#geometry-map {
+    height: 500px;
+}
+
+.leaflet-pm-toolbar .geojson-icon {
+    background-image: var(--icon-globe);
+}
+
+#geometry-geojson {
+    display: none;
+    visibility: hidden;
+    height: 200px;
+}
+
+#geometry-input.show-geojson #geometry-geojson {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    visibility: visible;
+}
+
+#temporal {
+    width: calc(var(--form-elem-width) * 1.1);
+}
+
+#refresh-content {
+    content: var(--icon-loading);
+    background-color: var(--indigo-200);
+}
+
+#end-buttons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+{% include "partials/css/form-content.css" %}
+
+.form {
+    width: 80%;
+    padding: 0 10% 0 10%;
+}
+
+#error-message {
+    width: 100%;
+}

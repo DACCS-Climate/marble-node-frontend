@@ -1,0 +1,101 @@
+:root {
+    --menu-width: 80%;
+    --dropdown-size: 79px;
+    --dropdown-icon-size: 48px;
+}
+
+#menu {
+    display: flex;
+    flex-direction: row;
+    align-self: normal;
+}
+
+#menu-items {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: var(--menu-width);
+    padding-left: calc(100% - var(--menu-width));
+}
+
+.menu-item {
+    font-family: var(--secondary-font-family);
+    font-weight: var(--reg-font-weight);
+    font-size: 20px;
+    letter-spacing: 0.03px;
+    line-height: var(--line-height-normal);
+    width: 276px;
+    height: 95px;
+    color: var(--text-on-surface);
+    display: grid;
+    place-items: center;
+    text-decoration: none;
+}
+
+.menu-item.highlight {
+    color: var(--primary);
+    background-color: var(--primary-opacity-light);
+}
+
+#menu-extras {
+    width: calc(100% - var(--menu-width));
+    display: grid;
+    align-items: center;
+    justify-items: end;
+    padding-right: 20px;
+    position: relative;
+}
+
+#menu-dropdown {
+    width: var(--dropdown-size);
+    height: var(--dropdown-size);
+    background-color: var(--indigo-50);
+    border: none;
+    border-radius: 50%;
+    box-shadow: var(--elevation-1);
+}
+
+#menu-dropdown svg {
+    width: var(--dropdown-icon-size);
+    height: var(--dropdown-icon-size);
+    color: var(--primary);
+}
+
+#menu-dropdown-content {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    min-width: 150px;
+    padding: 10px 0px;
+    border-radius: 10px;
+    box-shadow: var(--elevation-1);
+    list-style-type: none;
+    margin: 0;
+}
+
+#menu-dropdown-content.collapsed {
+    display: none;
+}
+
+#menu-dropdown-content li {
+    padding: 10px 10px;
+}
+
+#menu-dropdown-content li:hover {
+    background-color: var(--primary-opacity-light);
+}
+
+#menu-dropdown-content a {
+    font-family: var(--main-font-family);
+    font-weight: var(--reg-font-weight);
+    font-size: 14px;
+    color: var(--black);
+    letter-spacing: 0.014px;
+    line-height: var(--line-height-normal);
+    width: 100%;
+    clear: both;
+    text-decoration: none;
+}

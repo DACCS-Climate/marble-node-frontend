@@ -1,70 +1,57 @@
-function set_login_mode(mode) {
-    divLoginContentRight = document.getElementById("loginContentRight");
-    if (mode === "provider") {
-        document.documentElement.style.setProperty("--login-email-only", "none");
-        document.documentElement.style.setProperty("--login-provider-only", "flex");
-        divLoginContentRight.classList.replace("login-provider-background", "login-email-background")
-    } else {
-        document.documentElement.style.setProperty("--login-email-only", "flex");
-        document.documentElement.style.setProperty("--login-provider-only", "none");
-        divLoginContentRight.classList.replace("login-email-background", "login-provider-background")
-        document.getElementById("hiddenProviderName").value = "ziggurat"
-    }
-}
-
-function login(){
-    const loginErrorMessage = document.getElementById("loginErrorMessage");
-    const termsAndConditionsCheckbox = document.getElementById("termsAndConditionsCheckbox");
-
-    if (termsAndConditionsCheckbox && !termsAndConditionsCheckbox.checked) {
-        loginErrorMessage.innerText = "Please accept the terms and conditions before logging in.";
-        return
-    }
-
-    fetch("{{ configs['magpie_path'] }}/signin", {
-        method: "POST",
-        headers: {
-            Accept: "application/json, text/plain",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            user_name: document.getElementById("userName").value,
-            password: document.getElementById("userPassword").value,
-            provider_name: document.getElementById("hiddenProviderName").value
-       })
-    }).then(response => response.json()).then(json => {
-        if (json.code === 200) {
-            window.location.href = accountHome;
-        } else {
-            if (json.detail) {
-                loginErrorMessage.innerText = json.detail;
+document.addEventListener('DOMContentLoaded', () => { 
+    document.getElementById("login").addEventListener("submit", (e) => {
+        e.submitter.setAttribute("disabled", true);
+        e.preventDefault();
+        const isMarbleLogin = document.getElementById("login-panel").classList.contains("marble");
+        const formData = new FormData(e.target);
+        const body = {
+            user_name: formData.get("user_name"),
+            provider_name: isMarbleLogin ? "ziggurat" : formData.get("provider"),
+        }
+        if (isMarbleLogin) {
+            body["password"] = formData.get("password");
+        }
+        magpieFetch("/signin", {
+            method: "POST",
+            body: JSON.stringify(body)
+        }).then(resp => {
+            if (resp.ok) {
+                const params = new URLSearchParams(document.location.search);
+                window.location.replace(params.get("login-from") || "home.html")
             } else {
-                loginErrorMessage.innerText = "Incorrect username or password!";
+                return resp.json()
             }
-        }
-    })
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-    var signInButton =  document.getElementById("buttonSignIn");
-    var emailButton = document.getElementById("buttonSelectEmail");
-    var userPasswordTextbox = document.getElementById("userPassword");
-
-    signInButton.addEventListener('click', (event) => {
-        login();
-    })
-
-    userPasswordTextbox.addEventListener('keypress', (event) => {
-        if(event.code == "Enter"){
-            login();
-        }
-    })
-
-    if (emailButton) {
-        emailButton.addEventListener('click', (event) => {
-            set_login_mode("email");
+        }).then(json => {
+            if (json) {
+                document.getElementById("error-message").innerText = json.detail || "Login Error";
+            }
+        }).catch(error => {
+            document.getElementById("error-message").innerText = "Login Error";
+            e.submitter.removeAttribute("disabled")
         })
-    }
+    })
 
-    set_login_mode("email");
-})
+    {% if configs["login_providers"]["enable"] %}
+    {# Note: sets the disabled attribute so that it is not considered for client side validation #}
+    document.getElementById("external-login").addEventListener("click", (e) => {
+        window.location.hash = "external";
+        document.getElementById("login-panel").classList.replace("marble", "external");
+        document.getElementById("user-password").setAttribute("disabled", "true")
+        document.getElementById("provider").removeAttribute("disabled")
+
+    })
+    document.getElementById("marble-login").addEventListener("click", (e) => {
+        window.location.hash = "";
+        document.getElementById("login-panel").classList.replace("external", "marble");
+        document.getElementById("provider").setAttribute("disabled", "true")
+        document.getElementById("user-password").removeAttribute("disabled")
+    })
+    if ( window.location.hash === "#external" ) {
+        document.getElementById("external-login").click();
+    }
+    {% endif %}
+    // hide login link when already on login page
+    document.getElementById("login-button").classList.add("hidden");
+});
+
+{% include "partials/js/form-content.js" %}
