@@ -18,7 +18,31 @@
     font-weight: var(--med-font-weight);
 }
 
-.form-input:has(input[required],select[required]) :nth-child(1 of label)::after,
+.colour-form {
+    gap: 0;
+}
+
+.colour-form > .form-input {
+    width: 80%;
+    padding: 10px 10% 10px 10%;
+}
+
+.colour-form > .form-input:nth-child(odd) {
+    background-color: var(--teal-50);
+}
+
+.colour-form > .form-input:nth-child(even) {
+    background-color: var(--indigo-50);
+}
+
+.colour-form > .form-input:nth-child(1 of .form-input) {
+    border-radius: 5px 5px 0 0;
+}
+
+.colour-form > .form-input:nth-last-child(1 of .form-input) {
+    border-radius: 0 0 5px 5px;
+}
+
 label.required::after { /* label.required is a hack to show the asterisk where the actual requirement is enforced by javascript instead */
     content: " *";
     color: var(--error);
@@ -58,7 +82,7 @@ label.required::after { /* label.required is a hack to show the asterisk where t
     appearance: none;
     -moz-appearance: none;
     -webkit-appearance: none;
-    background-color: transparent;
+    background-color: white;
     margin: 0;
     font-family: inherit;
     font-size: inherit;
@@ -138,6 +162,7 @@ input[type=checkbox] {
     transform: translateY(-0.075em);
     display: inline-grid;
     place-content: center;
+    margin-right: 0.5em;
 }
 
 input[type=checkbox]::before {
@@ -195,3 +220,13 @@ button.med-button[type=submit] { /*adds to the .med-button definition in buttons
     display: none;
 }
 
+#refresh-content {
+    content: var(--icon-loading);
+    background-color: var(--indigo-200);
+}
+
+#end-buttons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}

@@ -16,22 +16,25 @@
     flex-direction: column;
 }
 
-#account-settings-page .user-settings,
+#account-settings-page .login-settings,
 #account-settings-page .group-settings,
+#account-settings-page .user-settings,
 #account-settings-page .network-settings {
     display: none;
     visibility: hidden;
 }
 
-#account-settings-page[data-form=user] .user-settings,
+#account-settings-page[data-form=login] .login-settings,
 #account-settings-page[data-form=group] .group-settings,
+#account-settings-page[data-form=user] .user-settings,
 #account-settings-page[data-form=network] .network-settings {
     display: flex;
     visibility: visible;
 }
 
-#account-settings-page[data-form=user] #user-settings,
+#account-settings-page[data-form=login] #login-settings,
 #account-settings-page[data-form=group] #group-settings,
+#account-settings-page[data-form=user] #user-settings,
 #account-settings-page[data-form=network] #network-settings {
     pointer-events: none;
     opacity: 0.5;
@@ -116,3 +119,9 @@ button.group-leave {
 }
 
 {% include "partials/css/form-content.css" %}
+
+{% with %}
+    {% set headers = ["title", "created", "updated"] %}
+    {% set table_container_id = "user-info-panel" %}
+    {% include "partials/css/table.css" %}
+{% endwith %}

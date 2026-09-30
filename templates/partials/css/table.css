@@ -1,0 +1,90 @@
+{#  
+    expects variables:
+        - table_container_id = id of the table
+        - sortable_headers: list of header rows that are sortable 
+#}
+
+#{{ table_container_id }} {
+    flex-direction: column;
+    align-items: center;
+}
+
+#{{ table_container_id }} table {
+    table-layout: fixed;
+    border-collapse: separate; /* to allow rounded corners with border-radius */
+    border-spacing: 0;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    border: var(--border-black);
+}
+
+#{{ table_container_id }} .button-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+}
+
+#{{ table_container_id }} table,
+#{{ table_container_id }} .button-row {
+    width: 80%;
+}
+
+#{{ table_container_id }} table th,
+#{{ table_container_id }} table td {
+    max-width: 25%; /* b/c 4 rows */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-bottom: var(--border-black);
+    border-right: var(--border-black);
+    padding: 8px;
+}
+
+#{{ table_container_id }} table th:last-child, 
+#{{ table_container_id }} table td:last-child {
+    border-right: none; /* remove extra border */
+}
+
+#{{ table_container_id }} table tr:last-child td {
+    border-bottom: none; /* remove extra border */
+}
+
+#{{ table_container_id }} table th {
+    background-color: var(--teal-100);
+}
+
+#{{ table_container_id }} table tr:nth-child(even) {
+    background-color: var(--teal-50);
+}
+
+#{{ table_container_id }} .prev-button {
+    content: var(--icon-caret-left);
+    background-color: var(--indigo-200);
+}
+
+#{{ table_container_id }} .prev-button:disabled,
+#{{ table_container_id }} .next-button:disabled {
+    opacity: 50%;
+}
+
+#{{ table_container_id }} .next-button {
+    content: var(--icon-caret-right);
+    background-color: var(--indigo-200);
+}
+ 
+{% set comma = joiner(",") %}
+{% for header in headers %}
+    {{ comma() }} #{{ table_container_id }} table[data-sort={{header}}-asc] th#{{header}}::after
+{% endfor %} {
+    content: var(--icon-caret-up);
+    margin-left: 2px;
+}
+
+{% set comma = joiner(",") %}
+{% for header in headers %}
+    {{ comma() }} #{{ table_container_id }} table[data-sort={{header}}-desc] th#{{header}}::after
+{% endfor %} {
+    content: var(--icon-caret-down);
+    margin-left: 2px;
+}

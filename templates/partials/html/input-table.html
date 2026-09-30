@@ -1,32 +1,47 @@
+{# 
+    Requries:
+        - data_type: used as part of ids to differentiate this input table from others on the same page
+        - data_label: (optional) label text
+        - data_min_rows: minimum number of rows required for this table
+        - data: list of objects containing information about each column in the table
+            - label: label text for the column
+            - info_href: (optional) href for the information icon beside the column name
+            - type: (default: "text") "textarea" or any valid input type to use when creating the input for the column
+            - required: (default: false) the input will be required if set to true
+            - placeholder: (optional) placeholder text for the input or textarea
+            - unique: (default: false) values for this column must be unique across rows if set to true
+            - name: sets the name attribute for the input or textarea
+#}
+
 <div class="form-input">
     {% if data_label %}
-        <label for="{{ data_type }}">{{ data_label }}</label>
+        <label for="{{ data_type }}-section">{{ data_label }}</label>
     {% endif %}
     <div id="{{ data_type }}-section" class="list-section" data-min-rows="{{data_min_rows}}">
         <div class="drop-target"></div>
         <template>
             <div class="form-multi-input-row list-row" draggable="true">
                 <button class="list-remove sm-sq-button" type="button"></button>
-                {% for row in data %}
+                {% for col in data %}
                     <div class="form-input">
-                        <label>
-                            {{ row.label }}
-                            {% if row.info_href %}
-                                <a class="info-icon" target="_blank" href="{{ row.info_href }}"></a>
+                        <label class="{{ 'required' if col.required else '' }}">
+                            {{ col.label }}
+                            {% if col.info_href %}
+                                <a class="info-icon" target="_blank" href="{{ col.info_href }}"></a>
                             {% endif %}
                         </label>
-                        {% if row.type == "textarea" %}
-                            <textarea name="{{ row.name }}" 
+                        {% if col.type == "textarea" %}
+                            <textarea name="{{ col.name }}" 
                                       class="list-input" 
-                                      {{ "required" if row.required else "" }} 
-                                      placeholder="{{ row.placeholder }}"
-                                      {{ "data-unique=true" if row.unique else "" }}></textarea>
+                                      {{ "required" if col.required else "" }} 
+                                      placeholder="{{ col.placeholder }}"
+                                      {{ "data-unique=true" if col.unique else "" }}></textarea>
                         {% else %}
-                            <input type="{{ row.type | default('text') }}" 
-                                   class="list-input" name="{{ row.name }}" 
-                                   {{ "required" if row.required else "" }} 
-                                   placeholder="{{ row.placeholder }}"
-                                   {{ "data-unique=true" if row.unique else "" }}>
+                            <input type="{{ col.type | default('text') }}" 
+                                   class="list-input" name="{{ col.name }}" 
+                                   {{ "required" if col.required else "" }} 
+                                   placeholder="{{ col.placeholder }}"
+                                   {{ "data-unique=true" if col.unique else "" }}>
                         {% endif %}
                     </div>
                 {% endfor %}

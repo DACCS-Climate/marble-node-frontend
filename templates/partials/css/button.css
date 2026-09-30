@@ -4,6 +4,7 @@
     color: var(--text-on-background);
     background-color: var(--white);
     border-style: solid;
+    border-radius: 10px;
     border-width: 2px;
     border-color: var(--black);
     padding: 0 20px 0 20px;

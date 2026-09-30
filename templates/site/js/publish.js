@@ -209,3 +209,5 @@ document.addEventListener("visibilitychange", () => {
         sessionStorage.setItem("publish-form", JSON.stringify(getFormData()))
     }
 })
+
+{% include "partials/js/form-content.js" %}

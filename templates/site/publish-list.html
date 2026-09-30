@@ -5,7 +5,7 @@
 {% block content %}
 <div id="publish-list-panel" class="content-block">
     <h3>Publication Requests</h3>
-    <table id="publish-table" data-sort="created-asc">
+    <table data-sort="created-asc">
         <tr>
             <th id="title" class="sortable-column">Title</th>
             <th id="created" class="sortable-column">Date Created</th>
@@ -21,10 +21,10 @@
             </tr>
         </template>
     </table>
-    <div id="button-row">
-        <button class="sm-sq-button" id="prev-button" type="button" disabled></button>
+    <div class="button-row">
+        <button class="sm-sq-button prev-button" type="button" disabled></button>
         <a class="sm-sq-button" id="new-button" href="publish.html">New</a>
-        <button class="sm-sq-button" id="next-button" type="button" disabled></button>
+        <button class="sm-sq-button next-button" type="button" disabled></button>
     </div>
 </div>
 {% endblock %}

@@ -1,0 +1,40 @@
+#survey-block {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+#survey-block #survey-title {
+    text-transform: capitalize;
+    align-self: center;
+}
+
+#survey-block label[for^="question-"]:first-letter {
+    text-transform: uppercase;
+}
+
+#survey-block .choice-field {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    border: 0;
+}
+
+#survey-block .other-option.hidden {
+    display: none;
+}
+
+#survey-block #survey-form {
+    width: unset;
+}
+
+#questions > .form-input {
+    flex-direction: row;
+    align-items: center;
+}
+
+#survey-block #survey-form #questions > .form-input:first-child {
+    border-radius
+}
+
+{% include "partials/css/form-content.css" %}
