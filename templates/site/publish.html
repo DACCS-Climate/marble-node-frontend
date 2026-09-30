@@ -19,81 +19,83 @@
     <h3 class="edit-request">Edit a Publication Request</h3>
     <div id="request-panel">
         <form class="form">
-            <div class="form-input">
-                <label for="title">Title</label>
-                <input id="title" type="text" name="title" required>
-            </div>
-            <div class="form-input">
-                <label for="description">Description</label>
-                <textarea id="description" name="description"></textarea>
-            </div>
-            <div class="form-input">
-                <label for="contact">Contact Email</label>
-                <input id="contact" type="email" name="contact" required>
-            </div>
-            {% with %}
-                {% set data_type = "author" %}
-                {% set data_label = "Authors" %}
-                {% set data_min_rows = 1 %}
-                {% set data = [
-                    {"label": "First Name", "name": "first_name"},
-                    {"label": "Last Name", "name": "last_name", "required": True},
-                    {"label": "Email", "name": "email", "type": "email"}
-                ] %}
-                {% include "partials/html/input-table.html" %}
-            {% endwith %}
-            <div class="form-input" id="geometry-input">
-                <label for="geometry-map">Geometry</label>
-                <div id="geometry-map"></div>
-                <textarea id="geometry-geojson"></textarea>
-            </div>
-            <div class="form-input">
-                <label for="temporal">Temporal Range</label>
-                <div class="form-multi-input-row">
-                    <input type="text" id="temporal" required>
-                    <div class="select-wrapper">
-                        <select id="time-zone" required>
-                            {% for offset in timezone_offsets %}
-                            <option value="{{offset}}">UTC {{"" if offset == "+00:00" else offset}}</option>
-                            {% endfor %}
-                        </select>
+            <div class="colour-form">
+                <div class="form-input">
+                    <label for="title">Title</label>
+                    <input id="title" type="text" name="title" required>
+                </div>
+                <div class="form-input">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description"></textarea>
+                </div>
+                <div class="form-input">
+                    <label for="contact">Contact Email</label>
+                    <input id="contact" type="email" name="contact" required>
+                </div>
+                {% with %}
+                    {% set data_type = "author" %}
+                    {% set data_label = "Authors" %}
+                    {% set data_min_rows = 1 %}
+                    {% set data = [
+                        {"label": "First Name", "name": "first_name"},
+                        {"label": "Last Name", "name": "last_name", "required": True},
+                        {"label": "Email", "name": "email", "type": "email"}
+                    ] %}
+                    {% include "partials/html/input-table.html" %}
+                {% endwith %}
+                <div class="form-input" id="geometry-input">
+                    <label for="geometry-map">Geometry</label>
+                    <div id="geometry-map"></div>
+                    <textarea id="geometry-geojson"></textarea>
+                </div>
+                <div class="form-input">
+                    <label for="temporal">Temporal Range</label>
+                    <div class="form-multi-input-row">
+                        <input type="text" id="temporal" required>
+                        <div class="select-wrapper">
+                            <select id="time-zone" required>
+                                {% for offset in timezone_offsets %}
+                                <option value="{{offset}}">UTC {{"" if offset == "+00:00" else offset}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                     </div>
                 </div>
+                {% with %}
+                    {% set data_type = "asset" %}
+                    {% set data_label = "Assets" %}
+                    {% set data_min_rows = 1 %}
+                    {% set data = [
+                        {"label": "ID", "name": "id", "placeholder": "Unique ID ...", "required": True, "unique": True},
+                        {"label": "URI", "name": "href", "required": True},
+                        {"label": "Title", "name": "title"},
+                        {"label": "Description", "name": "description"},
+                        {"label": "Media Type", "name": "type", "info_href": "https://www.iana.org/assignments/media-types/media-types.xhtml"},
+                        {"label": "Roles", "name": "roles", "type": "textarea", "placeholder": "One per line...", "info_href": "https://github.com/radiantearth/stac-spec/blob/master/commons/assets.md#roles"},
+                    ] %}
+                    {% include "partials/html/input-table.html" %}
+                {% endwith %}
+                {% with %}
+                    {% set data_type = "link" %}
+                    {% set data_label = "Links" %}
+                    {% set data = [
+                        {"label": "URI", "name": "href", "required": True},
+                        {"label": "Title", "name": "title"},
+                        {"label": "Media Type", "name": "type", "info_href": "https://www.iana.org/assignments/media-types/media-types.xhtml"},
+                        {"label": "Relation", "name": "rel", "required": True, "info_href": "https://www.iana.org/assignments/link-relations/link-relations.xhtml"},
+                    ] %}
+                    {% include "partials/html/input-table.html" %}
+                {% endwith %}
+                {% with %}
+                    {% set data_type = "properties" %}
+                    {% set data_label = "Extra Properties" %}
+                    {% set data = [
+                        {"label": "Key", "name": "key", "required": True, "placeholder": "Unique Key ...", "unique": True},
+                        {"label": "Value", "name": "value", "required": True},
+                    ] %}
+                    {% include "partials/html/input-table.html" %}
+                {% endwith %}
             </div>
-            {% with %}
-                {% set data_type = "asset" %}
-                {% set data_label = "Assets" %}
-                {% set data_min_rows = 1 %}
-                {% set data = [
-                    {"label": "ID", "name": "id", "placeholder": "Unique ID ...", "required": True, "unique": True},
-                    {"label": "URI", "name": "href", "required": True},
-                    {"label": "Title", "name": "title"},
-                    {"label": "Description", "name": "description"},
-                    {"label": "Media Type", "name": "type", "info_href": "https://www.iana.org/assignments/media-types/media-types.xhtml"},
-                    {"label": "Roles", "name": "roles", "type": "textarea", "placeholder": "One per line...", "info_href": "https://github.com/radiantearth/stac-spec/blob/master/commons/assets.md#roles"},
-                ] %}
-                {% include "partials/html/input-table.html" %}
-            {% endwith %}
-            {% with %}
-                {% set data_type = "link" %}
-                {% set data_label = "Links" %}
-                {% set data = [
-                    {"label": "URI", "name": "href", "required": True},
-                    {"label": "Title", "name": "title"},
-                    {"label": "Media Type", "name": "type", "info_href": "https://www.iana.org/assignments/media-types/media-types.xhtml"},
-                    {"label": "Relation", "name": "rel", "required": True, "info_href": "https://www.iana.org/assignments/link-relations/link-relations.xhtml"},
-                ] %}
-                {% include "partials/html/input-table.html" %}
-            {% endwith %}
-            {% with %}
-                {% set data_type = "properties" %}
-                {% set data_label = "Extra Properties" %}
-                {% set data = [
-                    {"label": "Key", "name": "key", "required": True, "placeholder": "Unique Key ...", "unique": True},
-                    {"label": "Value", "name": "value", "required": True},
-                ] %}
-                {% include "partials/html/input-table.html" %}
-            {% endwith %}
             <div id="error-message"></div>
             <div id="end-buttons">
                 <button type="submit" class="med-button">Submit</button>

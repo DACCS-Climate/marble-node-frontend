@@ -1,0 +1,40 @@
+{% extends "layouts/login-required.html" %}
+{% set page_title = "User Info" %}
+{% set page_name = "user-info" %}
+
+{% block content %}
+<div class="content-block">
+    <div id="survey-block">
+        <h3 id="survey-title"></h3>
+        <form id="survey-form" class="form">
+            <div id="questions" class="colour-form">
+                <template id="text-question-template">
+                    <div class="form-input">
+                        <label></label>
+                        <textarea class="question-input"></textarea>
+                    </div>
+                </template>
+                <template id="choice-question-template">
+                    <div class="form-input">
+                        <label></label>
+                        <fieldset class="choice-field question-input">
+                            <div class="other-option">
+                                {% with %}
+                                    {% set data_type = "PLACEHOLDER" %} {# PLACEHOLDER is replaced in the js when rendering the template #}
+                                    {% set data = [{"label": "Other", "unique": True, "name": "other-value"}] %}
+                                    {% include "partials/html/input-table.html" %}
+                                {% endwith %}
+                            </div>
+                        </fieldset>
+                    </div>
+                </template>
+            </div>
+            <div id="error-message"></div>
+            <div id="end-buttons">
+                <button type="submit" class="med-button">Submit</button>
+                <button type="reset" id="refresh-content" class="sm-sq-button"></button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

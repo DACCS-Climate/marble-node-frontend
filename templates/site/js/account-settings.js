@@ -38,9 +38,11 @@ const createUpdatableSetting = (updateButton, inputField, updateURL, updateMetho
     stateFunc({target: inputField});
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+{% include "partials/js/table.js" %}
+
+document.addEventListener('DOMContentLoaded', async () => {
     const page = document.getElementById("account-settings-page");
-    const validLabels = ["user", "group", "network"];
+    const validLabels = ["login", "group", "user", "network"];
     let currentHashLabel = (window.location.hash || `#${validLabels[0]}`).slice(1);
     if (!validLabels.includes(currentHashLabel)) {
         currentHashLabel = validLabels[0];
@@ -88,6 +90,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         document.getElementById("network-settings").style.display = "none";
     }
+    const user = (await window.magpieSession).user.user_name;
+    const formatter = new Intl.DateTimeFormat("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+    })
+    await initTable(
+        "user-info-panel", 
+        `/users/${user}/surveys/`, 
+        "surveys", 
+        (row, survey) => {
+            const titleElem = row.querySelector(".row-title a")
+            titleElem.innerText = survey.title;
+            titleElem.href = `user-info.html?id=${survey.id}`
+            row.querySelector(".row-created").innerText = formatter.format(new Date(survey.created));
+            row.querySelector(".row-updated").innerText = formatter.format(new Date(survey.updated));
+        })
 })
 
 {% include "partials/js/form-content.js" %}

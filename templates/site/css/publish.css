@@ -44,23 +44,8 @@
     width: calc(var(--form-elem-width) * 1.1);
 }
 
-#refresh-content {
-    content: var(--icon-loading);
-    background-color: var(--indigo-200);
-}
-
-#end-buttons {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
 {% include "partials/css/form-content.css" %}
 
-.form {
-    width: 80%;
-    padding: 0 10% 0 10%;
-}
 
 #error-message {
     width: 100%;

@@ -5,10 +5,11 @@
 {% block content %}
 <div id="account-settings-page">
     <div id="account-settings-panel">
-        <h3 class="user-settings">Update User Settings</h3>
+        <h3 class="login-settings">Update User Settings</h3>
         <h3 class="group-settings">Update Public Group Membership</h3>
+        <h3 class="user-settings">Update User Information</h3>
         <h3 class="network-settings">Update Network Node Membership</h3>
-        <div class="form user-settings">
+        <div class="form login-settings">
             <div class="form-input">
                 <label for="user-email">Email</label>
                 <div class="form-input-row">
@@ -40,14 +41,35 @@
                 </div>
             </template>
         </div>
+        <div id="user-info-panel" class="form content-block user-settings">
+            <table data-sort="created-asc">
+                <tr>
+                    <th id="title" class="sortable-column">Title</th>
+                    <th id="created" class="sortable-column">Date Created</th>
+                    <th id="updated" class="sortable-column">Date Updated</th>
+                </tr>
+                <template id="row-template">
+                    <tr class="row">
+                        <td class="row-title"><a></a></td>
+                        <td class="row-created"></td>
+                        <td class="row-updated"></td>
+                    </tr>
+                </template>
+            </table>
+            <div class="button-row">
+                <button class="sm-sq-button prev-button" type="button" disabled></button>
+                <button class="sm-sq-button next-button" type="button" disabled></button>
+            </div>
+        </div>
         <form class="form network-settings">
-
+            {# TODO #}
         </form>
         <div id="error-message"></div>
     </div>
     <div id="account-settings-selector-panel">
-        <button class="med-button" id="user-settings">User Settings</button>
+        <button class="med-button" id="login-settings">Login Settings</button>
         <button class="med-button" id="group-settings">Group Settings</button>
+        <button class="med-button" id="user-settings">User Info</button>
         <button class="med-button" id="network-settings">Network Settings</button>
     </div>
 </div>

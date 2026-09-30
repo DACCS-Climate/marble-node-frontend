@@ -1,72 +1,3 @@
-#publish-list-panel {
-    flex-direction: column;
-    align-items: center;
-}
-
-#publish-table {
-    table-layout: fixed;
-    border-collapse: separate; /* to allow rounded corners with border-radius */
-    border-spacing: 0;
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    border: var(--border-black);
-}
-
-#button-row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 8px;
-}
-
-#publish-table,
-#button-row {
-    width: 80%;
-}
-
-#publish-table th,
-#publish-table td {
-    max-width: 25%; /* b/c 4 rows */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    border-bottom: var(--border-black);
-    border-right: var(--border-black);
-    padding: 8px;
-}
-
-#publish-table th:last-child, 
-#publish-table td:last-child {
-    border-right: none; /* remove extra border */
-}
-
-#publish-table tr:last-child td {
-    border-bottom: none; /* remove extra border */
-}
-
-#publish-table th {
-    background-color: var(--teal-100);
-}
-
-#publish-table tr:nth-child(even) {
-    background-color: var(--teal-50);
-}
-
-#prev-button {
-    content: var(--icon-caret-left);
-    background-color: var(--indigo-200);
-}
-
-#prev-button:disabled,
-#next-button:disabled {
-    opacity: 50%;
-}
-
-#next-button {
-    content: var(--icon-caret-right);
-    background-color: var(--indigo-200);
-}
-
 #new-button {
     background-color: var(--secondary);
     border-color: var(--secondary);
@@ -75,16 +6,8 @@
     padding-bottom: 0;
 }
 
-#publish-table[data-sort=title-asc] th#title::after,
-#publish-table[data-sort=created-asc] th#created::after,
-#publish-table[data-sort=updated-asc] th#updated::after {
-    content: var(--icon-caret-up);
-    margin-left: 2px;
-}
-
-#publish-table[data-sort=title-desc] th#title::after,
-#publish-table[data-sort=created-desc] th#created::after,
-#publish-table[data-sort=updated-desc] th#updated::after {
-    content: var(--icon-caret-down);
-    margin-left: 2px;
-}
+{% with %}
+    {% set headers = ["title", "created", "updated"] %}
+    {% set table_container_id = "publish-list-panel" %}
+    {% include "partials/css/table.css" %}
+{% endwith %}

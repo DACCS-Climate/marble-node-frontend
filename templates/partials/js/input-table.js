@@ -106,7 +106,7 @@ const getSectionData = (sectionId) => {
     return data;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+const initInputTables = () => {
     for (elem of document.getElementsByClassName("list-add")) {
         elem.addEventListener("click", (e) => {
             e.preventDefault();
@@ -125,4 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
-})
+}
+
+document.addEventListener('DOMContentLoaded', initInputTables)
